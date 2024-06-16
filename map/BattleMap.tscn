@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dwqensucdc5ig"]
+
+[ext_resource type="Script" path="res://map/BattleMap.gd" id="1_tqi70"]
+
+[node name="BattleMap" type="Node2D"]
+script = ExtResource("1_tqi70")
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("..")
