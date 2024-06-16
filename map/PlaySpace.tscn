@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://p8yvimkqthv4"]
+
+[ext_resource type="Script" path="res://map/PlaySpace.gd" id="1_alh3i"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_t3t78"]
+properties/0/path = NodePath(".:column")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:row")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[node name="PlaySpace" type="Panel"]
+custom_minimum_size = Vector2(100, 100)
+script = ExtResource("1_alh3i")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_t3t78")
