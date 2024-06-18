@@ -31,6 +31,7 @@ func _add_spawnable_scenes() -> void:
 	$MultiplayerSpawner.add_spawnable_scene("res://map/PlaySpace.tscn")
 	$MultiplayerSpawner.add_spawnable_scene("res://card/CardInPlay.tscn")
 
+
 func _create_battle_map() -> void:
 	_set_area_sizes()
 	_set_play_space_size()
