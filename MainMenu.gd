@@ -16,6 +16,7 @@ func start_game() -> void:
 	var battle_map_scene: PackedScene = load("res://map/BattleMap.tscn")
 	var battle_map = battle_map_scene.instantiate()
 	add_child(battle_map, true)
+	$CenterContainer.hide()
 
 
 func peer_connected(id: int) -> void:
@@ -28,7 +29,8 @@ func peer_disconnected(id: int) -> void:
 
 func connected_to_server() -> void:
 	print("Connected to server!")
-	_add_player_to_gamemanager.rpc_id(1, multiplayer.get_unique_id(), "Player1", {})
+	# This will only work as long as we have max 2 players
+	_add_player_to_gamemanager.rpc_id(1, 2, multiplayer.get_unique_id(), "Player1", {})
 
 
 func connection_failed() -> void:
@@ -36,12 +38,18 @@ func connection_failed() -> void:
 
 
 @rpc("any_peer", "call_local")
-func _add_player_to_gamemanager(player_id: int, player_name: String, deck: Dictionary) -> void:
+func _add_player_to_gamemanager(
+	player_number: int, player_id: int, player_name: String, deck: Dictionary
+) -> void:
 	GameManager.players[player_id] = {
 		"Name": player_name,
 		"ID": player_id,
 		"Deck": deck,
 	}
+	if player_number == 1:
+		GameManager.p1_id = player_id
+	if player_number == 2:
+		GameManager.p2_id = player_id
 
 
 func _on_start_pressed():
@@ -58,8 +66,8 @@ func _on_host_pressed():
 	
 	multiplayer.set_multiplayer_peer(peer)
 	print("Waiting for players")
-	_add_player_to_gamemanager(multiplayer.get_unique_id(), "Player1", {})
-
+	_add_player_to_gamemanager(1, multiplayer.get_unique_id(), "Player1", {})
+	GameManager.is_player_1 = true
 
 func _on_join_pressed():
 	peer = ENetMultiplayerPeer.new()

@@ -1,0 +1,56 @@
+extends Node
+
+var play_area_start: Vector2
+var play_area_end: Vector2
+var p1_area_start: Vector2
+var p1_area_end: Vector2
+var p2_area_start: Vector2
+var p2_area_end: Vector2
+var play_area_size: Vector2
+var play_space_size: Vector2
+var card_in_play_size: Vector2
+var number_of_columns: int
+var number_of_rows: int
+var zoom_preview_size := Vector2(200, 200)
+
+func get_column_start_x(column) -> float:
+	if GameManager.is_player_1:
+		return MapSettings.play_area_start.x + MapSettings.play_space_size.x * column
+	else:
+		return (
+			MapSettings.play_area_start.x + 
+			MapSettings.play_space_size.x * MapSettings.number_of_columns
+			- MapSettings.play_space_size.x * (column + 1)
+		)
+
+
+func get_row_start_y(row) -> float:
+	if multiplayer.is_server():
+		return MapSettings.play_area_start.y + MapSettings.play_space_size.y * row
+	else:
+		return (
+			MapSettings.play_area_start.y + 
+			MapSettings.play_space_size.y * MapSettings.number_of_rows
+			- MapSettings.play_space_size.y * (row + 1)
+		)
+
+
+func get_column_end_x(column) -> float:
+	if multiplayer.get_unique_id() == GameManager.p1.player_id:
+		return MapSettings.play_area_start.x + MapSettings.play_space_size.x * (column + 1)
+	else:
+		return (
+			MapSettings.play_area_start.x + 
+			MapSettings.play_space_size.x * MapSettings.number_of_columns
+			- MapSettings.play_space_size.x * column
+		)
+
+func get_row_end_y(row) -> float:
+	if multiplayer.get_unique_id() == GameManager.p1.player_id:
+		return MapSettings.play_area_start.y + MapSettings.play_space_size.y * (row + 1)
+	else:
+		return (
+			MapSettings.play_area_start.y + 
+			MapSettings.play_space_size.y * MapSettings.number_of_rows
+			- MapSettings.play_space_size.y * row
+		)

@@ -17,7 +17,13 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-GameManager="*res://GameManager.gd"
+GameManager="*res://manager/GameManager.gd"
+MapSettings="*res://map/MapSettings.gd"
+Collections="*res://manager/Collections.gd"
+Styling="*res://styling/Styling.gd"
+MapDatabase="*res://map/MapDatabase.gd"
+TargetSelection="*res://card/TargetSelection.gd"
+CardDatabase="*res://card/CardDatabase.gd"
 
 [display]
 
