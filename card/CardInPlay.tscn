@@ -1,0 +1,137 @@
+[gd_scene load_steps=12 format=3 uid="uid://cwfyh8flqa8rk"]
+
+[ext_resource type="Texture2D" uid="uid://blrmfntk4ogf0" path="res://library/animal/images/Animal.png" id="1_76bpn"]
+[ext_resource type="Script" path="res://card/CardInPlay.gd" id="1_nshbd"]
+[ext_resource type="LabelSettings" uid="uid://kbcqnlht5eh6" path="res://styling/card_borders/CardLabelSettings.tres" id="3_3w4v1"]
+[ext_resource type="LabelSettings" uid="uid://dq5kctg5dkitl" path="res://styling/card_borders/AnimalLabel.tres" id="4_v5ihy"]
+[ext_resource type="LabelSettings" uid="uid://nx6f46ywtswa" path="res://styling/card_borders/MagicLabel.tres" id="5_324m2"]
+[ext_resource type="LabelSettings" uid="uid://ihox33scd0t8" path="res://styling/card_borders/NatureLabel.tres" id="6_gk8j6"]
+[ext_resource type="LabelSettings" uid="uid://bpbd72h7s4e60" path="res://styling/card_borders/RobotLabel.tres" id="7_0lodl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ycx8i"]
+bg_color = Color(0.741385, 0.741385, 0.741384, 1)
+
+[sub_resource type="Theme" id="Theme_glu7d"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7nv8r"]
+bg_color = Color(0.196078, 0.196078, 0.196078, 0.866667)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ejb74"]
+properties/0/path = NodePath(".:card_index")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:exhausted")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:card_owner_id")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:column")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath(".:row")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath(".:fabrication")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+properties/6/path = NodePath(".:attack")
+properties/6/spawn = true
+properties/6/replication_mode = 1
+properties/7/path = NodePath(".:health")
+properties/7/spawn = true
+properties/7/replication_mode = 1
+properties/8/path = NodePath(".:movement")
+properties/8/spawn = true
+properties/8/replication_mode = 1
+
+[node name="CardInPlay" type="PanelContainer"]
+custom_minimum_size = Vector2(200, 200)
+script = ExtResource("1_nshbd")
+
+[node name="CardImage" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_76bpn")
+expand_mode = 3
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="TopInfo" type="HBoxContainer" parent="VBox"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+
+[node name="CardNameBG" type="Panel" parent="VBox/TopInfo"]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+
+[node name="CardName" type="Label" parent="VBox/TopInfo/CardNameBG"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Animal"
+label_settings = ExtResource("3_3w4v1")
+
+[node name="Costs" type="Panel" parent="VBox/TopInfo"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_styles/panel = SubResource("StyleBoxFlat_ycx8i")
+
+[node name="CostLabels" type="HBoxContainer" parent="VBox/TopInfo/Costs"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Animal" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
+layout_mode = 2
+text = "1"
+label_settings = ExtResource("4_v5ihy")
+
+[node name="Magic" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
+layout_mode = 2
+text = "1"
+label_settings = ExtResource("5_324m2")
+
+[node name="Nature" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
+layout_mode = 2
+text = "1"
+label_settings = ExtResource("6_gk8j6")
+
+[node name="Robot" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
+layout_mode = 2
+text = "1"
+label_settings = ExtResource("7_0lodl")
+
+[node name="BotInfo" type="HBoxContainer" parent="VBox"]
+layout_mode = 2
+size_flags_vertical = 10
+
+[node name="Movement" type="Label" parent="VBox/BotInfo"]
+layout_mode = 2
+size_flags_vertical = 8
+text = "1"
+
+[node name="CardText" type="Label" parent="VBox/BotInfo"]
+visible = false
+custom_minimum_size = Vector2(160, 80)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme = SubResource("Theme_glu7d")
+theme_override_styles/normal = SubResource("StyleBoxFlat_7nv8r")
+text = "\"Here you will find additional card rules\""
+label_settings = ExtResource("3_3w4v1")
+autowrap_mode = 2
+
+[node name="BattleStats" type="Label" parent="VBox/BotInfo"]
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 8
+text = "1/1"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_ejb74")

@@ -9,6 +9,18 @@ var attributes: Array = []
 var contest_space: bool
 var border_style: StyleBox
 var play_space_owner_id := -1
+@export var stat_modifier := {
+	GameManager.p1_id: {
+		Collections.stats.ATTACK: 0,
+		Collections.stats.HEALTH: 0,
+		Collections.stats.MOVEMENT: 0,
+	},
+	GameManager.p2_id: {
+		Collections.stats.ATTACK: 0,
+		Collections.stats.HEALTH: 0,
+		Collections.stats.MOVEMENT: 0,
+	},
+}
 
 
 func _ready():

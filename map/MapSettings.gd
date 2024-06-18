@@ -11,6 +11,7 @@ var play_space_size: Vector2
 var card_in_play_size: Vector2
 var number_of_columns: int
 var number_of_rows: int
+var zoom_preview_size := Vector2(200, 200)
 
 
 func get_column_start_x(column) -> float:

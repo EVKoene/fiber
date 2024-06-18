@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var total_screen: Vector2 = Vector2(get_viewport().size)
 @onready var play_space_scene: PackedScene = preload("res://map/PlaySpace.tscn")
+@onready var card_scene: PackedScene = preload("res://card/CardInPlay.tscn")
 
 var map = MapDatabase.maps.BASE_MAP
 var map_data = MapDatabase.map_data[map]
@@ -10,10 +11,25 @@ var map_data = MapDatabase.map_data[map]
 func _ready():
 	_add_spawnable_scenes()
 	_create_battle_map()
+	if multiplayer.is_server():
+		GameManager.is_server = true
+	else:
+		return
+	for p_id in [GameManager.p1_id, GameManager.p2_id]:
+		var card = card_scene.instantiate()
+		card.column = 4
+		if p_id == GameManager.p1_id:
+			card.row = 0
+		else:
+			card.row = 4
+		card.card_index = 1
+		card.card_owner_id = p_id
+		add_child(card, true)
 
 
 func _add_spawnable_scenes() -> void:
 	$MultiplayerSpawner.add_spawnable_scene("res://map/PlaySpace.tscn")
+	$MultiplayerSpawner.add_spawnable_scene("res://card/CardInPlay.tscn")
 
 
 func _create_battle_map() -> void:
