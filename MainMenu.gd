@@ -11,7 +11,7 @@ func _ready():
 	multiplayer.connection_failed.connect(connection_failed)
 
 
-@rpc("call_local", "any_peer")
+@rpc("any_peer", "call_local")
 func start_game() -> void:
 	var battle_map_scene: PackedScene = load("res://map/BattleMap.tscn")
 	var battle_map = battle_map_scene.instantiate()
@@ -30,26 +30,37 @@ func peer_disconnected(id: int) -> void:
 func connected_to_server() -> void:
 	print("Connected to server!")
 	# This will only work as long as we have max 2 players
-	_add_player_to_gamemanager.rpc_id(1, 2, multiplayer.get_unique_id(), "Player1", {})
+	_add_player_to_gamemanager.rpc_id(1, 2, multiplayer.get_unique_id(), "Player2", {})
 
 
 func connection_failed() -> void:
 	print("Failed to connect!")
 
 
-@rpc("any_peer", "call_local")
+@rpc("any_peer")
 func _add_player_to_gamemanager(
 	player_number: int, player_id: int, player_name: String, deck: Dictionary
 ) -> void:
-	GameManager.players[player_id] = {
-		"Name": player_name,
-		"ID": player_id,
-		"Deck": deck,
-	}
-	if player_number == 1:
-		GameManager.p1_id = player_id
-	if player_number == 2:
-		GameManager.p2_id = player_id
+	if !GameManager.players.has(player_id):
+		GameManager.players[player_id] = {
+			"Name": player_name,
+			"PlayerNumber": player_number,
+			"ID": player_id,
+			"Deck": deck,
+		}
+		if player_number == 1:
+			GameManager.p1_id = player_id
+		if player_number == 2:
+			GameManager.p2_id = player_id
+	
+	if multiplayer.is_server():
+		for i in GameManager.players:
+			_add_player_to_gamemanager.rpc(
+				GameManager.players[i]["PlayerNumber"], 
+				GameManager.players[i]["ID"], 
+				GameManager.players[i]["Name"], 
+				GameManager.players[i]["Deck"]
+			)
 
 
 func _on_start_pressed():

@@ -47,6 +47,11 @@ properties/8/replication_mode = 1
 
 [node name="CardInPlay" type="PanelContainer"]
 custom_minimum_size = Vector2(200, 200)
+anchors_preset = -1
+anchor_right = 0.174
+anchor_bottom = 0.309
+offset_right = -0.448013
+offset_bottom = -0.23201
 script = ExtResource("1_nshbd")
 
 [node name="CardImage" type="TextureRect" parent="."]
@@ -55,6 +60,7 @@ texture = ExtResource("1_76bpn")
 expand_mode = 3
 
 [node name="VBox" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 
 [node name="TopInfo" type="HBoxContainer" parent="VBox"]
