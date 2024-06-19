@@ -38,6 +38,15 @@ func _ready():
 	_create_costs()
 	set_position_to_play_space()
 	update_stats()
+	print(
+		"is_player_1: ", GameManager.is_player_1, ", card_owner_id: ",
+		card_owner_id, ", p2_id: ", GameManager.p2_id
+	)
+	if (
+		(GameManager.is_player_1 and card_owner_id == GameManager.p2_id)
+		or (!GameManager.is_player_1 and card_owner_id == GameManager.p1_id)
+	):
+		flip_card()
 	scale *= MapSettings.card_in_play_size/size
 
 
@@ -94,7 +103,10 @@ func update_stats() -> void:
 		attack = battle_stats.attack
 		health = battle_stats.health
 		movement = battle_stats.movement
-	
+	_set_labels()
+
+
+func _set_labels() -> void:
 	$VBox/BotInfo/Movement.text = str(movement)
 	$VBox/BotInfo/BattleStats.text = str(attack, "/", health)
 	$VBox/TopInfo/Costs/CostLabels/Animal.text = str(costs.animal)
@@ -169,8 +181,9 @@ func set_border_to_faction():
 
 func flip_card() -> void:
 	$VBox.move_child($VBox/BotInfo, 0)
-	$VBox/TopInfo.size_flags_vertical = SIZE_SHRINK_END
 	$CardImage.flip_v = true
+	print($VBox.vertical)
+	$VBox/BotInfo.size_flags_vertical = SIZE_EXPAND | SIZE_SHRINK_BEGIN
 
 
 func unflip_card() -> void:
@@ -260,7 +273,7 @@ func _get_play_space() -> PlaySpace:
 
 
 func _get_card_range() -> int:
-	if card_data["Range"]:
+	if "Range" in card_data.keys():
 		return card_data["Range"]
 	else:
 		return -1

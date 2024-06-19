@@ -15,13 +15,16 @@ func _ready():
 		GameManager.is_server = true
 	else:
 		return
+	
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
 		var card = card_scene.instantiate()
 		card.column = 4
 		if p_id == GameManager.p1_id:
-			card.row = 0
-		else:
 			card.row = 4
+			card.card_owner_id = GameManager.p1_id
+		else:
+			card.row = 0
+			card.card_owner_id = GameManager.p2_id
 		card.card_index = 1
 		card.card_owner_id = p_id
 		add_child(card, true)
