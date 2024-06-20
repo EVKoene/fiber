@@ -1,12 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://cwfyh8flqa8rk"]
+[gd_scene load_steps=11 format=3 uid="uid://c6a7g6p6nipw5"]
 
-[ext_resource type="Texture2D" uid="uid://blrmfntk4ogf0" path="res://library/animal/images/Animal.png" id="1_76bpn"]
-[ext_resource type="Script" path="res://card/CardInPlay.gd" id="1_nshbd"]
-[ext_resource type="LabelSettings" uid="uid://kbcqnlht5eh6" path="res://styling/card_borders/CardLabelSettings.tres" id="3_3w4v1"]
-[ext_resource type="LabelSettings" uid="uid://dq5kctg5dkitl" path="res://styling/card_borders/AnimalLabel.tres" id="4_v5ihy"]
-[ext_resource type="LabelSettings" uid="uid://nx6f46ywtswa" path="res://styling/card_borders/MagicLabel.tres" id="5_324m2"]
-[ext_resource type="LabelSettings" uid="uid://ihox33scd0t8" path="res://styling/card_borders/NatureLabel.tres" id="6_gk8j6"]
-[ext_resource type="LabelSettings" uid="uid://bpbd72h7s4e60" path="res://styling/card_borders/RobotLabel.tres" id="7_0lodl"]
+[ext_resource type="Script" path="res://card/ZoomPreview.gd" id="1_r7o1p"]
+[ext_resource type="Texture2D" uid="uid://blrmfntk4ogf0" path="res://library/animal/images/Animal.png" id="2_cel65"]
+[ext_resource type="LabelSettings" uid="uid://kbcqnlht5eh6" path="res://styling/card_borders/CardLabelSettings.tres" id="3_kd64j"]
+[ext_resource type="LabelSettings" uid="uid://dq5kctg5dkitl" path="res://styling/card_borders/AnimalLabel.tres" id="4_3qi1k"]
+[ext_resource type="LabelSettings" uid="uid://nx6f46ywtswa" path="res://styling/card_borders/MagicLabel.tres" id="5_qrawx"]
+[ext_resource type="LabelSettings" uid="uid://ihox33scd0t8" path="res://styling/card_borders/NatureLabel.tres" id="6_tgayk"]
+[ext_resource type="LabelSettings" uid="uid://bpbd72h7s4e60" path="res://styling/card_borders/RobotLabel.tres" id="7_s3ajb"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ycx8i"]
 bg_color = Color(0.741385, 0.741385, 0.741384, 1)
@@ -16,21 +16,23 @@ bg_color = Color(0.741385, 0.741385, 0.741384, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7nv8r"]
 bg_color = Color(0.196078, 0.196078, 0.196078, 0.866667)
 
-[node name="CardInPlay" type="PanelContainer"]
+[node name="ZoomPreview" type="PanelContainer"]
 custom_minimum_size = Vector2(200, 200)
 anchors_preset = -1
 anchor_right = 0.174
 anchor_bottom = 0.309
 offset_right = -0.448013
 offset_bottom = -0.23201
-script = ExtResource("1_nshbd")
+script = ExtResource("1_r7o1p")
 
 [node name="CardImage" type="TextureRect" parent="."]
+visible = false
 layout_mode = 2
-texture = ExtResource("1_76bpn")
+texture = ExtResource("2_cel65")
 expand_mode = 3
 
 [node name="VBox" type="VBoxContainer" parent="."]
+visible = false
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 
@@ -50,7 +52,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Animal"
-label_settings = ExtResource("3_3w4v1")
+label_settings = ExtResource("3_kd64j")
 
 [node name="Costs" type="Panel" parent="VBox/TopInfo"]
 custom_minimum_size = Vector2(60, 0)
@@ -66,22 +68,22 @@ offset_bottom = 40.0
 [node name="Animal" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
-label_settings = ExtResource("4_v5ihy")
+label_settings = ExtResource("4_3qi1k")
 
 [node name="Magic" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
-label_settings = ExtResource("5_324m2")
+label_settings = ExtResource("5_qrawx")
 
 [node name="Nature" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
-label_settings = ExtResource("6_gk8j6")
+label_settings = ExtResource("6_tgayk")
 
 [node name="Robot" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
-label_settings = ExtResource("7_0lodl")
+label_settings = ExtResource("7_s3ajb")
 
 [node name="BotInfo" type="HBoxContainer" parent="VBox"]
 layout_mode = 2
@@ -93,7 +95,6 @@ size_flags_vertical = 8
 text = "1"
 
 [node name="CardText" type="Label" parent="VBox/BotInfo"]
-visible = false
 custom_minimum_size = Vector2(160, 80)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -101,7 +102,7 @@ size_flags_vertical = 1
 theme = SubResource("Theme_glu7d")
 theme_override_styles/normal = SubResource("StyleBoxFlat_7nv8r")
 text = "\"Here you will find additional card rules\""
-label_settings = ExtResource("3_3w4v1")
+label_settings = ExtResource("3_kd64j")
 autowrap_mode = 2
 
 [node name="BattleStats" type="Label" parent="VBox/BotInfo"]

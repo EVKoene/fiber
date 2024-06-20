@@ -105,7 +105,6 @@ func update_stats() -> void:
 func _set_labels() -> void:
 	$VBox/BotInfo/Movement.text = str(movement)
 	$VBox/BotInfo/BattleStats.text = str(attack, "/", health)
-	$VBox/TopInfo/Costs/CostLabels/Animal.text = str(costs.animal)
 	for f in [
 		{
 			"Label": $VBox/TopInfo/Costs/CostLabels/Animal,
@@ -202,10 +201,10 @@ func _load_card_properties() -> void:
 		flip_card()
 	else:
 		unflip_card()
-	_set_card_text_font_size()
 
 
 func _set_card_text_visuals() -> void:
+	_set_card_text_font_size()
 	if len(card_text) > 0:
 		$VBox/BotInfo/CardText.text = card_text
 		$VBox/BotInfo/CardText.show()

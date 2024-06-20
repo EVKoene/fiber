@@ -16,6 +16,8 @@ var card_range: int
 var movement: int
 var border_style: StyleBox
 var img_path: String
+var card_text: String
+
 
 func _ready():
 	_load_card_properties()
@@ -159,6 +161,7 @@ func _load_card_properties() -> void:
 	img_path = card_info["IMGPath"]
 	card_type = card_info["CardType"]
 	factions = card_info["Factions"]
+	card_text = card_info["Text"]
 
 	costs = Costs.new(
 		card_info["Costs"][Collections.factions.ANIMAL],
@@ -173,3 +176,21 @@ func _load_card_properties() -> void:
 		movement = card_info["Movement"]
 	else:
 		card_range = card_info["CardRange"]
+
+
+func _on_mouse_entered():
+	GameManager.zoom_preview.hover_hand_card(
+		attack,
+		health,
+		movement,
+		costs.animal,
+		costs.magic,
+		costs.nature,
+		costs.robot,
+		ingame_name,
+		card_type,
+		factions,
+		card_text,
+		img_path,
+		card_range
+	)

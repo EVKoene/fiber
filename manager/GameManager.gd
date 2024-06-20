@@ -13,5 +13,6 @@ var is_server := false
 
 var play_spaces_by_position := {}
 var play_spaces := []
+var zoom_preview: ZoomPreview
 
 var starting_draw: int = 3

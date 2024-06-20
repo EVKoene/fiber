@@ -11,6 +11,7 @@ var map_data = MapDatabase.map_data[map]
 func _ready():
 	_add_spawnable_scenes()
 	_create_battle_map()
+	_set_zoom_preview_position_and_size()
 	if multiplayer.is_server():
 		GameManager.is_server = true
 		GameManager.battle_map = self
@@ -86,3 +87,13 @@ func _create_play_spaces() -> void:
 
 	for row in map_data["Rows"]:
 		MapSettings.number_of_rows += 1
+
+
+func _set_zoom_preview_position_and_size() -> void:
+	var zoom_preview_size: Vector2 = Vector2(total_screen.x * 0.2, total_screen.x * 0.2)
+	$ZoomPreview.position.x = total_screen.x - zoom_preview_size.x
+	$ZoomPreview.position.y = MapSettings.play_area_start.y
+	$ZoomPreview.scale.x *= zoom_preview_size.x / $ZoomPreview.size.x
+	$ZoomPreview.scale.y *= zoom_preview_size.x / $ZoomPreview.size.y
+	MapSettings.zoom_preview_size = zoom_preview_size
+	GameManager.zoom_preview = $ZoomPreview
