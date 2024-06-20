@@ -22,7 +22,7 @@ Current races:
 	Verder: Nature spirit race
 """
 
-var CARDS_INFO = {
+var cards_info = {
 	cards.GORILLA: {
 		"InGameName": "Gorilla",
 		"CardType": Collections.card_types.UNIT,

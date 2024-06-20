@@ -1,0 +1,106 @@
+[gd_scene load_steps=10 format=3 uid="uid://cihcviqg25uou"]
+
+[ext_resource type="Script" path="res://card/CardInHand.gd" id="1_jm5en"]
+[ext_resource type="LabelSettings" uid="uid://kbcqnlht5eh6" path="res://styling/card_borders/CardLabelSettings.tres" id="1_xeoqh"]
+[ext_resource type="LabelSettings" uid="uid://dq5kctg5dkitl" path="res://styling/card_borders/AnimalLabel.tres" id="2_ch1of"]
+[ext_resource type="LabelSettings" uid="uid://nx6f46ywtswa" path="res://styling/card_borders/MagicLabel.tres" id="3_8rybp"]
+[ext_resource type="LabelSettings" uid="uid://ihox33scd0t8" path="res://styling/card_borders/NatureLabel.tres" id="4_ys8dq"]
+[ext_resource type="LabelSettings" uid="uid://bpbd72h7s4e60" path="res://styling/card_borders/RobotLabel.tres" id="5_l7abo"]
+[ext_resource type="Script" path="res://card/DragNode.gd" id="7_e17g3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pqrmm"]
+bg_color = Color(0.741385, 0.741385, 0.741384, 1)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_thij3"]
+properties/0/path = NodePath(".:card_index")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:card_owner_id")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:hand_index")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[node name="CardInHand" type="PanelContainer"]
+custom_minimum_size = Vector2(150, 40)
+script = ExtResource("1_jm5en")
+
+[node name="DragNode" type="Control" parent="."]
+layout_mode = 2
+script = ExtResource("7_e17g3")
+
+[node name="Vbox" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="TopInfo" type="HBoxContainer" parent="Vbox"]
+layout_mode = 2
+
+[node name="CardNameBG" type="Panel" parent="Vbox/TopInfo"]
+custom_minimum_size = Vector2(70, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="CardName" type="Label" parent="Vbox/TopInfo/CardNameBG"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Animal"
+label_settings = ExtResource("1_xeoqh")
+
+[node name="Costs" type="Panel" parent="Vbox/TopInfo"]
+custom_minimum_size = Vector2(60, 20)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_pqrmm")
+
+[node name="CostLabels" type="HBoxContainer" parent="Vbox/TopInfo/Costs"]
+custom_minimum_size = Vector2(60, 20)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Animal" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
+layout_mode = 2
+text = "1"
+label_settings = ExtResource("2_ch1of")
+
+[node name="Magic" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
+layout_mode = 2
+text = "1"
+label_settings = ExtResource("3_8rybp")
+
+[node name="Nature" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
+layout_mode = 2
+text = "1"
+label_settings = ExtResource("4_ys8dq")
+
+[node name="Robot" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
+layout_mode = 2
+text = "1"
+label_settings = ExtResource("5_l7abo")
+
+[node name="BotInfo" type="HBoxContainer" parent="Vbox"]
+layout_mode = 2
+
+[node name="CardRange" type="Label" parent="Vbox/BotInfo"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "1"
+
+[node name="BattleStats" type="Label" parent="Vbox/BotInfo"]
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 8
+text = "1/1"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_thij3")

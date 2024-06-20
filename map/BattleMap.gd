@@ -13,26 +13,23 @@ func _ready():
 	_create_battle_map()
 	if multiplayer.is_server():
 		GameManager.is_server = true
+		GameManager.battle_map = self
+		_add_players()
 	else:
 		return
-	
-	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		var card = card_scene.instantiate()
-		card.column = 4
-		if p_id == GameManager.p1_id:
-			card.row = 4
-			card.card_owner_id = GameManager.p1_id
-		else:
-			card.row = 0
-			card.card_owner_id = GameManager.p2_id
-		card.card_index = 1
-		card.card_owner_id = p_id
-		add_child(card, true)
+
+
+func _add_players() -> void:
+	GameManager.p1 = Player.new(GameManager.p1_id, GameManager.players[GameManager.p1_id]["Deck"])
+	add_child(GameManager.p1)
+	GameManager.p2 = Player.new(GameManager.p2_id, GameManager.players[GameManager.p1_id]["Deck"])
+	add_child(GameManager.p2)
 
 
 func _add_spawnable_scenes() -> void:
 	$MultiplayerSpawner.add_spawnable_scene("res://map/PlaySpace.tscn")
 	$MultiplayerSpawner.add_spawnable_scene("res://card/CardInPlay.tscn")
+	$MultiplayerSpawner.add_spawnable_scene("res://card/CardInHand.tscn")
 
 
 func _create_battle_map() -> void:
@@ -43,8 +40,8 @@ func _create_battle_map() -> void:
 
 func _set_area_sizes() -> void:
 	MapSettings.play_area_size = total_screen * Vector2(0.8, 0.9)
-	MapSettings.p2_area_start = Vector2(0, 0)
-	MapSettings.p2_area_end = Vector2(
+	MapSettings.opponent_area_start = Vector2(0, 0)
+	MapSettings.opponent_area_end = Vector2(
 		MapSettings.play_area_size.x, (total_screen.y - MapSettings.play_area_size.y) / 2
 	)
 
@@ -54,10 +51,10 @@ func _set_area_sizes() -> void:
 		MapSettings.play_area_size.y + (total_screen.y - MapSettings.play_area_size.y) / 2
 	)
 
-	MapSettings.p1_area_start = Vector2(
+	MapSettings.own_area_start = Vector2(
 		0, MapSettings.play_area_size.y + (total_screen.y - MapSettings.play_area_size.y) / 2
 	)
-	MapSettings.p1_area_end = Vector2(MapSettings.play_area_size.x, total_screen.y)
+	MapSettings.own_area_end = Vector2(MapSettings.play_area_size.x, total_screen.y)
 
 
 func _set_play_space_size() -> void:
