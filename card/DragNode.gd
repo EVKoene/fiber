@@ -8,6 +8,7 @@ var card_owner_id: int
 
 
 func _get_drag_data(at_position: Vector2) -> CardInHand:
+	print("Getting drag data... card_owner_id: ", card_owner_id, ", GameManager.player_id: ", GameManager.player_id)
 	if card_owner_id == GameManager.player_id:
 		var card_preview: TextureRect = TextureRect.new()
 		card_preview.texture = load(img_path)

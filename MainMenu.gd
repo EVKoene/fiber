@@ -31,6 +31,7 @@ func connected_to_server() -> void:
 	print("Connected to server!")
 	# This will only work as long as we have max 2 players
 	_add_player_to_gamemanager.rpc_id(1, 2, multiplayer.get_unique_id(), "Player2", {})
+	GameManager.player_id = multiplayer.get_unique_id()
 
 
 func connection_failed() -> void:
@@ -71,7 +72,7 @@ func _on_host_pressed():
 	peer = ENetMultiplayerPeer.new()
 	var error = peer.create_server(port, 2)
 	if error != OK:
-		print("Cannot host: " + error)
+		print("Cannot host: " + str(error))
 		return
 	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
 	
@@ -80,7 +81,9 @@ func _on_host_pressed():
 	_add_player_to_gamemanager(
 		1, multiplayer.get_unique_id(), "Player1", DeckCollection.player_testing_deck
 	)
+	GameManager.player_id = multiplayer.get_unique_id()	
 	GameManager.is_player_1 = true
+
 
 func _on_join_pressed():
 	peer = ENetMultiplayerPeer.new()
