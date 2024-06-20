@@ -111,3 +111,5 @@ text = "1/1"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_thij3")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
