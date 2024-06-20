@@ -38,10 +38,6 @@ func _ready():
 	_create_costs()
 	set_position_to_play_space()
 	update_stats()
-	print(
-		"is_player_1: ", GameManager.is_player_1, ", card_owner_id: ",
-		card_owner_id, ", p2_id: ", GameManager.p2_id
-	)
 	if (
 		(GameManager.is_player_1 and card_owner_id == GameManager.p2_id)
 		or (!GameManager.is_player_1 and card_owner_id == GameManager.p1_id)
@@ -182,7 +178,6 @@ func set_border_to_faction():
 func flip_card() -> void:
 	$VBox.move_child($VBox/BotInfo, 0)
 	$CardImage.flip_v = true
-	print($VBox.vertical)
 	$VBox/BotInfo.size_flags_vertical = SIZE_EXPAND | SIZE_SHRINK_BEGIN
 
 

@@ -77,7 +77,9 @@ func _on_host_pressed():
 	
 	multiplayer.set_multiplayer_peer(peer)
 	print("Waiting for players")
-	_add_player_to_gamemanager(1, multiplayer.get_unique_id(), "Player1", {})
+	_add_player_to_gamemanager(
+		1, multiplayer.get_unique_id(), "Player1", DeckCollection.player_testing_deck
+	)
 	GameManager.is_player_1 = true
 
 func _on_join_pressed():

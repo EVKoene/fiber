@@ -24,6 +24,8 @@ Styling="*res://styling/Styling.gd"
 MapDatabase="*res://map/MapDatabase.gd"
 TargetSelection="*res://card/TargetSelection.gd"
 CardDatabase="*res://card/CardDatabase.gd"
+Events="*res://manager/Events.gd"
+DeckCollection="*res://player/DeckCollection.gd"
 
 [display]
 

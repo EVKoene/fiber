@@ -2,10 +2,10 @@ extends Node
 
 var play_area_start: Vector2
 var play_area_end: Vector2
-var p1_area_start: Vector2
-var p1_area_end: Vector2
-var p2_area_start: Vector2
-var p2_area_end: Vector2
+var own_area_start: Vector2
+var own_area_end: Vector2
+var opponent_area_start: Vector2
+var opponent_area_end: Vector2
 var play_area_size: Vector2
 var play_space_size: Vector2
 var card_in_play_size: Vector2
