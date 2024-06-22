@@ -2,9 +2,13 @@ extends PanelContainer
 
 class_name CardInHand
 
+@onready var card_scene: PackedScene = preload("res://card/CardInPlay.tscn")
+
 @export var card_index: int = 1
 @export var card_owner_id: int
-@export var hand_index: int = 1
+
+#Note that the card_owner will only be set for the server
+var card_owner: Player
 
 var ingame_name: String
 var card_type: int
@@ -20,6 +24,7 @@ var card_text: String
 
 
 func _ready():
+	GameManager.cards_in_hand[card_owner_id].append(self)
 	_load_card_properties()
 	set_card_position()
 	set_card_properties()
@@ -30,17 +35,28 @@ func _ready():
 	$DragNode.card_owner_id = card_owner_id
 
 
+@rpc("any_peer")
+func play_unit(column: int, row: int) -> void:
+	var card: CardInPlay = card_scene.instantiate()
+	var hand_index: int = GameManager.cards_in_hand[card_owner_id].find(self)
+	card.set_script(CardDatabase.get_card_class(card_index))
+	card.card_owner_id = card_owner_id
+	card.card_index = card_index
+	card.column = column
+	card.row = row
+	card_owner.cards_in_play.append(card)
+	GameManager.battle_map.add_child(card, true)
+	GameManager.zoom_preview.reset_zoom_preview()
+	for p_id in [GameManager.p1_id, GameManager.p2_id]:
+		GameManager.remove_card_from_hand.rpc_id(
+			p_id, card_owner_id, hand_index)
+		SmoothVisuals.set_hand_card_positions.rpc_id(p_id)
+	queue_free()
+
+
 func highlight_card():
 	border_style = load("res://styling/card_borders/CardSelectedBorder.tres")
 	add_theme_stylebox_override("panel", border_style)
-
-
-func recalculate_hand_order(removed_card_hand_index) -> void:
-	if (
-		removed_card_hand_index < hand_index 
-		):
-		hand_index -= 1
-		set_card_position()
 
 
 func set_border():
@@ -75,7 +91,9 @@ func set_border():
 
 
 func set_card_position() -> void:
-	position.x = hand_index * (((MapSettings.own_area_end.x - MapSettings.own_area_start.x) / 7))
+	position.x = GameManager.cards_in_hand[card_owner_id].find(self) * (
+		((MapSettings.own_area_end.x - MapSettings.own_area_start.x) / 7)
+	)
 	
 	match [GameManager.is_player_1, card_owner_id]:
 		[true, GameManager.p1_id]:
@@ -179,7 +197,7 @@ func _load_card_properties() -> void:
 
 
 func _on_mouse_entered():
-	GameManager.zoom_preview.hover_hand_card(
+	GameManager.zoom_preview.set_zoom_preview(
 		attack,
 		health,
 		movement,

@@ -11,7 +11,7 @@ var base_attack: int
 var base_health: int
 var base_movement: int
 
-var card: Card
+var card: CardInPlay
 
 var attack_modifiers: Array = []
 var health_modifiers: Array = []

@@ -12,6 +12,8 @@ func _ready():
 	_add_spawnable_scenes()
 	_create_battle_map()
 	_set_zoom_preview_position_and_size()
+	GameManager.cards_in_hand[GameManager.p1_id] = []
+	GameManager.cards_in_hand[GameManager.p2_id] = []
 	if multiplayer.is_server():
 		GameManager.is_server = true
 		GameManager.battle_map = self
@@ -72,7 +74,7 @@ func _create_play_spaces() -> void:
 	var n_play_spaces: int = 0
 	for column in map_data["Columns"]:
 		MapSettings.number_of_columns += 1
-		GameManager.play_spaces_by_position[column] = {}
+		GameManager.ps_column_row[column] = {}
 		for row in map_data["Rows"]:
 			var play_space: PlaySpace = play_space_scene.instantiate()
 			play_space.column = column
@@ -82,7 +84,7 @@ func _create_play_spaces() -> void:
 			if multiplayer.is_server():
 				add_child(play_space, true)
 				GameManager.play_spaces.append(play_space)
-			GameManager.play_spaces_by_position[column][row] = play_space
+			GameManager.ps_column_row[column][row] = play_space
 			n_play_spaces += 1
 
 	for row in map_data["Rows"]:

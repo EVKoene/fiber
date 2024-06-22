@@ -3,11 +3,12 @@ extends Node
 
 class_name Player
 
+@onready var card_scene: PackedScene = preload("res://card/CardInPlay.tscn")
 
 var player_id: int
 var deck: Deck
 var deck_data: Dictionary
-var cards_in_hand := []
+var cards_in_play := []
 
 
 func _init(_player_id: int, _deck_data: Dictionary):
