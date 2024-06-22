@@ -1131,20 +1131,20 @@ cards.FLOW_ACCELERATOR: {
 }
 
 
-#func get_card_class(card_index: int) -> Card:
-	#var card: Card
-	#match card_index:
+func get_card_class(card_index: int) -> Variant:
+	var card: Variant
+	match card_index:
 
-		### Animal ###
+		## Animal ###
 
 		#cards.ATTACK_COMMAND:
 			#card = AttackCommand
-		#cards.GORILLA:
-			#card = Gorilla
+		cards.GORILLA:
+			card = Gorilla
 		#cards.WARTHOG_BERSERKER:
 			#card = WarthogBerserker
-		#cards.GOOSE:
-			#card = Goose
+		cards.GOOSE:
+			card = Goose
 		#cards.SNEK:
 			#card = Snek
 		#cards.GORILLA_BATTLECALLER:
@@ -1172,8 +1172,8 @@ cards.FLOW_ACCELERATOR: {
 			#card = MistConjurer
 		#cards.FIREBALL_SHOOTER:
 			#card = FireballShooter
-		#cards.HOMUNCULUS:
-			#card = Homunculus
+		cards.HOMUNCULUS:
+			card = Homunculus
 		#cards.JELLYFISH_EXTRAORDINAIRE:
 			#card = JellyfishExtraordinaire
 		#cards.AUDACIOUS_RESEARCHER:
@@ -1238,4 +1238,4 @@ cards.FLOW_ACCELERATOR: {
 			#card = CopyMachine
 		#cards.ZALOGI_MIND_OF_MACHINES:
 			#card = ZalogiMindOfMachines
-	#return card
+	return card

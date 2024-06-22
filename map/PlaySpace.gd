@@ -5,10 +5,6 @@ class_name PlaySpace
 
 @export var column: int
 @export var row: int
-var attributes: Array = []
-var contest_space: bool
-var border_style: StyleBox
-var play_space_owner_id := -1
 @export var stat_modifier := {
 	GameManager.p1_id: {
 		Collections.stats.ATTACK: 0,
@@ -21,6 +17,12 @@ var play_space_owner_id := -1
 		Collections.stats.MOVEMENT: 0,
 	},
 }
+
+var attributes: Array = []
+var contest_space: bool
+var border_style: StyleBox
+var play_space_owner_id := -1
+var card_in_this_play_space: CardInPlay
 
 
 func _ready():
@@ -50,6 +52,49 @@ func set_border() -> void:
 func highlight_space():
 	border_style = load("res://styling/card_borders/CardSelectedBorder.tres")
 	add_theme_stylebox_override("panel", border_style)
+
+
+func in_starting_area(card: CardInHand) -> bool:
+	if (
+		card.card_owner_id == GameManager.p1_id 
+		and Collections.play_space_attributes.P1_START_SPACE in attributes
+	):
+		return true
+	elif (
+		card.card_owner_id == GameManager.p2_id 
+		and Collections.play_space_attributes.P2_START_SPACE in attributes
+	):
+		return true
+	else:
+		return false
+
+
+func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
+	if (
+		in_starting_area(data)
+		and (
+			data.card_type == Collections.card_types.UNIT
+			or (
+				data.card_type == Collections.card_types.SPELL
+				and data.can_target_unit(null)
+			)
+		)
+	):
+		return true
+	else:
+		return false
+
+
+func _drop_data(_at_position: Vector2, data: Variant) -> void:
+	match [GameManager.is_server, data.card_type]:
+		[true, Collections.card_types.UNIT]:
+			data.play_unit(column, row)
+		[true, Collections.card_types.SPELL]:
+			assert(false, "Playing spells not implemented yet")
+		[false, Collections.card_types.UNIT]:
+			data.play_unit.rpc_id(1, column, row)
+		[false, Collections.card_types.SPELL]:
+			assert(false, "Playing spells not implemented yet")
 
 
 func _set_play_space_attributes() -> void:

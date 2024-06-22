@@ -20,7 +20,7 @@ var border_style: StyleBox
 var max_font: int
 
 
-func hover_hand_card(
+func set_zoom_preview(
 	_attack: int,
 	_health: int,
 	_movement: int,
@@ -58,6 +58,28 @@ func hover_hand_card(
 	_set_border_to_faction()
 	_set_card_text_visuals()
 	$CardImage.texture = load(img_path)
+
+
+func reset_zoom_preview() -> void:
+	attack = 0
+	health = 0
+	movement = 0
+	animal_cost = 0
+	magic_cost = 0
+	nature_cost = 0
+	robot_cost = 0
+	ingame_name = ""
+	card_type = 0
+	factions = []
+	card_text = ""
+	img_path = ""
+	card_range = 0
+	$CardImage.hide()
+	$VBox.hide()
+	_set_labels()
+	_set_border_to_faction()
+	_set_card_text_visuals()
+	$CardImage.texture = null
 
 
 func _set_labels() -> void:

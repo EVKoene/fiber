@@ -1,8 +1,7 @@
 extends PanelContainer
 
-class_name Card
+class_name CardInPlay
 
-@onready var card_data = CardDatabase.cards_info[CardDatabase.cards.GORILLA]
 
 @export var card_index := 1
 @export var attack: int
@@ -15,6 +14,7 @@ class_name Card
 @export var fabrication := false
 
 
+var card_data: Dictionary
 var battle_stats: BattleStats
 var costs: Costs
 var ingame_name: String
@@ -44,6 +44,7 @@ func _ready():
 	):
 		flip_card()
 	scale *= MapSettings.card_in_play_size/size
+	GameManager.ps_column_row[column][row].card_in_this_play_space = self
 
 
 func refresh_card():
@@ -187,6 +188,7 @@ func unflip_card() -> void:
 
 
 func _load_card_properties() -> void:
+	card_data = CardDatabase.cards_info[card_index]
 	ingame_name = card_data["InGameName"]
 	card_type= card_data["CardType"]
 	factions = card_data["Factions"]
@@ -197,10 +199,6 @@ func _load_card_properties() -> void:
 	_set_card_text_visuals()
 	
 	set_border_to_faction()
-	if card_owner_id == GameManager.player_id:
-		flip_card()
-	else:
-		unflip_card()
 
 
 func _set_card_text_visuals() -> void:
@@ -263,7 +261,7 @@ func _get_play_space() -> PlaySpace:
 		assert(false, "Column not set")
 	if column == -1:
 		assert(false, "Row not set")
-	return GameManager.play_spaces_by_position[column][row]
+	return GameManager.ps_column_row[column][row]
 
 
 func _get_card_range() -> int:

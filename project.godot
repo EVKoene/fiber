@@ -26,6 +26,7 @@ TargetSelection="*res://card/TargetSelection.gd"
 CardDatabase="*res://card/CardDatabase.gd"
 Events="*res://manager/Events.gd"
 DeckCollection="*res://player/DeckCollection.gd"
+SmoothVisuals="*res://manager/SmoothVisuals.gd"
 
 [display]
 

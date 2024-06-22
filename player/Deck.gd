@@ -81,13 +81,12 @@ func draw_starting_cards() -> void:
 
 func create_hand_card(card_index: int) -> void:
 	var hand_card: CardInHand = card_in_hand_scene.instantiate()
-	hand_card.hand_index = len(deck_owner.cards_in_hand)
 	hand_card.card_index = card_index
+	hand_card.card_owner = deck_owner
 	hand_card.card_owner_id = deck_owner_id
 	hand_card.name = str(deck_owner, "CardInHand", cards_spawned)
 	cards_spawned += 1
 	GameManager.battle_map.add_child(hand_card, true)
-	deck_owner.cards_in_hand.append(hand_card)
 
 
 func put_card_bottom(deck_index) -> void:
