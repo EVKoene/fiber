@@ -1,5 +1,8 @@
 extends Node
 
+@onready var total_screen: Vector2 = Vector2(get_viewport().size)
+@onready var resource_bar_size := Vector2(total_screen.x * 0.2, total_screen.y * 0.05)
+
 var play_area_start: Vector2
 var play_area_end: Vector2
 var own_area_start: Vector2
@@ -12,6 +15,7 @@ var card_in_play_size: Vector2
 var number_of_columns: int
 var number_of_rows: int
 var zoom_preview_size := Vector2(200, 200)
+var end_turn_button_size: Vector2
 
 
 func get_column_start_x(column) -> float:

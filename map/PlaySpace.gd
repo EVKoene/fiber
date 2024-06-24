@@ -70,19 +70,12 @@ func in_starting_area(card: CardInHand) -> bool:
 
 
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
-	if (
-		in_starting_area(data)
-		and (
-			data.card_type == Collections.card_types.UNIT
-			or (
-				data.card_type == Collections.card_types.SPELL
-				and data.can_target_unit(null)
-			)
-		)
-	):
+	if in_starting_area(data) and data.card_type == Collections.card_types.UNIT:
 		return true
-	else:
-		return false
+	if data.card_type == Collections.card_types.SPELL and data.can_target_unit(null):
+		return true
+	
+	return false
 
 
 func _drop_data(_at_position: Vector2, data: Variant) -> void:

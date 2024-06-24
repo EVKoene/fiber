@@ -6,6 +6,7 @@ class_name CardInHand
 
 @export var card_index: int = 1
 @export var card_owner_id: int
+@export var can_pay_costs: bool
 
 #Note that the card_owner will only be set for the server
 var card_owner: Player
@@ -29,10 +30,9 @@ func _ready():
 	set_card_position()
 	set_card_properties()
 	set_card_size()
-	$DragNode.img_path = img_path
-	$DragNode.card_index = card_index
-	$DragNode.card_in_hand = self
-	$DragNode.card_owner_id = card_owner_id
+	_set_drag_node_properties()
+	if GameManager.is_server:
+		can_pay_costs = card_owner.resources.can_pay_costs(costs)
 
 
 @rpc("any_peer")
@@ -45,6 +45,7 @@ func play_unit(column: int, row: int) -> void:
 	card.column = column
 	card.row = row
 	card_owner.cards_in_play.append(card)
+	GameManager.resources[card_owner_id].pay_costs(costs)
 	GameManager.battle_map.add_child(card, true)
 	GameManager.zoom_preview.reset_zoom_preview()
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
@@ -194,6 +195,13 @@ func _load_card_properties() -> void:
 		movement = card_info["Movement"]
 	else:
 		card_range = card_info["CardRange"]
+
+
+func _set_drag_node_properties() -> void:
+	$DragNode.img_path = img_path
+	$DragNode.card_index = card_index
+	$DragNode.card_in_hand = self
+	$DragNode.card_owner_id = card_owner_id
 
 
 func _on_mouse_entered():

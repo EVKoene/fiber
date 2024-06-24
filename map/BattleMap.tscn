@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dwqensucdc5ig"]
+[gd_scene load_steps=4 format=3 uid="uid://dwqensucdc5ig"]
 
 [ext_resource type="Script" path="res://map/BattleMap.gd" id="1_tqi70"]
-[ext_resource type="PackedScene" uid="uid://c6a7g6p6nipw5" path="res://card/ZoomPreview.tscn" id="2_8tgqr"]
+[ext_resource type="PackedScene" uid="uid://c6a7g6p6nipw5" path="res://player/ZoomPreview.tscn" id="2_8tgqr"]
+[ext_resource type="Script" path="res://player/ResourceBar.gd" id="3_ox48p"]
 
 [node name="BattleMap" type="Node2D"]
 script = ExtResource("1_tqi70")
@@ -10,3 +11,20 @@ script = ExtResource("1_tqi70")
 spawn_path = NodePath("..")
 
 [node name="ZoomPreview" parent="." instance=ExtResource("2_8tgqr")]
+
+[node name="EndTurnButton" type="Button" parent="."]
+custom_minimum_size = Vector2(100, 100)
+offset_left = 300.0
+offset_top = 158.0
+offset_right = 400.0
+offset_bottom = 258.0
+
+[node name="ResourceBarP1" type="Panel" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_ox48p")
+
+[node name="ResourceBarP2" type="Panel" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_ox48p")

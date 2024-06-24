@@ -112,6 +112,10 @@ func _set_labels() -> void:
 
 func _set_border_to_faction():
 	match len(factions):   
+		0:
+			border_style = load(str(
+				"res://styling/card_borders/NoBorder.tres"
+			))
 		1:
 			border_style = load(str(
 				"res://styling/card_borders/", 

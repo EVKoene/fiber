@@ -1,5 +1,6 @@
-[gd_scene load_steps=12 format=3 uid="uid://cwfyh8flqa8rk"]
+[gd_scene load_steps=13 format=3 uid="uid://cwfyh8flqa8rk"]
 
+[ext_resource type="StyleBox" uid="uid://dpp3b7ynuj5yj" path="res://styling/card_borders/NoBorder.tres" id="1_4r67g"]
 [ext_resource type="Texture2D" uid="uid://blrmfntk4ogf0" path="res://library/animal/images/Animal.png" id="1_76bpn"]
 [ext_resource type="Script" path="res://card/CardInPlay.gd" id="1_nshbd"]
 [ext_resource type="LabelSettings" uid="uid://kbcqnlht5eh6" path="res://styling/card_borders/CardLabelSettings.tres" id="3_3w4v1"]
@@ -52,6 +53,7 @@ anchor_right = 0.174
 anchor_bottom = 0.309
 offset_right = -0.448013
 offset_bottom = -0.23201
+theme_override_styles/panel = ExtResource("1_4r67g")
 script = ExtResource("1_nshbd")
 
 [node name="CardImage" type="TextureRect" parent="."]

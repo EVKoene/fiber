@@ -1,8 +1,8 @@
 extends Node2D
 
-@onready var total_screen: Vector2 = Vector2(get_viewport().size)
 @onready var play_space_scene: PackedScene = preload("res://map/PlaySpace.tscn")
 @onready var card_scene: PackedScene = preload("res://card/CardInPlay.tscn")
+@onready var resource_bar_scene: PackedScene = preload("res://player/ResourceBar.tscn")
 
 var map = MapDatabase.maps.BASE_MAP
 var map_data = MapDatabase.map_data[map]
@@ -12,14 +12,14 @@ func _ready():
 	_add_spawnable_scenes()
 	_create_battle_map()
 	_set_zoom_preview_position_and_size()
+	_set_end_turn_button()
+	_set_resource_bars_position_and_size()
 	GameManager.cards_in_hand[GameManager.p1_id] = []
 	GameManager.cards_in_hand[GameManager.p2_id] = []
 	if multiplayer.is_server():
 		GameManager.is_server = true
 		GameManager.battle_map = self
 		_add_players()
-	else:
-		return
 
 
 func _add_players() -> void:
@@ -42,22 +42,28 @@ func _create_battle_map() -> void:
 
 
 func _set_area_sizes() -> void:
-	MapSettings.play_area_size = total_screen * Vector2(0.8, 0.9)
+	MapSettings.play_area_size = MapSettings.total_screen * Vector2(0.8, 0.9)
 	MapSettings.opponent_area_start = Vector2(0, 0)
 	MapSettings.opponent_area_end = Vector2(
-		MapSettings.play_area_size.x, (total_screen.y - MapSettings.play_area_size.y) / 2
+		MapSettings.play_area_size.x, (
+			MapSettings.total_screen.y - MapSettings.play_area_size.y
+			) / 2
 	)
 
-	MapSettings.play_area_start = Vector2(0, (total_screen.y - MapSettings.play_area_size.y) / 2)
+	MapSettings.play_area_start = Vector2(0, (MapSettings.total_screen.y - MapSettings.play_area_size.y) / 2)
 	MapSettings.play_area_end = Vector2(
 		MapSettings.play_area_size.x, 
-		MapSettings.play_area_size.y + (total_screen.y - MapSettings.play_area_size.y) / 2
+		MapSettings.play_area_size.y + (
+			MapSettings.total_screen.y - MapSettings.play_area_size.y
+		) / 2
 	)
 
 	MapSettings.own_area_start = Vector2(
-		0, MapSettings.play_area_size.y + (total_screen.y - MapSettings.play_area_size.y) / 2
+		0, MapSettings.play_area_size.y + (
+			MapSettings.total_screen.y - MapSettings.play_area_size.y
+			) / 2
 	)
-	MapSettings.own_area_end = Vector2(MapSettings.play_area_size.x, total_screen.y)
+	MapSettings.own_area_end = Vector2(MapSettings.play_area_size.x, MapSettings.total_screen.y)
 
 
 func _set_play_space_size() -> void:
@@ -91,11 +97,52 @@ func _create_play_spaces() -> void:
 		MapSettings.number_of_rows += 1
 
 
+func _set_end_turn_button() -> void:
+	$EndTurnButton.scale.x *= (MapSettings.total_screen.x / 10) / $EndTurnButton.size.x
+	$EndTurnButton.scale.y *= (MapSettings.total_screen.y / 10) / $EndTurnButton.size.y
+	$EndTurnButton.position.x = MapSettings.total_screen.x - MapSettings.total_screen.x / 10
+	$EndTurnButton.position.y = MapSettings.total_screen.y - MapSettings.total_screen.y / 10
+	MapSettings.end_turn_button_size = $EndTurnButton.size
+	$EndTurnButton.text = "End your turn!"
+
+
 func _set_zoom_preview_position_and_size() -> void:
-	var zoom_preview_size: Vector2 = Vector2(total_screen.x * 0.2, total_screen.x * 0.2)
-	$ZoomPreview.position.x = total_screen.x - zoom_preview_size.x
+	var zoom_preview_size: Vector2 = Vector2(
+		MapSettings.total_screen.x * 0.2, MapSettings.total_screen.x * 0.2
+	)
+	$ZoomPreview.position.x = MapSettings.total_screen.x - zoom_preview_size.x
 	$ZoomPreview.position.y = MapSettings.play_area_start.y
 	$ZoomPreview.scale.x *= zoom_preview_size.x / $ZoomPreview.size.x
 	$ZoomPreview.scale.y *= zoom_preview_size.x / $ZoomPreview.size.y
 	MapSettings.zoom_preview_size = zoom_preview_size
 	GameManager.zoom_preview = $ZoomPreview
+
+
+func _set_resource_bars_position_and_size() -> void:
+	var rb_1 = resource_bar_scene.instantiate()
+	var rb_2 = resource_bar_scene.instantiate()
+	
+	match GameManager.is_player_1:
+		true:
+			rb_1.position.y = (
+				MapSettings.total_screen.y - MapSettings.resource_bar_size.y 
+				- MapSettings.end_turn_button_size.y
+			)
+			rb_2.position.y = 0
+		false:
+			rb_2.position.y = (
+				MapSettings.total_screen.y - MapSettings.resource_bar_size.y 
+				- MapSettings.end_turn_button_size.y
+			)
+			rb_1.position.y = 0
+	
+	for rb in [rb_1, rb_2]:
+		rb.position.x = MapSettings.total_screen.x - MapSettings.resource_bar_size.x
+		rb.scale.x *= MapSettings.resource_bar_size.x / rb.size.x
+		rb.scale.y *= MapSettings.resource_bar_size.y / rb.size.y
+
+	GameManager.resource_bar_p1 = rb_1
+	GameManager.resource_bar_p2 = rb_2
+	add_child(rb_1)
+	add_child(rb_2)
+	
