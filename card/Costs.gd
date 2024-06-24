@@ -18,3 +18,12 @@ func _init(_animal, _magic, _nature, _robot):
 
 func total() -> int:
 	return animal + magic + nature + robot
+
+
+func get_costs() -> Dictionary:
+	return {
+		Collections.factions.ANIMAL: animal,
+		Collections.factions.MAGIC: magic,
+		Collections.factions.NATURE: nature,
+		Collections.factions.ROBOT: robot,
+	}

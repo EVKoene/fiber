@@ -8,7 +8,7 @@ var card_owner_id: int
 
 
 func _get_drag_data(at_position: Vector2) -> CardInHand:
-	if card_owner_id != GameManager.player_id:
+	if card_owner_id != GameManager.player_id or !card_in_hand.can_pay_costs:
 		return null
 	
 	var card_preview: TextureRect = TextureRect.new()

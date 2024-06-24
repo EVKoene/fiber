@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://c6a7g6p6nipw5"]
 
-[ext_resource type="Script" path="res://card/ZoomPreview.gd" id="1_r7o1p"]
+[ext_resource type="Script" path="res://player/ZoomPreview.gd" id="1_r7o1p"]
 [ext_resource type="Texture2D" uid="uid://blrmfntk4ogf0" path="res://library/animal/images/Animal.png" id="2_cel65"]
 [ext_resource type="LabelSettings" uid="uid://kbcqnlht5eh6" path="res://styling/card_borders/CardLabelSettings.tres" id="3_kd64j"]
 [ext_resource type="LabelSettings" uid="uid://dq5kctg5dkitl" path="res://styling/card_borders/AnimalLabel.tres" id="4_3qi1k"]
