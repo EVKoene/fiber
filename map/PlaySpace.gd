@@ -21,7 +21,6 @@ class_name PlaySpace
 var attributes: Array = []
 var contest_space: bool
 var border_style: StyleBox
-var play_space_owner_id := -1
 var card_in_this_play_space: CardInPlay
 
 
@@ -30,6 +29,8 @@ func _ready():
 	position = _calc_position()
 	_set_play_space_attributes()
 	set_border()
+
+
 func set_border() -> void:
 	if Collections.play_space_attributes.DRAW_CARD_SPACE in attributes:
 		border_style = Styling.draw_card_space_border
@@ -94,23 +95,11 @@ func _set_play_space_attributes() -> void:
 	# If we want to enable multiple maps, we should load id it as an export var in this script
 	attributes = MapDatabase.get_play_space_attributes(MapDatabase.maps.BASE_MAP, self)
 	
-	if Collections.play_space_attributes.P1_START_SPACE in attributes:
-		play_space_owner_id = GameManager.p1_id
-	if Collections.play_space_attributes.P2_START_SPACE in attributes:
-		play_space_owner_id = GameManager.p2_id
 	if (
 		Collections.play_space_attributes.RESOURCE_SPACE in attributes 
 		or Collections.play_space_attributes.DRAW_CARD_SPACE in attributes
-		):
+	):
 		GameManager.resource_spaces.append(self) 
-
-
-func _set_contest_space() -> void:
-	if (
-		Collections.play_space_attributes.DRAW_CARD_SPACE in attributes
-		or Collections.play_space_attributes.RESOURCE_SPACE in attributes
-	) and play_space_owner_id == -1:
-		contest_space = true
 
 
 func _calc_position() -> Vector2:

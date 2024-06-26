@@ -3,11 +3,11 @@ extends Panel
 class_name Resources
 
 
-var gold := 1
-var animal := 1
-var magic := 1
-var nature := 1
-var robot := 1
+var gold := 0
+var animal := 0
+var magic := 0
+var nature := 0
+var robot := 0
 var resources_owner_id: int
 
 
@@ -63,16 +63,17 @@ func spend_resource(faction: Collections.factions, amount: int) -> void:
 	_update_resource_dependencies()
 
 
-func reset() -> void:
+func refresh() -> void:
 	animal = 0
 	magic = 0
 	nature = 0
 	robot = 0
-	_update_resource_dependencies()
-	if GameManager.turn_count == 2:
+	if GameManager.turn_manager.turn_count == 2:
 		gold = 2
 	else:
 		gold = 1
+	add_resources_from_spaces()
+	_update_resource_dependencies()
 
 
 func gold_needed(costs: Costs) -> int:
@@ -83,6 +84,24 @@ func gold_needed(costs: Costs) -> int:
 			deficiency -= resources_minus_costs
 			
 	return deficiency
+
+
+func add_resources_from_spaces() -> void:
+	for ps in GameManager.resource_spaces:
+		if !ps.card_in_this_play_space:
+			continue
+		
+		var c: CardInPlay = ps.card_in_this_play_space
+		if c.fabrication or c.card_owner_id != resources_owner_id:
+			continue
+		
+		if len(c.factions) < 1:
+			assert(false, str("Can't find factions for ", c.card_name, " to add resources"))
+		if len(c.factions) == 1:
+			add_resource(c.factions[0], 2)
+		if len(c.factions) > 1:
+			for f in c.factions:
+				add_resource(f, 1)
 
 
 func get_resources() -> Dictionary:

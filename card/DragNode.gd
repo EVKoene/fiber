@@ -8,7 +8,7 @@ var card_owner_id: int
 
 
 func _get_drag_data(at_position: Vector2) -> CardInHand:
-	if card_owner_id != GameManager.player_id or !card_in_hand.can_pay_costs:
+	if !can_play_card_now():
 		return null
 	
 	var card_preview: TextureRect = TextureRect.new()
@@ -20,3 +20,16 @@ func _get_drag_data(at_position: Vector2) -> CardInHand:
 	set_drag_preview(card_preview)
 		
 	return card_in_hand
+
+
+func can_play_card_now() -> bool:
+	if card_owner_id != GameManager.player_id:
+		return false
+	if !card_in_hand.can_pay_costs:
+		return false
+	if !GameManager.turn_manager.turn_actions_enabled:
+		return false
+	if GameManager.turn_manager.turn_owner_id != GameManager.player_id:
+		return false
+	
+	return true

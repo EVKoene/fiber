@@ -33,6 +33,7 @@ var move_through_units := false
 var max_font: int
 
 func _ready():
+	GameManager.cards_in_play[card_owner_id].append(self)
 	_load_card_properties()
 	_create_battle_stats()
 	_create_costs()
@@ -47,7 +48,7 @@ func _ready():
 	GameManager.ps_column_row[column][row].card_in_this_play_space = self
 
 
-func refresh_card():
+func refresh():
 	modulate = Color(1, 1, 1, 1)
 	exhausted = false
 
@@ -63,7 +64,7 @@ func highlight_card():
 
 
 func reset_card_stats():
-	refresh_card()
+	refresh()
 	_load_card_properties()
 	update_stats()
 
@@ -71,9 +72,18 @@ func reset_card_stats():
 func resolve_damage(damage) -> void:
 	if damage > 0:
 		shake()
+	if !GameManager.is_server:
+		return
+	
 	battle_stats.change_health(-damage, -1)
-	# TODO: Add code to destroy card when health <= 0
 	update_stats()
+	if health < 0:
+		destroy()
+
+
+func destroy() -> void:
+	GameManager.cards_in_play[card_owner_id].erase(self)
+	queue_free()
 
 
 func shake() -> void:
