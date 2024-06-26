@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://dwqensucdc5ig"]
+[gd_scene load_steps=8 format=3 uid="uid://dwqensucdc5ig"]
 
 [ext_resource type="Script" path="res://map/BattleMap.gd" id="1_tqi70"]
+[ext_resource type="PackedScene" uid="uid://b1p3drjd83db6" path="res://player/PauseMenu.tscn" id="2_03bps"]
 [ext_resource type="PackedScene" uid="uid://c6a7g6p6nipw5" path="res://player/ZoomPreview.tscn" id="2_8tgqr"]
 [ext_resource type="Script" path="res://player/ResourceBar.gd" id="3_ox48p"]
 
@@ -15,6 +16,11 @@ bg_color = Color(0.219501, 0.219501, 0.219501, 1)
 
 [node name="BattleMap" type="Node2D"]
 script = ExtResource("1_tqi70")
+
+[node name="GUI" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" parent="GUI" instance=ExtResource("2_03bps")]
+visible = false
 
 [node name="TextBox" type="Panel" parent="."]
 visible = false
