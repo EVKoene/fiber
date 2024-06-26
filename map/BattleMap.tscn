@@ -1,11 +1,51 @@
-[gd_scene load_steps=4 format=3 uid="uid://dwqensucdc5ig"]
+[gd_scene load_steps=7 format=3 uid="uid://dwqensucdc5ig"]
 
 [ext_resource type="Script" path="res://map/BattleMap.gd" id="1_tqi70"]
 [ext_resource type="PackedScene" uid="uid://c6a7g6p6nipw5" path="res://player/ZoomPreview.tscn" id="2_8tgqr"]
 [ext_resource type="Script" path="res://player/ResourceBar.gd" id="3_ox48p"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lndr4"]
+bg_color = Color(0.694118, 0.694118, 0.694118, 0.470588)
+
+[sub_resource type="LabelSettings" id="LabelSettings_dsdyx"]
+font_size = 38
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jiecs"]
+bg_color = Color(0.219501, 0.219501, 0.219501, 1)
+
 [node name="BattleMap" type="Node2D"]
 script = ExtResource("1_tqi70")
+
+[node name="TextBox" type="Panel" parent="."]
+visible = false
+z_index = 99
+offset_right = 1153.0
+offset_bottom = 645.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_lndr4")
+
+[node name="Panel" type="Panel" parent="TextBox"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_bottom = 70.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TextBox/Panel"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -26.5
+offset_bottom = 26.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "It's your turn!"
+label_settings = SubResource("LabelSettings_dsdyx")
+horizontal_alignment = 1
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath("..")
@@ -28,3 +68,18 @@ script = ExtResource("3_ox48p")
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("3_ox48p")
+
+[node name="InstructionContainer" type="PanelContainer" parent="."]
+visible = false
+custom_minimum_size = Vector2(40, 40)
+offset_left = 649.0
+offset_top = 509.0
+offset_right = 689.0
+offset_bottom = 549.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_jiecs")
+
+[node name="InstructionText" type="Label" parent="InstructionContainer"]
+layout_mode = 2
+text = "Test"
+
+[connection signal="pressed" from="EndTurnButton" to="." method="_on_end_turn_button_pressed"]
