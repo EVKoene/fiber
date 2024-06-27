@@ -125,6 +125,6 @@ func _update_can_pay_for_cards_in_hand() -> void:
 
 func _set_resources_labels() -> void:
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		SmoothVisuals.set_resource_labels.rpc_id(
+		MultiPlayerManager.set_resource_labels.rpc_id(
 			p_id, resources_owner_id, gold, animal, magic, nature, robot
 		)

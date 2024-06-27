@@ -35,7 +35,8 @@ func show_text(text_to_show: String) -> void:
 
 
 func _start_first_turn() -> void:
-	var first_player_id = [GameManager.p1_id, GameManager.p2_id].pick_random()
+	#var first_player_id = [GameManager.p1_id, GameManager.p2_id].pick_random()
+	var first_player_id = GameManager.p2_id
 	GameManager.turn_manager.hide_end_turn_button.rpc_id(
 		GameManager.opposing_player_id(first_player_id)
 	)
@@ -116,8 +117,6 @@ func _create_play_spaces() -> void:
 
 			if multiplayer.is_server():
 				add_child(play_space, true)
-				GameManager.play_spaces.append(play_space)
-			GameManager.ps_column_row[column][row] = play_space
 			n_play_spaces += 1
 
 	for row in map_data["Rows"]:

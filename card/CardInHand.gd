@@ -51,7 +51,7 @@ func play_unit(column: int, row: int) -> void:
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
 		GameManager.remove_card_from_hand.rpc_id(
 			p_id, card_owner_id, hand_index)
-		SmoothVisuals.set_hand_card_positions.rpc_id(p_id)
+		MultiPlayerManager.set_hand_card_positions.rpc_id(p_id)
 	queue_free()
 
 
@@ -205,7 +205,7 @@ func _set_drag_node_properties() -> void:
 
 
 func _on_mouse_entered():
-	GameManager.zoom_preview.set_zoom_preview(
+	GameManager.zoom_preview.hover_zoom_preview(
 		attack,
 		health,
 		movement,
