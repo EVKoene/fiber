@@ -18,7 +18,6 @@ var player_id: int  # The player's own id
 var is_server := false
 
 var ps_column_row := {}
-var play_spaces := []
 var zoom_preview: ZoomPreview
 var resource_bar_p1: ResourceBar
 var resource_bar_p2: ResourceBar

@@ -18,9 +18,10 @@ var img_path: String
 var card_range: int
 var border_style: StyleBox
 var max_font: int
+var locked := false
 
 
-func set_zoom_preview(
+func hover_zoom_preview(
 	_attack: int,
 	_health: int,
 	_movement: int,
@@ -35,6 +36,49 @@ func set_zoom_preview(
 	_img_path: String,
 	_card_range: int,
 ) -> void:
+	if locked:
+		return
+	attack = _attack
+	health = _health
+	movement = _movement
+	animal_cost = _animal_cost
+	magic_cost = _magic_cost
+	nature_cost = _nature_cost
+	robot_cost = _robot_cost
+	ingame_name = _ingame_name
+	card_type = _card_type
+	factions = _factions
+	card_text = _card_text
+	img_path = _img_path
+	card_range = _card_range
+	if len(card_text) == 0:
+		$VBox/BotInfo/CardText.hide()
+	else:
+		$VBox/BotInfo/CardText.show()
+	$CardImage.show()
+	$VBox.show()
+	_set_labels()
+	_set_border_to_faction()
+	_set_card_text_visuals()
+	$CardImage.texture = load(img_path)
+
+
+func lock_zoom_preview(
+	_attack: int,
+	_health: int,
+	_movement: int,
+	_animal_cost: int,
+	_magic_cost: int,
+	_nature_cost: int,
+	_robot_cost: int,
+	_ingame_name: String,
+	_card_type: int,
+	_factions: Array,
+	_card_text: String,
+	_img_path: String,
+	_card_range: int,
+) -> void:
+	locked = true
 	attack = _attack
 	health = _health
 	movement = _movement

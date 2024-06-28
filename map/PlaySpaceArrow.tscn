@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bq8mfobc7rf0k"]
+
+[ext_resource type="Texture2D" uid="uid://c2r7la4j8a4j6" path="res://assets/arrow.png" id="1_pvshv"]
+
+[node name="PlaySpaceArrow" type="TextureRect"]
+custom_minimum_size = Vector2(50, 50)
+offset_right = 3000.0
+offset_bottom = 1800.0
+texture = ExtResource("1_pvshv")

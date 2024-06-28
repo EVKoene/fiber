@@ -14,6 +14,7 @@ class_name CardInPlay
 @export var fabrication := false
 
 
+var current_play_space: PlaySpace: get = _get_play_space
 var card_data: Dictionary
 var battle_stats: BattleStats
 var costs: Costs
@@ -46,6 +47,63 @@ func _ready():
 		flip_card()
 	scale *= MapSettings.card_in_play_size/size
 	GameManager.ps_column_row[column][row].card_in_this_play_space = self
+
+
+func move_to_play_space(new_column: int, new_row: int) -> void:
+	for p_id in [GameManager.p1_id, GameManager.p2_id]:
+		MultiPlayerManager.move_to_play_space.rpc_id(
+			p_id, card_owner_id, GameManager.cards_in_play[card_owner_id].find(self), 
+			new_column, new_row
+		)
+
+
+func move_over_path(path: PlaySpacePath) -> void:
+	GameManager.turn_manager.turn_actions_enabled = false
+	TargetSelection.clear_arrows()
+	
+	if path.path_length > 0:
+		for s in range(path.path_length):
+			# We ignore the first playspace in path because it's the space the card is in. We 
+			# also ignore spaces the cards move trough. TODO: Animate moving through them.
+			if s == 0:
+				continue
+			elif path.path_spaces[s].card_in_this_play_space and move_through_units:
+				await get_tree().create_timer(0.25).timeout
+				# We increase and decrease the z index to make sure the card will move over the card
+				# it passes through
+				z_index += 50
+				position.x = path.path_spaces[s].position.x + MapSettings.play_space_size.x * 0.1
+				position.y = path.path_spaces[s].position.y + MapSettings.play_space_size.y * 0.1
+				z_index -= 50
+			else:
+				await get_tree().create_timer(0.25).timeout
+				move_to_play_space(path.path_spaces[s].column, path.path_spaces[s].row)
+			
+	
+	GameManager.turn_manager.turn_actions_enabled = true
+	TargetSelection.end_selecting()
+	
+
+
+func select_for_movement() -> void:
+	TargetSelection.card_selected_for_movement = self
+	TargetSelection.making_selection = true
+	highlight_card()
+	GameManager.zoom_preview.lock_zoom_preview(
+		attack,
+		health,
+		movement,
+		costs.animal,
+		costs.magic,
+		costs.nature,
+		costs.robot,
+		ingame_name,
+		card_type,
+		factions,
+		card_text,
+		img_path,
+		card_range
+	)
 
 
 func refresh():
@@ -279,3 +337,46 @@ func _get_card_range() -> int:
 		return card_data["Range"]
 	else:
 		return -1
+
+
+func _on_gui_input(event):
+	var left_mouse_button_pressed = (
+		event is InputEventMouseButton 
+		and event.button_index == MOUSE_BUTTON_LEFT 
+		and event.pressed
+	)
+	
+	if (
+		left_mouse_button_pressed 
+		and TargetSelection.number_of_targets_to_select > 0
+		and self not in TargetSelection.selected_targets
+	):
+		highlight_card()
+		TargetSelection.selected_cards.append(self)
+
+	elif (
+		left_mouse_button_pressed 
+		and TargetSelection.number_of_targets_to_select > 0
+		and self in TargetSelection.selected_targets
+	):
+		TargetSelection.selected_targets.erase(self)
+
+	elif (
+		left_mouse_button_pressed 
+		and GameManager.turn_manager.turn_owner_id == GameManager.player_id
+		and !exhausted
+		and GameManager.turn_manager.turn_actions_enabled
+		and TargetSelection.card_selected_for_movement == self
+	):
+		TargetSelection.clear_selections()
+	
+	elif (
+		left_mouse_button_pressed 
+		and GameManager.turn_manager.turn_owner_id == GameManager.player_id
+		and !exhausted
+		and GameManager.turn_manager.turn_actions_enabled
+		and TargetSelection.card_selected_for_movement != self
+	):
+		TargetSelection.clear_selections()
+		select_for_movement()
+	

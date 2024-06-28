@@ -22,6 +22,7 @@ var attributes: Array = []
 var contest_space: bool
 var border_style: StyleBox
 var card_in_this_play_space: CardInPlay
+var selected_for_movement := false
 
 
 func _ready():
@@ -29,6 +30,8 @@ func _ready():
 	position = _calc_position()
 	_set_play_space_attributes()
 	set_border()
+	GameManager.ps_column_row[column][row] = self
+	MapSettings.play_spaces.append(self)
 
 
 func set_border() -> void:
@@ -70,6 +73,32 @@ func in_starting_area(card: CardInHand) -> bool:
 		return false
 
 
+func find_play_space_path(goal_space: PlaySpace, ignore_obstacles: bool) -> PlaySpacePath:
+	var ps_path: PlaySpacePath = PlaySpacePath.new(goal_space, self, ignore_obstacles)
+	GameManager.battle_map.add_child(ps_path)
+	return ps_path
+
+
+func select_path_to_play_space(play_space_path: PlaySpacePath) -> void:
+	play_space_path.show_path()
+	selected_for_movement = true
+	TargetSelection.play_space_selected_for_movement = self
+	TargetSelection.making_selection = true
+	TargetSelection.current_path = play_space_path
+
+
+func adjacent_play_spaces() -> Array:
+	var a_spaces: Array = []
+	for ps in MapSettings.play_spaces:
+		match [abs(column - ps.column), abs(row - ps.row)]:
+			[1, 0]:
+				a_spaces.append(ps)
+			[0, 1]:
+				a_spaces.append(ps)
+
+	return a_spaces
+
+
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 	if in_starting_area(data) and data.card_type == Collections.card_types.UNIT:
 		return true
@@ -107,3 +136,56 @@ func _calc_position() -> Vector2:
 		MapSettings.get_column_start_x(column), 
 		MapSettings.get_row_start_y(row)
 	)
+
+
+func _on_gui_input(event):
+	var right_mouse_button_pressed = (
+		event is InputEventMouseButton 
+		and event.button_index == MOUSE_BUTTON_RIGHT 
+		and event.pressed
+	)
+	
+	if (
+		right_mouse_button_pressed
+		and GameManager.turn_manager.turn_actions_enabled
+		and TargetSelection.card_selected_for_movement
+		and !card_in_this_play_space
+		and !TargetSelection.current_path
+	):
+		var card: CardInPlay = TargetSelection.card_selected_for_movement
+		var card_path = card.current_play_space.find_play_space_path(self, card.move_through_units)
+		
+		if card_path.path_length > 0 and card_path.path_length <= card.movement + 1:
+			select_path_to_play_space(card_path)
+
+	elif (
+		right_mouse_button_pressed
+		and GameManager.turn_manager.turn_actions_enabled
+		and TargetSelection.card_selected_for_movement
+		and !card_in_this_play_space
+		and TargetSelection.play_space_selected_for_movement != self
+		and TargetSelection.current_path
+	):
+		var card: CardInPlay = TargetSelection.card_selected_for_movement
+		TargetSelection.current_path.extend_path(self)
+		
+		if (
+			TargetSelection.current_path.path_length > 0 
+			and TargetSelection.current_path.path_length <= card.movement + 1
+		):
+			TargetSelection.current_path.show_path()
+			selected_for_movement = true
+			TargetSelection.play_space_selected_for_movement = self
+			TargetSelection.making_selection = true
+		else:
+			TargetSelection.end_selecting()
+			Events.clear_paths.emit()
+
+	elif (
+		right_mouse_button_pressed
+		and GameManager.turn_manager.turn_actions_enabled
+		and TargetSelection.card_selected_for_movement
+		and !card_in_this_play_space
+		and selected_for_movement
+	):
+		TargetSelection.card_selected_for_movement.move_over_path(TargetSelection.current_path)
