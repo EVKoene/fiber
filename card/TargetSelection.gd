@@ -9,8 +9,10 @@ var number_of_targets_to_select := 0
 
 var current_path: PlaySpacePath
 var play_space_arrows := []
+
 var card_selected_for_movement: CardInPlay
 var play_space_selected_for_movement: PlaySpace
+var card_to_be_attacked: CardInPlay
 
 
 func end_selecting() -> void:
@@ -30,8 +32,9 @@ func clear_selections() -> void:
 
 
 func clear_paths() -> void:
-	current_path.queue_free()
-	current_path = null
+	if current_path:
+		current_path.queue_free()
+		current_path = null
 
 
 func clear_arrows() -> void:

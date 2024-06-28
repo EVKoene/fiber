@@ -30,7 +30,7 @@ func change_attack(value: int, turn_duration: int) -> void:
 		base_attack += value
 	else:
 		attack_modifiers.append([value, turn_duration])
-	card.set_card_properties()
+	card.update_stats()
 
 
 func change_health(value: int, turn_duration: int) -> void:
@@ -38,7 +38,7 @@ func change_health(value: int, turn_duration: int) -> void:
 		base_health += value
 	else:
 		health_modifiers.append([value, turn_duration])
-	card.set_card_properties()
+	card.update_stats()
 
 
 func change_movement(value: int, turn_duration: int) -> void:
@@ -46,7 +46,7 @@ func change_movement(value: int, turn_duration: int) -> void:
 		base_movement += value
 	else:
 		movement_modifiers.append([value, turn_duration])
-	card.set_card_properties()
+	card.update_stats()
 
 
 func _get_attack() -> int:

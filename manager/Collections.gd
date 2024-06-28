@@ -1,6 +1,7 @@
 extends Node
 
 var all_factions: Array = [factions.ANIMAL, factions.MAGIC, factions.NATURE, factions.ROBOT]
+
 var faction_names: Dictionary = {
 	factions.ANIMAL: "Animal",
 	factions.MAGIC: "Magic",

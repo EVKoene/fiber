@@ -1,6 +1,11 @@
 extends Node
 
 
+@rpc("call_local")
+func remove_from_cards_in_play(card_owner_id: int, card_in_play_index: int) -> void:
+	GameManager.cards_in_play[card_owner_id].remove_at(card_in_play_index)
+
+
 @rpc("any_peer", "call_local")
 func move_to_play_space(
 	card_owner_id: int, card_in_play_index: int, new_column: int, new_row: int
@@ -17,6 +22,28 @@ func move_to_play_space(
 	card.row = new_row
 	card.current_play_space.card_in_this_play_space = card
 	card.set_position_to_play_space()
+
+
+@rpc("any_peer", "call_local")
+func animate_attack(card_owner_id: int, card_in_play_index: int, direction: int) -> void:
+	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][card_in_play_index]
+	match direction:
+		Collections.directions.UP:
+			card.position.y -= MapSettings.play_space_size.y / 2
+			await get_tree().create_timer(0.25).timeout
+			card.position.y += MapSettings.play_space_size.y / 2
+		Collections.directions.DOWN:
+			card.position.y += MapSettings.play_space_size.y / 2
+			await get_tree().create_timer(0.25).timeout
+			card.position.y -= MapSettings.play_space_size.y / 2
+		Collections.directions.RIGHT:
+			card.position.x += MapSettings.play_space_size.x / 2
+			await get_tree().create_timer(0.25).timeout
+			card.position.x -= MapSettings.play_space_size.x / 2
+		Collections.directions.LEFT:
+			card.position.x -= MapSettings.play_space_size.x / 2
+			await get_tree().create_timer(0.25).timeout
+			card.position.x += MapSettings.play_space_size.x / 2
 
 
 @rpc("call_local")
