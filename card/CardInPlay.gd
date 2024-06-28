@@ -32,6 +32,7 @@ var play_space: PlaySpace: get = _get_play_space
 var border_style: StyleBox
 var move_through_units := false
 var max_font: int
+var card_in_play_index: int: get = _get_card_in_play_index
 
 func _ready():
 	GameManager.cards_in_play[card_owner_id].append(self)
@@ -49,10 +50,26 @@ func _ready():
 	GameManager.ps_column_row[column][row].card_in_this_play_space = self
 
 
+func attack_card(c_owner_id: int, c_in_play_index: int) -> void:
+	var card: CardInPlay = GameManager.cards_in_play[c_owner_id][c_in_play_index]
+	for p_id in [GameManager.p1_id, GameManager.p2_id]:
+		MultiPlayerManager.animate_attack.rpc_id(
+			p_id, card_owner_id, card_in_play_index, 
+			card.current_play_space.direction_from_play_space(current_play_space)
+		)
+	
+	deal_damage_to_card(card.card_owner_id, card.card_in_play_index, attack)
+
+
+func deal_damage_to_card(c_owner_id: int, cip_index: int, value: int) -> void:
+	var card: CardInPlay = GameManager.cards_in_play[c_owner_id][cip_index]
+	card.resolve_damage.rpc_id(GameManager.p1_id, value)
+
+
 func move_to_play_space(new_column: int, new_row: int) -> void:
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
 		MultiPlayerManager.move_to_play_space.rpc_id(
-			p_id, card_owner_id, GameManager.cards_in_play[card_owner_id].find(self), 
+			p_id, card_owner_id, card_in_play_index, 
 			new_column, new_row
 		)
 
@@ -83,6 +100,23 @@ func move_over_path(path: PlaySpacePath) -> void:
 	GameManager.turn_manager.turn_actions_enabled = true
 	TargetSelection.end_selecting()
 	
+
+
+func move_and_attack(card: CardInPlay) -> void:
+	if TargetSelection.current_path:
+		if TargetSelection.current_path.last_space in spaces_in_range_to_attack_card(card):
+			await(move_over_path(TargetSelection.current_path))
+			attack_card(card.card_owner_id, card.card_in_play_index)
+	
+	else:
+		var spaces_to_attack_from: Array = spaces_in_range_to_attack_card(card)
+		if len(spaces_to_attack_from) == 0:
+			assert(false, str(ingame_name, " tried to attack unit that is not in range"))
+		var path_to_space: PlaySpacePath = current_play_space.find_play_space_path(
+			spaces_to_attack_from.pick_random(), move_through_units
+		)
+		await(move_over_path(path_to_space))
+		attack_card(card.card_owner_id, card.card_in_play_index)
 
 
 func select_for_movement() -> void:
@@ -127,11 +161,10 @@ func reset_card_stats():
 	update_stats()
 
 
+@rpc("any_peer", "call_local")
 func resolve_damage(damage) -> void:
 	if damage > 0:
 		shake()
-	if !GameManager.is_server:
-		return
 	
 	battle_stats.change_health(-damage, -1)
 	update_stats()
@@ -140,7 +173,10 @@ func resolve_damage(damage) -> void:
 
 
 func destroy() -> void:
-	GameManager.cards_in_play[card_owner_id].erase(self)
+	# We need to store the index in a var so it hasn't disappeared in the second loop
+	var cip_index := card_in_play_index
+	for p_id in [GameManager.p1_id, GameManager.p2_id]:
+		MultiPlayerManager.remove_from_cards_in_play.rpc_id(p_id, card_owner_id, cip_index)
 	queue_free()
 
 
@@ -171,32 +207,24 @@ func update_stats() -> void:
 	_set_labels()
 
 
-func _set_labels() -> void:
-	$VBox/BotInfo/Movement.text = str(movement)
-	$VBox/BotInfo/BattleStats.text = str(attack, "/", health)
-	for f in [
-		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Animal,
-			"Cost": costs.animal,
-		},
-		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Magic,
-			"Cost": costs.magic,
-		},
-		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Nature,
-			"Cost": costs.nature,
-		},
-		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Robot,
-			"Cost": costs.robot,
-		},
-	]:
-		f["Label"].text = str(f["Cost"])
-		if f["Cost"] == 0:
-			f["Label"].hide()
-		else:
-			f["Label"].show()
+func spaces_in_range(range_to_check: int, ignore_obstacles: bool) -> Array:
+	var spaces: Array = []
+	for ps in MapSettings.play_spaces:
+		if current_play_space.distance_to_play_space(
+			ps, ignore_obstacles
+		) <= range_to_check:
+			spaces.append(ps)
+
+	return spaces
+
+
+func spaces_in_range_to_attack_card(card: CardInPlay) -> Array:
+	var spaces_to_attack_from: Array = []
+	for ps in card.current_play_space.adjacent_play_spaces():
+		if ps in spaces_in_range(movement, false):
+			spaces_to_attack_from.append(ps)
+
+	return spaces_to_attack_from
 
 
 func set_border_to_faction():
@@ -241,6 +269,34 @@ func set_border_to_faction():
 			border_style = load(str("res://styling/card_borders/MultiFactionCardBorder.tres"))
 	
 	add_theme_stylebox_override("panel", border_style)
+
+
+func _set_labels() -> void:
+	$VBox/BotInfo/Movement.text = str(movement)
+	$VBox/BotInfo/BattleStats.text = str(attack, "/", health)
+	for f in [
+		{
+			"Label": $VBox/TopInfo/Costs/CostLabels/Animal,
+			"Cost": costs.animal,
+		},
+		{
+			"Label": $VBox/TopInfo/Costs/CostLabels/Magic,
+			"Cost": costs.magic,
+		},
+		{
+			"Label": $VBox/TopInfo/Costs/CostLabels/Nature,
+			"Cost": costs.nature,
+		},
+		{
+			"Label": $VBox/TopInfo/Costs/CostLabels/Robot,
+			"Cost": costs.robot,
+		},
+	]:
+		f["Label"].text = str(f["Cost"])
+		if f["Cost"] == 0:
+			f["Label"].hide()
+		else:
+			f["Label"].show()
 
 
 func flip_card() -> void:
@@ -339,12 +395,38 @@ func _get_card_range() -> int:
 		return -1
 
 
+func _on_mouse_entered():
+	GameManager.zoom_preview.hover_zoom_preview(
+		attack, health, movement, costs.animal, costs.magic, costs.nature, costs.robot, ingame_name,
+		card_type, factions, card_text, img_path, card_range
+	)
+	
+	if !TargetSelection.card_selected_for_movement:
+		return
+	
+	if (
+		len(TargetSelection.card_selected_for_movement.spaces_in_range_to_attack_card(self)) > 0
+		and TargetSelection.card_selected_for_movement.card_owner_id != card_owner_id
+	):
+		Input.set_custom_mouse_cursor(load("res://assets/CursorMiniAttackRed.png"))
+
+
+func _on_mouse_exited():
+	Input.set_custom_mouse_cursor(null)
+
+
 func _on_gui_input(event):
 	var left_mouse_button_pressed = (
 		event is InputEventMouseButton 
 		and event.button_index == MOUSE_BUTTON_LEFT 
 		and event.pressed
 	)
+	var right_mouse_button_pressed = (
+		event is InputEventMouseButton 
+		and event.button_index == MOUSE_BUTTON_RIGHT 
+		and event.pressed
+	)
+	var sel_card: CardInPlay = TargetSelection.card_selected_for_movement
 	
 	if (
 		left_mouse_button_pressed 
@@ -380,3 +462,24 @@ func _on_gui_input(event):
 		TargetSelection.clear_selections()
 		select_for_movement()
 	
+	elif right_mouse_button_pressed and sel_card and card_owner_id != GameManager.player_id:
+		var ps_to_attack_from = sel_card.spaces_in_range_to_attack_card(self)
+
+		if (
+			len(ps_to_attack_from) > 0 
+			and sel_card.card_owner_id != card_owner_id
+			and !TargetSelection.card_to_be_attacked
+		):
+			TargetSelection.card_to_be_attacked = self
+
+		elif (
+				sel_card.card_owner_id != card_owner_id
+				and TargetSelection.card_to_be_attacked == self
+			):
+				sel_card.move_and_attack(self)
+				Input.set_custom_mouse_cursor(null)
+				sel_card.exhaust()
+
+
+func _get_card_in_play_index() -> int:
+	return GameManager.cards_in_play[card_owner_id].find(self)

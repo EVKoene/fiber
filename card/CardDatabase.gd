@@ -35,7 +35,7 @@ var cards_info = {
 		},
 		"Attack": 2, # 2
 		"Health": 1, # 1
-		"Movement": 2, # 1
+		"Movement": 1, # 1
 		"Lord": false,
 		"Purposes": [],
 		"Text": "",

@@ -99,6 +99,62 @@ func adjacent_play_spaces() -> Array:
 	return a_spaces
 
 
+func distance_to_play_space(goal_space: PlaySpace, ignore_obstacles: bool) -> int:
+	var queue: Array = [self]
+
+	var distance: Dictionary = {
+		self: 0,
+	}
+	while len(queue) > 0:
+		var ps = queue.pop_front()
+		if ps == goal_space:
+			break
+
+		for adj_ps in ps.adjacent_play_spaces():
+			if adj_ps not in distance and (
+				!adj_ps.card_in_this_play_space 
+				or ignore_obstacles
+				or adj_ps == goal_space
+			):
+				queue.append(adj_ps)
+				distance[adj_ps] = 1 + distance[ps]
+
+	if goal_space not in distance:
+		return -1
+
+	else:
+		return distance[goal_space]
+
+
+func direction_from_play_space(play_space: PlaySpace) -> int:
+	var direction: int
+	if GameManager.is_player_1:
+		if play_space.column > column:
+			direction = Collections.directions.LEFT
+		elif play_space.column < column:
+			direction =  Collections.directions.RIGHT
+		elif play_space.row > row:
+			direction = Collections.directions.UP
+		elif play_space.row < row:
+			direction = Collections.directions.DOWN
+		else:
+			assert(false, "Can't discern direction relative to playspace")
+	
+	else:
+		if play_space.column < column:
+			direction = Collections.directions.LEFT
+		elif play_space.column > column:
+			direction =  Collections.directions.RIGHT
+		elif play_space.row < row:
+			direction = Collections.directions.UP
+		elif play_space.row > row:
+			direction = Collections.directions.DOWN
+		else:
+			assert(false, "Can't discern direction relative to playspace")
+
+	return direction
+
+
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 	if in_starting_area(data) and data.card_type == Collections.card_types.UNIT:
 		return true

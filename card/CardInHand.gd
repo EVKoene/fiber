@@ -206,17 +206,6 @@ func _set_drag_node_properties() -> void:
 
 func _on_mouse_entered():
 	GameManager.zoom_preview.hover_zoom_preview(
-		attack,
-		health,
-		movement,
-		costs.animal,
-		costs.magic,
-		costs.nature,
-		costs.robot,
-		ingame_name,
-		card_type,
-		factions,
-		card_text,
-		img_path,
-		card_range
+		attack, health, movement, costs.animal, costs.magic, costs.nature, costs.robot, ingame_name,
+		card_type, factions, card_text, img_path, card_range
 	)
