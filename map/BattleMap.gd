@@ -22,6 +22,7 @@ func _ready():
 	_set_resource_bars_position_and_size()
 	_set_text_containers()
 	_set_cards_in_play_and_hand_dicts()
+	_create_progress_bars()
 	if multiplayer.is_server():
 		GameManager.is_server = true
 		_add_turn_managers()
@@ -63,6 +64,7 @@ func _add_spawnable_scenes() -> void:
 
 
 func _create_battle_map() -> void:
+	MapSettings.n_progress_bars = map_data["SpacesToWin"]
 	_set_area_sizes()
 	_set_play_space_size()
 	_create_play_spaces()
@@ -76,7 +78,7 @@ func _set_area_sizes() -> void:
 			MapSettings.total_screen.y - MapSettings.play_area_size.y
 			) / 2
 	)
-
+	
 	MapSettings.play_area_start = Vector2(0, (MapSettings.total_screen.y - MapSettings.play_area_size.y) / 2)
 	MapSettings.play_area_end = Vector2(
 		MapSettings.play_area_size.x, 
@@ -84,7 +86,7 @@ func _set_area_sizes() -> void:
 			MapSettings.total_screen.y - MapSettings.play_area_size.y
 		) / 2
 	)
-
+	
 	MapSettings.own_area_start = Vector2(
 		0, MapSettings.play_area_size.y + (
 			MapSettings.total_screen.y - MapSettings.play_area_size.y
@@ -171,6 +173,40 @@ func _set_resource_bars_position_and_size() -> void:
 	GameManager.resource_bar_p2 = rb_2
 	add_child(rb_1)
 	add_child(rb_2)
+
+
+func _create_progress_bars() -> void:
+	GameManager.progress_bars[GameManager.p1_id] = []
+	GameManager.progress_bars[GameManager.p2_id] = []
+	
+	# In the future we probably want players to get all resource spaces on their half + the ones
+	# center. For now it's total number / 2 however.
+	for p_id in [GameManager.p1_id, GameManager.p2_id]:
+		for b in MapSettings.n_progress_bars:
+			var progress_bar = ProgressBar.new()
+			var progress_bar_y_size = MapSettings.play_space_size.y / MapSettings.n_progress_bars
+			add_child(progress_bar)
+			progress_bar.custom_minimum_size.x = MapSettings.play_space_size.x / 4
+			progress_bar.custom_minimum_size.y = progress_bar_y_size
+			progress_bar.position.x = MapSettings.play_area_size.x + b * progress_bar_y_size
+			progress_bar.rotation_degrees = 90
+			progress_bar.show_percentage = false
+			var sb = StyleBoxFlat.new()
+			progress_bar.add_theme_stylebox_override("fill", sb)
+			GameManager.progress_bars[p_id].append(progress_bar)
+			match [GameManager.is_player_1, p_id]:
+				[true, GameManager.p1_id]:
+					progress_bar.position.y = MapSettings.total_screen.y / 2 + progress_bar.size.y
+					sb.bg_color = Color.hex(0x3b3be7dc)
+				[true, GameManager.p2_id]:
+					progress_bar.position.y = MapSettings.total_screen.y / 2 - progress_bar.size.y
+					sb.bg_color = Color.hex(0xf3131edc)
+				[false, GameManager.p1_id]:
+					progress_bar.position.y = MapSettings.total_screen.y / 2 - progress_bar.size.y
+					sb.bg_color = Color.hex(0x3b3be7dc)
+				[false, GameManager.p2_id]:
+					progress_bar.position.y = MapSettings.total_screen.y / 2 + progress_bar.size.y
+					sb.bg_color = Color.hex(0xf3131edc)
 
 
 func _set_text_containers() -> void:

@@ -99,7 +99,8 @@ func move_over_path(path: PlaySpacePath) -> void:
 	
 	GameManager.turn_manager.turn_actions_enabled = true
 	TargetSelection.end_selecting()
-	
+	for p_id in [GameManager.p1_id, GameManager.p2_id]:
+		MultiPlayerManager.set_progress_bars.rpc_id(p_id)
 
 
 func move_and_attack(card: CardInPlay) -> void:

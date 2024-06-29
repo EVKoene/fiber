@@ -21,6 +21,7 @@ var ps_column_row := {}
 var zoom_preview: ZoomPreview
 var resource_bar_p1: ResourceBar
 var resource_bar_p2: ResourceBar
+var progress_bars := {}
 var resources := {}
 
 var starting_draw: int = 3
