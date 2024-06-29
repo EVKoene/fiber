@@ -52,6 +52,8 @@ func play_unit(column: int, row: int) -> void:
 		GameManager.remove_card_from_hand.rpc_id(
 			p_id, card_owner_id, hand_index)
 		MultiPlayerManager.set_hand_card_positions.rpc_id(p_id)
+		MultiPlayerManager.set_progress_bars.rpc_id(p_id)
+	
 	queue_free()
 
 

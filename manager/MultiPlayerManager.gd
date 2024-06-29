@@ -1,6 +1,36 @@
 extends Node
 
 
+@rpc("any_peer", "call_local")
+func set_progress_bars() -> void:
+	for p_id in [GameManager.p1_id, GameManager.p2_id]:
+		var occupied_resource_spaces := 0
+		for s in GameManager.resource_spaces:
+			if !s.card_in_this_play_space:
+				continue
+			if s.card_in_this_play_space.card_owner_id == p_id:
+				occupied_resource_spaces += 1
+		
+		if (
+			occupied_resource_spaces > MapSettings.n_progress_bars 
+			and GameManager.player_id == p_id
+		):
+			GameManager.battle_map.show_text("You win!")
+			get_tree().quit()
+		elif (
+			occupied_resource_spaces > MapSettings.n_progress_bars 
+			and GameManager.player_id != p_id
+		):
+			GameManager.battle_map.show_text("You lose!")
+			get_tree().quit()
+		
+		for b in range(len(GameManager.progress_bars[p_id])):
+			if occupied_resource_spaces > b:
+				GameManager.progress_bars[p_id][b].value = 100
+			else:
+				GameManager.progress_bars[p_id][b].value = 0
+
+
 @rpc("call_local")
 func remove_from_cards_in_play(card_owner_id: int, card_in_play_index: int) -> void:
 	GameManager.cards_in_play[card_owner_id].remove_at(card_in_play_index)
