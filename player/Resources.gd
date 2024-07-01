@@ -11,12 +11,12 @@ var robot := 0
 var resources_owner_id: int
 
 
-func _ready():
-	_update_resource_dependencies()
-
-
 func _init(_resources_owner_id: int):
 	resources_owner_id = _resources_owner_id
+
+
+func _ready():
+	_update_resources()
 
 
 func can_pay_costs(costs: Costs) -> bool:
@@ -46,7 +46,7 @@ func add_resource(faction: int, amount: int) -> void:
 		Collections.factions.ROBOT:
 			robot += amount
 	
-	_update_resource_dependencies()
+	_update_resources()
 
 
 func spend_resource(faction: Collections.factions, amount: int) -> void:
@@ -60,7 +60,7 @@ func spend_resource(faction: Collections.factions, amount: int) -> void:
 		Collections.factions.ROBOT:
 			robot -= amount
 	
-	_update_resource_dependencies()
+	_update_resources()
 
 
 func refresh() -> void:
@@ -73,7 +73,7 @@ func refresh() -> void:
 	else:
 		gold = 1
 	add_resources_from_spaces()
-	_update_resource_dependencies()
+	_update_resources()
 
 
 func gold_needed(costs: Costs) -> int:
@@ -113,18 +113,6 @@ func get_resources() -> Dictionary:
 	}
 
 
-func _update_resource_dependencies() -> void:
-	_update_can_pay_for_cards_in_hand()
-	_set_resources_labels()
-
-
-func _update_can_pay_for_cards_in_hand() -> void:
-	for c in GameManager.cards_in_hand[resources_owner_id]:
-		c.can_pay_costs = can_pay_costs(c.costs)
-
-
-func _set_resources_labels() -> void:
+func _update_resources() -> void:
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		MultiPlayerManager.set_resource_labels.rpc_id(
-			p_id, resources_owner_id, gold, animal, magic, nature, robot
-		)
+		MultiPlayerManager.set_resources.rpc_id(p_id, resources_owner_id, gold, animal, magic, nature, robot)

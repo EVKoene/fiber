@@ -2,10 +2,9 @@ extends Panel
 
 class_name PlaySpace
 
-
-@export var column: int
-@export var row: int
-@export var stat_modifier := {
+var column: int
+var row: int
+var stat_modifier := {
 	GameManager.p1_id: {
 		Collections.stats.ATTACK: 0,
 		Collections.stats.HEALTH: 0,
@@ -165,14 +164,10 @@ func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 
 
 func _drop_data(_at_position: Vector2, data: Variant) -> void:
-	match [GameManager.is_server, data.card_type]:
-		[true, Collections.card_types.UNIT]:
+	match data.card_type:
+		Collections.card_types.UNIT:
 			data.play_unit(column, row)
-		[true, Collections.card_types.SPELL]:
-			assert(false, "Playing spells not implemented yet")
-		[false, Collections.card_types.UNIT]:
-			data.play_unit.rpc_id(1, column, row)
-		[false, Collections.card_types.SPELL]:
+		Collections.card_types.SPELL:
 			assert(false, "Playing spells not implemented yet")
 
 

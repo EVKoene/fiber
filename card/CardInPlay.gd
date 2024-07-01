@@ -3,15 +3,15 @@ extends PanelContainer
 class_name CardInPlay
 
 
-@export var card_index := 1
-@export var attack: int
-@export var health: int
-@export var movement: int
-@export var exhausted := false
-@export var card_owner_id: int
-@export var column := -1
-@export var row := -1
-@export var fabrication := false
+var card_index := 1
+var attack: int
+var health: int
+var movement: int
+var exhausted := false
+var card_owner_id: int
+var column := -1
+var row := -1
+var fabrication := false
 
 
 var current_play_space: PlaySpace: get = _get_play_space
@@ -63,7 +63,7 @@ func attack_card(c_owner_id: int, c_in_play_index: int) -> void:
 
 func deal_damage_to_card(c_owner_id: int, cip_index: int, value: int) -> void:
 	var card: CardInPlay = GameManager.cards_in_play[c_owner_id][cip_index]
-	card.resolve_damage.rpc_id(GameManager.p1_id, value)
+	card.resolve_damage(value)
 
 
 func move_to_play_space(new_column: int, new_row: int) -> void:
@@ -142,13 +142,13 @@ func select_for_movement() -> void:
 
 
 func refresh():
-	modulate = Color(1, 1, 1, 1)
-	exhausted = false
+	for p_id in [GameManager.p1_id, GameManager.p2_id]:
+		MultiPlayerManager.refresh_unit.rpc_id(p_id, card_owner_id, card_in_play_index)
 
 
 func exhaust():
-	modulate = Color(0.5, 0.5, 0.5, 1)
-	exhausted = true
+	for p_id in [GameManager.p1_id, GameManager.p2_id]:
+		MultiPlayerManager.exhaust_unit.rpc_id(p_id, card_owner_id, card_in_play_index)
 
 
 func highlight_card():
@@ -162,15 +162,9 @@ func reset_card_stats():
 	update_stats()
 
 
-@rpc("any_peer", "call_local")
-func resolve_damage(damage) -> void:
-	if damage > 0:
-		shake()
-	
-	battle_stats.change_health(-damage, -1)
-	update_stats()
-	if health < 0:
-		destroy()
+func resolve_damage(value: int) -> void:
+	for p_id in [GameManager.p1_id, GameManager.p2_id]:
+		MultiPlayerManager.resolve_damage.rpc_id(p_id, card_owner_id, card_in_play_index, value)
 
 
 func destroy() -> void:
@@ -201,10 +195,9 @@ func shake() -> void:
 	
 	
 func update_stats() -> void:
-	if GameManager.is_server:
-		attack = battle_stats.attack
-		health = battle_stats.health
-		movement = battle_stats.movement
+	attack = battle_stats.attack
+	health = battle_stats.health
+	movement = battle_stats.movement
 	_set_labels()
 
 
@@ -362,9 +355,6 @@ func set_position_to_play_space() -> void:
 
 
 func _create_battle_stats() -> void:
-	if !GameManager.is_server:
-		return
-	
 	battle_stats = BattleStats.new(
 		card_data["Attack"],
 		card_data["Health"],
@@ -431,6 +421,7 @@ func _on_gui_input(event):
 	
 	if (
 		left_mouse_button_pressed 
+		and GameManager.player_id == card_owner_id
 		and TargetSelection.number_of_targets_to_select > 0
 		and self not in TargetSelection.selected_targets
 	):
@@ -439,6 +430,7 @@ func _on_gui_input(event):
 
 	elif (
 		left_mouse_button_pressed 
+		and GameManager.player_id == card_owner_id
 		and TargetSelection.number_of_targets_to_select > 0
 		and self in TargetSelection.selected_targets
 	):
@@ -455,6 +447,7 @@ func _on_gui_input(event):
 	
 	elif (
 		left_mouse_button_pressed 
+		and GameManager.player_id == card_owner_id
 		and GameManager.turn_manager.turn_owner_id == GameManager.player_id
 		and !exhausted
 		and GameManager.turn_manager.turn_actions_enabled

@@ -33,8 +33,7 @@ func start_turn(player_id: int) -> void:
 	starting_turn_player_id = -1
 	turn_stage = turn_stages.START_TURN
 	turn_owner_id = player_id
-	var player := GameManager.player_from_id(player_id)
-	player.resources.refresh()
+	GameManager.resources[player_id].refresh()
 	for c in GameManager.cards_in_play[player_id]:
 		c.refresh()
 	show_end_turn_button.rpc_id(player_id)

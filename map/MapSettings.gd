@@ -43,7 +43,7 @@ func get_row_start_y(row) -> float:
 
 
 func get_column_end_x(column) -> float:
-	if multiplayer.get_unique_id() == GameManager.p1.player_id:
+	if multiplayer.get_unique_id() == GameManager.p1_id:
 		return MapSettings.play_area_start.x + MapSettings.play_space_size.x * (column + 1)
 	else:
 		return (
@@ -53,7 +53,7 @@ func get_column_end_x(column) -> float:
 		)
 
 func get_row_end_y(row) -> float:
-	if multiplayer.get_unique_id() == GameManager.p1.player_id:
+	if multiplayer.get_unique_id() == GameManager.p1_id:
 		return MapSettings.play_area_start.y + MapSettings.play_space_size.y * (row + 1)
 	else:
 		return (
