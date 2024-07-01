@@ -25,7 +25,7 @@ func _get_drag_data(at_position: Vector2) -> CardInHand:
 func can_play_card_now() -> bool:
 	if card_owner_id != GameManager.player_id:
 		return false
-	if !card_in_hand.can_pay_costs:
+	if !GameManager.resources[card_owner_id].can_pay_costs(card_in_hand.costs):
 		return false
 	if !GameManager.turn_manager.turn_actions_enabled:
 		return false

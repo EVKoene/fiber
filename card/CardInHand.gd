@@ -2,15 +2,9 @@ extends PanelContainer
 
 class_name CardInHand
 
-@onready var card_scene: PackedScene = preload("res://card/CardInPlay.tscn")
 
-@export var card_index: int = 1
-@export var card_owner_id: int
-@export var can_pay_costs: bool
-
-#Note that the card_owner will only be set for the server
-var card_owner: Player
-
+var card_index: int = 1
+var card_owner_id: int
 var ingame_name: String
 var card_type: int
 var costs: Costs
@@ -22,6 +16,7 @@ var movement: int
 var border_style: StyleBox
 var img_path: String
 var card_text: String
+var hand_index: int: get = _get_hand_index
 
 
 func _ready():
@@ -31,30 +26,17 @@ func _ready():
 	set_card_properties()
 	set_card_size()
 	_set_drag_node_properties()
-	if GameManager.is_server:
-		can_pay_costs = card_owner.resources.can_pay_costs(costs)
 
 
-@rpc("any_peer")
 func play_unit(column: int, row: int) -> void:
-	var card: CardInPlay = card_scene.instantiate()
-	var hand_index: int = GameManager.cards_in_hand[card_owner_id].find(self)
-	card.set_script(CardDatabase.get_card_class(card_index))
-	card.card_owner_id = card_owner_id
-	card.card_index = card_index
-	card.column = column
-	card.row = row
-	card_owner.cards_in_play.append(card)
+	# We need to save the var here to prevent it from disappearing before being sent to the other
+	# player
+	var h_index = hand_index
 	GameManager.resources[card_owner_id].pay_costs(costs)
-	GameManager.battle_map.add_child(card, true)
-	GameManager.zoom_preview.reset_zoom_preview()
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		GameManager.remove_card_from_hand.rpc_id(
-			p_id, card_owner_id, hand_index)
-		MultiPlayerManager.set_hand_card_positions.rpc_id(p_id)
-		MultiPlayerManager.set_progress_bars.rpc_id(p_id)
-	
-	queue_free()
+		MultiPlayerManager.play_unit.rpc_id(
+			p_id, card_index, h_index, card_owner_id, column, row
+		)
 
 
 func highlight_card():
@@ -211,3 +193,7 @@ func _on_mouse_entered():
 		attack, health, movement, costs.animal, costs.magic, costs.nature, costs.robot, ingame_name,
 		card_type, factions, card_text, img_path, card_range
 	)
+
+
+func _get_hand_index() -> int:
+	return GameManager.cards_in_hand[card_owner_id].find(self)

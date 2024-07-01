@@ -3,8 +3,6 @@ extends Node
 class_name Deck
 
 
-var card_in_hand_scene: PackedScene = load("res://card/CardInHand.tscn")
-var deck_owner: Player
 var deck_owner_id: int
 var deck_order: Array
 var cards: Dictionary
@@ -12,14 +10,17 @@ var starting_cards: Dictionary
 var cards_spawned: int = 0
 
 
-func _init(_deck_owner: Player, _cards: Dictionary, _starting_cards: Dictionary):
-	deck_owner = _deck_owner
+func _init(_deck_owner_id: int, _cards: Dictionary, _starting_cards: Dictionary):
+	deck_owner_id = _deck_owner_id
 	cards = _cards
 	starting_cards = _starting_cards
 
 
 func _ready():
-	deck_owner_id = deck_owner.player_id
+	assert(
+		GameManager.is_server, str("Decks should only be created by server. Was instead created
+		by player with player_id ", GameManager.player_id)
+	)
 	draw_starting_cards()
 	shuffle()
 	
@@ -80,14 +81,8 @@ func draw_starting_cards() -> void:
 
 
 func create_hand_card(card_index: int) -> void:
-	var hand_card: CardInHand = card_in_hand_scene.instantiate()
-	hand_card.card_index = card_index
-	hand_card.card_owner = deck_owner
-	hand_card.card_owner_id = deck_owner_id
-	hand_card.name = str(deck_owner, "CardInHand", cards_spawned)
-	cards_spawned += 1
-	GameManager.battle_map.add_child(hand_card, true)
-
+	for p_id in [GameManager.p1_id, GameManager.p2_id]:
+		MultiPlayerManager.create_hand_card.rpc_id(p_id, deck_owner_id, card_index)
 
 func put_card_bottom(deck_index) -> void:
 	var card_index = deck_order[deck_index]

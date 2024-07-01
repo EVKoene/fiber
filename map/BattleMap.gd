@@ -15,7 +15,7 @@ var text_box: Panel
 
 func _ready():
 	GameManager.battle_map = self
-	_add_spawnable_scenes()
+	$MultiplayerSpawner.add_spawnable_scene("res://manager/TurnManager.tscn")
 	_create_battle_map()
 	_set_zoom_preview_position_and_size()
 	_set_end_turn_button()
@@ -23,10 +23,13 @@ func _ready():
 	_set_text_containers()
 	_set_cards_in_play_and_hand_dicts()
 	_create_progress_bars()
+	_create_resources()
 	if multiplayer.is_server():
 		GameManager.is_server = true
 		_add_turn_managers()
-		_add_players()
+		# To make sure the cards and card orders are always the same for both players, we only create
+		# the decks on the server
+		_add_decks()
 		_start_first_turn()
 
 
@@ -44,23 +47,16 @@ func _start_first_turn() -> void:
 	GameManager.turn_manager.show_start_turn_text.rpc_id(first_player_id)
 
 
-func _add_players() -> void:
-	GameManager.p1 = Player.new(GameManager.p1_id, GameManager.players[GameManager.p1_id]["Deck"])
-	add_child(GameManager.p1)
-	GameManager.p2 = Player.new(GameManager.p2_id, GameManager.players[GameManager.p1_id]["Deck"])
-	add_child(GameManager.p2)
+func _add_decks() -> void:
+	for p_id in [GameManager.p1_id, GameManager.p2_id]:
+		var deck_data: Dictionary = GameManager.players[p_id]["Deck"]
+		GameManager.decks[p_id] = Deck.new(p_id, deck_data["Cards"], deck_data["StartingCards"])
+		add_child(GameManager.decks[p_id])
 
 
 func _add_turn_managers() -> void:
 	var turn_manager = turn_manager_scene.instantiate()
 	add_child(turn_manager, true)
-
-
-func _add_spawnable_scenes() -> void:
-	$MultiplayerSpawner.add_spawnable_scene("res://map/PlaySpace.tscn")
-	$MultiplayerSpawner.add_spawnable_scene("res://card/CardInPlay.tscn")
-	$MultiplayerSpawner.add_spawnable_scene("res://card/CardInHand.tscn")
-	$MultiplayerSpawner.add_spawnable_scene("res://manager/TurnManager.tscn")
 
 
 func _create_battle_map() -> void:
@@ -106,22 +102,16 @@ func _set_play_space_size() -> void:
 
 
 func _create_play_spaces() -> void:
-	var n_play_spaces: int = 0
+	MapSettings.number_of_columns = map_data["Columns"]
+	MapSettings.number_of_rows = map_data["Rows"]
 	for column in map_data["Columns"]:
-		MapSettings.number_of_columns += 1
 		GameManager.ps_column_row[column] = {}
 		for row in map_data["Rows"]:
 			var play_space: PlaySpace = play_space_scene.instantiate()
 			play_space.column = column
 			play_space.row = row
-			play_space.name = str(n_play_spaces)
 
-			if multiplayer.is_server():
-				add_child(play_space, true)
-			n_play_spaces += 1
-
-	for row in map_data["Rows"]:
-		MapSettings.number_of_rows += 1
+			add_child(play_space)
 
 
 func _set_end_turn_button() -> void:
@@ -169,8 +159,8 @@ func _set_resource_bars_position_and_size() -> void:
 		rb.scale.x *= MapSettings.resource_bar_size.x / rb.size.x
 		rb.scale.y *= MapSettings.resource_bar_size.y / rb.size.y
 
-	GameManager.resource_bar_p1 = rb_1
-	GameManager.resource_bar_p2 = rb_2
+	GameManager.resource_bars[GameManager.p1_id] = rb_1
+	GameManager.resource_bars[GameManager.p2_id] = rb_2
 	add_child(rb_1)
 	add_child(rb_2)
 
@@ -229,6 +219,13 @@ func _set_cards_in_play_and_hand_dicts() -> void:
 
 func _on_end_turn_button_pressed():
 	GameManager.turn_manager.end_turn.rpc_id(GameManager.p1_id, GameManager.player_id)
+
+
+func _create_resources():
+	for p_id in [GameManager.p1_id, GameManager.p2_id]:
+		var resources := Resources.new(p_id)
+		GameManager.resources[p_id] = resources
+		add_child(resources)
 
 
 func _input(_event):

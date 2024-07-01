@@ -30,7 +30,9 @@ func peer_disconnected(id: int) -> void:
 func connected_to_server() -> void:
 	print("Connected to server!")
 	# This will only work as long as we have max 2 players
-	_add_player_to_gamemanager.rpc_id(1, 2, multiplayer.get_unique_id(), "Player2", {})
+	_add_player_to_gamemanager.rpc_id(
+		1, 2, multiplayer.get_unique_id(), "Player2", DeckCollection.player_testing_deck
+	)
 	GameManager.player_id = multiplayer.get_unique_id()
 
 
@@ -43,6 +45,7 @@ func _add_player_to_gamemanager(
 	player_number: int, player_id: int, player_name: String, deck: Dictionary
 ) -> void:
 	if !GameManager.players.has(player_id):
+		print("Adding player ", player_id, " with deck ", deck)
 		GameManager.players[player_id] = {
 			"Name": player_name,
 			"PlayerNumber": player_number,

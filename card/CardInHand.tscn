@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cihcviqg25uou"]
+[gd_scene load_steps=10 format=3 uid="uid://cihcviqg25uou"]
 
 [ext_resource type="Script" path="res://card/CardInHand.gd" id="1_jm5en"]
 [ext_resource type="LabelSettings" uid="uid://kbcqnlht5eh6" path="res://styling/card_borders/CardLabelSettings.tres" id="1_xeoqh"]
@@ -13,17 +13,6 @@ bg_color = Color(0.295793, 0.152218, 0.0434451, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pqrmm"]
 bg_color = Color(0.741385, 0.741385, 0.741384, 1)
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_thij3"]
-properties/0/path = NodePath(".:card_index")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath(".:card_owner_id")
-properties/1/spawn = true
-properties/1/replication_mode = 1
-properties/2/path = NodePath(".:can_pay_costs")
-properties/2/spawn = true
-properties/2/replication_mode = 1
 
 [node name="CardInHand" type="PanelContainer"]
 custom_minimum_size = Vector2(150, 40)
@@ -120,9 +109,6 @@ layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 8
 text = "1/1"
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_thij3")
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_entered" from="DragNode" to="." method="_on_drag_node_mouse_entered"]
