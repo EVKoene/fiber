@@ -21,36 +21,32 @@ var max_font: int
 var locked := false
 
 
-func hover_zoom_preview(
-	_attack: int,
-	_health: int,
-	_movement: int,
-	_animal_cost: int,
-	_magic_cost: int,
-	_nature_cost: int,
-	_robot_cost: int,
-	_ingame_name: String,
-	_card_type: int,
-	_factions: Array,
-	_card_text: String,
-	_img_path: String,
-	_card_range: int,
+func hover_zoom_preview_hand(
+	card: CardInHand
 ) -> void:
 	if locked:
 		return
-	attack = _attack
-	health = _health
-	movement = _movement
-	animal_cost = _animal_cost
-	magic_cost = _magic_cost
-	nature_cost = _nature_cost
-	robot_cost = _robot_cost
-	ingame_name = _ingame_name
-	card_type = _card_type
-	factions = _factions
-	card_text = _card_text
-	img_path = _img_path
-	card_range = _card_range
+	animal_cost = card.costs.animal
+	magic_cost = card.costs.magic
+	nature_cost = card.costs.nature
+	robot_cost = card.costs.robot
+	ingame_name = card.ingame_name
+	card_type = card.card_type
+	factions = card.factions
+	card_text = card.card_text
+	img_path = card.img_path
+	
+	if card_type == Collections.card_types.UNIT:
+		attack = card.attack
+		health = card.health
+		movement = card.movement
+		card_range = 0
+	else:
+		card_range = card.card_range
+		attack = 0
+		health = 0
+		movement = 0
+	
 	if len(card_text) == 0:
 		$VBox/BotInfo/CardText.hide()
 	else:
@@ -63,35 +59,106 @@ func hover_zoom_preview(
 	$CardImage.texture = load(img_path)
 
 
-func lock_zoom_preview(
-	_attack: int,
-	_health: int,
-	_movement: int,
-	_animal_cost: int,
-	_magic_cost: int,
-	_nature_cost: int,
-	_robot_cost: int,
-	_ingame_name: String,
-	_card_type: int,
-	_factions: Array,
-	_card_text: String,
-	_img_path: String,
-	_card_range: int,
+func hover_zoom_preview_play(
+	card: CardInPlay
+) -> void:
+	if locked:
+		return
+	animal_cost = card.costs.animal
+	magic_cost = card.costs.magic
+	nature_cost = card.costs.nature
+	robot_cost = card.costs.robot
+	ingame_name = card.ingame_name
+	card_type = card.card_type
+	factions = card.factions
+	card_text = card.card_text
+	img_path = card.img_path
+	
+	if card_type == Collections.card_types.UNIT:
+		attack = card.attack
+		health = card.health
+		movement = card.movement
+		card_range = 0
+	else:
+		card_range = card.card_range
+		attack = 0
+		health = 0
+		movement = 0
+	
+	if len(card_text) == 0:
+		$VBox/BotInfo/CardText.hide()
+	else:
+		$VBox/BotInfo/CardText.show()
+	$CardImage.show()
+	$VBox.show()
+	_set_labels()
+	_set_border_to_faction()
+	_set_card_text_visuals()
+	$CardImage.texture = load(img_path)
+
+
+func lock_zoom_preview_hand(
+	card: CardInHand
 ) -> void:
 	locked = true
-	attack = _attack
-	health = _health
-	movement = _movement
-	animal_cost = _animal_cost
-	magic_cost = _magic_cost
-	nature_cost = _nature_cost
-	robot_cost = _robot_cost
-	ingame_name = _ingame_name
-	card_type = _card_type
-	factions = _factions
-	card_text = _card_text
-	img_path = _img_path
-	card_range = _card_range
+	animal_cost = card.costs.animal
+	magic_cost = card.costs.magic
+	nature_cost = card.costs.nature
+	robot_cost = card.costs.robot
+	ingame_name = card.ingame_name
+	card_type = card.card_type
+	factions = card.factions
+	card_text = card.card_text
+	img_path = card.img_path
+	
+	if card_type == Collections.card_types.UNIT:
+		attack = card.attack
+		health = card.health
+		movement = card.movement
+		card_range = 0
+	else:
+		card_range = card.card_range
+		attack = 0
+		health = 0
+		movement = 0
+	
+	if len(card_text) == 0:
+		$VBox/BotInfo/CardText.hide()
+	else:
+		$VBox/BotInfo/CardText.show()
+	$CardImage.show()
+	$VBox.show()
+	_set_labels()
+	_set_border_to_faction()
+	_set_card_text_visuals()
+	$CardImage.texture = load(img_path)
+
+
+func lock_zoom_preview_play(
+	card: CardInPlay
+) -> void:
+	locked = true
+	animal_cost = card.costs.animal
+	magic_cost = card.costs.magic
+	nature_cost = card.costs.nature
+	robot_cost = card.costs.robot
+	ingame_name = card.ingame_name
+	card_type = card.card_type
+	factions = card.factions
+	card_text = card.card_text
+	img_path = card.img_path
+	
+	if card_type == Collections.card_types.UNIT:
+		attack = card.attack
+		health = card.health
+		movement = card.movement
+		card_range = 0
+	else:
+		card_range = card.card_range
+		attack = 0
+		health = 0
+		movement = 0
+	
 	if len(card_text) == 0:
 		$VBox/BotInfo/CardText.hide()
 	else:
@@ -127,8 +194,14 @@ func reset_zoom_preview() -> void:
 
 
 func _set_labels() -> void:
-	$VBox/BotInfo/Movement.text = str(movement)
-	$VBox/BotInfo/BattleStats.text = str(attack, "/", health)
+	if card_type == Collections.card_types.UNIT:
+		$VBox/BotInfo/Movement.text = str(movement)
+		$VBox/BotInfo/BattleStats.text = str(attack, "/", health)
+		$VBox/BotInfo/BattleStats.show()
+	else:
+		$VBox/BotInfo/Movement.text = str(card_range)
+		$VBox/BotInfo/BattleStats.hide()
+		
 	for f in [
 		{
 			"Label": $VBox/TopInfo/Costs/CostLabels/Animal,
@@ -224,7 +297,7 @@ func _set_card_text_font_size() -> void:
 		card_text_font_size = max_font
 	else: 
 		card_text_font_size = (
-			max_font - float($VBox/BotInfo/CardTextLabel.get_line_count()) * font_change_per_line
+			max_font - float($VBox/BotInfo/CardText.get_line_count()) * font_change_per_line
 		)
 	
 	$VBox/TopInfo/CardNameBG/CardName.label_settings.font_size = max_font

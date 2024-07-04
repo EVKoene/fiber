@@ -33,11 +33,19 @@ func start_turn(player_id: int) -> void:
 	starting_turn_player_id = -1
 	turn_stage = turn_stages.START_TURN
 	turn_owner_id = player_id
-	GameManager.resources[player_id].refresh()
+	for p_id in [GameManager.p1_id, GameManager.p2_id]:
+		turn_count += 1
+		refresh_resources.rpc_id(p_id, player_id)
 	for c in GameManager.cards_in_play[player_id]:
 		c.refresh()
 	show_end_turn_button.rpc_id(player_id)
 	turn_actions_enabled = true
+
+
+@rpc("call_local")
+func refresh_resources(player_id: int) -> void:
+	GameManager.resources[player_id].refresh()
+	GameManager.resources[player_id].add_resources_from_spaces()
 
 
 @rpc("any_peer", "call_local")

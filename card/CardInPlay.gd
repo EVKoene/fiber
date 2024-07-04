@@ -50,6 +50,12 @@ func _ready():
 	GameManager.ps_column_row[column][row].card_in_this_play_space = self
 
 
+func select_card(show_select: bool) -> void:
+	TargetSelection.selected_card = self
+	TargetSelection.making_selection = true
+	highlight_card(show_select)
+
+
 func attack_card(c_owner_id: int, c_in_play_index: int) -> void:
 	var card: CardInPlay = GameManager.cards_in_play[c_owner_id][c_in_play_index]
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
@@ -123,22 +129,8 @@ func move_and_attack(card: CardInPlay) -> void:
 func select_for_movement() -> void:
 	TargetSelection.card_selected_for_movement = self
 	TargetSelection.making_selection = true
-	highlight_card()
-	GameManager.zoom_preview.lock_zoom_preview(
-		attack,
-		health,
-		movement,
-		costs.animal,
-		costs.magic,
-		costs.nature,
-		costs.robot,
-		ingame_name,
-		card_type,
-		factions,
-		card_text,
-		img_path,
-		card_range
-	)
+	highlight_card(false)
+	GameManager.zoom_preview.lock_zoom_preview_play(self)
 
 
 func refresh():
@@ -151,9 +143,13 @@ func exhaust():
 		MultiPlayerManager.exhaust_unit.rpc_id(p_id, card_owner_id, card_in_play_index)
 
 
-func highlight_card():
-	border_style = load("res://styling/card_borders/CardSelectedBorder.tres")
-	add_theme_stylebox_override("panel", border_style)
+func highlight_card(show_highlight: bool):
+	if show_highlight:
+		for p_id in [GameManager.p1_id, GameManager.p2_id]:
+			MultiPlayerManager.highlight_card.rpc_id(p_id, card_owner_id, card_in_play_index)
+	else:
+		border_style = load("res://styling/card_borders/CardSelectedBorder.tres")
+		add_theme_stylebox_override("panel", border_style)
 
 
 func reset_card_stats():
@@ -386,11 +382,25 @@ func _get_card_range() -> int:
 		return -1
 
 
+func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
+	if (
+		data.can_target_unit(self)
+		and GameManager.resources[card_owner_id].can_pay_costs(data.costs)
+	):
+		return true
+	else:
+		return false
+
+
+func _drop_data(_at_position: Vector2, data: Variant) -> void:
+	for p_id in [GameManager.p1_id, GameManager.p2_id]:
+		MultiPlayerManager.play_spell.rpc_id(
+			p_id, data.card_index, data.hand_index, data.card_owner_id, column, row
+		)
+
+
 func _on_mouse_entered():
-	GameManager.zoom_preview.hover_zoom_preview(
-		attack, health, movement, costs.animal, costs.magic, costs.nature, costs.robot, ingame_name,
-		card_type, factions, card_text, img_path, card_range
-	)
+	GameManager.zoom_preview.hover_zoom_preview_play(self)
 	
 	if !TargetSelection.card_selected_for_movement:
 		return
@@ -417,16 +427,20 @@ func _on_gui_input(event):
 		and event.button_index == MOUSE_BUTTON_RIGHT 
 		and event.pressed
 	)
-	var sel_card: CardInPlay = TargetSelection.card_selected_for_movement
+	var card_sel_for_movement: CardInPlay = TargetSelection.card_selected_for_movement
 	
 	if (
 		left_mouse_button_pressed 
-		and GameManager.player_id == card_owner_id
 		and TargetSelection.number_of_targets_to_select > 0
+		and current_play_space in TargetSelection.target_play_space_options
+		and card_owner_id in TargetSelection.players_to_select_targets_from
 		and self not in TargetSelection.selected_targets
+		and (TargetSelection.self_allowed or TargetSelection.selecting_unit != self)
 	):
-		highlight_card()
-		TargetSelection.selected_cards.append(self)
+		highlight_card(true)
+		TargetSelection.selected_targets.append(self)
+		if len(TargetSelection.selected_targets) == TargetSelection.number_of_targets_to_select:
+			TargetSelection.target_selection_finished.emit()
 
 	elif (
 		left_mouse_button_pressed 
@@ -435,6 +449,8 @@ func _on_gui_input(event):
 		and self in TargetSelection.selected_targets
 	):
 		TargetSelection.selected_targets.erase(self)
+		for p_id in [GameManager.p1_id, GameManager.p2_id]:
+			MultiPlayerManager.set_border_to_faction.rpc_id(p_id, card_owner_id, card_in_play_index)
 
 	elif (
 		left_mouse_button_pressed 
@@ -456,23 +472,37 @@ func _on_gui_input(event):
 		TargetSelection.clear_selections()
 		select_for_movement()
 	
-	elif right_mouse_button_pressed and sel_card and card_owner_id != GameManager.player_id:
-		var ps_to_attack_from = sel_card.spaces_in_range_to_attack_card(self)
+	# If the player selects a card for movement and clicks the card again we want to clear the 
+	# selections
+	elif (
+		left_mouse_button_pressed 
+		and card_sel_for_movement 
+		and card_owner_id == GameManager.player_id
+	):
+		if card_sel_for_movement == self and !exhausted:
+			TargetSelection.clear_selections()
+	
+	elif (
+		right_mouse_button_pressed 
+		and card_sel_for_movement 
+		and card_owner_id != GameManager.player_id
+	):
+		var ps_to_attack_from = card_sel_for_movement.spaces_in_range_to_attack_card(self)
 
 		if (
 			len(ps_to_attack_from) > 0 
-			and sel_card.card_owner_id != card_owner_id
+			and card_sel_for_movement.card_owner_id != card_owner_id
 			and !TargetSelection.card_to_be_attacked
 		):
 			TargetSelection.card_to_be_attacked = self
 
 		elif (
-				sel_card.card_owner_id != card_owner_id
+				card_sel_for_movement.card_owner_id != card_owner_id
 				and TargetSelection.card_to_be_attacked == self
 			):
-				sel_card.move_and_attack(self)
+				card_sel_for_movement.move_and_attack(self)
 				Input.set_custom_mouse_cursor(null)
-				sel_card.exhaust()
+				card_sel_for_movement.exhaust()
 
 
 func _get_card_in_play_index() -> int:

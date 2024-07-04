@@ -1137,10 +1137,10 @@ func get_card_class(card_index: int) -> Variant:
 
 		## Animal ###
 
-		#cards.ATTACK_COMMAND:
-			#card = AttackCommand
 		cards.GORILLA:
 			card = Gorilla
+		cards.ATTACK_COMMAND:
+			card = AttackCommand
 		#cards.WARTHOG_BERSERKER:
 			#card = WarthogBerserker
 		cards.GOOSE:

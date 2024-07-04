@@ -38,7 +38,29 @@ func resolve_damage(card_owner_id, cip_index, value):
 
 
 @rpc("any_peer", "call_local")
-func play_unit(card_index: int, hand_index: int, card_owner_id: int, column: int, row: int) -> void:
+func play_spell(
+	card_index: int, hand_index: int, card_owner_id: int, column: int, row: int
+) -> void:
+	var hand_card: CardInHand = GameManager.cards_in_hand[card_owner_id][hand_index]
+	var h_index = hand_card.hand_index
+	GameManager.zoom_preview.lock_zoom_preview_hand(hand_card)
+	var card: CardInPlay = CardDatabase.get_card_class(hand_card.card_index).new()
+	card.card_owner_id = hand_card.card_owner_id
+	
+	var succesfull_resolve: bool = await card.resolve_spell(column, row)
+	if succesfull_resolve:
+		GameManager.resources[card_owner_id].pay_costs(hand_card.costs)
+		MultiPlayerManager.remove_card_from_hand(card_owner_id, h_index)
+	
+	GameManager.zoom_preview.reset_zoom_preview()
+
+	TargetSelection.end_selecting()
+
+
+
+
+@rpc("any_peer", "call_local")
+func play_unit(card_index: int, card_owner_id: int, column: int, row: int) -> void:
 	var card: CardInPlay = card_in_play_scene.instantiate()
 	card.set_script(CardDatabase.get_card_class(card_index))
 	card.card_owner_id = card_owner_id
@@ -48,11 +70,21 @@ func play_unit(card_index: int, hand_index: int, card_owner_id: int, column: int
 	GameManager.cards_in_play[card_owner_id].append(card)
 	GameManager.battle_map.add_child(card)
 	GameManager.zoom_preview.reset_zoom_preview()
-	GameManager.cards_in_hand[card_owner_id][hand_index].queue_free()
-	GameManager.remove_card_from_hand(card_owner_id, hand_index)
-	set_hand_card_positions()
 	set_progress_bars()
-	
+
+
+@rpc("any_peer", "call_local")
+func remove_card_from_hand(card_owner_id: int, hand_index: int) -> void:
+	var card: CardInHand = GameManager.cards_in_hand[card_owner_id][hand_index]
+	GameManager.cards_in_hand[card_owner_id].remove_at(hand_index)
+	set_hand_card_positions()
+	card.queue_free()
+
+@rpc("any_peer", "call_local")
+func highlight_card(card_owner_id: int, cip_index: int):
+	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
+	var border_style = load("res://styling/card_borders/CardSelectedBorder.tres")
+	card.add_theme_stylebox_override("panel", border_style)
 
 
 @rpc("any_peer", "call_local")
@@ -67,12 +99,6 @@ func create_hand_card(card_owner_id: int, card_index: int) -> void:
 func set_resources(
 	resource_owner_id: int, gold: int, animal: int, magic: int, nature: int, robot: int
 ) -> void:
-	var resources: Resources = GameManager.resources[resource_owner_id]
-	resources.gold = gold
-	resources.animal = animal
-	resources.magic = magic
-	resources.nature = nature
-	resources.robot = robot
 	GameManager.resource_bars[resource_owner_id].set_resources_labels(
 		gold, animal, magic, nature, robot
 	)
@@ -153,9 +179,15 @@ func animate_attack(card_owner_id: int, card_in_play_index: int, direction: int)
 			card.position.x += MapSettings.play_space_size.x / 2
 
 
-@rpc("call_local")
+@rpc("any_peer", "call_local")
 func set_hand_card_positions() -> void:
 	for p in GameManager.cards_in_hand:
 		for k in range(len(GameManager.cards_in_hand[p])):
 			var card: CardInHand = GameManager.cards_in_hand[p][k]
 			card.set_card_position()
+
+
+@rpc("any_peer", "call_local")
+func set_border_to_faction(card_owner_id: int, cip_index: int):
+	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
+	card.set_border_to_faction()
