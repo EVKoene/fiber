@@ -49,16 +49,16 @@ func add_resource(faction: int, amount: int) -> void:
 	_update_resources()
 
 
-func spend_resource(faction: Collections.factions, amount: int) -> void:
+func spend_resource(faction: Collections.factions, value: int) -> void:
 	match faction:
 		Collections.factions.ANIMAL:
-			animal -= amount
+			animal -= value
 		Collections.factions.MAGIC:
-			magic -= amount
+			magic -= value
 		Collections.factions.NATURE:
-			nature -= amount
+			nature -= value
 		Collections.factions.ROBOT:
-			robot -= amount
+			robot -= value
 	
 	_update_resources()
 
@@ -115,4 +115,6 @@ func get_resources() -> Dictionary:
 
 func _update_resources() -> void:
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		MultiPlayerManager.set_resources.rpc_id(p_id, resources_owner_id, gold, animal, magic, nature, robot)
+		MultiPlayerManager.set_resources.rpc_id(
+			p_id, resources_owner_id, gold, animal, magic, nature, robot
+			)

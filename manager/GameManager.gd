@@ -3,6 +3,7 @@ extends Node
 var players := {}
 var p1_id: int
 var p2_id: int
+var player_ids: Array: get = _get_player_ids
 
 var battle_map
 var resource_spaces := []
@@ -38,6 +39,5 @@ func opposing_player_id(p_id: int) -> int:
 		return p1_id
 
 
-@rpc("call_local")
-func remove_card_from_hand(p_id: int, hand_index: int) -> void:
-	GameManager.cards_in_hand[p_id].remove_at(hand_index)
+func _get_player_ids() -> Array:
+	return [p1_id, p2_id]

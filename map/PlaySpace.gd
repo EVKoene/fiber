@@ -125,6 +125,14 @@ func distance_to_play_space(goal_space: PlaySpace, ignore_obstacles: bool) -> in
 		return distance[goal_space]
 
 
+func in_play_range(play_range: int, card_owner_id: int) -> bool:
+	for c in GameManager.cards_in_play[card_owner_id]:
+		if distance_to_play_space(c.current_play_space, true) <= play_range:
+			return true
+	
+	return false
+
+
 func direction_from_play_space(play_space: PlaySpace) -> int:
 	var direction: int
 	if GameManager.is_player_1:
@@ -164,11 +172,23 @@ func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 
 
 func _drop_data(_at_position: Vector2, data: Variant) -> void:
+	var c_owner_id: int = data.card_owner_id
+	var h_index: int = data.hand_index
 	match data.card_type:
 		Collections.card_types.UNIT:
-			data.play_unit(column, row)
+			GameManager.resources[data.card_owner_id].pay_costs(data.costs)
+			for p_id in [GameManager.p1_id, GameManager.p2_id]:
+				MultiPlayerManager.play_unit.rpc_id(
+					p_id, data.card_index, data.card_owner_id, column, row
+				)
+				MultiPlayerManager.remove_card_from_hand.rpc_id(
+					p_id, c_owner_id, h_index
+				)
 		Collections.card_types.SPELL:
-			assert(false, "Playing spells not implemented yet")
+			for p_id in [GameManager.p1_id, GameManager.p2_id]:
+				MultiPlayerManager.play_spell.rpc_id(
+					p_id, data.card_index, data.hand_index, data.card_owner_id, column, row
+				)
 
 
 func _set_play_space_attributes() -> void:

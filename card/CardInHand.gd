@@ -28,20 +28,38 @@ func _ready():
 	_set_drag_node_properties()
 
 
-func play_unit(column: int, row: int) -> void:
-	# We need to save the var here to prevent it from disappearing before being sent to the other
-	# player
-	var h_index = hand_index
-	GameManager.resources[card_owner_id].pay_costs(costs)
-	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		MultiPlayerManager.play_unit.rpc_id(
-			p_id, card_index, h_index, card_owner_id, column, row
-		)
-
-
 func highlight_card():
 	border_style = load("res://styling/card_borders/CardSelectedBorder.tres")
 	add_theme_stylebox_override("panel", border_style)
+
+
+func can_target_unit(card: CardInPlay) -> bool:
+	if card_type == Collections.card_types.UNIT:
+		return false
+
+	if card:
+		if card_range >= 0 and !card.current_play_space.in_play_range(card_range, card_owner_id):
+			return false
+
+	var can_target := false
+	var target_restrictions = CardDatabase.cards_info[card_index]["TargetRestrictions"]
+
+	if target_restrictions == TargetSelection.target_restrictions.ANY_SPACE:
+		return true
+	elif !card:
+		return false
+
+	match target_restrictions:
+		TargetSelection.target_restrictions.ANY_UNITS:
+			can_target = true
+		TargetSelection.target_restrictions.OWN_UNITS:
+			if card.card_owner_id == card_owner_id:
+				can_target = true
+		TargetSelection.target_restrictions.OPPONENT_UNITS:
+			if card.card_owner_id != card_owner_id:
+				can_target = true
+
+	return can_target
 
 
 func set_border():
@@ -189,10 +207,7 @@ func _set_drag_node_properties() -> void:
 
 
 func _on_mouse_entered():
-	GameManager.zoom_preview.hover_zoom_preview(
-		attack, health, movement, costs.animal, costs.magic, costs.nature, costs.robot, ingame_name,
-		card_type, factions, card_text, img_path, card_range
-	)
+	GameManager.zoom_preview.hover_zoom_preview_hand(self)
 
 
 func _get_hand_index() -> int:

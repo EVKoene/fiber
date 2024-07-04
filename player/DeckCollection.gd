@@ -105,14 +105,10 @@ var opponent_testing_deck: Dictionary = animal_deck
 
 var player_testing_deck: Dictionary = {
 	"Cards": {
-		cards.GOOSE: 20,
-		cards.GORILLA: 20,
-		cards.HOMUNCULUS: 20,
+		cards.ATTACK_COMMAND: 20
 	},
 	"StartingCards": {
-		cards.GORILLA: 3,
+		cards.GORILLA: 2,
+		cards.GOOSE: 1,
 	}
 }
-#[
-	#animal_deck, magic_deck, nature_deck, robot_deck
-#].pick_random()
