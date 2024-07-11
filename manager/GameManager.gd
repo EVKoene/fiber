@@ -32,6 +32,12 @@ var cards_in_hand := {}
 var cards_in_play := {}
 
 
+func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:
+	for p_id in [p1_id, p2_id]:
+		for card in cards_in_play[p_id]:
+			await card.call_triggered_funcs(trigger, triggering_card)
+
+
 func opposing_player_id(p_id: int) -> int:
 	if p_id == p1_id:
 		return p2_id

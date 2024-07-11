@@ -33,7 +33,7 @@ func resolve_damage(card_owner_id, cip_index, value):
 	
 	card.battle_stats.change_health(-value, -1)
 	card.update_stats()
-	if card.health < 0:
+	if card.health <= 0:
 		card.destroy()
 
 
@@ -135,8 +135,11 @@ func set_progress_bars() -> void:
 
 
 @rpc("any_peer", "call_local")
-func remove_from_cards_in_play(card_owner_id: int, card_in_play_index: int) -> void:
-	GameManager.cards_in_play[card_owner_id].remove_at(card_in_play_index)
+func remove_from_cards_in_play(card: CardInPlay) -> void:
+	var card_owner_id := card.card_owner_id
+	var card_in_play_index := card.card_in_play_index
+	for p_id in GameManager.players:
+		GameManager.cards_in_play[card_owner_id].remove_at(card_in_play_index)
 
 
 @rpc("any_peer", "call_local")
@@ -144,7 +147,6 @@ func move_to_play_space(
 	card_owner_id: int, card_in_play_index: int, new_column: int, new_row: int
 ) -> void:
 	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][card_in_play_index]
-	
 	assert(
 		!GameManager.ps_column_row[new_column][new_row].card_in_this_play_space, 
 		"tried to move to occupied space"

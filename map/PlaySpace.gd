@@ -162,6 +162,30 @@ func direction_from_play_space(play_space: PlaySpace) -> int:
 	return direction
 
 
+func path_to_closest_movable_space(
+	goal_space: PlaySpace, max_moves: int, ignore_obstacles: bool
+) -> PlaySpacePath:
+	var queue: Array = [goal_space]
+	var tried_spaces: Array = []
+	
+	while len(queue) > 0:
+		var ps = queue.pop_front()
+		var path_to_ps = find_play_space_path(ps, ignore_obstacles)
+		if path_to_ps.path_length > 0 and path_to_ps.path_length <= max_moves + 1:
+			# We add 1 to the max moves because the path_length includes the starting space
+			return path_to_ps
+		else:
+			for adj_ps in ps.adjacent_play_spaces():
+				var path_to_adj_ps = find_play_space_path(adj_ps, ignore_obstacles)
+				if path_to_adj_ps.path_length > 0  and path_to_adj_ps.path_length < max_moves:
+					return path_to_adj_ps
+				elif adj_ps not in tried_spaces and !adj_ps.card_in_this_play_space:
+					queue.append(adj_ps)
+					tried_spaces.append(adj_ps)
+	
+	return PlaySpacePath.new(goal_space, self, false)
+
+
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 	if in_starting_area(data) and data.card_type == Collections.card_types.UNIT:
 		return true

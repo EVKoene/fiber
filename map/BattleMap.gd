@@ -43,7 +43,6 @@ func _start_first_turn() -> void:
 	GameManager.turn_manager.hide_end_turn_button.rpc_id(
 		GameManager.opposing_player_id(first_player_id)
 	)
-	GameManager.turn_manager.starting_turn_player_id = first_player_id
 	GameManager.turn_manager.show_start_turn_text.rpc_id(first_player_id)
 
 
@@ -230,8 +229,12 @@ func _create_resources():
 
 func _input(_event):
 	if (
-		Input.is_action_just_pressed("ui_accept") or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
-		and GameManager.turn_manager.starting_turn_player_id == GameManager.player_id
+		(
+			Input.is_action_just_pressed("ui_accept") 
+			or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
+		)
+		and GameManager.turn_manager.can_start_turn
 	):
+		GameManager.turn_manager.can_start_turn = false
 		$TextBox.hide()
 		GameManager.turn_manager.start_turn.rpc_id(GameManager.p1_id, GameManager.player_id)
