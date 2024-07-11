@@ -16,7 +16,8 @@ enum turn_stages { CARD_PLAYS, END_TURN, START_TURN }
 # basically whenever we're handling consequences of actions such as playing a card or starting the
 # turn
 @export var turn_actions_enabled := false
-@export var starting_turn_player_id: int
+
+var can_start_turn := false
 
 
 func _ready():
@@ -26,18 +27,22 @@ func _ready():
 @rpc("call_local")
 func show_start_turn_text() -> void:
 	GameManager.battle_map.show_text("It's your turn!")
+	can_start_turn = true
 
 
 @rpc("any_peer", "call_local")
 func start_turn(player_id: int) -> void:
-	starting_turn_player_id = -1
+	assert(GameManager.is_server, "Start turn func should only be called by server")
 	turn_stage = turn_stages.START_TURN
 	turn_owner_id = player_id
+	turn_count += 1
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		turn_count += 1
 		refresh_resources.rpc_id(p_id, player_id)
 	for c in GameManager.cards_in_play[player_id]:
 		c.refresh()
+	for p in GameManager.players:
+		for c in GameManager.cards_in_play[p]:
+			c.call_triggered_funcs(Collections.triggers.TURN_STARTED, c)
 	show_end_turn_button.rpc_id(player_id)
 	turn_actions_enabled = true
 
@@ -61,7 +66,6 @@ func end_turn(player_id: int) -> void:
 	turn_stage = turn_stages.END_TURN
 	hide_end_turn_button.rpc_id(player_id)
 	var next_player_id: int = GameManager.opposing_player_id(player_id)
-	starting_turn_player_id = next_player_id
 	show_start_turn_text.rpc_id(next_player_id)
 
 

@@ -35,7 +35,6 @@ var max_font: int
 var card_in_play_index: int: get = _get_card_in_play_index
 
 func _ready():
-	GameManager.cards_in_play[card_owner_id].append(self)
 	_load_card_properties()
 	_create_battle_stats()
 	_create_costs()
@@ -48,6 +47,8 @@ func _ready():
 		flip_card()
 	scale *= MapSettings.card_in_play_size/size
 	GameManager.ps_column_row[column][row].card_in_this_play_space = self
+	if GameManager.is_server:
+		GameManager.call_deferred("call_triggered_funcs", Collections.triggers.CARD_CREATED, self)
 
 
 func select_card(show_select: bool) -> void:
@@ -56,24 +57,22 @@ func select_card(show_select: bool) -> void:
 	highlight_card(show_select)
 
 
-func attack_card(c_owner_id: int, c_in_play_index: int) -> void:
-	var card: CardInPlay = GameManager.cards_in_play[c_owner_id][c_in_play_index]
+func attack_card(target_card: CardInPlay) -> void:
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
 		MultiPlayerManager.animate_attack.rpc_id(
 			p_id, card_owner_id, card_in_play_index, 
-			card.current_play_space.direction_from_play_space(current_play_space)
+			target_card.current_play_space.direction_from_play_space(current_play_space)
 		)
 	
-	deal_damage_to_card(card.card_owner_id, card.card_in_play_index, attack)
+	deal_damage_to_card(target_card, attack)
 
 
-func deal_damage_to_card(c_owner_id: int, cip_index: int, value: int) -> void:
-	var card: CardInPlay = GameManager.cards_in_play[c_owner_id][cip_index]
+func deal_damage_to_card(card: CardInPlay, value: int) -> void:
 	card.resolve_damage(value)
 
 
 func move_to_play_space(new_column: int, new_row: int) -> void:
-	for p_id in [GameManager.p1_id, GameManager.p2_id]:
+	for p_id in GameManager.players:
 		MultiPlayerManager.move_to_play_space.rpc_id(
 			p_id, card_owner_id, card_in_play_index, 
 			new_column, new_row
@@ -83,7 +82,6 @@ func move_to_play_space(new_column: int, new_row: int) -> void:
 func move_over_path(path: PlaySpacePath) -> void:
 	GameManager.turn_manager.turn_actions_enabled = false
 	TargetSelection.clear_arrows()
-	
 	if path.path_length > 0:
 		for s in range(path.path_length):
 			# We ignore the first playspace in path because it's the space the card is in. We 
@@ -105,25 +103,25 @@ func move_over_path(path: PlaySpacePath) -> void:
 	
 	GameManager.turn_manager.turn_actions_enabled = true
 	TargetSelection.end_selecting()
-	for p_id in [GameManager.p1_id, GameManager.p2_id]:
+	for p_id in GameManager.players:
 		MultiPlayerManager.set_progress_bars.rpc_id(p_id)
 
 
-func move_and_attack(card: CardInPlay) -> void:
+func move_and_attack(target_card: CardInPlay) -> void:
 	if TargetSelection.current_path:
-		if TargetSelection.current_path.last_space in spaces_in_range_to_attack_card(card):
+		if TargetSelection.current_path.last_space in spaces_in_range_to_attack_card(target_card):
 			await(move_over_path(TargetSelection.current_path))
-			attack_card(card.card_owner_id, card.card_in_play_index)
+			attack_card(target_card)
 	
 	else:
-		var spaces_to_attack_from: Array = spaces_in_range_to_attack_card(card)
+		var spaces_to_attack_from: Array = spaces_in_range_to_attack_card(target_card)
 		if len(spaces_to_attack_from) == 0:
 			assert(false, str(ingame_name, " tried to attack unit that is not in range"))
 		var path_to_space: PlaySpacePath = current_play_space.find_play_space_path(
 			spaces_to_attack_from.pick_random(), move_through_units
 		)
 		await(move_over_path(path_to_space))
-		attack_card(card.card_owner_id, card.card_in_play_index)
+		attack_card(target_card)
 
 
 func select_for_movement() -> void:
@@ -139,7 +137,7 @@ func refresh():
 
 
 func exhaust():
-	for p_id in [GameManager.p1_id, GameManager.p2_id]:
+	for p_id in GameManager.players:
 		MultiPlayerManager.exhaust_unit.rpc_id(p_id, card_owner_id, card_in_play_index)
 
 
@@ -159,15 +157,14 @@ func reset_card_stats():
 
 
 func resolve_damage(value: int) -> void:
+	var c_id := card_owner_id
+	var cip_index := card_in_play_index
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		MultiPlayerManager.resolve_damage.rpc_id(p_id, card_owner_id, card_in_play_index, value)
+		MultiPlayerManager.resolve_damage.rpc_id(p_id, c_id, cip_index, value)
 
 
 func destroy() -> void:
-	# We need to store the index in a var so it hasn't disappeared in the second loop
-	var cip_index := card_in_play_index
-	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		MultiPlayerManager.remove_from_cards_in_play.rpc_id(p_id, card_owner_id, cip_index)
+	remove_from_cards_in_play()
 	queue_free()
 
 
@@ -195,6 +192,13 @@ func update_stats() -> void:
 	health = battle_stats.health
 	movement = battle_stats.movement
 	_set_labels()
+
+
+func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:
+	for f in triggered_funcs:
+		await TriggeredCardFuncs.call(
+			f["FuncName"], self, trigger, triggering_card, f["FuncArguments"]
+		)
 
 
 func spaces_in_range(range_to_check: int, ignore_obstacles: bool) -> Array:
@@ -301,6 +305,11 @@ func unflip_card() -> void:
 	$CardImage.flip_v = false
 
 
+@rpc("any_peer", "call_local")
+func remove_from_cards_in_play() -> void:
+	GameManager.cards_in_play[card_owner_id].remove_at(card_in_play_index)
+
+
 func _load_card_properties() -> void:
 	card_data = CardDatabase.cards_info[card_index]
 	ingame_name = card_data["InGameName"]
@@ -337,7 +346,7 @@ func _set_card_text_font_size() -> void:
 		card_text_font_size = max_font
 	else: 
 		card_text_font_size = (
-			max_font - float($VBox/BotInfo/CardTextLabel.get_line_count()) * font_change_per_line
+			max_font - float($VBox/BotInfo/CardText.get_line_count()) * font_change_per_line
 		)
 	
 	$VBox/TopInfo/CardNameBG/CardName.label_settings.font_size = max_font

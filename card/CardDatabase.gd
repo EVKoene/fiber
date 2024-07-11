@@ -59,25 +59,6 @@ var cards_info = {
 		"IMGPath": "res://library/animal/images/AttackCommand.png",
 	},
 	
-	cards.WARTHOG_BERSERKER: {
-		"InGameName": "WarthogBerserker",
-		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.ANIMAL],
-		"Costs": {
-			Collections.factions.ANIMAL: 2, # 2
-			Collections.factions.MAGIC: 0,
-			Collections.factions.NATURE: 0,
-			Collections.factions.ROBOT: 0,
-		},
-		"Attack": 3,
-		"Health": 3,
-		"Movement": 2,
-		"Lord": false,
-		"Text": "Frenzy (move towards the closest enemy unit and attack if possible. Then exhaust)",
-		"Purposes": [Collections.purposes.BATTLE],
-		"IMGPath": "res://library/animal/images/WarthogBerserker.png",
-	},
-	
 	cards.GOOSE: {
 		"InGameName": "Goose",
 		"CardType": Collections.card_types.UNIT,
@@ -95,6 +76,25 @@ var cards_info = {
 		"Text": "",
 		"Purposes": [Collections.purposes.BATTLE, Collections.purposes.DEFEND_RESOURCE],
 		"IMGPath": "res://library/animal/images/Goose.png",
+	},
+	
+	cards.WARTHOG_BERSERKER: {
+		"InGameName": "WarthogBerserker",
+		"CardType": Collections.card_types.UNIT,
+		"Factions": [Collections.factions.ANIMAL],
+		"Costs": {
+			Collections.factions.ANIMAL: 3, # 3
+			Collections.factions.MAGIC: 0,
+			Collections.factions.NATURE: 0,
+			Collections.factions.ROBOT: 0,
+		},
+		"Attack": 3,
+		"Health": 3,
+		"Movement": 2,
+		"Lord": false,
+		"Text": "Frenzy (move towards the closest enemy unit and attack if possible. Then exhaust)",
+		"Purposes": [Collections.purposes.BATTLE],
+		"IMGPath": "res://library/animal/images/WarthogBerserker.png",
 	},
 	
 	cards.SNEK: {
@@ -1141,8 +1141,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = Gorilla
 		cards.ATTACK_COMMAND:
 			card = AttackCommand
-		#cards.WARTHOG_BERSERKER:
-			#card = WarthogBerserker
+		cards.WARTHOG_BERSERKER:
+			card = WarthogBerserker
 		cards.GOOSE:
 			card = Goose
 		#cards.SNEK:
