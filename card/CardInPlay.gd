@@ -72,11 +72,13 @@ func deal_damage_to_card(card: CardInPlay, value: int) -> void:
 
 
 func move_to_play_space(new_column: int, new_row: int) -> void:
+	GameManager.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, self)	
 	for p_id in GameManager.players:
 		MultiPlayerManager.move_to_play_space.rpc_id(
 			p_id, card_owner_id, card_in_play_index, 
 			new_column, new_row
 		)
+	GameManager.call_triggered_funcs(Collections.triggers.CARD_MOVED, self)
 
 
 func move_over_path(path: PlaySpacePath) -> void:
@@ -93,8 +95,8 @@ func move_over_path(path: PlaySpacePath) -> void:
 				# We increase and decrease the z index to make sure the card will move over the card
 				# it passes through
 				z_index += 50
-				position.x = path.path_spaces[s].position.x + MapSettings.play_space_size.x * 0.1
-				position.y = path.path_spaces[s].position.y + MapSettings.play_space_size.y * 0.1
+				position.x = path.path_spaces[s].position.x + MapSettings.play_space_size.x * 0.05
+				position.y = path.path_spaces[s].position.y + MapSettings.play_space_size.y * 0.05
 				z_index -= 50
 			else:
 				await get_tree().create_timer(0.25).timeout
@@ -261,7 +263,7 @@ func set_border_to_faction():
 				border_style = load(str("res://styling/card_borders/NatureRobotBorder.tres"))
 		_:
 			border_style = load(str("res://styling/card_borders/MultiFactionCardBorder.tres"))
-	
+ 	
 	add_theme_stylebox_override("panel", border_style)
 
 
@@ -354,8 +356,9 @@ func _set_card_text_font_size() -> void:
 
 
 func set_position_to_play_space() -> void:
-	position.x = MapSettings.get_column_start_x(column) + MapSettings.play_space_size.x * 0.1
-	position.y = MapSettings.get_row_start_y(row) + MapSettings.play_space_size.y * 0.1
+	# TODO: Calculate an exact position while adjusting for the border
+	position.x = MapSettings.get_column_start_x(column) + MapSettings.play_space_size.x * 0.05
+	position.y = MapSettings.get_row_start_y(row) + MapSettings.play_space_size.y * 0.05
 	z_index = play_space.z_index - 1
 
 
@@ -496,6 +499,7 @@ func _on_gui_input(event):
 		and card_sel_for_movement 
 		and card_owner_id != GameManager.player_id
 	):
+		GameManager.turn_manager.turn_actions_enabled = false
 		var ps_to_attack_from = card_sel_for_movement.spaces_in_range_to_attack_card(self)
 
 		if (
@@ -512,6 +516,8 @@ func _on_gui_input(event):
 				card_sel_for_movement.move_and_attack(self)
 				Input.set_custom_mouse_cursor(null)
 				card_sel_for_movement.exhaust()
+		
+		GameManager.turn_manager.turn_actions_enabled = true
 
 
 func _get_card_in_play_index() -> int:

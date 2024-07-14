@@ -70,8 +70,8 @@ var cards_info = {
 			Collections.factions.ROBOT: 0,
 		},
 		"Attack": 2,
-		"Health": 3,
-		"Movement": 1,
+		"Health": 2,
+		"Movement": 2,
 		"Lord": false,
 		"Text": "",
 		"Purposes": [Collections.purposes.BATTLE, Collections.purposes.DEFEND_RESOURCE],
@@ -102,7 +102,7 @@ var cards_info = {
 		"CardType": Collections.card_types.UNIT,
 		"Factions": [Collections.factions.ANIMAL],
 		"Costs": {
-			Collections.factions.ANIMAL: 2, # 2
+			Collections.factions.ANIMAL: 3, # 3
 			Collections.factions.MAGIC: 0,
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
@@ -113,6 +113,7 @@ var cards_info = {
 		"Lord": false,
 		"Text": "When an opponent unit enters an adjacent space, deal 1 damage to it",
 		"Purposes": [Collections.purposes.DEFEND_RESOURCE],
+	
 		"IMGPath": "res://library/animal/images/Snek.jpg",
 		},
 	
@@ -121,13 +122,13 @@ var cards_info = {
 		"CardType": Collections.card_types.UNIT,
 		"Factions": [Collections.factions.ANIMAL],
 		"Costs": {
-			Collections.factions.ANIMAL: 3, # 3
+			Collections.factions.ANIMAL: 4, # 3
 			Collections.factions.MAGIC: 0,
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
 		},
 		"Attack": 3,
-		"Health": 2,
+		"Health": 1,
 		"Movement": 1,
 		"Lord": false,
 		"Text": "Add 2 attack and 1 movement to the units in adjacent spaces",
@@ -1145,8 +1146,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = WarthogBerserker
 		cards.GOOSE:
 			card = Goose
-		#cards.SNEK:
-			#card = Snek
+		cards.SNEK:
+			card = Snek
 		#cards.GORILLA_BATTLECALLER:
 			#card = GorillaBattlecaller
 		#cards.RHINOCEROS:
