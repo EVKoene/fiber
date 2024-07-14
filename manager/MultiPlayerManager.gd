@@ -21,7 +21,6 @@ func refresh_unit(card_owner_id: int, cip_index: int):
 @rpc("any_peer", "call_local")
 func exhaust_unit(card_owner_id: int, cip_index: int):
 	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
-	print("Exhausting ", card.ingame_name)
 	card.modulate = Color(0.5, 0.5, 0.5, 1)
 	card.exhausted = true
 
