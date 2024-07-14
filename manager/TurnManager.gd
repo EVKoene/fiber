@@ -9,7 +9,7 @@ class_name TurnManager
 
 enum turn_stages { CARD_PLAYS, END_TURN, START_TURN }
 
-@export var turn_count := 0
+@export var turn_count := 1
 @export var turn_owner_id: int
 @export var turn_stage: int
 # Turn actions should be disabled whenever we don't want te player to be able to make a move,

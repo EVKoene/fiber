@@ -97,7 +97,8 @@ func _set_play_space_size() -> void:
 	var ps_size: int = min(min_column_length, min_row_length)
 
 	MapSettings.play_space_size = Vector2(ps_size, ps_size)
-	MapSettings.card_in_play_size = Vector2(ps_size, ps_size) * 0.8
+	# TODO: Calculate an exact size based on borderwidth of playspace and card border
+	MapSettings.card_in_play_size = Vector2(ps_size, ps_size) * 0.9
 
 
 func _create_play_spaces() -> void:
@@ -127,7 +128,8 @@ func _set_zoom_preview_position_and_size() -> void:
 	var zoom_preview_size: Vector2 = Vector2(
 		MapSettings.total_screen.x * 0.2, MapSettings.total_screen.x * 0.2
 	)
-	$ZoomPreview.position.x = MapSettings.total_screen.x - zoom_preview_size.x
+	# Multiplying the zoom_preview_size.x with 1.1 to adjust for border size
+	$ZoomPreview.position.x = MapSettings.total_screen.x - zoom_preview_size.x * 1.05 
 	$ZoomPreview.position.y = MapSettings.play_area_start.y
 	$ZoomPreview.scale.x *= zoom_preview_size.x / $ZoomPreview.size.x
 	$ZoomPreview.scale.y *= zoom_preview_size.x / $ZoomPreview.size.y
