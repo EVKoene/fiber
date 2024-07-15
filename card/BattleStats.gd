@@ -51,7 +51,7 @@ func change_movement(value: int, turn_duration: int) -> void:
 
 func _get_attack() -> int:
 	var modified_attack = base_attack
-	modified_attack += card.play_space.stat_modifier[
+	modified_attack += card.current_play_space.stat_modifier[
 		card.card_owner_id
 	][Collections.stats.ATTACK]
 
@@ -62,7 +62,7 @@ func _get_attack() -> int:
 
 func _get_health() -> int:
 	var modified_health = base_health
-	modified_health += card.play_space.stat_modifier[
+	modified_health += card.current_play_space.stat_modifier[
 		card.card_owner_id
 	][Collections.stats.HEALTH]
 
@@ -73,7 +73,7 @@ func _get_health() -> int:
 
 func _get_movement() -> int:
 	var modified_movement: int = base_movement
-	modified_movement += card.play_space.stat_modifier[
+	modified_movement += card.current_play_space.stat_modifier[
 		card.card_owner_id
 	][Collections.stats.MOVEMENT]
 

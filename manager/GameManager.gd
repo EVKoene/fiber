@@ -1,9 +1,8 @@
 extends Node
 
-var players := {}
 var p1_id: int
 var p2_id: int
-var player_ids: Array: get = _get_player_ids
+var players := {}
 
 var battle_map
 var resource_spaces := []
@@ -43,7 +42,3 @@ func opposing_player_id(p_id: int) -> int:
 		return p2_id
 	else:
 		return p1_id
-
-
-func _get_player_ids() -> Array:
-	return [p1_id, p2_id]

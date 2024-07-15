@@ -122,7 +122,7 @@ var cards_info = {
 		"CardType": Collections.card_types.UNIT,
 		"Factions": [Collections.factions.ANIMAL],
 		"Costs": {
-			Collections.factions.ANIMAL: 4, # 3
+			Collections.factions.ANIMAL: 0, # 4
 			Collections.factions.MAGIC: 0,
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
@@ -1148,8 +1148,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = Goose
 		cards.SNEK:
 			card = Snek
-		#cards.GORILLA_BATTLECALLER:
-			#card = GorillaBattlecaller
+		cards.GORILLA_BATTLECALLER:
+			card = GorillaBattlecaller
 		#cards.RHINOCEROS:
 			#card = Rhinoceros
 		#cards.FOLLOW_PHEROMONES:

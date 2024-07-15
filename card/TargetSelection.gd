@@ -73,7 +73,7 @@ func clear_selections() -> void:
 	card_selected_for_movement = null
 	selected_card = null
 	selected_targets = []
-	for p in GameManager.player_ids:
+	for p in GameManager.players:
 		for c in GameManager.cards_in_play[p]:
 			c.set_border_to_faction()
 
@@ -82,6 +82,7 @@ func clear_paths() -> void:
 	if current_path:
 		current_path.queue_free()
 		current_path = null
+	clear_arrows()
 
 
 func clear_arrows() -> void:

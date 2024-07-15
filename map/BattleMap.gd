@@ -110,9 +110,9 @@ func _create_play_spaces() -> void:
 			var play_space: PlaySpace = play_space_scene.instantiate()
 			play_space.column = column
 			play_space.row = row
-
 			add_child(play_space)
-
+			MapSettings.play_spaces.append(play_space)
+			
 
 func _set_end_turn_button() -> void:
 	$EndTurnButton.scale.x *= (MapSettings.total_screen.x / 10) / $EndTurnButton.size.x

@@ -30,46 +30,13 @@ func _ready():
 	_set_play_space_attributes()
 	set_border()
 	GameManager.ps_column_row[column][row] = self
-	MapSettings.play_spaces.append(self)
 
 
-func set_border() -> void:
-	if Collections.play_space_attributes.DRAW_CARD_SPACE in attributes:
-		border_style = Styling.draw_card_space_border
-	elif Collections.play_space_attributes.RESOURCE_SPACE in attributes:
-		border_style = Styling.resource_space_border
-	elif Collections.play_space_attributes.P1_START_SPACE in attributes:
-		border_style = Styling.p1_start_space_border
-	elif Collections.play_space_attributes.P2_START_SPACE in attributes:
-		border_style = Styling.p2_start_space_border
-	else:
-		border_style = Styling.base_space_border
-
-	add_theme_stylebox_override("panel", border_style)
-	get_theme_stylebox("panel").border_width_left = size.x / 15
-	get_theme_stylebox("panel").border_width_right = size.x / 15
-	get_theme_stylebox("panel").border_width_top = size.y / 15
-	get_theme_stylebox("panel").border_width_bottom = size.y / 15
-
-
-func highlight_space():
-	border_style = load("res://styling/card_borders/CardSelectedBorder.tres")
-	add_theme_stylebox_override("panel", border_style)
-
-
-func in_starting_area(card: CardInHand) -> bool:
-	if (
-		card.card_owner_id == GameManager.p1_id 
-		and Collections.play_space_attributes.P1_START_SPACE in attributes
-	):
-		return true
-	elif (
-		card.card_owner_id == GameManager.p2_id 
-		and Collections.play_space_attributes.P2_START_SPACE in attributes
-	):
-		return true
-	else:
-		return false
+func update_stat_modifier(card_owner_id: int, stat: int, value: int) -> void:
+	for p_id in GameManager.players:
+		MultiPlayerManager.update_play_space_stat_modifier.rpc_id(
+			p_id, card_owner_id, column, row, stat, value
+		)
 
 
 func find_play_space_path(goal_space: PlaySpace, ignore_obstacles: bool) -> PlaySpacePath:
@@ -186,6 +153,45 @@ func path_to_closest_movable_space(
 	return PlaySpacePath.new(goal_space, self, false)
 
 
+func set_border() -> void:
+	if Collections.play_space_attributes.DRAW_CARD_SPACE in attributes:
+		border_style = Styling.draw_card_space_border
+	elif Collections.play_space_attributes.RESOURCE_SPACE in attributes:
+		border_style = Styling.resource_space_border
+	elif Collections.play_space_attributes.P1_START_SPACE in attributes:
+		border_style = Styling.p1_start_space_border
+	elif Collections.play_space_attributes.P2_START_SPACE in attributes:
+		border_style = Styling.p2_start_space_border
+	else:
+		border_style = Styling.base_space_border
+
+	add_theme_stylebox_override("panel", border_style)
+	get_theme_stylebox("panel").border_width_left = size.x / 15
+	get_theme_stylebox("panel").border_width_right = size.x / 15
+	get_theme_stylebox("panel").border_width_top = size.y / 15
+	get_theme_stylebox("panel").border_width_bottom = size.y / 15
+
+
+func highlight_space():
+	border_style = load("res://styling/card_borders/CardSelectedBorder.tres")
+	add_theme_stylebox_override("panel", border_style)
+
+
+func in_starting_area(card: CardInHand) -> bool:
+	if (
+		card.card_owner_id == GameManager.p1_id 
+		and Collections.play_space_attributes.P1_START_SPACE in attributes
+	):
+		return true
+	elif (
+		card.card_owner_id == GameManager.p2_id 
+		and Collections.play_space_attributes.P2_START_SPACE in attributes
+	):
+		return true
+	else:
+		return false
+
+
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 	if in_starting_area(data) and data.card_type == Collections.card_types.UNIT:
 		return true
@@ -272,9 +278,17 @@ func _on_gui_input(event):
 			selected_for_movement = true
 			TargetSelection.play_space_selected_for_movement = self
 			TargetSelection.making_selection = true
+		
 		else:
-			TargetSelection.end_selecting()
-			Events.clear_paths.emit()
+			TargetSelection.clear_paths()
+			var card_path = card.current_play_space.find_play_space_path(self, card.move_through_units)
+		
+			if card_path.path_length > 0 and card_path.path_length <= card.movement + 1:
+				select_path_to_play_space(card_path)
+			
+			else:
+				TargetSelection.end_selecting()
+				Events.clear_paths.emit()
 
 	elif (
 		right_mouse_button_pressed

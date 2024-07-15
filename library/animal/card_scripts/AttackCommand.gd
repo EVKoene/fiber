@@ -17,7 +17,7 @@ func resolve_spell(c_column: int, c_row: int) -> bool:
 		var card_to_attack: CardInPlay = TargetSelection.selected_targets[0]
 		selected_card.attack_card(card_to_attack)
 		GameManager.resources[card_owner_id].add_resource(Collections.factions.ANIMAL, 1)
-		for p_id in GameManager.player_ids:
+		for p_id in GameManager.players:
 			TargetSelection.end_selecting.rpc_id(p_id)
 		return true
 	else:
