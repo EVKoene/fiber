@@ -57,8 +57,6 @@ func play_spell(
 	TargetSelection.end_selecting()
 
 
-
-
 @rpc("any_peer", "call_local")
 func play_unit(card_index: int, card_owner_id: int, column: int, row: int) -> void:
 	var card: CardInPlay = card_in_play_scene.instantiate()
@@ -80,11 +78,16 @@ func remove_card_from_hand(card_owner_id: int, hand_index: int) -> void:
 	set_hand_card_positions()
 	card.queue_free()
 
+
 @rpc("any_peer", "call_local")
-func highlight_card(card_owner_id: int, cip_index: int):
-	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
-	var border_style = load("res://styling/card_borders/CardSelectedBorder.tres")
-	card.add_theme_stylebox_override("panel", border_style)
+func update_play_space_stat_modifier(
+	card_owner_id: int, column: int, row: int, stat: int, value: int
+) -> void:
+	var play_space: PlaySpace = GameManager.ps_column_row[column][row]
+	play_space.stat_modifier[card_owner_id][stat] += value
+	for p in GameManager.players:
+		for c in GameManager.cards_in_play[p]:
+			c.update_stats()
 
 
 @rpc("any_peer", "call_local")
@@ -157,6 +160,7 @@ func move_to_play_space(
 	card.row = new_row
 	card.current_play_space.card_in_this_play_space = card
 	card.set_position_to_play_space()
+	card.update_stats()
 
 
 @rpc("any_peer", "call_local")
@@ -179,6 +183,13 @@ func animate_attack(card_owner_id: int, card_in_play_index: int, direction: int)
 			card.position.x -= MapSettings.play_space_size.x / 2
 			await get_tree().create_timer(0.25).timeout
 			card.position.x += MapSettings.play_space_size.x / 2
+
+
+@rpc("any_peer", "call_local")
+func highlight_card(card_owner_id: int, cip_index: int):
+	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
+	var border_style = load("res://styling/card_borders/CardSelectedBorder.tres")
+	card.add_theme_stylebox_override("panel", border_style)
 
 
 @rpc("any_peer", "call_local")

@@ -191,6 +191,7 @@ func reset_zoom_preview() -> void:
 	_set_border_to_faction()
 	_set_card_text_visuals()
 	$CardImage.texture = null
+	locked = false
 
 
 func _set_labels() -> void:

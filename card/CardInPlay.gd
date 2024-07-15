@@ -28,7 +28,6 @@ var card_range: int: get = _get_card_range
 var abilities: Array = []
 var triggered_funcs: Array = []
 var purposes: Array = []
-var play_space: PlaySpace: get = _get_play_space
 var border_style: StyleBox
 var move_through_units := false
 var max_font: int
@@ -359,7 +358,7 @@ func set_position_to_play_space() -> void:
 	# TODO: Calculate an exact position while adjusting for the border
 	position.x = MapSettings.get_column_start_x(column) + MapSettings.play_space_size.x * 0.05
 	position.y = MapSettings.get_row_start_y(row) + MapSettings.play_space_size.y * 0.05
-	z_index = play_space.z_index - 1
+	z_index = current_play_space.z_index - 1
 
 
 func _create_battle_stats() -> void:
