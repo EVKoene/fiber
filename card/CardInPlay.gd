@@ -4,7 +4,8 @@ class_name CardInPlay
 
 
 var card_index := 1
-var attack: int
+var max_attack: int
+var min_attack: int
 var health: int
 var movement: int
 var exhausted := false
@@ -63,7 +64,7 @@ func attack_card(target_card: CardInPlay) -> void:
 			target_card.current_play_space.direction_from_play_space(current_play_space)
 		)
 	
-	deal_damage_to_card(target_card, attack)
+	deal_damage_to_card(target_card, randf_range(min_attack, max_attack))
 
 
 func deal_damage_to_card(card: CardInPlay, value: int) -> void:
@@ -102,8 +103,8 @@ func move_over_path(path: PlaySpacePath) -> void:
 				move_to_play_space(path.path_spaces[s].column, path.path_spaces[s].row)
 			
 	
-	GameManager.turn_manager.turn_actions_enabled = true
 	TargetSelection.end_selecting()
+	GameManager.turn_manager.turn_actions_enabled = true
 	for p_id in GameManager.players:
 		MultiPlayerManager.set_progress_bars.rpc_id(p_id)
 
@@ -189,7 +190,8 @@ func shake() -> void:
 	
 	
 func update_stats() -> void:
-	attack = battle_stats.attack
+	max_attack = battle_stats.max_attack
+	min_attack = battle_stats.min_attack
 	health = battle_stats.health
 	movement = battle_stats.movement
 	_set_labels()
@@ -268,7 +270,10 @@ func set_border_to_faction():
 
 func _set_labels() -> void:
 	$VBox/BotInfo/Movement.text = str(movement)
-	$VBox/BotInfo/BattleStats.text = str(attack, "/", health)
+	if max_attack == min_attack:
+		$VBox/BotInfo/BattleStats.text = str(max_attack, "/", health)
+	else:
+		$VBox/BotInfo/BattleStats.text = str(max_attack, "-", min_attack,"/", health)
 	for f in [
 		{
 			"Label": $VBox/TopInfo/Costs/CostLabels/Animal,
@@ -363,7 +368,8 @@ func set_position_to_play_space() -> void:
 
 func _create_battle_stats() -> void:
 	battle_stats = BattleStats.new(
-		card_data["Attack"],
+		card_data["MaxAttack"],
+		card_data["MinAttack"],
 		card_data["Health"],
 		card_data["Movement"],
 		self
@@ -495,10 +501,10 @@ func _on_gui_input(event):
 	
 	elif (
 		right_mouse_button_pressed 
-		and card_sel_for_movement 
+		and card_sel_for_movement
+		and GameManager.turn_manager.turn_actions_enabled 
 		and card_owner_id != GameManager.player_id
 	):
-		GameManager.turn_manager.turn_actions_enabled = false
 		var ps_to_attack_from = card_sel_for_movement.spaces_in_range_to_attack_card(self)
 
 		if (
@@ -512,11 +518,12 @@ func _on_gui_input(event):
 				card_sel_for_movement.card_owner_id != card_owner_id
 				and TargetSelection.card_to_be_attacked == self
 			):
+				GameManager.turn_manager.turn_actions_enabled = false
 				card_sel_for_movement.move_and_attack(self)
 				Input.set_custom_mouse_cursor(null)
 				card_sel_for_movement.exhaust()
 		
-		GameManager.turn_manager.turn_actions_enabled = true
+				GameManager.turn_manager.turn_actions_enabled = true
 
 
 func _get_card_in_play_index() -> int:

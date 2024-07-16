@@ -3,7 +3,8 @@ extends PanelContainer
 
 class_name ZoomPreview
 
-var attack: int
+var max_attack: int
+var min_attack: int
 var health: int
 var movement: int
 var animal_cost: int
@@ -37,13 +38,15 @@ func hover_zoom_preview_hand(
 	img_path = card.img_path
 	
 	if card_type == Collections.card_types.UNIT:
-		attack = card.attack
+		max_attack = card.max_attack
+		min_attack = card.min_attack
 		health = card.health
 		movement = card.movement
 		card_range = 0
 	else:
 		card_range = card.card_range
-		attack = 0
+		max_attack = 0
+		min_attack = 0
 		health = 0
 		movement = 0
 	
@@ -75,13 +78,15 @@ func hover_zoom_preview_play(
 	img_path = card.img_path
 	
 	if card_type == Collections.card_types.UNIT:
-		attack = card.attack
+		max_attack = card.max_attack
+		min_attack = card.min_attack
 		health = card.health
 		movement = card.movement
 		card_range = 0
 	else:
 		card_range = card.card_range
-		attack = 0
+		max_attack = 0
+		min_attack = 0
 		health = 0
 		movement = 0
 	
@@ -112,13 +117,15 @@ func lock_zoom_preview_hand(
 	img_path = card.img_path
 	
 	if card_type == Collections.card_types.UNIT:
-		attack = card.attack
+		max_attack = card.max_attack
+		min_attack = card.min_attack
 		health = card.health
 		movement = card.movement
 		card_range = 0
 	else:
 		card_range = card.card_range
-		attack = 0
+		max_attack = 0
+		min_attack = 0
 		health = 0
 		movement = 0
 	
@@ -149,13 +156,15 @@ func lock_zoom_preview_play(
 	img_path = card.img_path
 	
 	if card_type == Collections.card_types.UNIT:
-		attack = card.attack
+		max_attack = card.max_attack
+		min_attack = card.min_attack
 		health = card.health
 		movement = card.movement
 		card_range = 0
 	else:
 		card_range = card.card_range
-		attack = 0
+		max_attack = 0
+		min_attack = 0
 		health = 0
 		movement = 0
 	
@@ -172,7 +181,8 @@ func lock_zoom_preview_play(
 
 
 func reset_zoom_preview() -> void:
-	attack = 0
+	max_attack = 0
+	min_attack = 0
 	health = 0
 	movement = 0
 	animal_cost = 0
@@ -197,7 +207,10 @@ func reset_zoom_preview() -> void:
 func _set_labels() -> void:
 	if card_type == Collections.card_types.UNIT:
 		$VBox/BotInfo/Movement.text = str(movement)
-		$VBox/BotInfo/BattleStats.text = str(attack, "/", health)
+		if max_attack == min_attack:
+			$VBox/BotInfo/BattleStats.text = str(max_attack, "/", health)
+		else:
+			$VBox/BotInfo/BattleStats.text = str(max_attack, "-", min_attack, "/", health)
 		$VBox/BotInfo/BattleStats.show()
 	else:
 		$VBox/BotInfo/Movement.text = str(card_range)

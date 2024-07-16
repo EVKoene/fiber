@@ -28,6 +28,17 @@ func exhaust_unit(card_owner_id: int, cip_index: int):
 @rpc("any_peer", "call_local")
 func resolve_damage(card_owner_id, cip_index, value):
 	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
+	var damage_number = Label.new()
+	var damage
+	card.add_child(damage_number)
+	damage_number.scale *= MapSettings.card_in_play_size * 0.9 / damage_number.size 
+	damage_number.text = str(value)
+	damage_number.label_settings = LabelSettings.new()
+	damage_number.label_settings.font_size = 150
+	damage_number.label_settings.font_color = Color.hex(0xf41700)
+	await get_tree().create_timer(0.5).timeout
+	damage_number.queue_free()
+	
 	if value > 0:
 		card.shake()
 	

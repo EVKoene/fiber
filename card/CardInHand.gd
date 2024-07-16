@@ -9,7 +9,8 @@ var ingame_name: String
 var card_type: int
 var costs: Costs
 var factions: Array = []
-var attack: int
+var max_attack: int
+var min_attack: int
 var health: int
 var card_range: int
 var movement: int
@@ -123,7 +124,10 @@ func set_card_properties():
 	_set_card_cost_visuals()
 	
 	if card_type == Collections.card_types.UNIT:
-		$Vbox/BotInfo/BattleStats.text = str(attack, " / ", health)
+		if max_attack == min_attack:
+			$Vbox/BotInfo/BattleStats.text = str(max_attack, " / ", health)
+		else:
+			$Vbox/BotInfo/BattleStats.text = str(max_attack, "-", min_attack, " / ", health)
 		$Vbox/BotInfo/CardRange.text = str(movement)
 	elif card_type == Collections.card_types.SPELL:
 		$Vbox/BotInfo/BattleStats.hide()
@@ -192,7 +196,8 @@ func _load_card_properties() -> void:
 	)
 
 	if card_info["CardType"] == Collections.card_types.UNIT:
-		attack = card_info["Attack"]
+		max_attack = card_info["MaxAttack"]
+		min_attack = card_info["MinAttack"]
 		health = card_info["Health"]
 		movement = card_info["Movement"]
 	else:
