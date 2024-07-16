@@ -6,12 +6,14 @@ var column: int
 var row: int
 var stat_modifier := {
 	GameManager.p1_id: {
-		Collections.stats.ATTACK: 0,
+		Collections.stats.MAX_ATTACK: 0,
+		Collections.stats.MIN_ATTACK: 0,
 		Collections.stats.HEALTH: 0,
 		Collections.stats.MOVEMENT: 0,
 	},
 	GameManager.p2_id: {
-		Collections.stats.ATTACK: 0,
+		Collections.stats.MAX_ATTACK: 0,
+		Collections.stats.MIN_ATTACK: 0,
 		Collections.stats.HEALTH: 0,
 		Collections.stats.MOVEMENT: 0,
 	},

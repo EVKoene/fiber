@@ -33,7 +33,8 @@ var cards_info = {
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
 		},
-		"Attack": 2, # 2
+		"MaxAttack": 3, # 3
+		"MinAttack": 0, # 0
 		"Health": 1, # 1
 		"Movement": 1, # 1
 		"Lord": false,
@@ -53,7 +54,7 @@ var cards_info = {
 			Collections.factions.ROBOT: 0,
 		},
 		"TargetRestrictions": TargetSelection.target_restrictions.OWN_UNITS,
-		"Text": "Pick one of your units. Deal damage equal to it's attack to a unit in range 2.
+		"Text": "Pick one of your units. Deal damage equal to it's max attack to a unit in range 2.
 		Add 1 <A>",
 		"CardRange": 2,
 		"IMGPath": "res://library/animal/images/AttackCommand.png",
@@ -69,7 +70,8 @@ var cards_info = {
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
 		},
-		"Attack": 2,
+		"MaxAttack": 3,
+		"MinAttack": 1,
 		"Health": 2,
 		"Movement": 2,
 		"Lord": false,
@@ -88,7 +90,8 @@ var cards_info = {
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
 		},
-		"Attack": 3,
+		"MaxAttack": 4,
+		"MinAttack": 2,
 		"Health": 3,
 		"Movement": 2,
 		"Lord": false,
@@ -107,8 +110,9 @@ var cards_info = {
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
 		},
-		"Attack": 2,
-		"Health": 2,
+		"MaxAttack": 3,
+		"MinAttack": 1,
+		"Health": 3,
 		"Movement": 1,
 		"Lord": false,
 		"Text": "When an opponent unit enters an adjacent space, deal 1 damage to it",
@@ -127,8 +131,9 @@ var cards_info = {
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
 		},
-		"Attack": 3,
-		"Health": 1,
+		"MaxAttack": 3,
+		"MinAttack": 1,
+		"Health": 2,
 		"Movement": 1,
 		"Lord": false,
 		"Text": "Add 2 attack and 1 movement to the units in adjacent spaces",

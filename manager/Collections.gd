@@ -34,7 +34,7 @@ enum play_space_attributes {
 
 enum players { P1, P2 }
 enum stat_params { LOWEST, HIGHEST, OVER_VALUE, UNDER_VALUE }
-enum stats {ATTACK, HEALTH, MOVEMENT, TOTAL_COST }
+enum stats {MAX_ATTACK, MIN_ATTACK, HEALTH, MOVEMENT, TOTAL_COST }
 enum turn_stages {
 	CARD_PLAYS, END_TURN, START_TURN
 }
