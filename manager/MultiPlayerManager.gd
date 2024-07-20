@@ -29,13 +29,12 @@ func exhaust_unit(card_owner_id: int, cip_index: int):
 func resolve_damage(card_owner_id, cip_index, value):
 	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
 	var damage_number = Label.new()
-	var damage
 	card.add_child(damage_number)
 	damage_number.scale *= MapSettings.card_in_play_size * 0.9 / damage_number.size 
 	damage_number.text = str(value)
 	damage_number.label_settings = LabelSettings.new()
-	damage_number.label_settings.font_size = 150
-	damage_number.label_settings.font_color = Color.hex(0xf41700)
+	damage_number.label_settings.font_size = 100
+	damage_number.label_settings.font_color = Color("f41700")
 	await get_tree().create_timer(0.5).timeout
 	damage_number.queue_free()
 	
@@ -199,8 +198,7 @@ func animate_attack(card_owner_id: int, card_in_play_index: int, direction: int)
 @rpc("any_peer", "call_local")
 func highlight_card(card_owner_id: int, cip_index: int):
 	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
-	var border_style = load("res://styling/card_borders/CardSelectedBorder.tres")
-	card.add_theme_stylebox_override("panel", border_style)
+	card.get_theme_stylebox("panel").border_color = Styling.gold_color
 
 
 @rpc("any_peer", "call_local")

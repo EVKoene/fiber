@@ -1,15 +1,16 @@
 [gd_scene load_steps=10 format=3 uid="uid://cihcviqg25uou"]
 
 [ext_resource type="Script" path="res://card/CardInHand.gd" id="1_jm5en"]
-[ext_resource type="LabelSettings" uid="uid://kbcqnlht5eh6" path="res://styling/card_borders/CardLabelSettings.tres" id="1_xeoqh"]
-[ext_resource type="LabelSettings" uid="uid://dq5kctg5dkitl" path="res://styling/card_borders/AnimalLabel.tres" id="2_ch1of"]
-[ext_resource type="LabelSettings" uid="uid://nx6f46ywtswa" path="res://styling/card_borders/MagicLabel.tres" id="3_8rybp"]
-[ext_resource type="LabelSettings" uid="uid://ihox33scd0t8" path="res://styling/card_borders/NatureLabel.tres" id="4_ys8dq"]
-[ext_resource type="LabelSettings" uid="uid://bpbd72h7s4e60" path="res://styling/card_borders/RobotLabel.tres" id="5_l7abo"]
+[ext_resource type="LabelSettings" uid="uid://dq5kctg5dkitl" path="res://styling/labels/AnimalLabel.tres" id="4_clsir"]
+[ext_resource type="LabelSettings" uid="uid://nx6f46ywtswa" path="res://styling/labels/MagicLabel.tres" id="5_ea3q3"]
+[ext_resource type="LabelSettings" uid="uid://ihox33scd0t8" path="res://styling/labels/NatureLabel.tres" id="6_7vlm4"]
+[ext_resource type="LabelSettings" uid="uid://bpbd72h7s4e60" path="res://styling/labels/RobotLabel.tres" id="7_67vjm"]
 [ext_resource type="Script" path="res://card/DragNode.gd" id="7_e17g3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c565y"]
 bg_color = Color(0.295793, 0.152218, 0.0434451, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_1uo4r"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pqrmm"]
 bg_color = Color(0.741385, 0.741385, 0.741384, 1)
@@ -54,7 +55,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Animal"
-label_settings = ExtResource("1_xeoqh")
+label_settings = SubResource("LabelSettings_1uo4r")
 
 [node name="Costs" type="Panel" parent="Vbox/TopInfo"]
 show_behind_parent = true
@@ -78,22 +79,22 @@ mouse_filter = 2
 [node name="Animal" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
-label_settings = ExtResource("2_ch1of")
+label_settings = ExtResource("4_clsir")
 
 [node name="Magic" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
-label_settings = ExtResource("3_8rybp")
+label_settings = ExtResource("5_ea3q3")
 
 [node name="Nature" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
-label_settings = ExtResource("4_ys8dq")
+label_settings = ExtResource("6_7vlm4")
 
 [node name="Robot" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
-label_settings = ExtResource("5_l7abo")
+label_settings = ExtResource("7_67vjm")
 
 [node name="BotInfo" type="HBoxContainer" parent="Vbox"]
 layout_mode = 2
@@ -111,4 +112,5 @@ size_flags_vertical = 8
 text = "1/1"
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
 [connection signal="mouse_entered" from="DragNode" to="." method="_on_drag_node_mouse_entered"]

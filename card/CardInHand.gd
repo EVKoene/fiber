@@ -3,6 +3,7 @@ extends PanelContainer
 class_name CardInHand
 
 
+@onready var border := StyleBoxFlat.new()
 var card_index: int = 1
 var card_owner_id: int
 var ingame_name: String
@@ -24,14 +25,14 @@ func _ready():
 	GameManager.cards_in_hand[card_owner_id].append(self)
 	_load_card_properties()
 	set_card_position()
+	_add_border()
 	set_card_properties()
 	set_card_size()
 	_set_drag_node_properties()
 
 
 func highlight_card():
-	border_style = load("res://styling/card_borders/CardSelectedBorder.tres")
-	add_theme_stylebox_override("panel", border_style)
+	get_theme_stylebox("panel").border_color = Styling.gold_color
 
 
 func can_target_unit(card: CardInPlay) -> bool:
@@ -61,37 +62,6 @@ func can_target_unit(card: CardInPlay) -> bool:
 				can_target = true
 
 	return can_target
-
-
-func set_border():
-	match len(factions):
-		1:
-			border_style = load(str(
-				"res://styling/card_borders/", Collections.faction_names[factions[0]], "CardBorder.tres")
-			)
-			
-		2:
-			if Collections.factions.ANIMAL in factions and Collections.factions.MAGIC in factions:
-				border_style = load(str("res://styling/card_borders/AnimalMagicBorder.tres"))
-			if Collections.factions.ANIMAL in factions and Collections.factions.NATURE in factions:
-				border_style = load(str("res://styling/card_borders/AnimalNatureBorder.tres"))
-			if Collections.factions.ANIMAL in factions and Collections.factions.ROBOT in factions:
-				border_style = load(str("res://styling/card_borders/AnimalRobotBorder.tres"))
-			if Collections.factions.MAGIC in factions and Collections.factions.NATURE in factions:
-				border_style = load(str("res://styling/card_borders/MagicNatureBorder.tres"))
-			if Collections.factions.MAGIC in factions and Collections.factions.ROBOT in factions:
-				border_style = load(str("res://styling/card_borders/MagicRobotBorder.tres"))
-			if Collections.factions.NATURE in factions and Collections.factions.ROBOT in factions:
-				border_style = load(str("res://styling/card_borders/NatureRobotBorder.tres"))
-		_:
-			border_style = load(str("res://styling/card_borders/MultiFactionCardBorder.tres"))
-	
-	add_theme_stylebox_override("panel", border_style)
-
-	get_theme_stylebox("panel").border_width_left =  size.y / 10
-	get_theme_stylebox("panel").border_width_right = size.y / 10
-	get_theme_stylebox("panel").border_width_top = size.y / 10
-	get_theme_stylebox("panel").border_width_bottom = size.y / 10
 
 
 func set_card_position() -> void:
@@ -133,7 +103,7 @@ func set_card_properties():
 		$Vbox/BotInfo/BattleStats.hide()
 		$Vbox/BotInfo/CardRange.text = str(card_range)
 	
-	set_border()
+	get_theme_stylebox("panel").border_color = Styling.faction_colors[factions]
 
 
 func _set_card_cost_visuals() -> void:
@@ -204,6 +174,12 @@ func _load_card_properties() -> void:
 		card_range = card_info["CardRange"]
 
 
+func _add_border() -> void:
+	add_theme_stylebox_override("panel", border)
+
+	border.set_border_width_all(int(size.y / 10))
+
+
 func _set_drag_node_properties() -> void:
 	$DragNode.img_path = img_path
 	$DragNode.card_index = card_index
@@ -213,6 +189,11 @@ func _set_drag_node_properties() -> void:
 
 func _on_mouse_entered():
 	GameManager.zoom_preview.hover_zoom_preview_hand(self)
+	highlight_card()
+
+
+func _on_mouse_exited():
+	get_theme_stylebox("panel").border_color = Styling.faction_colors[factions]
 
 
 func _get_hand_index() -> int:

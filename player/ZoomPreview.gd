@@ -18,8 +18,11 @@ var card_text: String
 var img_path: String
 var card_range: int
 var border_style: StyleBox
-var max_font: int
 var locked := false
+
+
+func _ready():
+	_add_border()
 
 
 func hover_zoom_preview_hand(
@@ -198,7 +201,8 @@ func reset_zoom_preview() -> void:
 	$CardImage.hide()
 	$VBox.hide()
 	_set_labels()
-	_set_border_to_faction()
+	get_theme_stylebox("panel").set_border_width_all(0)
+	
 	_set_card_text_visuals()
 	$CardImage.texture = null
 	locked = false
@@ -242,51 +246,8 @@ func _set_labels() -> void:
 
 
 func _set_border_to_faction():
-	match len(factions):   
-		0:
-			border_style = load(str(
-				"res://styling/card_borders/NoBorder.tres"
-			))
-		1:
-			border_style = load(str(
-				"res://styling/card_borders/", 
-				Collections.faction_names[factions[0]], "CardBorder.tres"
-			))
-		2:
-			if (
-				Collections.factions.ANIMAL in factions 
-				and Collections.factions.MAGIC in factions
-			):
-				border_style = load(str("res://styling/card_borders/AnimalMagicBorder.tres"))
-			elif (
-				Collections.factions.ANIMAL in factions 
-				and Collections.factions.NATURE in factions
-			):
-				border_style = load(str("res://styling/card_borders/AnimalNatureBorder.tres"))
-			elif (
-				Collections.factions.ANIMAL in factions 
-				and Collections.factions.ROBOT in factions
-			):
-				border_style = load(str("res://styling/card_borders/AnimalRobotBorder.tres"))
-			elif (
-				Collections.factions.MAGIC in factions 
-				and Collections.factions.NATURE in factions
-			):
-				border_style = load(str("res://styling/card_borders/MagicNatureBorder.tres"))
-			elif (
-				Collections.factions.MAGIC in factions 
-				and Collections.factions.ROBOT in factions
-			):
-				border_style = load(str("res://styling/card_borders/MagicRobotBorder.tres"))
-			elif (
-				Collections.factions.NATURE in factions 
-				and Collections.factions.ROBOT in factions
-			):
-				border_style = load(str("res://styling/card_borders/NatureRobotBorder.tres"))
-		_:
-			border_style = load(str("res://styling/card_borders/MultiFactionCardBorder.tres"))
-	
-	add_theme_stylebox_override("panel", border_style)
+	get_theme_stylebox("panel").set_border_width_all(size.y / 10)
+	get_theme_stylebox("panel").border_color = Styling.faction_colors[factions]
 
 
 func _set_card_text_visuals() -> void:
@@ -300,9 +261,8 @@ func _set_card_text_visuals() -> void:
 
 
 func _set_card_text_font_size() -> void:
-	var min_font: int
-	max_font = round(MapSettings.play_space_size.x)/15
-	min_font = round(MapSettings.play_space_size.x)/30
+	var min_font: float = round(MapSettings.play_space_size.x)/22
+	var max_font: float = round(MapSettings.play_space_size.x)/15
 	var max_line_count: float = 6
 	var font_range_diff: float = max_font - min_font
 	var font_change_per_line: float = font_range_diff/(max_line_count - 1)
@@ -311,8 +271,14 @@ func _set_card_text_font_size() -> void:
 		card_text_font_size = max_font
 	else: 
 		card_text_font_size = (
-			max_font - float($VBox/BotInfo/CardText.get_line_count()) * font_change_per_line
+			max_font - CardHelper.calc_n_lines(card_text) * font_change_per_line
 		)
 	
 	$VBox/TopInfo/CardNameBG/CardName.label_settings.font_size = max_font
 	$VBox/BotInfo/CardText.label_settings.font_size = card_text_font_size
+
+
+func _add_border() -> void:
+	var border := StyleBoxFlat.new()
+	add_theme_stylebox_override("panel", border)
+	get_theme_stylebox("panel").set_border_width_all(size.y / 10)

@@ -111,3 +111,27 @@ func in_starting_area(card: CardInPlay) -> bool:
 	):
 		return true
 	return false
+
+
+func calc_n_lines(text: String) -> int:
+	assert(
+		len(text) <= 180,
+		 str(
+			"Card text too large for text box. Max text length: 180. Text length: ", len(text),
+			". Card text: ", text
+		)
+	)
+	if len(text) == 0:
+		return 0
+	elif len(text) <= 30:
+		return 1
+	elif len(text) <= 60:
+		return 2
+	elif len(text) <= 90:
+		return 3
+	elif len(text) <= 120:
+		return 4
+	elif len(text) <= 150:
+		return 5
+	else:
+		return 6

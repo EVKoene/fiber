@@ -72,7 +72,7 @@ var cards_info = {
 		},
 		"MaxAttack": 3,
 		"MinAttack": 1,
-		"Health": 2,
+		"Health": 3,
 		"Movement": 2,
 		"Lord": false,
 		"Text": "",
@@ -126,7 +126,7 @@ var cards_info = {
 		"CardType": Collections.card_types.UNIT,
 		"Factions": [Collections.factions.ANIMAL],
 		"Costs": {
-			Collections.factions.ANIMAL: 0, # 4
+			Collections.factions.ANIMAL: 4, # 4
 			Collections.factions.MAGIC: 0,
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
@@ -136,7 +136,7 @@ var cards_info = {
 		"Health": 2,
 		"Movement": 1,
 		"Lord": false,
-		"Text": "Add 2 attack and 1 movement to the units in adjacent spaces",
+		"Text": "Add 2 max attack and 1 movement to the units in adjacent spaces",
 		"Purposes": [Collections.purposes.BUFF_ADJACENT],
 		"IMGPath": "res://library/animal/images/GorillaBattlecaller.png",
 	},
@@ -146,7 +146,7 @@ var cards_info = {
 		"CardType": Collections.card_types.SPELL,
 		"Factions": [Collections.factions.ANIMAL],
 		"Costs": {
-			Collections.factions.ANIMAL: 0, # 3
+			Collections.factions.ANIMAL: 3, # 3
 			Collections.factions.MAGIC: 0,
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
@@ -163,17 +163,17 @@ var cards_info = {
 		"CardType": Collections.card_types.UNIT,
 		"Factions": [Collections.factions.ANIMAL],
 		"Costs": {
-			Collections.factions.ANIMAL: 3, # 3
+			Collections.factions.ANIMAL: 4, # 4
 			Collections.factions.MAGIC: 0,
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
 		},
-		"Attack": 3,
+		"MaxAttack": 4,
+		"MinAttack": 2,
 		"Health": 3,
-		"Movement": 10,
+		"Movement": 10, # 10
 		"Lord": false,
-		"Text": "Can only move in a straight line without stopping. If this unit moves 2 or 
-		more before attacking, will deal 2 damage to defending unit and 1 damage to self",
+		"Text": "Can only move in a straight line without stopping. If this unit moves 2 or more before attacking, will deal 1 damage to defending unit and 1 damage to itself",
 		"Purposes": [],
 		"IMGPath": "res://library/animal/images/Rhinoceros.png",
 	},
@@ -1155,8 +1155,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = Snek
 		cards.GORILLA_BATTLECALLER:
 			card = GorillaBattlecaller
-		#cards.RHINOCEROS:
-			#card = Rhinoceros
+		cards.RHINOCEROS:
+			card = Rhinoceros
 		#cards.FOLLOW_PHEROMONES:
 			#card = FollowPheromones
 		#cards.FELOS_EXPEDITIONIST:

@@ -31,21 +31,21 @@ var triggered_funcs: Array = []
 var purposes: Array = []
 var border_style: StyleBox
 var move_through_units := false
-var max_font: int
 var card_in_play_index: int: get = _get_card_in_play_index
 
 func _ready():
+	scale *= MapSettings.card_in_play_size/size
 	_load_card_properties()
 	_create_battle_stats()
 	_create_costs()
 	set_position_to_play_space()
 	update_stats()
+	_add_border()
 	if (
 		(GameManager.is_player_1 and card_owner_id == GameManager.p2_id)
 		or (!GameManager.is_player_1 and card_owner_id == GameManager.p1_id)
 	):
 		flip_card()
-	scale *= MapSettings.card_in_play_size/size
 	GameManager.ps_column_row[column][row].card_in_this_play_space = self
 	if GameManager.is_server:
 		GameManager.call_deferred("call_triggered_funcs", Collections.triggers.CARD_CREATED, self)
@@ -64,6 +64,7 @@ func attack_card(target_card: CardInPlay) -> void:
 			target_card.current_play_space.direction_from_play_space(current_play_space)
 		)
 	
+	@warning_ignore("narrowing_conversion")
 	deal_damage_to_card(target_card, randf_range(min_attack, max_attack))
 
 
@@ -148,8 +149,7 @@ func highlight_card(show_highlight: bool):
 		for p_id in [GameManager.p1_id, GameManager.p2_id]:
 			MultiPlayerManager.highlight_card.rpc_id(p_id, card_owner_id, card_in_play_index)
 	else:
-		border_style = load("res://styling/card_borders/CardSelectedBorder.tres")
-		add_theme_stylebox_override("panel", border_style)
+		get_theme_stylebox("panel").border_color = Styling.gold_color
 
 
 func reset_card_stats():
@@ -225,47 +225,7 @@ func spaces_in_range_to_attack_card(card: CardInPlay) -> Array:
 
 
 func set_border_to_faction():
-	match len(factions):   
-		1:
-			border_style = load(str(
-				"res://styling/card_borders/", 
-				Collections.faction_names[factions[0]], "CardBorder.tres"
-			))
-		2:
-			if (
-				Collections.factions.ANIMAL in factions 
-				and Collections.factions.MAGIC in factions
-			):
-				border_style = load(str("res://styling/card_borders/AnimalMagicBorder.tres"))
-			elif (
-				Collections.factions.ANIMAL in factions 
-				and Collections.factions.NATURE in factions
-			):
-				border_style = load(str("res://styling/card_borders/AnimalNatureBorder.tres"))
-			elif (
-				Collections.factions.ANIMAL in factions 
-				and Collections.factions.ROBOT in factions
-			):
-				border_style = load(str("res://styling/card_borders/AnimalRobotBorder.tres"))
-			elif (
-				Collections.factions.MAGIC in factions 
-				and Collections.factions.NATURE in factions
-			):
-				border_style = load(str("res://styling/card_borders/MagicNatureBorder.tres"))
-			elif (
-				Collections.factions.MAGIC in factions 
-				and Collections.factions.ROBOT in factions
-			):
-				border_style = load(str("res://styling/card_borders/MagicRobotBorder.tres"))
-			elif (
-				Collections.factions.NATURE in factions 
-				and Collections.factions.ROBOT in factions
-			):
-				border_style = load(str("res://styling/card_borders/NatureRobotBorder.tres"))
-		_:
-			border_style = load(str("res://styling/card_borders/MultiFactionCardBorder.tres"))
- 	
-	add_theme_stylebox_override("panel", border_style)
+	get_theme_stylebox("panel").border_color = Styling.faction_colors[factions]
 
 
 func _set_labels() -> void:
@@ -341,9 +301,10 @@ func _set_card_text_visuals() -> void:
 
 
 func _set_card_text_font_size() -> void:
-	var min_font: int
-	max_font = round(MapSettings.play_space_size.x)/15
-	min_font = round(MapSettings.play_space_size.x)/30
+	if !$VBox/BotInfo/CardText.label_settings:
+		$VBox/BotInfo/CardText.label_settings = LabelSettings.new()
+	var min_font: float = round(MapSettings.play_space_size.x)/22
+	var max_font: float = round(MapSettings.play_space_size.x)/15
 	var max_line_count: float = 6
 	var font_range_diff: float = max_font - min_font
 	var font_change_per_line: float = font_range_diff/(max_line_count - 1)
@@ -352,7 +313,7 @@ func _set_card_text_font_size() -> void:
 		card_text_font_size = max_font
 	else: 
 		card_text_font_size = (
-			max_font - float($VBox/BotInfo/CardText.get_line_count()) * font_change_per_line
+			max_font - CardHelper.calc_n_lines(card_text) * font_change_per_line
 		)
 	
 	$VBox/TopInfo/CardNameBG/CardName.label_settings.font_size = max_font
@@ -397,6 +358,14 @@ func _get_card_range() -> int:
 		return card_data["Range"]
 	else:
 		return -1
+
+
+func _add_border() -> void:
+	var border := StyleBoxFlat.new()
+	add_theme_stylebox_override("panel", border)
+
+	get_theme_stylebox("panel").set_border_width_all(size.y / 10)
+	get_theme_stylebox("panel").border_color = Styling.faction_colors[factions]
 
 
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
