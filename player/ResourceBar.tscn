@@ -1,11 +1,11 @@
 [gd_scene load_steps=8 format=3 uid="uid://bw64l8ssmwlg6"]
 
 [ext_resource type="Script" path="res://player/ResourceBar.gd" id="1_gcjrd"]
-[ext_resource type="LabelSettings" uid="uid://dq4n6amohwwnk" path="res://styling/card_borders/GoldLabel.tres" id="2_2lxrf"]
-[ext_resource type="LabelSettings" uid="uid://dq5kctg5dkitl" path="res://styling/card_borders/AnimalLabel.tres" id="3_i7j6h"]
-[ext_resource type="LabelSettings" uid="uid://nx6f46ywtswa" path="res://styling/card_borders/MagicLabel.tres" id="4_cnl6u"]
-[ext_resource type="LabelSettings" uid="uid://ihox33scd0t8" path="res://styling/card_borders/NatureLabel.tres" id="5_noo8s"]
-[ext_resource type="LabelSettings" uid="uid://bpbd72h7s4e60" path="res://styling/card_borders/RobotLabel.tres" id="6_6ixuy"]
+[ext_resource type="LabelSettings" uid="uid://dq4n6amohwwnk" path="res://styling/labels/GoldLabel.tres" id="2_2lxrf"]
+[ext_resource type="LabelSettings" uid="uid://dq5kctg5dkitl" path="res://styling/labels/AnimalLabel.tres" id="3_i7j6h"]
+[ext_resource type="LabelSettings" uid="uid://nx6f46ywtswa" path="res://styling/labels/MagicLabel.tres" id="4_cnl6u"]
+[ext_resource type="LabelSettings" uid="uid://ihox33scd0t8" path="res://styling/labels/NatureLabel.tres" id="5_noo8s"]
+[ext_resource type="LabelSettings" uid="uid://bpbd72h7s4e60" path="res://styling/labels/RobotLabel.tres" id="6_6ixuy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xg3p5"]
 bg_color = Color(0.821789, 0.821789, 0.821788, 1)

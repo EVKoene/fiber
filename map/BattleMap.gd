@@ -102,8 +102,8 @@ func _set_play_space_size() -> void:
 
 
 func _create_play_spaces() -> void:
-	MapSettings.number_of_columns = map_data["Columns"]
-	MapSettings.number_of_rows = map_data["Rows"]
+	MapSettings.n_columns = map_data["Columns"]
+	MapSettings.n_rows = map_data["Rows"]
 	for column in map_data["Columns"]:
 		GameManager.ps_column_row[column] = {}
 		for row in map_data["Rows"]:

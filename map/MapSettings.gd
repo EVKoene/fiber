@@ -12,8 +12,8 @@ var opponent_area_end: Vector2
 var play_area_size: Vector2
 var play_space_size: Vector2
 var card_in_play_size: Vector2
-var number_of_columns: int
-var number_of_rows: int
+var n_columns: int
+var n_rows: int
 var zoom_preview_size := Vector2(200, 200)
 var end_turn_button_size: Vector2
 var play_spaces := []
@@ -26,7 +26,7 @@ func get_column_start_x(column) -> float:
 	else:
 		return (
 			MapSettings.play_area_start.x + 
-			MapSettings.play_space_size.x * MapSettings.number_of_columns
+			MapSettings.play_space_size.x * MapSettings.n_columns
 			- MapSettings.play_space_size.x * (column + 1)
 		)
 
@@ -37,7 +37,7 @@ func get_row_start_y(row) -> float:
 	else:
 		return (
 			MapSettings.play_area_start.y + 
-			MapSettings.play_space_size.y * MapSettings.number_of_rows
+			MapSettings.play_space_size.y * MapSettings.n_rows
 			- MapSettings.play_space_size.y * (row + 1)
 		)
 
@@ -48,7 +48,7 @@ func get_column_end_x(column) -> float:
 	else:
 		return (
 			MapSettings.play_area_start.x + 
-			MapSettings.play_space_size.x * MapSettings.number_of_columns
+			MapSettings.play_space_size.x * MapSettings.n_columns
 			- MapSettings.play_space_size.x * column
 		)
 
@@ -58,6 +58,6 @@ func get_row_end_y(row) -> float:
 	else:
 		return (
 			MapSettings.play_area_start.y + 
-			MapSettings.play_space_size.y * MapSettings.number_of_rows
+			MapSettings.play_space_size.y * MapSettings.n_rows
 			- MapSettings.play_space_size.y * row
 		)
