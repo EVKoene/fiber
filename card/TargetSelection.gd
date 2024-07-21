@@ -66,7 +66,6 @@ func end_selecting() -> void:
 	clear_paths()
 	clear_arrows()
 	clear_selections()
-	GameManager.zoom_preview.reset_zoom_preview()
 
 
 func clear_selections() -> void:

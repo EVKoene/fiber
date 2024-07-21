@@ -183,14 +183,14 @@ var cards_info = {
 		"CardType": Collections.card_types.SPELL,
 		"Factions": [Collections.factions.ANIMAL],
 		"Costs": {
-			Collections.factions.ANIMAL: 4, # 4
+			Collections.factions.ANIMAL: 0, # 5
 			Collections.factions.MAGIC: 0,
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
 		},
 		"CardRange": -1,
 		"TargetRestrictions": TargetSelection.target_restrictions.ANY_SPACE,
-		"Text": "All your units get +2/+2 and +1 movement until your next turn",
+		"Text": "All your units get +2/+2/+2 and +1 movement until your next turn",
 		"IMGPath": "res://library/animal/images/Stampede.png",
 	},
 	
@@ -1163,8 +1163,8 @@ func get_card_class(card_index: int) -> Variant:
 			#card = FelosExpeditionist
 		#cards.SKON_INSECT_FATHER:
 			#card = SkonInsectFather
-		#cards.STAMPEDE:
-			#card = Stampede
+		cards.STAMPEDE:
+			card = Stampede
 #
 		#### Magic ###
 #

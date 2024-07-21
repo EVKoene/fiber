@@ -62,9 +62,10 @@ func play_spell(
 		GameManager.resources[card_owner_id].pay_costs(hand_card.costs)
 		MultiPlayerManager.remove_card_from_hand(card_owner_id, h_index)
 	
+	TargetSelection.end_selecting()
+	await get_tree().create_timer(0.5).timeout
 	GameManager.zoom_preview.reset_zoom_preview()
 
-	TargetSelection.end_selecting()
 
 
 @rpc("any_peer", "call_local")

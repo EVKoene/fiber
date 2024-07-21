@@ -38,13 +38,27 @@ func start_turn(player_id: int) -> void:
 	turn_count += 1
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
 		refresh_resources.rpc_id(p_id, player_id)
+		# NOTE that we update modifiers before calling triggered funcs. This choice has been
+		# made early in development and can be changed if it opens potential interesting 
+		# interactions
+		update_modifiers.rpc_id(p_id)
+	
 	for c in GameManager.cards_in_play[player_id]:
 		c.refresh()
+	
 	for p in GameManager.players:
 		for c in GameManager.cards_in_play[p]:
 			c.call_triggered_funcs(Collections.triggers.TURN_STARTED, c)
 	show_end_turn_button.rpc_id(player_id)
 	turn_actions_enabled = true
+
+
+@rpc("call_local")
+func update_modifiers() -> void:
+	for p in GameManager.players:
+		for c in GameManager.cards_in_play[p]:
+			c.battle_stats.update_modifiers()
+			c.update_stats()
 
 
 @rpc("call_local")
