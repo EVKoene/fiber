@@ -60,7 +60,8 @@ func play_spell(
 	var succesfull_resolve: bool = await card.resolve_spell(column, row)
 	if succesfull_resolve:
 		GameManager.resources[card_owner_id].pay_costs(hand_card.costs)
-		MultiPlayerManager.remove_card_from_hand(card_owner_id, h_index)
+		for p_id in GameManager.players:
+			MultiPlayerManager.remove_card_from_hand.rpc_id(p_id, card_owner_id, h_index)
 	
 	TargetSelection.end_selecting()
 	await get_tree().create_timer(0.5).timeout
@@ -216,6 +217,11 @@ func set_border_to_faction(card_owner_id: int, cip_index: int):
 	card.set_border_to_faction()
 
 
-@rpc("any_peer")
-func draw_card(card_owner_id) -> void:
+@rpc("any_peer", "call_local")
+func draw_card(card_owner_id: int) -> void:
 	GameManager.decks[card_owner_id].draw_card()
+
+
+@rpc("any_peer", "call_local")
+func draw_type_put_rest_bottom(card_owner_id: int, card_type: int) -> void:
+	GameManager.decks[card_owner_id].draw_type_put_rest_bottom(card_type)

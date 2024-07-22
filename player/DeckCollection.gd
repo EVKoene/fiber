@@ -105,10 +105,10 @@ var opponent_testing_deck: Dictionary = animal_deck
 
 var player_testing_deck: Dictionary = {
 	"Cards": {
-		cards.FELOS_EXPEDITIONIST: 10,
+		cards.GOOSE: 10,
 	},
 	"StartingCards": {
 		cards.GORILLA: 2,
-		cards.GOOSE: 1,
+		cards.ATTACK_COMMAND: 1,
 	}
 }

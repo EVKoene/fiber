@@ -1158,8 +1158,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = GorillaBattlecaller
 		cards.RHINOCEROS:
 			card = Rhinoceros
-		#cards.FOLLOW_PHEROMONES:
-			#card = FollowPheromones
+		cards.FOLLOW_PHEROMONES:
+			card = FollowPheromones
 		cards.FELOS_EXPEDITIONIST:
 			card = FelosExpeditionist
 		#cards.SKON_INSECT_FATHER:
