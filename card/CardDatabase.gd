@@ -183,7 +183,7 @@ var cards_info = {
 		"CardType": Collections.card_types.SPELL,
 		"Factions": [Collections.factions.ANIMAL],
 		"Costs": {
-			Collections.factions.ANIMAL: 0, # 5
+			Collections.factions.ANIMAL: 5, # 5
 			Collections.factions.MAGIC: 0,
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
@@ -199,13 +199,14 @@ var cards_info = {
 		"CardType": Collections.card_types.UNIT,
 		"Factions": [Collections.factions.ANIMAL],
 		"Costs": {
-			Collections.factions.ANIMAL: 4, # 4
+			Collections.factions.ANIMAL: 5, # 5
 			Collections.factions.MAGIC: 0,
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
 		},
-		"Attack": 4,
-		"Health": 4,
+		"MaxAttack": 5,
+		"MinAttack": 3,
+		"Health": 6,
 		"Movement": 1,
 		"Lord": false,
 		"Text": "On Attack: Draw a Card",
@@ -1159,8 +1160,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = Rhinoceros
 		#cards.FOLLOW_PHEROMONES:
 			#card = FollowPheromones
-		#cards.FELOS_EXPEDITIONIST:
-			#card = FelosExpeditionist
+		cards.FELOS_EXPEDITIONIST:
+			card = FelosExpeditionist
 		#cards.SKON_INSECT_FATHER:
 			#card = SkonInsectFather
 		cards.STAMPEDE:

@@ -9,7 +9,7 @@ class_name TurnManager
 
 enum turn_stages { CARD_PLAYS, END_TURN, START_TURN }
 
-@export var turn_count := 1
+@export var turn_count := 0
 @export var turn_owner_id: int
 @export var turn_stage: int
 # Turn actions should be disabled whenever we don't want te player to be able to make a move,
@@ -50,6 +50,8 @@ func start_turn(player_id: int) -> void:
 		for c in GameManager.cards_in_play[p]:
 			c.call_triggered_funcs(Collections.triggers.TURN_STARTED, c)
 	show_end_turn_button.rpc_id(player_id)
+	if turn_count >= 2:
+		GameManager.decks[player_id].draw_card()
 	turn_actions_enabled = true
 
 

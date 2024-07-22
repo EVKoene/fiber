@@ -100,7 +100,6 @@ size_flags_vertical = 8
 text = "1"
 
 [node name="CardText" type="Label" parent="VBox/BotInfo"]
-visible = false
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 size_flags_horizontal = 3

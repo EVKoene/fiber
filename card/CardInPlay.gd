@@ -64,8 +64,7 @@ func attack_card(target_card: CardInPlay) -> void:
 			target_card.current_play_space.direction_from_play_space(current_play_space)
 		)
 	
-	@warning_ignore("narrowing_conversion")
-	deal_damage_to_card(target_card, randf_range(min_attack, max_attack))
+	deal_damage_to_card(target_card, int(randf_range(min_attack, max_attack)))
 
 
 func deal_damage_to_card(card: CardInPlay, value: int) -> void:
@@ -292,11 +291,19 @@ func _load_card_properties() -> void:
 
 func _set_card_text_visuals() -> void:
 	_set_card_text_font_size()
+	if len(card_text) <= 50:
+		$VBox/BotInfo/CardText.custom_minimum_size.y = size.y * 0.2
+	elif len(card_text) <= 100:
+		$VBox/BotInfo/CardText.custom_minimum_size.y = size.y * 0.4
+	else:
+		$VBox/BotInfo/CardText.custom_minimum_size.y = size.y * 0.6
+	
+	if len(card_text) == 0:
+		$VBox/BotInfo/CardText.hide()
 	if len(card_text) > 0:
 		$VBox/BotInfo/CardText.text = card_text
 		$VBox/BotInfo/CardText.show()
-	if len(card_text) == 0:
-		$VBox/BotInfo/CardText.hide()
+	
 	$VBox/TopInfo/CardNameBG/CardName.text = ingame_name
 
 

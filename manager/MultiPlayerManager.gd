@@ -214,3 +214,8 @@ func set_hand_card_positions() -> void:
 func set_border_to_faction(card_owner_id: int, cip_index: int):
 	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
 	card.set_border_to_faction()
+
+
+@rpc("any_peer")
+func draw_card(card_owner_id) -> void:
+	GameManager.decks[card_owner_id].draw_card()
