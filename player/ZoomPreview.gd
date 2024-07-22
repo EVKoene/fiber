@@ -252,6 +252,13 @@ func _set_border_to_faction():
 
 func _set_card_text_visuals() -> void:
 	_set_card_text_font_size()
+	if len(card_text) <= 50:
+		$VBox/BotInfo/CardText.custom_minimum_size.y = size.y * 0.2
+	elif len(card_text) <= 100:
+		$VBox/BotInfo/CardText.custom_minimum_size.y = size.y * 0.4
+	else:
+		$VBox/BotInfo/CardText.custom_minimum_size.y = size.y * 0.6
+	
 	if len(card_text) > 0:
 		$VBox/BotInfo/CardText.text = card_text
 		$VBox/BotInfo/CardText.show()
