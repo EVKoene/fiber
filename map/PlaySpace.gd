@@ -217,10 +217,10 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 					p_id, c_owner_id, h_index
 				)
 		Collections.card_types.SPELL:
-			for p_id in [GameManager.p1_id, GameManager.p2_id]:
-				MultiPlayerManager.play_spell.rpc_id(
-					p_id, data.card_index, data.hand_index, data.card_owner_id, column, row
-				)
+			MultiPlayerManager.play_spell.rpc_id(
+				data.card_owner_id, data.card_index, data.hand_index, data.card_owner_id, column,
+				row
+			)
 
 
 func _set_play_space_attributes() -> void:

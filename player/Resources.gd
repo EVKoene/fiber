@@ -68,7 +68,7 @@ func refresh() -> void:
 	magic = 0
 	nature = 0
 	robot = 0
-	if GameManager.turn_manager.turn_count == 2:
+	if GameManager.turn_manager.turn_count >= 2:
 		gold = 2
 	else:
 		gold = 1
