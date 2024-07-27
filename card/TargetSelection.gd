@@ -14,6 +14,7 @@ var self_allowed := false
 var selecting_unit: CardInPlay
 var players_to_select_targets_from := []
 var target_play_space_options := []
+var card_action_menu: CardActionMenu
 
 var current_path: PlaySpacePath
 var play_space_arrows := []
@@ -66,6 +67,7 @@ func end_selecting() -> void:
 	clear_paths()
 	clear_arrows()
 	clear_selections()
+	clear_card_action_menu()
 
 
 func clear_selections() -> void:
@@ -90,3 +92,8 @@ func clear_arrows() -> void:
 	
 	play_space_arrows = []
 
+
+func clear_card_action_menu() -> void:
+	if card_action_menu:
+		card_action_menu.queue_free()
+		card_action_menu = null

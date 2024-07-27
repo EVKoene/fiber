@@ -172,6 +172,23 @@ func _load_card_properties() -> void:
 		movement = card_info["Movement"]
 	else:
 		card_range = card_info["CardRange"]
+	_set_card_text_font_size()
+
+
+func _set_card_text_font_size() -> void:
+	if !$Vbox/TopInfo/CardNameBG/CardName.label_settings:
+		$Vbox/TopInfo/CardNameBG/CardName.label_settings = LabelSettings.new()
+	var min_font: float = round(MapSettings.play_space_size.x)/22
+	var max_font: float = round(MapSettings.play_space_size.x)/13
+	var max_chars := 30
+	var font_range_diff: float = max_font - min_font
+	var font_change_per_char: float = font_range_diff/(max_chars)
+	var card_font_size: float
+	card_font_size = (
+		max_font - len(ingame_name) * font_change_per_char
+	)
+	
+	$Vbox/TopInfo/CardNameBG/CardName.label_settings.font_size = card_font_size
 
 
 func _add_border() -> void:

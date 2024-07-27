@@ -3,6 +3,8 @@ extends PanelContainer
 class_name CardInPlay
 
 
+@onready var card_action_menu_scene := preload("res://card/CardActionMenu.tscn")
+
 var card_index := 1
 var max_attack: int
 var min_attack: int
@@ -36,8 +38,9 @@ var card_in_play_index: int: get = _get_card_in_play_index
 func _ready():
 	scale *= MapSettings.card_in_play_size/size
 	_load_card_properties()
-	_create_battle_stats()
-	_create_costs()
+	if !fabrication:
+		_create_battle_stats()
+		_create_costs()
 	set_position_to_play_space()
 	update_stats()
 	_add_border()
@@ -141,6 +144,11 @@ func refresh():
 func exhaust():
 	for p_id in GameManager.players:
 		MultiPlayerManager.exhaust_unit.rpc_id(p_id, card_owner_id, card_in_play_index)
+
+
+func use_ability(func_index: int) -> void:
+	if call(abilities[func_index]["FuncName"]):
+		GameManager.resources[card_owner_id].pay_costs(abilities[func_index]["AbilityCosts"])
 
 
 func highlight_card(show_highlight: bool):
@@ -275,14 +283,27 @@ func remove_from_cards_in_play() -> void:
 	GameManager.cards_in_play[card_owner_id].remove_at(card_in_play_index)
 
 
+func create_card_action_menu() -> void:
+	var ca_menu := card_action_menu_scene.instantiate()
+	TargetSelection.card_action_menu = ca_menu
+	ca_menu.cip_index = card_in_play_index
+	ca_menu.card_owner_id = card_owner_id
+	ca_menu.position = position + MapSettings.play_space_size * 0.5
+	ca_menu.size.x = MapSettings.play_space_size.x * 0.9
+	ca_menu.size.y = MapSettings.play_space_size.y / (5 - len(abilities) + 1)
+	ca_menu.z_index = 100
+	GameManager.battle_map.add_child(ca_menu)
+
+
 func _load_card_properties() -> void:
-	card_data = CardDatabase.cards_info[card_index]
-	ingame_name = card_data["InGameName"]
-	card_type= card_data["CardType"]
-	factions = card_data["Factions"]
-	lord = card_data["Lord"]
-	card_text = card_data["Text"]
-	img_path = card_data["IMGPath"]
+	if !fabrication:
+		card_data = CardDatabase.cards_info[card_index]
+		ingame_name = card_data["InGameName"]
+		card_type= card_data["CardType"]
+		factions = card_data["Factions"]
+		lord = card_data["Lord"]
+		card_text = card_data["Text"]
+		img_path = card_data["IMGPath"]
 	$CardImage.texture = load(img_path)
 	_set_card_text_visuals()
 	
@@ -475,6 +496,17 @@ func _on_gui_input(event):
 		if card_sel_for_movement == self and !exhausted:
 			TargetSelection.clear_selections()
 	
+	elif (
+		right_mouse_button_pressed 
+		and card_owner_id == GameManager.player_id 
+		and !exhausted
+		and len(abilities) > 0
+		and GameManager.turn_manager.turn_actions_enabled
+	):
+		TargetSelection.clear_selections()
+		TargetSelection.making_selection = true
+		create_card_action_menu()
+
 	elif (
 		right_mouse_button_pressed 
 		and card_sel_for_movement

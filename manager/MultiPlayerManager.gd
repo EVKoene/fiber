@@ -84,6 +84,36 @@ func play_unit(card_index: int, card_owner_id: int, column: int, row: int) -> vo
 
 
 @rpc("any_peer", "call_local")
+func create_fabrication(
+	card_owner_id: int, column: int, row: int, ingame_name: String, max_attack: int, min_attack: int, 
+	health: int, movement: int, triggered_funcs: Array, img_path: String, factions: Array,
+	costs: Dictionary, 
+) -> void:
+	var fabrication = card_in_play_scene.instantiate()
+	fabrication.battle_stats = BattleStats.new(
+		max_attack, min_attack, health, movement, fabrication
+	)
+	fabrication.factions = factions
+	fabrication.ingame_name = ingame_name
+	fabrication.card_owner_id = card_owner_id
+	fabrication.column = column
+	fabrication.row = row
+	fabrication.triggered_funcs = triggered_funcs
+	fabrication.img_path = img_path
+	fabrication.fabrication = true
+	fabrication.costs = Costs.new(
+			costs[Collections.factions.ANIMAL],
+			costs[Collections.factions.MAGIC],
+			costs[Collections.factions.NATURE],
+			costs[Collections.factions.ROBOT],
+	)
+	GameManager.cards_in_play[card_owner_id].append(fabrication)
+	GameManager.battle_map.add_child(fabrication)
+	
+	await get_tree().create_timer(0.1).timeout
+
+
+@rpc("any_peer", "call_local")
 func remove_card_from_hand(card_owner_id: int, hand_index: int) -> void:
 	var card: CardInHand = GameManager.cards_in_hand[card_owner_id][hand_index]
 	GameManager.cards_in_hand[card_owner_id].remove_at(hand_index)

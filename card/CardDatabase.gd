@@ -219,12 +219,13 @@ var cards_info = {
 		"CardType": Collections.card_types.UNIT,
 		"Factions": [Collections.factions.ANIMAL],
 		"Costs": {
-			Collections.factions.ANIMAL: 4, # 4
+			Collections.factions.ANIMAL: 0, # 6
 			Collections.factions.MAGIC: 0,
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
 		},
-		"Attack": 2,
+		"MaxAttack": 3,
+		"MinAttack": 1,
 		"Health": 4,
 		"Movement": 1,
 		"Lord": true,
@@ -1162,8 +1163,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = FollowPheromones
 		cards.FELOS_EXPEDITIONIST:
 			card = FelosExpeditionist
-		#cards.SKON_INSECT_FATHER:
-			#card = SkonInsectFather
+		cards.SKON_INSECT_FATHER:
+			card = SkonInsectFather
 		cards.STAMPEDE:
 			card = Stampede
 #
