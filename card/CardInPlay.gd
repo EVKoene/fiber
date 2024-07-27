@@ -473,7 +473,7 @@ func _on_gui_input(event):
 		and GameManager.turn_manager.turn_actions_enabled
 		and TargetSelection.card_selected_for_movement == self
 	):
-		TargetSelection.clear_selections()
+		TargetSelection.end_selecting()
 	
 	elif (
 		left_mouse_button_pressed 
@@ -483,7 +483,7 @@ func _on_gui_input(event):
 		and GameManager.turn_manager.turn_actions_enabled
 		and TargetSelection.card_selected_for_movement != self
 	):
-		TargetSelection.clear_selections()
+		TargetSelection.end_selecting()
 		select_for_movement()
 	
 	# If the player selects a card for movement and clicks the card again we want to clear the 
@@ -494,7 +494,7 @@ func _on_gui_input(event):
 		and card_owner_id == GameManager.player_id
 	):
 		if card_sel_for_movement == self and !exhausted:
-			TargetSelection.clear_selections()
+			TargetSelection.end_selecting()
 	
 	elif (
 		right_mouse_button_pressed 
@@ -503,8 +503,7 @@ func _on_gui_input(event):
 		and len(abilities) > 0
 		and GameManager.turn_manager.turn_actions_enabled
 	):
-		TargetSelection.clear_selections()
-		TargetSelection.making_selection = true
+		TargetSelection.end_selecting()
 		create_card_action_menu()
 
 	elif (

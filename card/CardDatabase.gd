@@ -219,7 +219,7 @@ var cards_info = {
 		"CardType": Collections.card_types.UNIT,
 		"Factions": [Collections.factions.ANIMAL],
 		"Costs": {
-			Collections.factions.ANIMAL: 0, # 6
+			Collections.factions.ANIMAL: 6, # 6
 			Collections.factions.MAGIC: 0,
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,

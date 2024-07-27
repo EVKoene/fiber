@@ -242,11 +242,20 @@ func _calc_position() -> Vector2:
 
 
 func _on_gui_input(event):
+	var left_mouse_button_pressed = (
+		event is InputEventMouseButton 
+		and event.button_index == MOUSE_BUTTON_LEFT 
+		and event.pressed
+	)
+	
 	var right_mouse_button_pressed = (
 		event is InputEventMouseButton 
 		and event.button_index == MOUSE_BUTTON_RIGHT 
 		and event.pressed
 	)
+	
+	if left_mouse_button_pressed and !TargetSelection.making_selection:
+		TargetSelection.end_selecting()
 	
 	if (
 		right_mouse_button_pressed
