@@ -52,12 +52,14 @@ func _ready():
 	GameManager.ps_column_row[column][row].card_in_this_play_space = self
 	if GameManager.is_server:
 		GameManager.call_deferred("call_triggered_funcs", Collections.triggers.CARD_CREATED, self)
+	enter_battle()
 
 
-func select_card(show_select: bool) -> void:
-	TargetSelection.selected_card = self
-	TargetSelection.making_selection = true
-	highlight_card(show_select)
+func enter_battle() -> void:
+	# We can't just use exhaust here, because this function is called before the other player has
+	# created this unit.
+	modulate = Color(0.5, 0.5, 0.5, 1)
+	exhausted = true
 
 
 func attack_card(target_card: CardInPlay) -> void:
@@ -72,6 +74,12 @@ func attack_card(target_card: CardInPlay) -> void:
 
 func deal_damage_to_card(card: CardInPlay, value: int) -> void:
 	card.resolve_damage(value)
+
+
+func select_card(show_select: bool) -> void:
+	TargetSelection.selected_card = self
+	TargetSelection.making_selection = true
+	highlight_card(show_select)
 
 
 func move_to_play_space(new_column: int, new_row: int) -> void:
@@ -149,6 +157,11 @@ func exhaust():
 func use_ability(func_index: int) -> void:
 	if call(abilities[func_index]["FuncName"]):
 		GameManager.resources[card_owner_id].pay_costs(abilities[func_index]["AbilityCosts"])
+
+
+func conquer_space() -> void:
+	current_play_space.set_conquered_by(card_owner_id)
+	exhaust()
 
 
 func highlight_card(show_highlight: bool):
@@ -500,7 +513,10 @@ func _on_gui_input(event):
 		right_mouse_button_pressed 
 		and card_owner_id == GameManager.player_id 
 		and !exhausted
-		and len(abilities) > 0
+		and (
+			len(abilities) > 0 
+			or Collections.play_space_attributes.RESOURCE_SPACE in current_play_space.attributes
+		)
 		and GameManager.turn_manager.turn_actions_enabled
 	):
 		TargetSelection.end_selecting()

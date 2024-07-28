@@ -1,7 +1,7 @@
 extends Node
 
 
-"""Colors"""
+"""Faction Colors"""
 var faction_colors := {
 	[Collections.factions.ANIMAL]: Color("932011"),
 	[Collections.factions.ANIMAL, Collections.factions.MAGIC]: Color("e74c22"),
@@ -18,9 +18,9 @@ var gold_color := Color("6e6914")
 var multifaction_color := Color("e74c22")
 
 
-"""Space Borders"""
-var base_space_border = load("res://styling/play_space_borders/BaseSpace.tres")
-var draw_card_space_border = load("res://styling/play_space_borders/DrawCardSpace.tres")
-var p2_start_space_border = load("res://styling/play_space_borders/OpponentStartSpace.tres")
-var p1_start_space_border = load("res://styling/play_space_borders/PlayerStartSpace.tres")
-var resource_space_border = load("res://styling/play_space_borders/ResourceSpace.tres")
+"""Space Border colors"""
+var base_space_color = Color("3b3b3bdc")
+var resource_space_color = Color("3b773bdc")
+var start_space_color = Color("ffffffdc")
+var p1_color = Color("3b3be7dc")
+var p2_color = Color("f70800")

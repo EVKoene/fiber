@@ -21,8 +21,8 @@ var stat_modifier := {
 
 var attributes: Array = []
 var contest_space: bool
-var border_style: StyleBox
 var card_in_this_play_space: CardInPlay
+var conquered_by: int
 var selected_for_movement := false
 
 
@@ -155,28 +155,27 @@ func path_to_closest_movable_space(
 	return PlaySpacePath.new(goal_space, self, false)
 
 
-func set_border() -> void:
-	if Collections.play_space_attributes.DRAW_CARD_SPACE in attributes:
-		border_style = Styling.draw_card_space_border
-	elif Collections.play_space_attributes.RESOURCE_SPACE in attributes:
-		border_style = Styling.resource_space_border
-	elif Collections.play_space_attributes.P1_START_SPACE in attributes:
-		border_style = Styling.p1_start_space_border
-	elif Collections.play_space_attributes.P2_START_SPACE in attributes:
-		border_style = Styling.p2_start_space_border
-	else:
-		border_style = Styling.base_space_border
+func set_conquered_by(player_id: int) -> void:
+	for p_id in GameManager.players:
+		MultiPlayerManager.set_conquered_by.rpc_id(
+			p_id, player_id, column, row
+		)
 
-	add_theme_stylebox_override("panel", border_style)
-	get_theme_stylebox("panel").border_width_left = size.x / 15
-	get_theme_stylebox("panel").border_width_right = size.x / 15
-	get_theme_stylebox("panel").border_width_top = size.y / 15
-	get_theme_stylebox("panel").border_width_bottom = size.y / 15
+
+func set_border() -> void:
+	var border := StyleBoxFlat.new()
+	add_theme_stylebox_override("panel", border)
+	get_theme_stylebox("panel").bg_color = Color("99999900")
+	if Collections.play_space_attributes.RESOURCE_SPACE in attributes:
+		get_theme_stylebox("panel").border_color = Styling.resource_space_color
+	else:
+		get_theme_stylebox("panel").border_color = Styling.base_space_color
+
+	get_theme_stylebox("panel").set_border_width_all(size.x / 15)
 
 
 func highlight_space():
-	border_style = load("res://styling/card_borders/CardSelectedBorder.tres")
-	add_theme_stylebox_override("panel", border_style)
+	get_theme_stylebox("panel").border_color = Styling.gold_color
 
 
 func in_starting_area(card: CardInHand) -> bool:
@@ -226,11 +225,7 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 func _set_play_space_attributes() -> void:
 	# If we want to enable multiple maps, we should load id it as an export var in this script
 	attributes = MapDatabase.get_play_space_attributes(MapDatabase.maps.BASE_MAP, self)
-	
-	if (
-		Collections.play_space_attributes.RESOURCE_SPACE in attributes 
-		or Collections.play_space_attributes.DRAW_CARD_SPACE in attributes
-	):
+	if Collections.play_space_attributes.RESOURCE_SPACE in attributes:
 		GameManager.resource_spaces.append(self) 
 
 

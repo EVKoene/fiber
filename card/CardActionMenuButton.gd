@@ -7,6 +7,7 @@ var cip_index: int
 var card_owner_id: int
 var func_text: String
 var func_index: int
+var conquer_space := false
 
 
 func _ready():
@@ -23,7 +24,10 @@ func _ready():
 
 func _on_pressed():
 	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
-	if GameManager.resources[card_owner_id].can_pay_costs(
+	if conquer_space:
+		card.conquer_space()
+		TargetSelection.end_selecting()
+	elif GameManager.resources[card_owner_id].can_pay_costs(
 		card.abilities[func_index]["AbilityCosts"]
 	):
 		card.use_ability(func_index)

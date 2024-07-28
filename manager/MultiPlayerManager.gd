@@ -141,6 +141,17 @@ func create_hand_card(card_owner_id: int, card_index: int) -> void:
 
 
 @rpc("any_peer", "call_local")
+func set_conquered_by(player_id: int, column: int, row: int) -> void:
+	var play_space = GameManager.ps_column_row[column][row]
+	play_space.conquered_by = player_id
+	match player_id:
+		GameManager.p1_id:
+			play_space.get_theme_stylebox("panel").border_color = Styling.p1_color
+		GameManager.p2_id:
+			play_space.get_theme_stylebox("panel").border_color = Styling.p2_color
+
+
+@rpc("any_peer", "call_local")
 func set_resources(
 	resource_owner_id: int, gold: int, animal: int, magic: int, nature: int, robot: int
 ) -> void:

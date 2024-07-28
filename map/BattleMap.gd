@@ -39,8 +39,7 @@ func show_text(text_to_show: String) -> void:
 
 
 func _start_first_turn() -> void:
-	var first_player_id = GameManager.p1_id
-	#var first_player_id = [GameManager.p1_id, GameManager.p2_id].pick_random()
+	var first_player_id = [GameManager.p1_id, GameManager.p2_id].pick_random()
 	GameManager.turn_manager.hide_end_turn_button.rpc_id(
 		GameManager.opposing_player_id(first_player_id)
 	)
@@ -64,6 +63,7 @@ func _create_battle_map() -> void:
 	_set_area_sizes()
 	_set_play_space_size()
 	_create_play_spaces()
+	_create_starting_spaces_panels()
 
 
 func _set_area_sizes() -> void:
@@ -113,7 +113,67 @@ func _create_play_spaces() -> void:
 			play_space.row = row
 			add_child(play_space)
 			MapSettings.play_spaces.append(play_space)
+
+
+func _create_starting_spaces_panels() -> void:
+	for p_id in GameManager.players:
+		var start_space_panel := Panel.new()
+		var border := StyleBoxFlat.new()
+		add_child(start_space_panel)
+		start_space_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		start_space_panel.size = Vector2(
+			MapSettings.play_space_size.y * map_data["StartSpacesColumns"], 
+			MapSettings.play_space_size.x * map_data["StartSpacesRows"]
+		)
+		start_space_panel.add_theme_stylebox_override("panel", border)
+		start_space_panel.get_theme_stylebox("panel").bg_color = Color("99999900")
+		start_space_panel.get_theme_stylebox("panel").set_border_width_all(
+			MapSettings.play_space_size.x / 30
+		)
+		
+		
+		match [p_id, GameManager.player_id]:
+			[GameManager.p1_id, GameManager.p1_id]:
+				start_space_panel.get_theme_stylebox("panel").border_color = Styling.p1_color
+				start_space_panel.position.x = MapSettings.get_column_start_x(
+					(MapSettings.n_columns - map_data["StartSpacesColumns"]) / 2
+				)
+				start_space_panel.position.y = MapSettings.get_row_start_y(
+					MapSettings.n_rows - map_data["StartSpacesRows"]
+				)
+				start_space_panel.get_theme_stylebox("panel").border_width_bottom = 0
 			
+			[GameManager.p2_id, GameManager.p1_id]:
+				start_space_panel.get_theme_stylebox("panel").border_color = Styling.p2_color
+				start_space_panel.position.x = MapSettings.get_column_start_x(
+					(MapSettings.n_columns - map_data["StartSpacesColumns"]) / 2
+				)
+				start_space_panel.position.y = MapSettings.get_row_start_y(
+					0
+				)
+				start_space_panel.get_theme_stylebox("panel").border_width_top = 0
+			
+			[GameManager.p2_id, GameManager.p2_id]:
+				start_space_panel.get_theme_stylebox("panel").border_color = Styling.p2_color
+				start_space_panel.position.x = MapSettings.get_column_start_x(
+					map_data["StartSpacesColumns"]
+				)
+				start_space_panel.position.y = MapSettings.get_row_end_y(
+					map_data["StartSpacesRows"]
+				)
+				start_space_panel.get_theme_stylebox("panel").border_width_bottom = 0
+			
+			[GameManager.p1_id, GameManager.p2_id]:
+				start_space_panel.get_theme_stylebox("panel").border_color = Styling.p1_color
+				
+				start_space_panel.position.x = MapSettings.get_column_start_x(
+					map_data["StartSpacesColumns"]
+				)
+				start_space_panel.position.y = MapSettings.get_row_end_y(
+					MapSettings.n_rows
+				)
+				start_space_panel.get_theme_stylebox("panel").border_width_top = 0
+
 
 func _set_end_turn_button() -> void:
 	$EndTurnButton.scale.x *= (MapSettings.total_screen.x / 10) / $EndTurnButton.size.x
