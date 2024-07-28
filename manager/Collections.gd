@@ -29,7 +29,7 @@ enum triggers {
 	}
 	
 enum play_space_attributes {
-	DRAW_CARD_SPACE, P1_START_SPACE, P2_START_SPACE, RESOURCE_SPACE, 
+	P1_START_SPACE, P2_START_SPACE, RESOURCE_SPACE, 
 }
 
 enum players { P1, P2 }

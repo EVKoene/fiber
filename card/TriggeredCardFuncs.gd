@@ -4,9 +4,7 @@ extends Node
 func frenzy(
 	card: CardInPlay, trigger: int, triggering_card: CardInPlay, _func_arguments: Dictionary
 ) -> void:
-	if trigger == Collections.triggers.CARD_CREATED and triggering_card == card:
-		card.exhaust()
-	elif (
+	if (
 		trigger == Collections.triggers.TURN_STARTED 
 		and GameManager.turn_manager.turn_owner_id == card.card_owner_id
 	):
@@ -28,6 +26,7 @@ func frenzy(
 				card.exhaust()
 		else:
 			card.exhaust()
+		await get_tree().create_timer(0.25).timeout
 
 
 func damage_self(

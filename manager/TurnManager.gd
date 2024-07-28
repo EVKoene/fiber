@@ -49,7 +49,6 @@ func start_turn(player_id: int) -> void:
 	for p in GameManager.players:
 		for c in GameManager.cards_in_play[p]:
 			c.call_triggered_funcs(Collections.triggers.TURN_STARTED, c)
-			await get_tree().create_timer(0.25).timeout
 	show_end_turn_button.rpc_id(player_id)
 	if turn_count >= 2:
 		GameManager.decks[player_id].draw_card()

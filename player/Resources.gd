@@ -88,20 +88,8 @@ func gold_needed(costs: Costs) -> int:
 
 func add_resources_from_spaces() -> void:
 	for ps in GameManager.resource_spaces:
-		if !ps.card_in_this_play_space:
-			continue
-		
-		var c: CardInPlay = ps.card_in_this_play_space
-		if c.fabrication or c.card_owner_id != resources_owner_id:
-			continue
-		
-		if len(c.factions) < 1:
-			assert(false, str("Can't find factions for ", c.card_name, " to add resources"))
-		if len(c.factions) == 1:
-			add_resource(c.factions[0], 2)
-		if len(c.factions) > 1:
-			for f in c.factions:
-				add_resource(f, 1)
+		if ps.conquered_by == resources_owner_id:
+			gold += 2
 
 
 func get_resources() -> Dictionary:

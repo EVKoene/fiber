@@ -31,7 +31,7 @@ func connected_to_server() -> void:
 	print("Connected to server!")
 	# This will only work as long as we have max 2 players
 	_add_player_to_gamemanager.rpc_id(
-		1, 2, multiplayer.get_unique_id(), "Player2", DeckCollection.player_testing_deck
+		1, 2, multiplayer.get_unique_id(), "Player2", DeckCollection.animal_deck
 	)
 	GameManager.player_id = multiplayer.get_unique_id()
 
@@ -81,14 +81,15 @@ func _on_host_pressed():
 	multiplayer.set_multiplayer_peer(peer)
 	print("Waiting for players")
 	_add_player_to_gamemanager(
-		1, multiplayer.get_unique_id(), "Player1", DeckCollection.player_testing_deck
+		1, multiplayer.get_unique_id(), "Player1", DeckCollection.animal_deck
 	)
-	GameManager.player_id = multiplayer.get_unique_id()	
+	GameManager.player_id = multiplayer.get_unique_id()
 	GameManager.is_player_1 = true
 
 
 func _on_join_pressed():
 	peer = ENetMultiplayerPeer.new()
+	peer.create_client($CenterContainer/VBoxContainer/IPAddress.text, port)
 	peer.create_client(address, port)
 	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
 	multiplayer.set_multiplayer_peer(peer)

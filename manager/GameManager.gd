@@ -26,7 +26,8 @@ var decks := {}
 var starting_draw: int = 3
 
 # cards_in_hand and cards_in_play contain the two player ids as keys with an array containing all 
-# the the current card nodes beloning to them.
+# the the current card nodes beloning to them. They use the card_in_play_index (cip_index) and
+# hand_index.
 var cards_in_hand := {}
 var cards_in_play := {}
 
