@@ -39,7 +39,8 @@ func show_text(text_to_show: String) -> void:
 
 
 func _start_first_turn() -> void:
-	var first_player_id = [GameManager.p1_id, GameManager.p2_id].pick_random()
+	var first_player_id = GameManager.p1_id
+	#var first_player_id = [GameManager.p1_id, GameManager.p2_id].pick_random()
 	GameManager.turn_manager.hide_end_turn_button.rpc_id(
 		GameManager.opposing_player_id(first_player_id)
 	)

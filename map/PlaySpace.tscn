@@ -4,6 +4,7 @@
 
 [node name="PlaySpace" type="Panel"]
 custom_minimum_size = Vector2(100, 100)
+mouse_filter = 1
 script = ExtResource("1_alh3i")
 
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]
