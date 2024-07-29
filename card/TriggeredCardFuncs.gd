@@ -2,7 +2,7 @@ extends Node
 
 
 func frenzy(
-	card: CardInPlay, trigger: int, triggering_card: CardInPlay, _func_arguments: Dictionary
+	card: CardInPlay, trigger: int, _triggering_card: CardInPlay, _func_arguments: Dictionary
 ) -> void:
 	if (
 		trigger == Collections.triggers.TURN_STARTED 

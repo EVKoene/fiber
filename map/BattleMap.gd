@@ -19,6 +19,7 @@ func _ready():
 	_create_battle_map()
 	_set_zoom_preview_position_and_size()
 	_set_end_turn_button()
+	_set_finish_button()
 	_set_resource_bars_position_and_size()
 	_set_text_containers()
 	_set_cards_in_play_and_hand_dicts()
@@ -31,6 +32,11 @@ func _ready():
 		# the decks on the server
 		_add_decks()
 		_start_first_turn()
+	
+	Events.show_finish_button.connect(_show_finish_button)
+	Events.hide_finish_button.connect(_hide_finish_button)
+	Events.show_instructions.connect(_show_instructions)
+	Events.hide_instructions.connect(_hide_instructions)
 
 
 func show_text(text_to_show: String) -> void:
@@ -39,7 +45,8 @@ func show_text(text_to_show: String) -> void:
 
 
 func _start_first_turn() -> void:
-	var first_player_id = [GameManager.p1_id, GameManager.p2_id].pick_random()
+	var first_player_id = GameManager.p1_id
+	#var first_player_id = [GameManager.p1_id, GameManager.p2_id].pick_random()
 	GameManager.turn_manager.hide_end_turn_button.rpc_id(
 		GameManager.opposing_player_id(first_player_id)
 	)
@@ -185,6 +192,23 @@ func _set_end_turn_button() -> void:
 	end_turn_button = $EndTurnButton
 
 
+func _hide_finish_button() -> void:
+	$FinishButton.hide()
+
+
+func _show_finish_button() -> void:
+	$FinishButton.show()
+
+
+func _set_finish_button() -> void:
+	var button = $FinishButton
+	button.text = "Finish"
+	button.custom_minimum_size.y = MapSettings.play_space_size.y / 2
+	button.custom_minimum_size.x = MapSettings.play_space_size.x
+	button.position.x = MapSettings.total_screen.x - MapSettings.play_space_size.x
+	button.position.y = MapSettings.total_screen.y * 0.8
+
+
 func _set_zoom_preview_position_and_size() -> void:
 	var zoom_preview_size: Vector2 = Vector2(
 		MapSettings.total_screen.x * 0.2, MapSettings.total_screen.x * 0.2
@@ -261,14 +285,27 @@ func _create_progress_bars() -> void:
 					sb.bg_color = Color.hex(0xf3131edc)
 
 
+func _hide_instructions() -> void:
+	$InstructionContainer.hide()
+
+
+func _show_instructions(instruction_text: String) -> void:
+	$InstructionContainer/InstructionText.text = instruction_text
+	$InstructionContainer.show()
+
+
 func _set_text_containers() -> void:
-	$InstructionContainer.scale.x *= (MapSettings.play_space_size.x * 2) / $InstructionContainer.size.x
-	$InstructionContainer.scale.y *= (MapSettings.total_screen.y / 5) / $InstructionContainer.size.y
+	$InstructionContainer.size.x = (MapSettings.play_space_size.x * 2)
+	$InstructionContainer.size.y = (MapSettings.total_screen.y / 5)
 	$InstructionContainer.position.x = MapSettings.total_screen.x - MapSettings.play_space_size.x * 2
 	$InstructionContainer.position.y = MapSettings.total_screen.y * 0.6
+	$InstructionContainer/InstructionText.label_settings = LabelSettings.new()
+	$InstructionContainer/InstructionText.label_settings.font_size = round(
+		MapSettings.play_space_size.x
+	)/15
 	instruction_container = $InstructionContainer
 	
-	$TextBox.scale *= MapSettings.total_screen / $TextBox.size
+	$TextBox.size = MapSettings.total_screen
 	text_box = $TextBox
 
 
@@ -281,6 +318,12 @@ func _set_cards_in_play_and_hand_dicts() -> void:
 
 func _on_end_turn_button_pressed():
 	GameManager.turn_manager.end_turn.rpc_id(GameManager.p1_id, GameManager.player_id)
+
+
+func _on_finish_button_pressed():
+		Events.finish_button_pressed.emit()
+		TargetSelection.space_selection_finished.emit()
+		TargetSelection.target_selection_finished.emit()
 
 
 func _create_resources():

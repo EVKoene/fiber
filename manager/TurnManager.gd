@@ -9,7 +9,7 @@ class_name TurnManager
 
 enum turn_stages { CARD_PLAYS, END_TURN, START_TURN }
 
-@export var turn_count := 0
+var turn_count := 0
 @export var turn_owner_id: int
 @export var turn_stage: int
 # Turn actions should be disabled whenever we don't want te player to be able to make a move,
@@ -33,11 +33,11 @@ func show_start_turn_text() -> void:
 @rpc("any_peer", "call_local")
 func start_turn(player_id: int) -> void:
 	assert(GameManager.is_server, "Start turn func should only be called by server")
+	turn_count += 1
 	turn_stage = turn_stages.START_TURN
 	turn_owner_id = player_id
-	turn_count += 1
+	GameManager.resources[player_id].refresh.rpc_id(player_id, turn_count)
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		refresh_resources.rpc_id(p_id, player_id)
 		# NOTE that we update modifiers before calling triggered funcs. This choice has been
 		# made early in development and can be changed if it opens potential interesting 
 		# interactions
@@ -61,12 +61,6 @@ func update_modifiers() -> void:
 		for c in GameManager.cards_in_play[p]:
 			c.battle_stats.update_modifiers()
 			c.update_stats()
-
-
-@rpc("call_local")
-func refresh_resources(player_id: int) -> void:
-	GameManager.resources[player_id].refresh()
-	GameManager.resources[player_id].add_resources_from_spaces()
 
 
 @rpc("any_peer", "call_local")

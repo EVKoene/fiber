@@ -3,6 +3,7 @@ extends Control
 @export var address := "127.0.0.1"
 @export var port = 8910
 var peer
+var testing := true
 
 func _ready():
 	multiplayer.peer_connected.connect(peer_connected)
@@ -29,9 +30,15 @@ func peer_disconnected(id: int) -> void:
 
 func connected_to_server() -> void:
 	print("Connected to server!")
+	var deck: Dictionary
+	if testing:
+		deck = DeckCollection.player_testing_deck
+	else:
+		deck = DeckCollection.animal_deck
+	
 	# This will only work as long as we have max 2 players
 	_add_player_to_gamemanager.rpc_id(
-		1, 2, multiplayer.get_unique_id(), "Player2", DeckCollection.animal_deck
+		1, 2, multiplayer.get_unique_id(), "Player2", deck
 	)
 	GameManager.player_id = multiplayer.get_unique_id()
 
@@ -80,8 +87,14 @@ func _on_host_pressed():
 	
 	multiplayer.set_multiplayer_peer(peer)
 	print("Waiting for players")
+	var deck: Dictionary
+	if testing:
+		deck = DeckCollection.player_testing_deck
+	else:
+		deck = DeckCollection.animal_deck
+	
 	_add_player_to_gamemanager(
-		1, multiplayer.get_unique_id(), "Player1", DeckCollection.animal_deck
+		1, multiplayer.get_unique_id(), "Player1", deck
 	)
 	GameManager.player_id = multiplayer.get_unique_id()
 	GameManager.is_player_1 = true
@@ -89,9 +102,10 @@ func _on_host_pressed():
 
 func _on_join_pressed():
 	peer = ENetMultiplayerPeer.new()
-	# Uncomment line to use line edit as ip address to connect to
-	peer.create_client($CenterContainer/VBoxContainer/IPAddress.text, port)
-	# Uncomment line when running two instances on the same machine
-	#peer.create_client(address, port)
-	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
+	if testing:
+		peer.create_client(address, port)
+	else:
+		peer.create_client($CenterContainer/VBoxContainer/IPAddress.text, port)
+	
 	multiplayer.set_multiplayer_peer(peer)
+	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)

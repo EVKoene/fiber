@@ -163,28 +163,28 @@ func set_resources(
 @rpc("any_peer", "call_local")
 func set_progress_bars() -> void:
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		var occupied_resource_spaces := 0
+		var conquered_resource_spaces := 0
 		for s in GameManager.resource_spaces:
-			if !s.card_in_this_play_space:
+			if !s.conquered_by:
 				continue
 			if s.card_in_this_play_space.card_owner_id == p_id:
-				occupied_resource_spaces += 1
+				conquered_resource_spaces += 1
 		
 		if (
-			occupied_resource_spaces > MapSettings.n_progress_bars 
+			conquered_resource_spaces > MapSettings.n_progress_bars 
 			and GameManager.player_id == p_id
 		):
 			GameManager.battle_map.show_text("You win!")
 			get_tree().quit()
 		elif (
-			occupied_resource_spaces > MapSettings.n_progress_bars 
+			conquered_resource_spaces > MapSettings.n_progress_bars 
 			and GameManager.player_id != p_id
 		):
 			GameManager.battle_map.show_text("You lose!")
 			get_tree().quit()
 		
 		for b in range(len(GameManager.progress_bars[p_id])):
-			if occupied_resource_spaces > b:
+			if conquered_resource_spaces > b:
 				GameManager.progress_bars[p_id][b].value = 100
 			else:
 				GameManager.progress_bars[p_id][b].value = 0
@@ -215,6 +215,32 @@ func move_to_play_space(
 	card.set_position_to_play_space()
 	card.update_stats()
 
+
+@rpc("any_peer", "call_local")
+func swap_cards(
+	card_owner_id_1: int, cip_index_1: int, card_owner_id_2: int, cip_index_2: int
+) -> void:
+	var card_1: CardInPlay = GameManager.cards_in_play[card_owner_id_1][cip_index_1]
+	var card_2: CardInPlay = GameManager.cards_in_play[card_owner_id_2][cip_index_2]
+	var new_column_1 := card_2.column
+	var new_column_2 := card_1.column
+	var new_row_1 := card_2.row
+	var new_row_2 := card_1.row
+	
+	card_1.current_play_space.card_in_this_play_space = null
+	card_1.column = new_column_1
+	card_1.row = new_row_1
+	card_1.current_play_space.card_in_this_play_space = card_1
+	card_1.set_position_to_play_space()
+	card_1.update_stats()
+	
+	card_2.current_play_space.card_in_this_play_space = null
+	card_2.column = new_column_2
+	card_2.row = new_row_2
+	card_2.current_play_space.card_in_this_play_space = card_2
+	card_2.set_position_to_play_space()
+	card_2.update_stats()
+	
 
 @rpc("any_peer", "call_local")
 func animate_attack(card_owner_id: int, card_in_play_index: int, direction: int) -> void:
@@ -250,6 +276,13 @@ func set_hand_card_positions() -> void:
 		for k in range(len(GameManager.cards_in_hand[p])):
 			var card: CardInHand = GameManager.cards_in_hand[p][k]
 			card.set_card_position()
+
+
+@rpc("any_peer", "call_local")
+func set_all_borders_to_faction() -> void:
+	for p_id in GameManager.players:
+		for c in GameManager.cards_in_play[p_id]:
+			c.set_border_to_faction()
 
 
 @rpc("any_peer", "call_local")

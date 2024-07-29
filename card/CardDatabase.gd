@@ -35,7 +35,7 @@ var cards_info = {
 		},
 		"MaxAttack": 3, # 3
 		"MinAttack": 0, # 0
-		"Health": 1, # 1
+		"Health": 2, # 2
 		"Movement": 1, # 1
 		"Lord": false,
 		"Purposes": [],
@@ -73,7 +73,7 @@ var cards_info = {
 		"MaxAttack": 3,
 		"MinAttack": 1,
 		"Health": 3,
-		"Movement": 2,
+		"Movement": 1,
 		"Lord": false,
 		"Text": "",
 		"Purposes": [Collections.purposes.BATTLE, Collections.purposes.DEFEND_RESOURCE],
@@ -133,7 +133,7 @@ var cards_info = {
 		},
 		"MaxAttack": 3,
 		"MinAttack": 1,
-		"Health": 2,
+		"Health": 3,
 		"Movement": 1,
 		"Lord": false,
 		"Text": "Add 2 max attack and 1 movement to the units in adjacent spaces",
@@ -170,7 +170,7 @@ var cards_info = {
 		},
 		"MaxAttack": 4,
 		"MinAttack": 2,
-		"Health": 3,
+		"Health": 5,
 		"Movement": 10, # 10
 		"Lord": false,
 		"Text": "Can only move in a straight line without stopping. If this unit moves 2 or more before attacking, will deal 1 damage to defending unit and 1 damage to itself",
@@ -226,7 +226,7 @@ var cards_info = {
 		},
 		"MaxAttack": 3,
 		"MinAttack": 1,
-		"Health": 4,
+		"Health": 5,
 		"Movement": 1,
 		"Lord": true,
 		"Text": "Exhaust: Create a 2m 1/1 <N> Insect fabrication with frenzy, and 'this unit
@@ -241,12 +241,13 @@ var cards_info = {
 		"CardType": Collections.card_types.UNIT,
 		"Costs": {
 			Collections.factions.ANIMAL: 0,
-			Collections.factions.MAGIC: 1,
+			Collections.factions.MAGIC: 1, # 1
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
 		},
-		"Attack": 1,
-		"Health": 2,
+		"MaxAttack": 2,
+		"MinAttack": 1,
+		"Health": 1,
 		"Movement": 2,
 		"Lord": false,
 		"Text": "Exhaust: Swap with one of your own units",
@@ -1170,8 +1171,8 @@ func get_card_class(card_index: int) -> Variant:
 #
 		#### Magic ###
 #
-		#cards.WIZARD_SCOUT:
-			#card = WizardScout
+		cards.WIZARD_SCOUT:
+			card = WizardScout
 		#cards.SWITCHEROO:
 			#card = Switcheroo
 		#cards.EPHEMERAL_ASSASSIN:

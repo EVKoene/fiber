@@ -66,6 +66,11 @@ offset_top = 158.0
 offset_right = 400.0
 offset_bottom = 258.0
 
+[node name="FinishButton" type="Button" parent="."]
+visible = false
+offset_right = 8.0
+offset_bottom = 8.0
+
 [node name="ResourceBarP1" type="Panel" parent="."]
 offset_right = 40.0
 offset_bottom = 40.0
@@ -90,3 +95,4 @@ layout_mode = 2
 text = "Test"
 
 [connection signal="pressed" from="EndTurnButton" to="." method="_on_end_turn_button_pressed"]
+[connection signal="pressed" from="FinishButton" to="." method="_on_finish_button_pressed"]

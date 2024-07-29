@@ -1,6 +1,7 @@
 extends Node
 
 signal target_selection_finished
+signal space_selection_finished
 
 
 enum target_restrictions {ANY_SPACE, OWN_UNITS, OPPONENT_UNITS, ANY_UNITS}
@@ -68,6 +69,7 @@ func end_selecting() -> void:
 	clear_arrows()
 	clear_selections()
 	clear_card_action_menu()
+	Events.hide_finish_button.emit()
 
 
 func clear_selections() -> void:
@@ -75,8 +77,7 @@ func clear_selections() -> void:
 	selected_card = null
 	selected_targets = []
 	for p in GameManager.players:
-		for c in GameManager.cards_in_play[p]:
-			c.set_border_to_faction()
+		MultiPlayerManager.set_all_borders_to_faction.rpc_id(p)
 
 
 func clear_paths() -> void:
