@@ -5,11 +5,10 @@ class_name CardActionMenu
 var action_button_scene := preload("res://card/CardActionMenuButton.tscn")
 var cip_index: int
 var card_owner_id: int
-var column: int
-var row: int
-
+var card: CardInPlay
 
 func _ready():
+	card = GameManager.cards_in_play[card_owner_id][cip_index]
 	_set_card_action_menu_buttons()
 
 
@@ -30,8 +29,8 @@ func _set_card_action_menu_buttons() -> void:
 		n_buttons += 1
 	if (
 		Collections.play_space_attributes.RESOURCE_SPACE 
-		in GameManager.ps_column_row[column][row].attributes
-		and !GameManager.cards_in_play[card_owner_id][cip_index].fabrication
+		in GameManager.ps_column_row[card.column][card.row].attributes
+		and !card.fabrication
 	):
 		var action_button := action_button_scene.instantiate()
 		action_button.conquer_space = true

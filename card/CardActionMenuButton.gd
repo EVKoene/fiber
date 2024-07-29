@@ -31,6 +31,6 @@ func _on_pressed():
 		card.abilities[func_index]["AbilityCosts"]
 	):
 		card.use_ability(func_index)
-		TargetSelection.end_selecting()
+		TargetSelection.clear_card_action_menu()
 	else:
 		TargetSelection.end_selecting()

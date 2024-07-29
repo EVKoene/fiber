@@ -1,5 +1,6 @@
 extends Node
 
+var version := "0.0.1"
 var p1_id: int
 var p2_id: int
 var players := {}

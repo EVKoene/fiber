@@ -63,12 +63,13 @@ func spend_resource(faction: Collections.factions, value: int) -> void:
 	_update_resources()
 
 
-func refresh() -> void:
+@rpc("call_local", "any_peer")
+func refresh(turn_count: int) -> void:
 	animal = 0
 	magic = 0
 	nature = 0
 	robot = 0
-	if GameManager.turn_manager.turn_count >= 2:
+	if turn_count >= 2:
 		gold = 2
 	else:
 		gold = 1
@@ -105,4 +106,4 @@ func _update_resources() -> void:
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
 		MultiPlayerManager.set_resources.rpc_id(
 			p_id, resources_owner_id, gold, animal, magic, nature, robot
-			)
+		)
