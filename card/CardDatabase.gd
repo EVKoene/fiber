@@ -293,7 +293,7 @@ var cards_info = {
 		"Factions": [Collections.factions.MAGIC],
 		"Costs": {
 			Collections.factions.ANIMAL: 0,
-			Collections.factions.MAGIC: 4, # 2
+			Collections.factions.MAGIC: 3, # 3
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
 		},
@@ -313,7 +313,7 @@ var cards_info = {
 		"Factions": [Collections.factions.MAGIC],
 		"Costs": {
 			Collections.factions.ANIMAL: 0,
-			Collections.factions.MAGIC: 2, # 2
+			Collections.factions.MAGIC: 4, # 2
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
 		},
