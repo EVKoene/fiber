@@ -207,7 +207,8 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 	var h_index: int = data.hand_index
 	match data.card_type:
 		Collections.card_types.UNIT:
-			GameManager.resources[data.card_owner_id].pay_costs(data.costs)
+			if !GameManager.testing:
+				GameManager.resources[data.card_owner_id].pay_costs(data.costs)
 			for p_id in [GameManager.p1_id, GameManager.p2_id]:
 				MultiPlayerManager.play_unit.rpc_id(
 					p_id, data.card_index, data.card_owner_id, column, row
