@@ -112,10 +112,10 @@ func _on_join_pressed():
 
 func _on_testing_button_pressed():
 	if GameManager.testing:
-		$CenterContainer/VBoxContainer/TestingButton.text = "Turn on testing"
+		$TestingButton.text = "Turn on testing"
 		GameManager.testing = false
 		$CenterContainer/VBoxContainer/IPAddress.show()
 	else:
-		$CenterContainer/VBoxContainer/TestingButton.text = "Turn off testing"
+		$TestingButton.text = "Turn off testing"
 		GameManager.testing = true
 		$CenterContainer/VBoxContainer/IPAddress.hide()

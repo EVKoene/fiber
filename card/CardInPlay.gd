@@ -192,6 +192,7 @@ func resolve_damage(value: int) -> void:
 
 
 func destroy() -> void:
+	GameManager.call_triggered_funcs(Collections.triggers.CARD_DESTROYED, self)
 	remove_from_cards_in_play()
 	queue_free()
 
