@@ -215,11 +215,10 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 				MultiPlayerManager.remove_card_from_hand.rpc_id(
 					p_id, c_owner_id, h_index
 				)
+			if len(data.factions) == 1:
+				GameManager.resources[data.card_owner_id].add_resource(data.factions[0], 1)
 		Collections.card_types.SPELL:
-			MultiPlayerManager.play_spell.rpc_id(
-				data.card_owner_id, data.card_index, data.hand_index, data.card_owner_id, column,
-				row
-			)
+			data.play_spell(column, row)
 
 
 func _set_play_space_attributes() -> void:

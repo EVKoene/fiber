@@ -1173,8 +1173,8 @@ func get_card_class(card_index: int) -> Variant:
 #
 		cards.WIZARD_SCOUT:
 			card = WizardScout
-		#cards.SWITCHEROO:
-			#card = Switcheroo
+		cards.SWITCHEROO:
+			card = Switcheroo
 		#cards.EPHEMERAL_ASSASSIN:
 			#card = EphemeralAssassin
 		#cards.MIST_CONJURER:
