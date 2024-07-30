@@ -56,10 +56,7 @@ func _ready():
 
 
 func enter_battle() -> void:
-	# We can't just use exhaust here, because this function is called before the other player has
-	# created this unit.
-	modulate = Color(0.5, 0.5, 0.5, 1)
-	exhausted = true
+	pass
 
 
 func attack_card(target_card: CardInPlay) -> void:
@@ -83,7 +80,6 @@ func select_card(show_select: bool) -> void:
 
 
 func swap_with_card(swap_card_owner_id: int, swap_cip_index: int) -> void:
-	var swap_card: CardInPlay = GameManager.cards_in_play[swap_card_owner_id][swap_cip_index]
 	GameManager.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, self)
 	for p_id in GameManager.players:
 		MultiPlayerManager.swap_cards.rpc_id(
@@ -252,6 +248,16 @@ func spaces_in_range_to_attack_card(card: CardInPlay) -> Array:
 			spaces_to_attack_from.append(ps)
 
 	return spaces_to_attack_from
+
+
+func resolve_spell(_target_column: int, _target_row: int) -> bool:
+	assert(
+		false, str(
+			"resolve spell not implemented for ", ingame_name, ", function must be overriden in ",
+			ingame_name, "script." 
+		)
+	)
+	return false
 
 
 func set_border_to_faction():
@@ -430,10 +436,7 @@ func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 
 
 func _drop_data(_at_position: Vector2, data: Variant) -> void:
-	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		MultiPlayerManager.play_spell.rpc_id(
-			p_id, data.card_index, data.hand_index, data.card_owner_id, column, row
-		)
+	data.play_spell(column, row)
 
 
 func _on_mouse_entered():

@@ -48,28 +48,6 @@ func resolve_damage(card_owner_id, cip_index, value):
 
 
 @rpc("any_peer", "call_local")
-func play_spell(
-	card_index: int, hand_index: int, card_owner_id: int, column: int, row: int
-) -> void:
-	var hand_card: CardInHand = GameManager.cards_in_hand[card_owner_id][hand_index]
-	var h_index = hand_card.hand_index
-	GameManager.zoom_preview.lock_zoom_preview_hand(hand_card)
-	var card: CardInPlay = CardDatabase.get_card_class(hand_card.card_index).new()
-	card.card_owner_id = hand_card.card_owner_id
-	
-	var succesfull_resolve: bool = await card.resolve_spell(column, row)
-	if succesfull_resolve:
-		GameManager.resources[card_owner_id].pay_costs(hand_card.costs)
-		for p_id in GameManager.players:
-			MultiPlayerManager.remove_card_from_hand.rpc_id(p_id, card_owner_id, h_index)
-	
-	TargetSelection.end_selecting()
-	await get_tree().create_timer(0.5).timeout
-	GameManager.zoom_preview.reset_zoom_preview()
-
-
-
-@rpc("any_peer", "call_local")
 func play_unit(card_index: int, card_owner_id: int, column: int, row: int) -> void:
 	var card: CardInPlay = card_in_play_scene.instantiate()
 	card.set_script(CardDatabase.get_card_class(card_index))
@@ -299,3 +277,14 @@ func draw_card(card_owner_id: int) -> void:
 @rpc("any_peer", "call_local")
 func draw_type_put_rest_bottom(card_owner_id: int, card_type: int) -> void:
 	GameManager.decks[card_owner_id].draw_type_put_rest_bottom(card_type)
+
+
+@rpc("any_peer", "call_local")
+func lock_zoom_preview_hand(card_owner_id: int, hand_index: int) -> void:
+	var hand_card: CardInHand = GameManager.cards_in_hand[card_owner_id][hand_index]
+	GameManager.zoom_preview.lock_zoom_preview_hand(hand_card)
+
+
+@rpc("any_peer", "call_local")
+func reset_zoom_preview() -> void:
+	GameManager.zoom_preview.reset_zoom_preview()
