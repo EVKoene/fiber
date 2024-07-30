@@ -20,6 +20,8 @@ func _ready():
 
 
 func can_pay_costs(costs: Costs) -> bool:
+	if GameManager.testing:
+		return true
 	if gold_needed(costs) <= gold:
 		return true
 	else:
@@ -27,6 +29,9 @@ func can_pay_costs(costs: Costs) -> bool:
 
 
 func pay_costs(costs: Costs) -> void:
+	if GameManager.testing:
+		return
+	
 	gold -= gold_needed(costs)
 	for faction in Collections.all_factions:
 		if get_resources()[faction] > costs.get_costs()[faction]:
