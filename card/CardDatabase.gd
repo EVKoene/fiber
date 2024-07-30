@@ -317,8 +317,9 @@ var cards_info = {
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
 		},
-		"Attack": 2,
-		"Health": 1,
+		"MaxAttack": 4,
+		"MinAttack": 3,
+		"Health": 3,
 		"Movement": 3,
 		"Lord": false,
 		"Text": "This unit can move through units",
@@ -1176,8 +1177,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = WizardScout
 		cards.SWITCHEROO:
 			card = Switcheroo
-		#cards.EPHEMERAL_ASSASSIN:
-			#card = EphemeralAssassin
+		cards.EPHEMERAL_ASSASSIN:
+			card = EphemeralAssassin
 		cards.MIST_CONJURER:
 			card = MistConjurer
 		#cards.FIREBALL_SHOOTER:
