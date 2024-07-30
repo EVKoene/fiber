@@ -20,6 +20,7 @@ func _ready():
 	_set_zoom_preview_position_and_size()
 	_set_end_turn_button()
 	_set_finish_button()
+	_set_resolve_spell_button()
 	_set_resource_bars_position_and_size()
 	_set_text_containers()
 	_set_cards_in_play_and_hand_dicts()
@@ -34,7 +35,6 @@ func _ready():
 		_start_first_turn()
 	
 	Events.show_finish_button.connect(_show_finish_button)
-	Events.hide_finish_button.connect(_hide_finish_button)
 	Events.show_instructions.connect(_show_instructions)
 	Events.hide_instructions.connect(_hide_instructions)
 
@@ -192,10 +192,6 @@ func _set_end_turn_button() -> void:
 	end_turn_button = $EndTurnButton
 
 
-func _hide_finish_button() -> void:
-	$FinishButton.hide()
-
-
 func _show_finish_button() -> void:
 	$FinishButton.show()
 
@@ -203,6 +199,20 @@ func _show_finish_button() -> void:
 func _set_finish_button() -> void:
 	var button = $FinishButton
 	button.text = "Finish"
+	button.custom_minimum_size.y = MapSettings.play_space_size.y / 2
+	button.custom_minimum_size.x = MapSettings.play_space_size.x
+	button.position.x = MapSettings.total_screen.x - MapSettings.play_space_size.x
+	button.position.y = MapSettings.total_screen.y * 0.8
+
+
+@rpc("any_peer", "call_local")
+func show_resolve_spell_button() -> void:
+	$ResolveSpellButton.show()
+
+
+func _set_resolve_spell_button() -> void:
+	var button = $ResolveSpellButton
+	button.text = "Resolve"
 	button.custom_minimum_size.y = MapSettings.play_space_size.y / 2
 	button.custom_minimum_size.x = MapSettings.play_space_size.x
 	button.position.x = MapSettings.total_screen.x - MapSettings.play_space_size.x
@@ -321,9 +331,17 @@ func _on_end_turn_button_pressed():
 
 
 func _on_finish_button_pressed():
-		Events.finish_button_pressed.emit()
-		TargetSelection.space_selection_finished.emit()
-		TargetSelection.target_selection_finished.emit()
+	Events.finish_button_pressed.emit()
+	TargetSelection.space_selection_finished.emit()
+	TargetSelection.target_selection_finished.emit()
+	$FinishButton.hide()
+
+
+func _on_resolve_spell_button_pressed():
+	MultiPlayerManager.resolve_spell_agreed.rpc_id(
+		GameManager.opposing_player_id(GameManager.player_id)
+	)
+	$ResolveSpellButton.hide()
 
 
 func _create_resources():

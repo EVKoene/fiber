@@ -307,6 +307,14 @@ func unflip_card() -> void:
 	$CardImage.flip_v = false
 
 
+func _is_resolve_spell_agreed() -> bool:
+	Events.show_instructions.emit("Awaiting opponent agreement to spell resolve...")
+	MultiPlayerManager.ask_resolve_spell_agreement()
+	await Events.resolve_spell_button_pressed
+	
+	return true
+
+
 @rpc("any_peer", "call_local")
 func remove_from_cards_in_play() -> void:
 	GameManager.cards_in_play[card_owner_id].remove_at(card_in_play_index)

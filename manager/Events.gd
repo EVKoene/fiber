@@ -1,7 +1,11 @@
 extends Node
 
 signal show_finish_button
-signal hide_finish_button
 signal show_instructions(instruction_text: String)
+
+signal show_resolve_spell_button
+signal resolve_spell_button_pressed
+
 signal hide_instructions
+
 signal clear_paths

@@ -17,7 +17,6 @@ func _input(event):
 	if Input.is_action_just_pressed("ui_cancel") and TargetSelection.making_selection:
 		TargetSelection.end_selecting()
 		Events.clear_paths.emit()
-		Events.hide_finish_button.emit()
 
 	elif event.is_action_pressed("pause"):
 		is_paused = !is_paused

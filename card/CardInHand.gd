@@ -42,7 +42,7 @@ func play_spell(column: int, row: int) -> void:
 	card.card_owner_id = card_owner_id
 	var succesfull_resolve: bool = await card.resolve_spell(column, row)
 	TargetSelection.end_selecting()
-	await get_tree().create_timer(0.5).timeout
+	
 	for p_id in GameManager.players:
 		MultiPlayerManager.reset_zoom_preview.rpc_id(p_id)
 

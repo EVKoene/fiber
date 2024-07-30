@@ -277,7 +277,7 @@ var cards_info = {
 		"Factions": [Collections.factions.MAGIC],
 		"Costs": {
 			Collections.factions.ANIMAL: 0,
-			Collections.factions.MAGIC: 1,
+			Collections.factions.MAGIC: 3, # 3
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
 		},
@@ -1191,8 +1191,8 @@ func get_card_class(card_index: int) -> Variant:
 			#card = HyrsmirRulerOfPhysics
 		#cards.FLOW_ACCELERATOR:
 			#card = FlowAccelerator
-		#cards.ARCANE_ARROW:
-			#card = ArcaneArrow
+		cards.ARCANE_ARROW:
+			card = ArcaneArrow
 		#cards.PSYCHIC_TAKEOVER:
 			#card = PsychicTakeover
 #

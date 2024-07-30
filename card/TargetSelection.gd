@@ -70,7 +70,6 @@ func end_selecting() -> void:
 	clear_selections()
 	clear_card_action_menu()
 	target_selection_finished.emit()
-	Events.hide_finish_button.emit()
 	Events.hide_instructions.emit()
 
 
