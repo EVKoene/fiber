@@ -293,15 +293,16 @@ var cards_info = {
 		"Factions": [Collections.factions.MAGIC],
 		"Costs": {
 			Collections.factions.ANIMAL: 0,
-			Collections.factions.MAGIC: 2, # 2
+			Collections.factions.MAGIC: 4, # 2
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
 		},
-		"Attack": 3,
-		"Health": 1,
+		"MaxAttack": 4,
+		"MinAttack": 2,
+		"Health": 2,
 		"Movement": 1,
 		"Lord": false,
-		"Text": "Opponent units in adjacent spaces get -1 attack",
+		"Text": "Opponent units in adjacent spaces get -2 Max attack",
 		"Purposes": [Collections.purposes.BATTLE, Collections.purposes.DEBUFF_ADJACENT],
 		"IMGPath": "res://library/magic/images/MistConjurer.png",
 	},
@@ -1177,8 +1178,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = Switcheroo
 		#cards.EPHEMERAL_ASSASSIN:
 			#card = EphemeralAssassin
-		#cards.MIST_CONJURER:
-			#card = MistConjurer
+		cards.MIST_CONJURER:
+			card = MistConjurer
 		#cards.FIREBALL_SHOOTER:
 			#card = FireballShooter
 		cards.HOMUNCULUS:
