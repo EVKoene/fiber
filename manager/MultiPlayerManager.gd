@@ -145,7 +145,7 @@ func set_progress_bars() -> void:
 		for s in GameManager.resource_spaces:
 			if !s.conquered_by:
 				continue
-			if s.card_in_this_play_space.card_owner_id == p_id:
+			if s.conquered_by == p_id:
 				conquered_resource_spaces += 1
 		
 		if (
@@ -283,6 +283,17 @@ func draw_type_put_rest_bottom(card_owner_id: int, card_type: int) -> void:
 func lock_zoom_preview_hand(card_owner_id: int, hand_index: int) -> void:
 	var hand_card: CardInHand = GameManager.cards_in_hand[card_owner_id][hand_index]
 	GameManager.zoom_preview.lock_zoom_preview_hand(hand_card)
+
+
+func ask_resolve_spell_agreement() -> void:
+	GameManager.battle_map.show_resolve_spell_button.rpc_id(
+		GameManager.opposing_player_id(GameManager.player_id)
+	)
+
+
+@rpc("any_peer", "call_local")
+func resolve_spell_agreed() -> void:
+	Events.resolve_spell_button_pressed.emit()
 
 
 @rpc("any_peer", "call_local")
