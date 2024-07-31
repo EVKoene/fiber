@@ -72,7 +72,7 @@ func shoot_fireballs() -> bool:
 
 func burn_and_damage(ps_column: int, ps_row: int) -> void:
 	for p_id in GameManager.players:
-		MultiPlayerAnimation.play_burn_animation.rpc_id(p_id, ps_column, ps_row)
+		MPAnimation.play_burn_animation.rpc_id(p_id, ps_column, ps_row)
 	
 	var play_space: PlaySpace = GameManager.ps_column_row[ps_column][ps_row]
 	if play_space.card_in_this_play_space:

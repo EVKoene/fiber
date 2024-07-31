@@ -307,6 +307,26 @@ var cards_info = {
 		"Purposes": [Collections.purposes.BATTLE, Collections.purposes.DEBUFF_ADJACENT],
 		"IMGPath": "res://library/magic/images/MistConjurer.png",
 	},
+
+cards.FLOW_ACCELERATOR: {
+		"InGameName": "Flow Accelerator",
+		"CardType": Collections.card_types.UNIT,
+		"Factions": [Collections.factions.MAGIC],
+		"Costs": {
+			Collections.factions.ANIMAL: 0,
+			Collections.factions.MAGIC: 3, # 3
+			Collections.factions.NATURE: 0,
+			Collections.factions.ROBOT: 0,
+		},
+		"MaxAttack": 2,
+		"MinAttack": 1,
+		"Health": 3,
+		"Movement": 1,
+		"Lord": false,
+		"Text": "When this unit moves, it gets +1 max attack and health for each space it moved until your next turn",
+		"Purposes": [Collections.purposes.REAR],
+		"IMGPath": "res://library/magic/images/FlowAccelerator.png",
+	},
 	
 	cards.EPHEMERAL_ASSASSIN: {
 		"InGameName": "Ephemeral Assassin",
@@ -326,26 +346,6 @@ var cards_info = {
 		"Text": "This unit can move through units",
 		"Purposes": [Collections.purposes.REAR],
 		"IMGPath": "res://library/magic/images/EphemeralAssassin.png",
-	},
-
-cards.FLOW_ACCELERATOR: {
-		"InGameName": "Flow Accelerator",
-		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.MAGIC],
-		"Costs": {
-			Collections.factions.ANIMAL: 0,
-			Collections.factions.MAGIC: 2, # 2
-			Collections.factions.NATURE: 0,
-			Collections.factions.ROBOT: 0,
-		},
-		"Attack": 1,
-		"Health": 1,
-		"Movement": 1,
-		"Lord": false,
-		"Text": "When this unit moves, it gets +1 attack and health for each space it moved until
-		your next turn",
-		"Purposes": [Collections.purposes.REAR],
-		"IMGPath": "res://library/magic/images/FlowAccelerator.png",
 	},
 
 	cards.FIREBALL_SHOOTER: {
@@ -1195,8 +1195,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = AudaciousResearcher
 		#cards.HYRSMIR_RULER_OF_PHYSICS:
 			#card = HyrsmirRulerOfPhysics
-		#cards.FLOW_ACCELERATOR:
-			#card = FlowAccelerator
+		cards.FLOW_ACCELERATOR:
+			card = FlowAccelerator
 		cards.ARCANE_ARROW:
 			card = ArcaneArrow
 		#cards.PSYCHIC_TAKEOVER:

@@ -33,7 +33,7 @@ func create_insects() -> bool:
 		var insect_img_path = "res://library/animal/images/Insect.png"
 		if !ps.card_in_this_play_space:
 			for p_id in GameManager.players:
-				MultiPlayerManager.create_fabrication.rpc_id(
+				MPManager.create_fabrication.rpc_id(
 					p_id, card_owner_id, ps.column, ps.row, "Insect", 1, 1, 1, 1, 
 					insect_triggered_funcs, insect_img_path, [Collections.factions.ANIMAL], {
 						Collections.factions.ANIMAL: 1,

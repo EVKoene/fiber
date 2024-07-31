@@ -109,6 +109,6 @@ func get_resources() -> Dictionary:
 
 func _update_resources() -> void:
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		MultiPlayerManager.set_resources.rpc_id(
+		MPManager.set_resources.rpc_id(
 			p_id, resources_owner_id, gold, animal, magic, nature, robot
 		)

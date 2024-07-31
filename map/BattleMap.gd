@@ -34,6 +34,7 @@ func _ready():
 		_add_decks()
 		_start_first_turn()
 	
+	Events.hide_finish_button.connect(_hide_finish_button)
 	Events.show_finish_button.connect(_show_finish_button)
 	Events.show_instructions.connect(_show_instructions)
 	Events.hide_instructions.connect(_hide_instructions)
@@ -192,6 +193,10 @@ func _set_end_turn_button() -> void:
 	end_turn_button = $EndTurnButton
 
 
+func _hide_finish_button() -> void:
+	$FinishButton.hide()
+
+
 func _show_finish_button() -> void:
 	$FinishButton.show()
 
@@ -338,7 +343,7 @@ func _on_finish_button_pressed():
 
 
 func _on_resolve_spell_button_pressed():
-	MultiPlayerManager.resolve_spell_agreed.rpc_id(
+	MPManager.resolve_spell_agreed.rpc_id(
 		GameManager.opposing_player_id(GameManager.player_id)
 	)
 	$ResolveSpellButton.hide()

@@ -28,6 +28,7 @@ func swap() -> bool:
 			TargetSelection.selected_targets[0].card_in_play_index
 		)
 		exhaust()
+		TargetSelection.making_selection = false
 		TargetSelection.end_selecting()
 		return true
 	else:
