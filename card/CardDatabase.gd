@@ -392,12 +392,13 @@ cards.FLOW_ACCELERATOR: {
 		"CardType": Collections.card_types.UNIT,
 		"Costs": {
 			Collections.factions.ANIMAL: 0,
-			Collections.factions.MAGIC: 3, # 3
+			Collections.factions.MAGIC: 5, # 5
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
 		},
-		"Attack": 2,
-		"Health": 4,
+		"MaxAttack": 4,
+		"MinAttack": 3,
+		"Health": 6,
 		"Movement": 1,
 		"CardFuncs": [],
 		"Lord": false,
@@ -1186,8 +1187,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = FireballShooter
 		cards.HOMUNCULUS:
 			card = Homunculus
-		#cards.JELLYFISH_EXTRAORDINAIRE:
-			#card = JellyfishExtraordinaire
+		cards.JELLYFISH_EXTRAORDINAIRE:
+			card = JellyfishExtraordinaire
 		#cards.AUDACIOUS_RESEARCHER:
 			#card = AudaciousResearcher
 		#cards.HYRSMIR_RULER_OF_PHYSICS:

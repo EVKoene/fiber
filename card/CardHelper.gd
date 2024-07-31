@@ -97,20 +97,6 @@ func n_cards_in_adjacent_play_spaces(card: CardInPlay, target_restrictions: int)
 	return n
 
 
-func in_starting_area(card: CardInPlay) -> bool:
-	if (
-		card.card_owner_id == GameManager.p1_id and 
-		Collections.play_space_attributes.P1_START_SPACE not in card.current_play_space.attributes
-	):
-		return true
-	elif (
-		card.card_owner_id == GameManager.p2_id and 
-		Collections.play_space_attributes.P2_START_SPACE not in card.current_play_space.attributes
-	):
-		return true
-	return false
-
-
 func calc_n_lines(text: String) -> int:
 	assert(
 		len(text) <= 180,

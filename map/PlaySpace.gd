@@ -195,14 +195,14 @@ func _add_border() -> void:
 	set_border()
 
 
-func in_starting_area(card: CardInHand) -> bool:
+func is_in_starting_area(player_id: int) -> bool:
 	if (
-		card.card_owner_id == GameManager.p1_id 
+		player_id == GameManager.p1_id 
 		and Collections.play_space_attributes.P1_START_SPACE in attributes
 	):
 		return true
-	elif (
-		card.card_owner_id == GameManager.p2_id 
+	if (
+		player_id == GameManager.p2_id 
 		and Collections.play_space_attributes.P2_START_SPACE in attributes
 	):
 		return true
@@ -211,7 +211,7 @@ func in_starting_area(card: CardInHand) -> bool:
 
 
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
-	if in_starting_area(data) and data.card_type == Collections.card_types.UNIT:
+	if is_in_starting_area(data.card_owner_id) and data.card_type == Collections.card_types.UNIT:
 		return true
 	if data.card_type == Collections.card_types.SPELL and data.can_target_unit(null):
 		return true
