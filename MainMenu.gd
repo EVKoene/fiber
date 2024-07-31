@@ -3,6 +3,7 @@ extends Control
 @export var address := "127.0.0.1"
 @export var port = 8910
 var peer
+var deck := DeckCollection.player_testing_deck
 
 func _ready():
 	multiplayer.peer_connected.connect(peer_connected)
@@ -29,12 +30,6 @@ func peer_disconnected(id: int) -> void:
 
 func connected_to_server() -> void:
 	print("Connected to server!")
-	var deck: Dictionary
-	if GameManager.testing:
-		deck = DeckCollection.player_testing_deck
-	else:
-		deck = DeckCollection.animal_deck
-	
 	# This will only work as long as we have max 2 players
 	_add_player_to_gamemanager.rpc_id(
 		1, 2, multiplayer.get_unique_id(), "Player2", deck
@@ -86,11 +81,6 @@ func _on_host_pressed():
 	
 	multiplayer.set_multiplayer_peer(peer)
 	print("Waiting for players")
-	var deck: Dictionary
-	if GameManager.testing:
-		deck = DeckCollection.player_testing_deck
-	else:
-		deck = DeckCollection.animal_deck
 	
 	_add_player_to_gamemanager(
 		1, multiplayer.get_unique_id(), "Player1", deck
@@ -115,7 +105,20 @@ func _on_testing_button_pressed():
 		$TestingButton.text = "Turn on testing"
 		GameManager.testing = false
 		$CenterContainer/VBoxContainer/IPAddress.show()
+		$DeckButtons.show()
 	else:
 		$TestingButton.text = "Turn off testing"
 		GameManager.testing = true
 		$CenterContainer/VBoxContainer/IPAddress.hide()
+		$DeckButtons.hide()
+
+
+func _on_animal_deck_button_pressed():
+	deck = DeckCollection.animal_deck
+	$DeckButtons/CurrentDeck.text = "Currently: Animal deck"
+
+
+func _on_magic_deck_button_pressed():
+	deck = DeckCollection.magic_deck
+	$DeckButtons/CurrentDeck.text = "Currently: Magic deck"
+	
