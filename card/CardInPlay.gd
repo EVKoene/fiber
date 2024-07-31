@@ -52,11 +52,17 @@ func _ready():
 	GameManager.ps_column_row[column][row].card_in_this_play_space = self
 	if GameManager.is_server:
 		GameManager.call_deferred("call_triggered_funcs", Collections.triggers.CARD_CREATED, self)
+	_connect_signals()
 	enter_battle()
 
 
 func enter_battle() -> void:
 	pass
+
+
+func _connect_signals() -> void:
+	pass
+	# Override in card script to connect to signals on _ready
 
 
 func attack_card(target_card: CardInPlay) -> void:

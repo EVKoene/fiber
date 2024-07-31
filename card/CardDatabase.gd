@@ -374,12 +374,13 @@ cards.FLOW_ACCELERATOR: {
 		"CardType": Collections.card_types.UNIT,
 		"Costs": {
 			Collections.factions.ANIMAL: 0,
-			Collections.factions.MAGIC: 3,
+			Collections.factions.MAGIC: 5,
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
 		},
-		"Attack": 4,
-		"Health": 4,
+		"MaxAttack": 5,
+		"MinAttack": 3,
+		"Health": 5,
 		"Movement": 1,
 		"Lord": false,
 		"Purposes": [Collections.purposes.BATTLE],
@@ -436,11 +437,12 @@ cards.FLOW_ACCELERATOR: {
 		"Factions": [Collections.factions.MAGIC],
 		"Costs": {
 			Collections.factions.ANIMAL: 0,
-			Collections.factions.MAGIC: 4,
+			Collections.factions.MAGIC: 7,
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
 		},
-		"Attack": 2,
+		"MaxAttack": 4,
+		"MinAttack": 2,
 		"Health": 5,
 		"Movement": 1,
 		"Lord": true,
@@ -1193,8 +1195,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = JellyfishExtraordinaire
 		cards.AUDACIOUS_RESEARCHER:
 			card = AudaciousResearcher
-		#cards.HYRSMIR_RULER_OF_PHYSICS:
-			#card = HyrsmirRulerOfPhysics
+		cards.HYRSMIR_RULER_OF_PHYSICS:
+			card = HyrsmirRulerOfPhysics
 		cards.FLOW_ACCELERATOR:
 			card = FlowAccelerator
 		cards.ARCANE_ARROW:
