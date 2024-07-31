@@ -24,6 +24,10 @@ var card_selected_for_movement: CardInPlay
 var play_space_selected_for_movement: PlaySpace
 var card_to_be_attacked: CardInPlay
 
+var selected_spaces := []
+var number_of_spaces_to_select := 0
+var selecting_spaces := false
+
 
 func select_targets(
 	n_targets: int, _target_restrictions: int, _selecting_unit: CardInPlay, _self_allowed: bool, 
@@ -45,11 +49,18 @@ func select_targets(
 			]
 	
 	if range_from_unit == -1:
-		target_play_space_options = MapSettings.play_spaces
+		target_play_space_options = GameManager.play_spaces
 	else:
 		target_play_space_options = selecting_unit.spaces_in_range(
 			range_from_unit, ignore_obstacles
 		)
+
+
+func select_play_spaces(number_of_spaces: int, play_space_options: Array) -> void:
+	making_selection = true
+	number_of_spaces_to_select = number_of_spaces
+	target_play_space_options = play_space_options
+	selecting_spaces = true
 
 
 @rpc("any_peer", "call_local")
@@ -65,6 +76,8 @@ func end_selecting() -> void:
 	card_selected_for_movement = null
 	play_space_selected_for_movement = null
 	card_to_be_attacked = null
+	number_of_spaces_to_select = 0
+	selecting_spaces = false
 	clear_paths()
 	clear_arrows()
 	clear_selections()
@@ -77,8 +90,9 @@ func clear_selections() -> void:
 	card_selected_for_movement = null
 	selected_card = null
 	selected_targets = []
-	for p in GameManager.players:
-		MultiPlayerManager.set_all_borders_to_faction.rpc_id(p)
+	for p_id in GameManager.players:
+		MultiPlayerAnimation.set_all_borders_to_faction.rpc_id(p_id)
+		MultiPlayerAnimation.unhighlight_all_spaces.rpc_id(p_id)
 
 
 func clear_paths() -> void:

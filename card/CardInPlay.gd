@@ -61,7 +61,7 @@ func enter_battle() -> void:
 
 func attack_card(target_card: CardInPlay) -> void:
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		MultiPlayerManager.animate_attack.rpc_id(
+		MultiPlayerAnimation.animate_attack.rpc_id(
 			p_id, card_owner_id, card_in_play_index, 
 			target_card.current_play_space.direction_from_play_space(current_play_space)
 		)
@@ -173,7 +173,7 @@ func conquer_space() -> void:
 func highlight_card(show_highlight: bool):
 	if show_highlight:
 		for p_id in GameManager.players:
-			MultiPlayerManager.highlight_card.rpc_id(p_id, card_owner_id, card_in_play_index)
+			MultiPlayerAnimation.highlight_card.rpc_id(p_id, card_owner_id, card_in_play_index)
 	else:
 		get_theme_stylebox("panel").border_color = Styling.gold_color
 
@@ -233,7 +233,7 @@ func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:
 
 func spaces_in_range(range_to_check: int, ignore_obstacles: bool) -> Array:
 	var spaces: Array = []
-	for ps in MapSettings.play_spaces:
+	for ps in GameManager.play_spaces:
 		if current_play_space.distance_to_play_space(
 			ps, ignore_obstacles
 		) <= range_to_check:
@@ -479,6 +479,15 @@ func _on_gui_input(event):
 	var card_sel_for_movement: CardInPlay = TargetSelection.card_selected_for_movement
 	
 	if (
+		left_mouse_button_pressed
+		and TargetSelection.selecting_spaces
+		and current_play_space in TargetSelection.target_play_space_options
+	):
+		TargetSelection.selected_spaces.append(current_play_space)
+		if len(TargetSelection.selected_spaces) == TargetSelection.number_of_spaces_to_select:
+			TargetSelection.space_selection_finished.emit()
+
+	elif (
 		left_mouse_button_pressed 
 		and TargetSelection.number_of_targets_to_select > 0
 		and current_play_space in TargetSelection.target_play_space_options
@@ -499,7 +508,9 @@ func _on_gui_input(event):
 	):
 		TargetSelection.selected_targets.erase(self)
 		for p_id in [GameManager.p1_id, GameManager.p2_id]:
-			MultiPlayerManager.set_border_to_faction.rpc_id(p_id, card_owner_id, card_in_play_index)
+			MultiPlayerAnimation.set_border_to_faction.rpc_id(
+				p_id, card_owner_id, card_in_play_index
+			)
 
 	elif (
 		left_mouse_button_pressed 

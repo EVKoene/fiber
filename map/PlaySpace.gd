@@ -30,7 +30,7 @@ func _ready():
 	scale *= MapSettings.play_space_size/size
 	position = _calc_position()
 	_set_play_space_attributes()
-	set_border()
+	_add_border()
 	GameManager.ps_column_row[column][row] = self
 
 
@@ -57,7 +57,7 @@ func select_path_to_play_space(play_space_path: PlaySpacePath) -> void:
 
 func adjacent_play_spaces() -> Array:
 	var a_spaces: Array = []
-	for ps in MapSettings.play_spaces:
+	for ps in GameManager.play_spaces:
 		match [abs(column - ps.column), abs(row - ps.row)]:
 			[1, 0]:
 				a_spaces.append(ps)
@@ -155,6 +155,19 @@ func path_to_closest_movable_space(
 	return PlaySpacePath.new(goal_space, self, false)
 
 
+func play_space_direction_in_same_line(play_space: PlaySpace) -> int:
+	if play_space.column > column and play_space.row == row:
+		return Collections.directions.RIGHT
+	elif play_space.column < column and play_space.row == row:
+		return Collections.directions.LEFT
+	elif play_space.column == column and play_space.row > row:
+		return Collections.directions.DOWN 
+	elif play_space.column == column and play_space.row < row:
+		return Collections.directions.UP
+	
+	return -1
+
+
 func set_conquered_by(player_id: int) -> void:
 	for p_id in GameManager.players:
 		MultiPlayerManager.set_conquered_by.rpc_id(
@@ -163,9 +176,6 @@ func set_conquered_by(player_id: int) -> void:
 
 
 func set_border() -> void:
-	var border := StyleBoxFlat.new()
-	add_theme_stylebox_override("panel", border)
-	get_theme_stylebox("panel").bg_color = Color("99999900")
 	if Collections.play_space_attributes.RESOURCE_SPACE in attributes:
 		get_theme_stylebox("panel").border_color = Styling.resource_space_color
 	else:
@@ -176,6 +186,13 @@ func set_border() -> void:
 
 func highlight_space():
 	get_theme_stylebox("panel").border_color = Styling.gold_color
+
+
+func _add_border() -> void:
+	var border := StyleBoxFlat.new()
+	add_theme_stylebox_override("panel", border)
+	get_theme_stylebox("panel").bg_color = Color("99999900")
+	set_border()
 
 
 func in_starting_area(card: CardInHand) -> bool:
@@ -249,7 +266,16 @@ func _on_gui_input(event):
 		and event.pressed
 	)
 	
-	if left_mouse_button_pressed and !TargetSelection.making_selection:
+	if (
+		left_mouse_button_pressed
+		and TargetSelection.selecting_spaces
+		and self in TargetSelection.target_play_space_options
+	):
+		TargetSelection.selected_spaces.append(self)
+		if len(TargetSelection.selected_spaces) == TargetSelection.number_of_spaces_to_select:
+			TargetSelection.space_selection_finished.emit()
+
+	elif left_mouse_button_pressed and !TargetSelection.making_selection:
 		TargetSelection.end_selecting()
 	
 	if (

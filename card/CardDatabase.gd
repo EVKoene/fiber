@@ -353,12 +353,13 @@ cards.FLOW_ACCELERATOR: {
 		"Factions": [Collections.factions.MAGIC],
 		"Costs": {
 			Collections.factions.ANIMAL: 0,
-			Collections.factions.MAGIC: 3, # 3
+			Collections.factions.MAGIC: 4, # 3
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
 		},
-		"Attack": 2,
-		"Health": 1,
+		"MaxAttack": 3,
+		"MinAttack": 1,
+		"Health": 3,
 		"Movement": 1,
 		"Purposes": [Collections.purposes.REAR],
 		"Lord": false,
@@ -1181,8 +1182,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = EphemeralAssassin
 		cards.MIST_CONJURER:
 			card = MistConjurer
-		#cards.FIREBALL_SHOOTER:
-			#card = FireballShooter
+		cards.FIREBALL_SHOOTER:
+			card = FireballShooter
 		cards.HOMUNCULUS:
 			card = Homunculus
 		#cards.JELLYFISH_EXTRAORDINAIRE:
