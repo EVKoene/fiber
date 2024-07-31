@@ -16,7 +16,6 @@ var n_columns: int
 var n_rows: int
 var zoom_preview_size := Vector2(200, 200)
 var end_turn_button_size: Vector2
-var play_spaces := []
 var n_progress_bars: int
 
 

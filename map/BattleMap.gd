@@ -119,7 +119,7 @@ func _create_play_spaces() -> void:
 			play_space.column = column
 			play_space.row = row
 			add_child(play_space)
-			MapSettings.play_spaces.append(play_space)
+			GameManager.play_spaces.append(play_space)
 
 
 func _create_starting_spaces_panels() -> void:

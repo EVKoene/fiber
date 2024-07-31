@@ -29,6 +29,7 @@ DeckCollection="*res://player/DeckCollection.gd"
 MultiPlayerManager="*res://manager/MultiPlayerManager.gd"
 CardHelper="*res://card/CardHelper.gd"
 TriggeredCardFuncs="*res://card/TriggeredCardFuncs.gd"
+MultiPlayerAnimation="*res://manager/MultiPlayerAnimation.gd"
 
 [display]
 

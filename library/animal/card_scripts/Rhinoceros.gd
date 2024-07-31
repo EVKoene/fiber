@@ -92,7 +92,7 @@ func move_over_path(path: PlaySpacePath) -> void:
 
 func attack_card(target_card: CardInPlay) -> void:
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		MultiPlayerManager.animate_attack.rpc_id(
+		MultiPlayerAnimation.animate_attack.rpc_id(
 			p_id, card_owner_id, card_in_play_index, 
 			target_card.current_play_space.direction_from_play_space(current_play_space)
 		)
