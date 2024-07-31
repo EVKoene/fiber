@@ -54,7 +54,7 @@ func draw_type_put_rest_bottom(card_type: int) -> bool:
 	var card_drawn: bool = false
 	var card_index: int = -1
 	var deck_index: int = -1
-	for c in deck_order:
+	for c in len(deck_order):
 		var card_info = CardDatabase.cards_info[deck_order[c]]
 		if card_info["CardType"] == card_type:
 			card_index = deck_order[c]
