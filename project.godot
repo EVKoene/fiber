@@ -26,10 +26,11 @@ TargetSelection="*res://card/TargetSelection.gd"
 CardDatabase="*res://card/CardDatabase.gd"
 Events="*res://manager/Events.gd"
 DeckCollection="*res://player/DeckCollection.gd"
-MultiPlayerManager="*res://manager/MultiPlayerManager.gd"
+MPManager="*res://manager/multiplayer/MPManager.gd"
 CardHelper="*res://card/CardHelper.gd"
 TriggeredCardFuncs="*res://card/TriggeredCardFuncs.gd"
-MultiPlayerAnimation="*res://manager/MultiPlayerAnimation.gd"
+MPAnimation="*res://manager/multiplayer/MPAnimation.gd"
+MPCardManipulation="*res://manager/multiplayer/MPCardManipulation.gd"
 
 [display]
 

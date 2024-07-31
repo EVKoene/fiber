@@ -82,7 +82,7 @@ func draw_starting_cards() -> void:
 
 func create_hand_card(card_index: int) -> void:
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		MultiPlayerManager.create_hand_card.rpc_id(p_id, deck_owner_id, card_index)
+		MPManager.create_hand_card.rpc_id(p_id, deck_owner_id, card_index)
 
 func put_card_bottom(deck_index) -> void:
 	var card_index = deck_order[deck_index]

@@ -105,8 +105,7 @@ var opponent_testing_deck: Dictionary = animal_deck
 
 var player_testing_deck: Dictionary = {
 	"Cards": {
-		cards.AUDACIOUS_RESEARCHER: 10,
-		cards.ARCANE_ARROW: 10,
+		cards.FLOW_ACCELERATOR: 10,
 	},
 	"StartingCards": {
 		cards.SWITCHEROO: 1,

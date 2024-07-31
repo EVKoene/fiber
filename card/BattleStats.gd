@@ -94,6 +94,11 @@ func _get_health() -> int:
 
 	for m in health_modifiers:
 		modified_health += m[0]
+	
+	if modified_health < 1:
+		modified_health = 1
+		base_health = 1
+	
 	return modified_health
 
 
@@ -108,6 +113,7 @@ func _get_movement() -> int:
 	return modified_movement
 
 
+@rpc("any_peer", "call_local")
 func update_modifiers() -> void:
 	for modifier in [
 		max_attack_modifiers, min_attack_modifiers, health_modifiers, movement_modifiers

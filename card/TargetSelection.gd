@@ -66,7 +66,9 @@ func select_play_spaces(number_of_spaces: int, play_space_options: Array) -> voi
 @rpc("any_peer", "call_local")
 func end_selecting() -> void:
 	GameManager.turn_manager.turn_actions_enabled = true
-	making_selection = false
+	if making_selection:
+		target_selection_finished.emit()
+		making_selection = false
 	number_of_targets_to_select = 0
 	self_allowed = false
 	selecting_unit = null
@@ -82,8 +84,8 @@ func end_selecting() -> void:
 	clear_arrows()
 	clear_selections()
 	clear_card_action_menu()
-	target_selection_finished.emit()
 	Events.hide_instructions.emit()
+	Events.hide_finish_button.emit()
 
 
 func clear_selections() -> void:
@@ -91,8 +93,8 @@ func clear_selections() -> void:
 	selected_card = null
 	selected_targets = []
 	for p_id in GameManager.players:
-		MultiPlayerAnimation.set_all_borders_to_faction.rpc_id(p_id)
-		MultiPlayerAnimation.unhighlight_all_spaces.rpc_id(p_id)
+		MPCardManipulation.set_all_borders_to_faction.rpc_id(p_id)
+		MPAnimation.unhighlight_all_spaces.rpc_id(p_id)
 
 
 func clear_paths() -> void:
