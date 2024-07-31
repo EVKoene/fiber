@@ -22,6 +22,7 @@ Current races:
 	Verder: Nature spirit race
 """
 
+
 var cards_info = {
 	cards.GORILLA: {
 		"InGameName": "Gorilla",
@@ -386,6 +387,27 @@ cards.FLOW_ACCELERATOR: {
 		"IMGPath": "res://library/magic/images/Homunculus.png",
 	},
 	
+	cards.AUDACIOUS_RESEARCHER: {
+		"InGameName": "Audacious Researcher",
+		"CardType": Collections.card_types.UNIT,
+		"Factions": [Collections.factions.MAGIC],
+		"MaxAttack": 4,
+		"MinAttack": 2,
+		"Health": 4,
+		"Movement": 1,
+		"Costs": {
+			Collections.factions.ANIMAL: 0,
+			Collections.factions.MAGIC: 4, # 4
+			Collections.factions.NATURE: 0,
+			Collections.factions.ROBOT: 0,
+		},
+		"Lord": false,
+		"Purposes": [Collections.purposes.BATTLE],
+		"Text": "At the start of your turn, if this unit is in a row that's at least halfway towards
+		your opponent: draw the top spell in your deck.",
+		"IMGPath": "res://library/magic/images/AudaciousResearcher.png",
+	},
+	
 	cards.JELLYFISH_EXTRAORDINAIRE: {
 		"InGameName": "Jellyfish Extraordinaire",
 		"Factions": [Collections.factions.MAGIC],
@@ -406,26 +428,6 @@ cards.FLOW_ACCELERATOR: {
 		"Text": "At the start of your turn, if this unit is in a resource space that is not in 
 		your starting area, draw a card and add <M>.",
 		"IMGPath": "res://library/magic/images/JellyfishExtraordinaire.jpg",
-	},
-	
-	cards.AUDACIOUS_RESEARCHER: {
-		"InGameName": "Audacious Researcher",
-		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.MAGIC],
-		"Attack": 2,
-		"Health": 4,
-		"Movement": 1,
-		"Costs": {
-			Collections.factions.ANIMAL: 0,
-			Collections.factions.MAGIC: 3, # 3
-			Collections.factions.NATURE: 0,
-			Collections.factions.ROBOT: 0,
-		},
-		"Lord": false,
-		"Purposes": [Collections.purposes.BATTLE],
-		"Text": "At the start of your turn, if this unit is in a row that's at least halfway towards
-		your opponent: draw the top spell in your deck.",
-		"IMGPath": "res://library/magic/images/AudaciousResearcher.png",
 	},
 	
 	cards.HYRSMIR_RULER_OF_PHYSICS: {
@@ -1189,8 +1191,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = Homunculus
 		cards.JELLYFISH_EXTRAORDINAIRE:
 			card = JellyfishExtraordinaire
-		#cards.AUDACIOUS_RESEARCHER:
-			#card = AudaciousResearcher
+		cards.AUDACIOUS_RESEARCHER:
+			card = AudaciousResearcher
 		#cards.HYRSMIR_RULER_OF_PHYSICS:
 			#card = HyrsmirRulerOfPhysics
 		#cards.FLOW_ACCELERATOR:
