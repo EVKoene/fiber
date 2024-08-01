@@ -494,15 +494,16 @@ cards.FLOW_ACCELERATOR: {
 		"Costs": {
 			Collections.factions.ANIMAL: 0,
 			Collections.factions.MAGIC: 0,
-			Collections.factions.NATURE: 1,
+			Collections.factions.NATURE: 2,
 			Collections.factions.ROBOT: 0,
 		},
-		"Attack": 1,
-		"Health": 1,
+		"MaxAttack": 2,
+		"MinAttack": 1,
+		"Health": 2,
 		"Movement": 1,
 		"Purposes": [Collections.purposes.REAR],
 		"Lord": false,
-		"Text": "Exhaust: Add +1/+1 to an adjacent unit",
+		"Text": "Exhaust: 1 min attack and 1 health to an adjacent unit",
 		"IMGPath": "res://library/nature/images/BotanoGardener.png",
 	},
 	
@@ -1209,8 +1210,8 @@ func get_card_class(card_index: int) -> Variant:
 #
 		cards.GNOME_PROTECTOR:
 			card = GnomeProtector
-		#cards.BOTANO_GARDENER:
-			#card = BotanoGardener
+		cards.BOTANO_GARDENER:
+			card = BotanoGardener
 		#cards.MORNING_LIGHT:
 			#card = MorningLight
 		#cards.ICE_GOLEM:

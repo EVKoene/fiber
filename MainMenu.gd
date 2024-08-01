@@ -43,14 +43,14 @@ func connection_failed() -> void:
 
 @rpc("any_peer")
 func _add_player_to_gamemanager(
-	player_number: int, player_id: int, player_name: String, deck: Dictionary
+	player_number: int, player_id: int, player_name: String, p_deck: Dictionary
 ) -> void:
 	if !GameManager.players.has(player_id):
 		GameManager.players[player_id] = {
 			"Name": player_name,
 			"PlayerNumber": player_number,
 			"ID": player_id,
-			"Deck": deck,
+			"Deck": p_deck,
 		}
 		if player_number == 1:
 			GameManager.p1_id = player_id
