@@ -105,11 +105,11 @@ var opponent_testing_deck: Dictionary = animal_deck
 
 var player_testing_deck: Dictionary = {
 	"Cards": {
-		cards.GORILLA: 10,
-		cards.HOMUNCULUS: 10,
+		cards.GNOME_PROTECTOR: 10,
 	},
 	"StartingCards": {
-		cards.HYRSMIR_RULER_OF_PHYSICS: 1,
-		cards.WIZARD_SCOUT: 2,
+		cards.GORILLA: 1,
+		cards.WIZARD_SCOUT: 1,
+		cards.GNOME_PROTECTOR: 1,
 	}
 }

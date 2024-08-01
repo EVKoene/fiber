@@ -471,7 +471,8 @@ cards.FLOW_ACCELERATOR: {
 		"InGameName": "Gnome Protector",
 		"Factions": [Collections.factions.NATURE],
 		"CardType": Collections.card_types.UNIT,
-		"Attack": 1,
+		"MaxAttack": 2,
+		"MinAttack": 1,
 		"Health": 2,
 		"Movement": 1,
 		"Costs": {
@@ -1206,8 +1207,8 @@ func get_card_class(card_index: int) -> Variant:
 #
 		#### Nature ###
 #
-		#cards.GNOME_PROTECTOR:
-			#card = GnomeProtector
+		cards.GNOME_PROTECTOR:
+			card = GnomeProtector
 		#cards.BOTANO_GARDENER:
 			#card = BotanoGardener
 		#cards.MORNING_LIGHT:
