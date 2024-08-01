@@ -36,6 +36,7 @@ func highlight_card():
 
 
 func play_spell(column: int, row: int) -> void:
+	print("Playing card at index ", hand_index)
 	for p_id in GameManager.players:
 		MPManager.lock_zoom_preview_hand.rpc_id(p_id, card_owner_id, hand_index)
 	var card: CardInPlay = CardDatabase.get_card_class(card_index).new()
@@ -45,11 +46,12 @@ func play_spell(column: int, row: int) -> void:
 	
 	for p_id in GameManager.players:
 		MPManager.reset_zoom_preview.rpc_id(p_id)
-
+	
+	var h_index = hand_index
 	if succesfull_resolve:
 		GameManager.resources[card_owner_id].pay_costs(costs)
 		for p_id in GameManager.players:
-			MPManager.remove_card_from_hand.rpc_id(p_id, card_owner_id, hand_index)
+			MPManager.remove_card_from_hand.rpc_id(p_id, card_owner_id, h_index)
 
 
 func can_target_unit(card: CardInPlay) -> bool:

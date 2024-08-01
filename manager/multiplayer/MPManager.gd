@@ -223,9 +223,9 @@ func swap_cards(
 
 @rpc("any_peer", "call_local")
 func set_hand_card_positions() -> void:
-	for p in GameManager.cards_in_hand:
-		for k in range(len(GameManager.cards_in_hand[p])):
-			var card: CardInHand = GameManager.cards_in_hand[p][k]
+	for p_id in GameManager.players:
+		for k in range(len(GameManager.cards_in_hand[p_id])):
+			var card: CardInHand = GameManager.cards_in_hand[p_id][k]
 			card.set_card_position()
 
 

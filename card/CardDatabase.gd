@@ -518,8 +518,8 @@ cards.FLOW_ACCELERATOR: {
 			Collections.factions.ROBOT: 0,
 		},
 		"CardRange": 0,
-		"TargetRestrictions": TargetSelection.target_restrictions.ANY_SPACE,
-		"Text": "Target unit gets +0/+3 and +1 movement. Add 1 <N>",
+		"TargetRestrictions": TargetSelection.target_restrictions.ANY_UNITS,
+		"Text": "Target unit gets 2 health and +1 movement. Add 1 <N>",
 		"IMGPath": "res://library/nature/images/MorningLight.jpg",
 	},
 	
@@ -1212,8 +1212,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = GnomeProtector
 		cards.BOTANO_GARDENER:
 			card = BotanoGardener
-		#cards.MORNING_LIGHT:
-			#card = MorningLight
+		cards.MORNING_LIGHT:
+			card = MorningLight
 		#cards.ICE_GOLEM:
 			#card = IceGolem
 		#cards.FIRE_GOLEM:
