@@ -33,6 +33,7 @@ func select_targets(
 	n_targets: int, _target_restrictions: int, _selecting_unit: CardInPlay, _self_allowed: bool, 
 	range_from_unit: int, ignore_obstacles: bool
 ) -> void:
+	GameManager.turn_manager.turn_actions_enabled = false
 	making_selection = true
 	number_of_targets_to_select = n_targets
 	self_allowed = _self_allowed
