@@ -28,6 +28,16 @@ var selected_spaces := []
 var number_of_spaces_to_select := 0
 var selecting_spaces := false
 
+var can_drag_to_select := false
+var dragging_to_select := false
+var drag_start := Vector2.ZERO
+var drag_end := Vector2.ZERO
+var drag_selection_range := 0
+var select_rect := RectangleShape2D.new()  # Collision shape for drag box.
+var n_lowest_axis_to_select := 0
+var n_highest_axis_to_select := 0
+var selected_columns := []
+var selected_rows := []
 
 func select_targets(
 	n_targets: int, _target_restrictions: int, _selecting_unit: CardInPlay, _self_allowed: bool, 
@@ -93,6 +103,9 @@ func clear_selections() -> void:
 	card_selected_for_movement = null
 	selected_card = null
 	selected_targets = []
+	selected_columns = []
+	selected_rows = []
+	selected_spaces = []
 	for p_id in GameManager.players:
 		MPCardManipulation.set_all_borders_to_faction.rpc_id(p_id)
 		MPAnimation.unhighlight_all_spaces.rpc_id(p_id)

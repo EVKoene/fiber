@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var play_space_scene: PackedScene = preload("res://map/PlaySpace.tscn")
+@onready var play_space_scene: PackedScene = preload("res://map/play_space/PlaySpace.tscn")
 @onready var card_scene: PackedScene = preload("res://card/CardInPlay.tscn")
 @onready var resource_bar_scene: PackedScene = preload("res://player/ResourceBar.tscn")
 @onready var turn_manager_scene: PackedScene = preload("res://manager/TurnManager.tscn")
@@ -356,7 +356,7 @@ func _create_resources():
 		add_child(resources)
 
 
-func _input(_event):
+func _input(event):
 	if (
 		(
 			Input.is_action_just_pressed("ui_accept") 
@@ -367,3 +367,100 @@ func _input(_event):
 		GameManager.turn_manager.can_start_turn = false
 		$TextBox.hide()
 		GameManager.turn_manager.start_turn.rpc_id(GameManager.p1_id, GameManager.player_id)
+
+	if (
+		event is InputEventMouseButton 
+		and event.button_index == MOUSE_BUTTON_LEFT
+		and TargetSelection.can_drag_to_select
+	):
+		if event.pressed:
+			TargetSelection.dragging_to_select = true
+			TargetSelection.drag_start = event.position
+		# If the mouse is released and is dragging, stop dragging
+		elif TargetSelection.dragging_to_select:
+			TargetSelection.clear_selections()
+			TargetSelection.dragging_to_select = false
+			queue_redraw()
+			TargetSelection.drag_end = event.position
+			TargetSelection.select_rect.extents = abs(
+				TargetSelection.drag_end - TargetSelection.drag_start
+			) / 2
+			for column in MapSettings.n_columns:
+				if (
+					MapSettings.get_column_end_x(column) >= TargetSelection.drag_start.x 
+					and MapSettings.get_column_start_x(column) <= TargetSelection.drag_end.x
+					and column not in TargetSelection.selected_columns
+				) or (
+					MapSettings.get_column_start_x(column) <= TargetSelection.drag_start.x 
+					and MapSettings.get_column_end_x(column) >= TargetSelection.drag_end.x
+					and column not in TargetSelection.selected_columns
+				):
+					TargetSelection.selected_columns.append(column)
+			for row in MapSettings.n_rows:
+				if (
+					MapSettings.get_row_end_y(row) >= TargetSelection.drag_start.y 
+					and MapSettings.get_row_start_y(row) <= TargetSelection.drag_end.y
+					and row not in TargetSelection.selected_rows
+				) or (
+					MapSettings.get_row_start_y(row) <= TargetSelection.drag_start.y 
+					and MapSettings.get_row_end_y(row) >= TargetSelection.drag_end.y
+					and row not in TargetSelection.selected_rows
+				):
+					TargetSelection.selected_rows.append(row)
+			
+			# Check if the selected area isn't too big
+			if (
+				(
+					len(TargetSelection.selected_columns) 
+						<= TargetSelection.n_highest_axis_to_select
+					and len(TargetSelection.selected_rows) 
+						<= TargetSelection.n_lowest_axis_to_select
+				)
+				or (
+						len(TargetSelection.selected_columns) 
+						<= TargetSelection.n_lowest_axis_to_select
+					and len(TargetSelection.selected_rows) 
+						<= TargetSelection.n_highest_axis_to_select
+				)
+			):
+				# Add the spaces to selected spaces and check if at least one space is in range
+				var selection_in_range := false
+				var play_spaces_in_range := PlaySpaceHelper.play_spaces_in_range(
+					GameManager.player_id, TargetSelection.drag_selection_range
+				)
+				for ps in GameManager.play_spaces:
+					if (
+						ps.column in TargetSelection.selected_columns 
+						and ps.row in TargetSelection.selected_rows
+					):
+						TargetSelection.selected_spaces.append(ps)
+						if ps in play_spaces_in_range:
+							selection_in_range = true
+				if selection_in_range:
+					for ps in TargetSelection.selected_spaces:
+						ps.highlight_space()
+				else:
+					TargetSelection.clear_selections()
+
+			else:
+				TargetSelection.clear_selections()
+
+	elif event is InputEventMouseMotion and TargetSelection.dragging_to_select:
+		queue_redraw()
+	
+	elif (
+		event is InputEventMouseButton 
+		and event.button_index == MOUSE_BUTTON_LEFT 
+		and event.pressed
+	):
+		TargetSelection.end_selecting()
+
+
+func _draw():
+	if TargetSelection.dragging_to_select:
+		draw_rect(
+			Rect2(
+				TargetSelection.drag_start, get_global_mouse_position() - TargetSelection.drag_start
+			),
+			Color.YELLOW, false, 2.0
+		)

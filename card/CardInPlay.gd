@@ -486,6 +486,8 @@ func _on_gui_input(event):
 		and event.pressed
 	)
 	var card_sel_for_movement: CardInPlay = TargetSelection.card_selected_for_movement
+	if event is InputEventMouseButton:
+		print("Card ", ingame_name, " left_mouse_button_pressed")
 	
 	if (
 		left_mouse_button_pressed
