@@ -442,8 +442,6 @@ func _input(event):
 				else:
 					TargetSelection.clear_selections()
 
-			else:
-				TargetSelection.clear_selections()
 
 	elif event is InputEventMouseMotion and TargetSelection.dragging_to_select:
 		queue_redraw()
