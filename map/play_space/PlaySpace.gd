@@ -253,83 +253,83 @@ func _calc_position() -> Vector2:
 	)
 
 
-func _on_gui_input(event):
-	var left_mouse_button_pressed = (
-		event is InputEventMouseButton 
-		and event.button_index == MOUSE_BUTTON_LEFT 
-		and event.pressed
-	)
-	
-	var right_mouse_button_pressed = (
-		event is InputEventMouseButton 
-		and event.button_index == MOUSE_BUTTON_RIGHT 
-		and event.pressed
-	)
-	
-	if (
-		left_mouse_button_pressed
-		and TargetSelection.selecting_spaces
-		and self in TargetSelection.target_play_space_options
-	):
-		TargetSelection.selected_spaces.append(self)
-		if len(TargetSelection.selected_spaces) == TargetSelection.number_of_spaces_to_select:
-			TargetSelection.space_selection_finished.emit()
-
-	elif left_mouse_button_pressed and !TargetSelection.making_selection:
-		TargetSelection.end_selecting()
-	
-	if (
-		right_mouse_button_pressed
-		and GameManager.turn_manager.turn_actions_enabled
-		and TargetSelection.card_selected_for_movement
-		and !card_in_this_play_space
-		and !TargetSelection.current_path
-	):
-		var card: CardInPlay = TargetSelection.card_selected_for_movement
-		var card_path = card.current_play_space.find_play_space_path(self, card.move_through_units)
-		
-		if card_path.path_length > 0 and card_path.path_length <= card.movement + 1:
-			select_path_to_play_space(card_path)
-
-	elif (
-		right_mouse_button_pressed
-		and GameManager.turn_manager.turn_actions_enabled
-		and TargetSelection.card_selected_for_movement
-		and !card_in_this_play_space
-		and TargetSelection.play_space_selected_for_movement != self
-		and TargetSelection.current_path
-	):
-		var card: CardInPlay = TargetSelection.card_selected_for_movement
-		TargetSelection.current_path.extend_path(self)
-		
-		if (
-			TargetSelection.current_path.path_length > 0 
-			and TargetSelection.current_path.path_length <= card.movement + 1
-		):
-			TargetSelection.current_path.show_path()
-			selected_for_movement = true
-			TargetSelection.play_space_selected_for_movement = self
-			TargetSelection.making_selection = true
-		
-		else:
-			TargetSelection.clear_paths()
-			var card_path = card.current_play_space.find_play_space_path(self, card.move_through_units)
-		
-			if card_path.path_length > 0 and card_path.path_length <= card.movement + 1:
-				select_path_to_play_space(card_path)
-			
-			else:
-				TargetSelection.end_selecting()
-				Events.clear_paths.emit()
-
-	elif (
-		right_mouse_button_pressed
-		and GameManager.turn_manager.turn_actions_enabled
-		and TargetSelection.card_selected_for_movement
-		and !card_in_this_play_space
-		and selected_for_movement
-	):
-		GameManager.turn_manager.turn_actions_enabled = false
-		TargetSelection.card_selected_for_movement.move_over_path(TargetSelection.current_path)
-		TargetSelection.card_selected_for_movement.exhaust()
-		GameManager.turn_manager.turn_actions_enabled = true
+#func _on_gui_input(event):
+	##var left_mouse_button_pressed = (
+		##event is InputEventMouseButton 
+		##and event.button_index == MOUSE_BUTTON_LEFT 
+		##and event.pressed
+	##)
+	##
+	##var right_mouse_button_pressed = (
+		##event is InputEventMouseButton 
+		##and event.button_index == MOUSE_BUTTON_RIGHT 
+		##and event.pressed
+	##)
+	##
+	##if (
+		##left_mouse_button_pressed
+		##and TargetSelection.selecting_spaces
+		##and self in TargetSelection.target_play_space_options
+	##):
+		##TargetSelection.selected_spaces.append(self)
+		##if len(TargetSelection.selected_spaces) == TargetSelection.number_of_spaces_to_select:
+			##TargetSelection.space_selection_finished.emit()
+##
+	##elif left_mouse_button_pressed and !TargetSelection.making_selection:
+		##TargetSelection.end_selecting()
+	##
+	##if (
+		##right_mouse_button_pressed
+		##and GameManager.turn_manager.turn_actions_enabled
+		##and TargetSelection.card_selected_for_movement
+		##and !card_in_this_play_space
+		##and !TargetSelection.current_path
+	##):
+		##var card: CardInPlay = TargetSelection.card_selected_for_movement
+		##var card_path = card.current_play_space.find_play_space_path(self, card.move_through_units)
+		##
+		##if card_path.path_length > 0 and card_path.path_length <= card.movement + 1:
+			##select_path_to_play_space(card_path)
+##
+	##elif (
+		##right_mouse_button_pressed
+		##and GameManager.turn_manager.turn_actions_enabled
+		##and TargetSelection.card_selected_for_movement
+		##and !card_in_this_play_space
+		##and TargetSelection.play_space_selected_for_movement != self
+		##and TargetSelection.current_path
+	##):
+		##var card: CardInPlay = TargetSelection.card_selected_for_movement
+		##TargetSelection.current_path.extend_path(self)
+		##
+		##if (
+			##TargetSelection.current_path.path_length > 0 
+			##and TargetSelection.current_path.path_length <= card.movement + 1
+		##):
+			##TargetSelection.current_path.show_path()
+			##selected_for_movement = true
+			##TargetSelection.play_space_selected_for_movement = self
+			##TargetSelection.making_selection = true
+		##
+		##else:
+			##TargetSelection.clear_paths()
+			##var card_path = card.current_play_space.find_play_space_path(self, card.move_through_units)
+		##
+			##if card_path.path_length > 0 and card_path.path_length <= card.movement + 1:
+				##select_path_to_play_space(card_path)
+			##
+			##else:
+				##TargetSelection.end_selecting()
+				##Events.clear_paths.emit()
+##
+	##elif (
+		##right_mouse_button_pressed
+		##and GameManager.turn_manager.turn_actions_enabled
+		##and TargetSelection.card_selected_for_movement
+		##and !card_in_this_play_space
+		##and selected_for_movement
+	##):
+		##GameManager.turn_manager.turn_actions_enabled = false
+		##TargetSelection.card_selected_for_movement.move_over_path(TargetSelection.current_path)
+		##TargetSelection.card_selected_for_movement.exhaust()
+		##GameManager.turn_manager.turn_actions_enabled = true

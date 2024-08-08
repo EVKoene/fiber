@@ -3,7 +3,7 @@ extends Node
 
 class_name PlaySpacePath
 
-@onready var play_space_arrow_scene: PackedScene = preload("res://map/PlaySpaceArrow.tscn")
+@onready var play_space_arrow_scene: PackedScene = preload("res://map/play_space/PlaySpaceArrow.tscn")
 
 var path_spaces: Array
 var last_space: PlaySpace

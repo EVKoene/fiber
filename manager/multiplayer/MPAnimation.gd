@@ -2,6 +2,8 @@ extends Node
 
 
 var burn_scene := preload("res://styling/assets/fire/BurnAnimation.tscn")
+var hailstorm_scene := preload("res://styling/assets/hailstorm/HailAnimation.tscn")
+
 
 @rpc("any_peer", "call_local")
 func animate_attack(card_owner_id: int, card_in_play_index: int, direction: int) -> void:
@@ -30,7 +32,15 @@ func play_burn_animation(column: int, row: int) -> void:
 	var burn: Node2D = burn_scene.instantiate()
 	burn.position.x = MapSettings.get_column_start_x(column) + (MapSettings.play_space_size.x / 4)
 	burn.position.y = MapSettings.get_row_start_y(row) + (MapSettings.play_space_size.y / 4)
-	GameManager.add_child(burn)
+	GameManager.battle_map.add_child(burn)
+
+
+@rpc("any_peer", "call_local")
+func play_hailstorm_animation(play_space: PlaySpace) -> void:
+	var hailstorm: Node2D = hailstorm_scene.instantiate()
+	hailstorm.position.x = play_space.position.x
+	hailstorm.position.y = play_space.position.y
+	GameManager.battle_map.add_child(hailstorm)
 
 
 @rpc("any_peer", "call_local")

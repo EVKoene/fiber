@@ -121,7 +121,6 @@ func _on_animal_deck_button_pressed():
 func _on_magic_deck_button_pressed():
 	deck = DeckCollection.magic_deck
 	$DeckButtons/CurrentDeck.text = "Currently: Magic deck"
-	
 
 
 func _on_exit_pressed():

@@ -1218,8 +1218,8 @@ func get_card_class(card_index: int) -> Variant:
 			#card = IceGolem
 		#cards.FIRE_GOLEM:
 			#card = FireGolem
-		#cards.HAIL_STORM:
-			#card = HailStorm
+		cards.HAIL_STORM:
+			card = HailStorm
 		#cards.EARTH_GOLEM:
 			#card = EarthGolem
 		#cards.PROTECTOR_OF_THE_FOREST:

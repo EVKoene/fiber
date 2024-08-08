@@ -31,6 +31,7 @@ CardHelper="*res://card/CardHelper.gd"
 TriggeredCardFuncs="*res://card/TriggeredCardFuncs.gd"
 MPAnimation="*res://manager/multiplayer/MPAnimation.gd"
 MPCardManipulation="*res://manager/multiplayer/MPCardManipulation.gd"
+PlaySpaceHelper="*res://map/play_space/PlaySpaceHelper.gd"
 
 [display]
 
