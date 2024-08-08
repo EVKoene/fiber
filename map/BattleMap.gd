@@ -356,7 +356,7 @@ func _create_resources():
 		add_child(resources)
 
 
-func _input(event):
+func _input(_event):
 	if (
 		(
 			Input.is_action_just_pressed("ui_accept") 
@@ -368,6 +368,8 @@ func _input(event):
 		$TextBox.hide()
 		GameManager.turn_manager.start_turn.rpc_id(GameManager.p1_id, GameManager.player_id)
 
+
+func _unhandled_input(event):
 	if (
 		event is InputEventMouseButton 
 		and event.button_index == MOUSE_BUTTON_LEFT
@@ -424,18 +426,19 @@ func _input(event):
 				)
 			):
 				# Add the spaces to selected spaces and check if at least one space is in range
-				var selection_in_range := false
-				var play_spaces_in_range := PlaySpaceHelper.play_spaces_in_range(
-					GameManager.player_id, TargetSelection.drag_selection_range
-				)
 				for ps in GameManager.play_spaces:
 					if (
 						ps.column in TargetSelection.selected_columns 
 						and ps.row in TargetSelection.selected_rows
 					):
 						TargetSelection.selected_spaces.append(ps)
-						if ps in play_spaces_in_range:
-							selection_in_range = true
+				var selection_in_range := false
+				for ps in TargetSelection.selected_spaces:
+					if PlaySpaceHelper.is_space_in_range(
+						ps, GameManager.player_id, TargetSelection.drag_selection_range
+					):
+						selection_in_range = true
+						break
 				if selection_in_range:
 					for ps in TargetSelection.selected_spaces:
 						ps.highlight_space()

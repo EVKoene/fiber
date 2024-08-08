@@ -10,7 +10,6 @@ func _unhandled_input(event):
 		and event.button_index == MOUSE_BUTTON_LEFT 
 		and event.pressed
 	):
-		print("Using input")
 		TargetSelection.end_selecting()
 
 
