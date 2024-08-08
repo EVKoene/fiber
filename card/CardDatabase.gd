@@ -507,6 +507,27 @@ cards.FLOW_ACCELERATOR: {
 		"IMGPath": "res://library/nature/images/BotanoGardener.png",
 	},
 	
+	cards.FIRE_GOLEM: {
+		"InGameName": "Fire Golem",
+		"CardType": Collections.card_types.UNIT,
+		"Factions": [Collections.factions.NATURE],
+		"Costs": {
+			Collections.factions.ANIMAL: 0,
+			Collections.factions.MAGIC: 0,
+			Collections.factions.NATURE: 3, # 3
+			Collections.factions.ROBOT: 0,
+		},
+		"MaxAttack": 2, # 1
+		"MinAttack": 1, # 1
+		"Health": 3, # 3
+		"Movement": 1, # 1
+		"Lord": false,
+		"Text": "Exhaust: This unit deals damage equal to it's min attack to each enemy unit in a range 
+		of 2",
+		"Purposes": [Collections.purposes.DEFEND_RESOURCE, Collections.purposes.BATTLE,],
+		"IMGPath": "res://library/nature/images/FireGolem.jpg",
+	},
+	
 	cards.MORNING_LIGHT: {
 		"InGameName": "Morning Light",
 		"CardType": Collections.card_types.SPELL,
@@ -530,7 +551,7 @@ cards.FLOW_ACCELERATOR: {
 		"Costs": {
 			Collections.factions.ANIMAL: 0,
 			Collections.factions.MAGIC: 0,
-			Collections.factions.NATURE: 2, # 2
+			Collections.factions.NATURE: 3, # 3
 			Collections.factions.ROBOT: 0,
 		},
 		"CardRange": -1,
@@ -547,11 +568,12 @@ cards.FLOW_ACCELERATOR: {
 		"Costs": {
 			Collections.factions.ANIMAL: 0,
 			Collections.factions.MAGIC: 0,
-			Collections.factions.NATURE: 2, # 2
+			Collections.factions.NATURE: 4, # 4
 			Collections.factions.ROBOT: 0,
 		},
-		"Attack": 1,
-		"Health": 3,
+		"MaxAttack": 3,
+		"MinAttack": 1,
+		"Health": 5,
 		"Movement": 1, # 1
 		"Lord": false,
 		"Text": "When Ice Golem deals damage to a unit, that unit gets -1/-0 and -1 movement until
@@ -560,25 +582,6 @@ cards.FLOW_ACCELERATOR: {
 		"IMGPath": "res://library/nature/images/IceGolem.jpg",
 	},
 	
-	cards.FIRE_GOLEM: {
-		"InGameName": "Fire Golem",
-		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.NATURE],
-		"Costs": {
-			Collections.factions.ANIMAL: 0,
-			Collections.factions.MAGIC: 0,
-			Collections.factions.NATURE: 2, # 2
-			Collections.factions.ROBOT: 0,
-		},
-		"Attack": 1, # 1
-		"Health": 3, # 3
-		"Movement": 1, # 1
-		"Lord": false,
-		"Text": "Exhaust: This unit deals damage equal to it's attack to each enemy unit in a range 
-		of 2",
-		"Purposes": [Collections.purposes.DEFEND_RESOURCE, Collections.purposes.BATTLE,],
-		"IMGPath": "res://library/nature/images/FireGolem.jpg",
-	},
 	
 	cards.EARTH_GOLEM: {
 		"InGameName": "Earth Golem",
@@ -587,11 +590,12 @@ cards.FLOW_ACCELERATOR: {
 		"Costs": {
 			Collections.factions.ANIMAL: 0,
 			Collections.factions.MAGIC: 0,
-			Collections.factions.NATURE: 3,
+			Collections.factions.NATURE: 5,
 			Collections.factions.ROBOT: 0,
 		},
-		"Attack": 2,
-		"Health": 8,
+		"MaxAttack": 2,
+		"MinAttack": 2,
+		"Health": 7,
 		"Movement": 1,
 		"Lord": false,
 		"Text": "",
@@ -606,7 +610,7 @@ cards.FLOW_ACCELERATOR: {
 		"Costs": {
 			Collections.factions.ANIMAL: 0,
 			Collections.factions.MAGIC: 0,
-			Collections.factions.NATURE: 3, # 3
+			Collections.factions.NATURE: 6, # 6
 			Collections.factions.ROBOT: 0,
 		},
 		"Attack": 3,
@@ -1214,14 +1218,14 @@ func get_card_class(card_index: int) -> Variant:
 			card = BotanoGardener
 		cards.MORNING_LIGHT:
 			card = MorningLight
-		#cards.ICE_GOLEM:
-			#card = IceGolem
-		#cards.FIRE_GOLEM:
-			#card = FireGolem
+		cards.ICE_GOLEM:
+			card = IceGolem
+		cards.FIRE_GOLEM:
+			card = FireGolem
 		cards.HAIL_STORM:
 			card = HailStorm
-		#cards.EARTH_GOLEM:
-			#card = EarthGolem
+		cards.EARTH_GOLEM:
+			card = EarthGolem
 		#cards.PROTECTOR_OF_THE_FOREST:
 			#card = ProtectorOfTheForest
 		#cards.PRANCING_VERDEN:
