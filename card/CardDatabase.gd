@@ -613,12 +613,12 @@ cards.FLOW_ACCELERATOR: {
 			Collections.factions.NATURE: 6, # 6
 			Collections.factions.ROBOT: 0,
 		},
-		"Attack": 3,
-		"Health": 3,
+		"MaxAttack": 4,
+		"MinAttack": 2,
+		"Health": 4,
 		"Movement": 1,
 		"Lord": false,
-		"Text": "At the start of your turn: If Protector didn't move since your last turn, it gets
-		+0/+2",
+		"Text": "At the start of your turn: If Protector didn't move since your last turn, it gets +2 health",
 		"Purposes": [Collections.purposes.DEFEND_RESOURCE, Collections.purposes.BATTLE,],
 		"IMGPath": "res://library/nature/images/ProtectorOfTheForest.jpg",
 	},
@@ -1226,8 +1226,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = HailStorm
 		cards.EARTH_GOLEM:
 			card = EarthGolem
-		#cards.PROTECTOR_OF_THE_FOREST:
-			#card = ProtectorOfTheForest
+		cards.PROTECTOR_OF_THE_FOREST:
+			card = ProtectorOfTheForest
 		#cards.PRANCING_VERDEN:
 			#card = PrancingVerden
 		#cards.HEART_OF_THE_FOREST:
