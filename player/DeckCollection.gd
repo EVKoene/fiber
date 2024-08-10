@@ -105,7 +105,7 @@ var opponent_testing_deck: Dictionary = animal_deck
 
 var player_testing_deck: Dictionary = {
 	"Cards": {
-		cards.PROTECTOR_OF_THE_FOREST: 10,
+		cards.PRANCING_VERDEN: 10,
 	},
 	"StartingCards": {
 		cards.GNOME_PROTECTOR: 2,
