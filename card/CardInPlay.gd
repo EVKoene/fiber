@@ -486,8 +486,6 @@ func _on_gui_input(event):
 		and event.pressed
 	)
 	var card_sel_for_movement: CardInPlay = TargetSelection.card_selected_for_movement
-	if event is InputEventMouseButton:
-		print("Card ", ingame_name, " left_mouse_button_pressed")
 	
 	if (
 		left_mouse_button_pressed
@@ -557,6 +555,7 @@ func _on_gui_input(event):
 		right_mouse_button_pressed 
 		and card_owner_id == GameManager.player_id 
 		and !exhausted
+		and !card_sel_for_movement
 		and (
 			len(abilities) > 0 
 			or Collections.play_space_attributes.RESOURCE_SPACE in current_play_space.attributes
@@ -589,8 +588,36 @@ func _on_gui_input(event):
 				card_sel_for_movement.move_and_attack(self)
 				Input.set_custom_mouse_cursor(null)
 				card_sel_for_movement.exhaust()
-		
 				GameManager.turn_manager.turn_actions_enabled = true
+	
+	elif (
+		right_mouse_button_pressed
+		and GameManager.turn_manager.turn_actions_enabled
+		and TargetSelection.card_selected_for_movement
+		and !TargetSelection.current_path
+	):
+		var card: CardInPlay = TargetSelection.card_selected_for_movement
+		if card.move_through_units:
+			var card_path = card.current_play_space.find_play_space_path(
+				current_play_space, card.move_through_units
+			)
+			if card_path.path_length > 0 and card_path.path_length <= card.movement + 1:
+				current_play_space.select_path_to_play_space(card_path)
+
+	
+	elif (
+		right_mouse_button_pressed
+		and GameManager.turn_manager.turn_actions_enabled
+		and TargetSelection.card_selected_for_movement
+		and TargetSelection.play_space_selected_for_movement != self
+		and TargetSelection.current_path
+	):
+		if current_play_space in TargetSelection.current_path.path_spaces:
+			TargetSelection.end_selecting()
+		else:
+			var card: CardInPlay = TargetSelection.card_selected_for_movement
+			if card.move_through_units:
+				TargetSelection.current_path.extend_path(current_play_space)
 
 
 func _get_card_in_play_index() -> int:

@@ -627,18 +627,19 @@ cards.FLOW_ACCELERATOR: {
 		"InGameName": "Prancing Verden",
 		"CardType": Collections.card_types.UNIT,
 		"Factions": [Collections.factions.NATURE],
-		"Attack": 3,
+		"MaxAttack": 3,
+		"MinAttack": 2,
 		"Health": 3,
-		"Movement": 5,
+		"Movement": 4,
 		"Costs": {
 			Collections.factions.ANIMAL: 0,
 			Collections.factions.MAGIC: 0,
-			Collections.factions.NATURE: 3, # 3
+			Collections.factions.NATURE: 6, # 6
 			Collections.factions.ROBOT: 0,
 		},
 		"Lord": false,
 		"Text": "This unit can move through units. If it moves through a friendly unit, that unit
-		gets +2 movement and +1 attack this turn.",
+		gets +2 movement and +1 min attack this turn.",
 		"Purposes": [Collections.purposes.BUFF_ADJACENT],
 		"IMGPath": "res://library/nature/images/PrancingVerden.jpg",
 	},
@@ -1228,8 +1229,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = EarthGolem
 		cards.PROTECTOR_OF_THE_FOREST:
 			card = ProtectorOfTheForest
-		#cards.PRANCING_VERDEN:
-			#card = PrancingVerden
+		cards.PRANCING_VERDEN:
+			card = PrancingVerden
 		#cards.HEART_OF_THE_FOREST:
 			#card = HeartOfTheForest
 		#cards.MARCELLA_WHO_NURTURES_GROWTH:
