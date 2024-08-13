@@ -627,16 +627,16 @@ cards.FLOW_ACCELERATOR: {
 		"InGameName": "Prancing Verden",
 		"CardType": Collections.card_types.UNIT,
 		"Factions": [Collections.factions.NATURE],
-		"MaxAttack": 3,
-		"MinAttack": 2,
-		"Health": 3,
-		"Movement": 4,
 		"Costs": {
 			Collections.factions.ANIMAL: 0,
 			Collections.factions.MAGIC: 0,
 			Collections.factions.NATURE: 6, # 6
 			Collections.factions.ROBOT: 0,
 		},
+		"MaxAttack": 3,
+		"MinAttack": 2,
+		"Health": 3,
+		"Movement": 4,
 		"Lord": false,
 		"Text": "This unit can move through units. If it moves through a friendly unit, that unit
 		gets +2 movement and +1 min attack this turn.",
@@ -648,15 +648,16 @@ cards.FLOW_ACCELERATOR: {
 		"InGameName": "Heart of the Forest",
 		"CardType": Collections.card_types.UNIT,
 		"Factions": [Collections.factions.NATURE],
-		"Attack": 0,
-		"Health": 8,
-		"Movement": 0,
 		"Costs": {
 			Collections.factions.ANIMAL: 0,
 			Collections.factions.MAGIC: 0,
-			Collections.factions.NATURE: 4, # 4
+			Collections.factions.NATURE: 7, # 8
 			Collections.factions.ROBOT: 0,
 		},
+		"MaxAttack": 0,
+		"MinAttack": 0,
+		"Health": 8,
+		"Movement": 0,
 		"Lord": false,
 		"Text": "Allied units in range 1 get +0/+4. Units in range 2 get +0/+2",
 		"Purposes": [Collections.purposes.BUFF_ADJACENT],
@@ -670,14 +671,15 @@ cards.FLOW_ACCELERATOR: {
 		"Costs": {
 			Collections.factions.ANIMAL: 0,
 			Collections.factions.MAGIC: 0,
-			Collections.factions.NATURE: 4, # 4
+			Collections.factions.NATURE: 8, # 8
 			Collections.factions.ROBOT: 0,
 		},
-		"Attack": 3,
-		"Health": 5,
+		"MaxAttack": 4,
+		"MinAttack": 3,
+		"Health": 7,
 		"Movement": 1,
 		"Lord": true,
-		"Text": "Pay 2<N>: Draw a card, give an adjacent unit +1/+1",
+		"Text": "Pay 2<N>: Draw a card, add 1 max attack and 1 health to up to one adjacent unit",
 		"Purposes": [Collections.purposes.REAR,],
 		"IMGPath": "res://library/nature/images/MarcellaWhoNurturesGrowth.png",
 	},
@@ -1231,10 +1233,10 @@ func get_card_class(card_index: int) -> Variant:
 			card = ProtectorOfTheForest
 		cards.PRANCING_VERDEN:
 			card = PrancingVerden
-		#cards.HEART_OF_THE_FOREST:
-			#card = HeartOfTheForest
-		#cards.MARCELLA_WHO_NURTURES_GROWTH:
-			#card = MarcellaWhoNurturesGrowth
+		cards.HEART_OF_THE_FOREST:
+			card = HeartOfTheForest
+		cards.MARCELLA_WHO_NURTURES_GROWTH:
+			card = MarcellaWhoNurturesGrowth
 		#
 		#### Robot ###
 #
