@@ -671,14 +671,15 @@ cards.FLOW_ACCELERATOR: {
 		"Costs": {
 			Collections.factions.ANIMAL: 0,
 			Collections.factions.MAGIC: 0,
-			Collections.factions.NATURE: 4, # 4
+			Collections.factions.NATURE: 8, # 8
 			Collections.factions.ROBOT: 0,
 		},
-		"Attack": 3,
-		"Health": 5,
+		"MaxAttack": 4,
+		"MinAttack": 3,
+		"Health": 7,
 		"Movement": 1,
 		"Lord": true,
-		"Text": "Pay 2<N>: Draw a card, give an adjacent unit +1/+1",
+		"Text": "Pay 2<N>: Draw a card, add 1 max attack and 1 health to up to one adjacent unit",
 		"Purposes": [Collections.purposes.REAR,],
 		"IMGPath": "res://library/nature/images/MarcellaWhoNurturesGrowth.png",
 	},
@@ -1234,8 +1235,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = PrancingVerden
 		cards.HEART_OF_THE_FOREST:
 			card = HeartOfTheForest
-		#cards.MARCELLA_WHO_NURTURES_GROWTH:
-			#card = MarcellaWhoNurturesGrowth
+		cards.MARCELLA_WHO_NURTURES_GROWTH:
+			card = MarcellaWhoNurturesGrowth
 		#
 		#### Robot ###
 #
