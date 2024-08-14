@@ -9,11 +9,13 @@ extends Node
 
 
 func cards_in_range(
-	card: CardInPlay, card_range: int, target_restrictions: int, ignore_obstacles: bool
+	card: CardInPlay, card_range: int, target_restrictions: int, ignore_obstacles := true, include_self := false
 ) -> Array:
 	var cards: Array = []
 	for p in GameManager.cards_in_play:
 		for c in GameManager.cards_in_play[p]:
+			if c == card and !include_self:
+				continue
 			match target_restrictions:
 				TargetSelection.target_restrictions.ANY_UNITS:
 							if card.current_play_space.distance_to_play_space(

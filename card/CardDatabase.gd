@@ -784,13 +784,14 @@ cards.FLOW_ACCELERATOR: {
 			Collections.factions.ANIMAL: 0,
 			Collections.factions.MAGIC: 0,
 			Collections.factions.NATURE: 0,
-			Collections.factions.ROBOT: 2,
+			Collections.factions.ROBOT: 3,
 		},
-		"Attack": 1,
-		"Health": 1,
+		"MaxAttack": 1,
+		"MinAttack": 1,
+		"Health": 2,
 		"Movement": 1,
 		"Lord": false,
-		"Text": "This unit gets +2/+2 for each adjacent allied unit",
+		"Text": "This unit gets 2 max attack and 2 health for each adjacent allied unit",
 		"Purposes": [Collections.purposes.BATTLE],
 		"IMGPath": "res://library/robot/images/NetworkFeeder.jpg",
 	},
@@ -1252,8 +1253,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = ShockCharge
 		cards.FACTORY_WORKER:
 			card = FactoryWorker
-		#cards.NETWORK_FEEDER:
-			#card = NetworkFeeder
+		cards.NETWORK_FEEDER:
+			card = NetworkFeeder
 		#cards.FURNACE_BOT:
 			#card = FurnaceBot
 		#cards.EXTERMINATE:
