@@ -9,7 +9,7 @@ func resolve_spell(_selected_column: int, _selected_row: int) -> bool:
 	TargetSelection.n_lowest_axis_to_select = 4
 	TargetSelection.drag_selection_range = 1
 	Events.show_instructions.emit("Choose a 4x4 area in range 1 of one of your units")
-	Events.show_finish_button.emit()
+	GameManager.battle_map.show_finish_button()
 	TargetSelection.making_selection = true
 	GameManager.turn_manager.turn_actions_enabled = false
 	
@@ -31,5 +31,5 @@ func resolve_spell(_selected_column: int, _selected_row: int) -> bool:
 		TargetSelection.end_selecting()
 		TargetSelection.end_drag_to_select()
 		Events.hide_instructions.emit()
-		Events.hide_finish_button.emit()
+		GameManager.battle_map.hide_finish_button()
 		return false

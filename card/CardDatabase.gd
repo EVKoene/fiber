@@ -711,7 +711,8 @@ cards.FLOW_ACCELERATOR: {
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 1,
 		},
-		"Attack": 1,
+		"MaxAttack": 1,
+		"MinAttack": 0,
 		"Health": 1,
 		"Movement": 1,
 		"Lord": false,
@@ -1242,8 +1243,8 @@ func get_card_class(card_index: int) -> Variant:
 		#
 		#### Robot ###
 #
-		#cards.ASSEMBLY_BOT:
-			#card = AssemblyBot
+		cards.ASSEMBLY_BOT:
+			card = AssemblyBot
 		#cards.OBSTRUCTION_CONSTRUCTION:
 			#card = ObstructionConstruction
 		#cards.FACTORY_WORKER:

@@ -34,8 +34,6 @@ func _ready():
 		_add_decks()
 		_start_first_turn()
 	
-	Events.hide_finish_button.connect(_hide_finish_button)
-	Events.show_finish_button.connect(_show_finish_button)
 	Events.show_instructions.connect(_show_instructions)
 	Events.hide_instructions.connect(_hide_instructions)
 
@@ -193,11 +191,11 @@ func _set_end_turn_button() -> void:
 	end_turn_button = $EndTurnButton
 
 
-func _hide_finish_button() -> void:
+func hide_finish_button() -> void:
 	$FinishButton.hide()
 
 
-func _show_finish_button() -> void:
+func show_finish_button() -> void:
 	$FinishButton.show()
 
 
