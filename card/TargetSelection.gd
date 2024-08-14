@@ -128,3 +128,16 @@ func clear_card_action_menu() -> void:
 	if card_action_menu:
 		card_action_menu.queue_free()
 		card_action_menu = null
+
+
+func end_drag_to_select() -> void:
+	can_drag_to_select = false
+	dragging_to_select = false
+	drag_start = Vector2.ZERO
+	drag_end = Vector2.ZERO
+	drag_selection_range = 0
+	select_rect = RectangleShape2D.new()  # Collision shape for drag box.
+	n_lowest_axis_to_select = 0
+	n_highest_axis_to_select = 0
+	selected_columns = []
+	selected_rows = []

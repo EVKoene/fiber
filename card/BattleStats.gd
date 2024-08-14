@@ -94,10 +94,9 @@ func _get_health() -> int:
 
 	for m in health_modifiers:
 		modified_health += m[0]
-	
-	if modified_health < 1:
-		modified_health = 1
-		base_health = 1
+		if modified_health < 1:
+			modified_health = 1
+			base_health = 1
 	
 	return modified_health
 

@@ -55,7 +55,7 @@ var nature_deck: Dictionary = {
 		cards.PRANCING_VERDEN: 2, 
 		cards.HEART_OF_THE_FOREST: 2, 
 		cards.MARCELLA_WHO_NURTURES_GROWTH: 2, 
-		#cards.VOLCANIC_ERUPTION: 2
+		cards.VOLCANIC_ERUPTION: 2
 	},
 	"StartingCards": {
 		cards.GNOME_PROTECTOR: 2,
@@ -105,10 +105,10 @@ var opponent_testing_deck: Dictionary = animal_deck
 
 var player_testing_deck: Dictionary = {
 	"Cards": {
-		cards.MARCELLA_WHO_NURTURES_GROWTH: 10,
+		cards.VOLCANIC_ERUPTION: 10,
 	},
 	"StartingCards": {
 		cards.GNOME_PROTECTOR: 2,
-		cards.HAIL_STORM: 1,
+		cards.BOTANO_GARDENER: 1,
 	}
 }
