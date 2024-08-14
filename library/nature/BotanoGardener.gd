@@ -13,7 +13,7 @@ func _init():
 
 func grow_unit() -> bool:
 	Events.show_instructions.emit("Choose a unit to give +1/+1")
-	Events.show_finish_button.emit()
+	GameManager.battle_map.show_finish_button()
 	select_card(true)
 	
 	TargetSelection.select_targets(

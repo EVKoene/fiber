@@ -13,7 +13,7 @@ func call_triggered_funcs(trigger: int, _triggering_card: CardInPlay) -> void:
 	):
 		Events.show_instructions.emit("Swap any number of cards and press finish")
 		swapping_cards = true
-		Events.show_finish_button.emit()
+		GameManager.battle_map.show_finish_button()
 		while swapping_cards:
 			TargetSelection.select_targets(
 				2, TargetSelection.target_restrictions.OWN_UNITS, self, true, -1, true

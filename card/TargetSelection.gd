@@ -68,6 +68,7 @@ func select_targets(
 
 
 func select_play_spaces(number_of_spaces: int, play_space_options: Array) -> void:
+	GameManager.turn_manager.turn_actions_enabled = false
 	making_selection = true
 	number_of_spaces_to_select = number_of_spaces
 	target_play_space_options = play_space_options
@@ -89,8 +90,6 @@ func end_selecting() -> void:
 	card_selected_for_movement = null
 	play_space_selected_for_movement = null
 	card_to_be_attacked = null
-	number_of_spaces_to_select = 0
-	selecting_spaces = false
 	clear_paths()
 	clear_arrows()
 	clear_selections()
@@ -105,6 +104,8 @@ func clear_selections() -> void:
 	selected_columns = []
 	selected_rows = []
 	selected_spaces = []
+	selecting_spaces = false
+	number_of_spaces_to_select = 0
 	for p_id in GameManager.players:
 		MPCardManipulation.set_all_borders_to_faction.rpc_id(p_id)
 		MPAnimation.unhighlight_all_spaces.rpc_id(p_id)

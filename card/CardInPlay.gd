@@ -36,11 +36,14 @@ var move_through_units := false
 var card_in_play_index: int: get = _get_card_in_play_index
 
 func _ready():
+	print("Card owner id: ", card_owner_id)
 	scale *= MapSettings.card_in_play_size/size
 	_load_card_properties()
 	if !fabrication:
 		_create_battle_stats()
 		_create_costs()
+	else:
+		pass
 	set_position_to_play_space()
 	update_stats()
 	_add_border()
@@ -53,7 +56,7 @@ func _ready():
 	if GameManager.is_server:
 		GameManager.call_deferred("call_triggered_funcs", Collections.triggers.CARD_CREATED, self)
 	_connect_signals()
-	enter_battle()
+	enter_battle.call_deferred()
 
 
 func enter_battle() -> void:
@@ -72,7 +75,7 @@ func attack_card(target_card: CardInPlay) -> void:
 			target_card.current_play_space.direction_from_play_space(current_play_space)
 		)
 	
-	deal_damage_to_card(target_card, int(randf_range(min_attack, max_attack)))
+	deal_damage_to_card(target_card, int(randi_range(min_attack, max_attack)))
 
 
 func deal_damage_to_card(card: CardInPlay, value: int) -> void:
