@@ -108,6 +108,7 @@ var player_testing_deck: Dictionary = {
 		cards.SHOCK_CHARGE: 10,
 	},
 	"StartingCards": {
-		cards.ASSEMBLY_BOT: 3,
+		cards.ASSEMBLY_BOT: 2,
+		cards.FACTORY_WORKER: 1,
 	}
 }
