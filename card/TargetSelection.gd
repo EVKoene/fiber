@@ -95,6 +95,7 @@ func end_selecting() -> void:
 	clear_selections()
 	clear_card_action_menu()
 	Events.hide_instructions.emit()
+	GameManager.battle_map.hide_finish_button()
 
 
 func clear_selections() -> void:
