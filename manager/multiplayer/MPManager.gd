@@ -42,8 +42,7 @@ func resolve_damage(card_owner_id, cip_index, value):
 		card.shake()
 	
 	card.battle_stats.change_health(-value, -1)
-	card.update_stats()
-	if card.health <= 0 and GameManager.is_server:
+	if card.health <= 0:
 		card.destroy()
 
 

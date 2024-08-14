@@ -1237,6 +1237,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = HeartOfTheForest
 		cards.MARCELLA_WHO_NURTURES_GROWTH:
 			card = MarcellaWhoNurturesGrowth
+		cards.VOLCANIC_ERUPTION:
+			card = VolcanicEruption
 		#
 		#### Robot ###
 #
