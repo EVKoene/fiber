@@ -36,7 +36,6 @@ var move_through_units := false
 var card_in_play_index: int: get = _get_card_in_play_index
 
 func _ready():
-	print("Card owner id: ", card_owner_id)
 	scale *= MapSettings.card_in_play_size/size
 	_load_card_properties()
 	if !fabrication:
