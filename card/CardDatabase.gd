@@ -55,8 +55,7 @@ var cards_info = {
 			Collections.factions.ROBOT: 0,
 		},
 		"TargetRestrictions": TargetSelection.target_restrictions.OWN_UNITS,
-		"Text": "Pick one of your units. Deal damage equal to it's max attack to a unit in range 2.
-		Add 1 <A>",
+		"Text": "Pick one of your units. Deal damage equal to it's max attack to a unit in range 2.",
 		"CardRange": 2,
 		"IMGPath": "res://library/animal/images/AttackCommand.png",
 	},
@@ -268,7 +267,7 @@ var cards_info = {
 		},
 		"CardRange": -1,
 		"TargetRestrictions": TargetSelection.target_restrictions.ANY_UNITS,
-		"Text": "Pick two units with the same owner and swap them. Add 1 <M>",
+		"Text": "Pick two units with the same owner and swap them.",
 		"IMGPath": "res://library/magic/images/Switcheroo.png",
 	},
 	
@@ -540,7 +539,7 @@ cards.FLOW_ACCELERATOR: {
 		},
 		"CardRange": 0,
 		"TargetRestrictions": TargetSelection.target_restrictions.ANY_UNITS,
-		"Text": "Target unit gets 2 health and +1 movement. Add 1 <N>",
+		"Text": "Target unit gets 2 health and +1 movement.",
 		"IMGPath": "res://library/nature/images/MorningLight.jpg",
 	},
 	
@@ -751,7 +750,7 @@ cards.FLOW_ACCELERATOR: {
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 1,
 		},
-		"Text": "Refresh up to two units. Add 1 <R>",
+		"Text": "Refresh up to two units.",
 		"CardRange": -1,
 		"TargetRestrictions": TargetSelection.target_restrictions.ANY_SPACE,
 		"IMGPath": "res://library/robot/images/ShockCharge.jpg",
@@ -1248,6 +1247,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = AssemblyBot
 		cards.OBSTRUCTION_CONSTRUCTION:
 			card = ObstructionConstruction
+		cards.SHOCK_CHARGE:
+			card = ShockCharge
 		#cards.FACTORY_WORKER:
 			#card = FactoryWorker
 		#cards.NETWORK_FEEDER:
@@ -1256,8 +1257,6 @@ func get_card_class(card_index: int) -> Variant:
 			#card = FurnaceBot
 		#cards.EXTERMINATE:
 			#card = Exterminate
-		#cards.SHOCK_CHARGE:
-			#card = ShockCharge
 		#cards.PLUG_BUDDY:
 			#card = PlugBuddy
 		#cards.COMPUTING_BOT:

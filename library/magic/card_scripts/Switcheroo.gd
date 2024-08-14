@@ -22,7 +22,6 @@ func resolve_spell(selected_column: int, selected_row: int) -> bool:
 		selected_card.swap_with_card(
 			target_card.card_owner_id, target_card.card_in_play_index
 		)
-		GameManager.resources[card_owner_id].add_resource(Collections.factions.MAGIC, 1)
 		TargetSelection.end_selecting()
 		return true
 	else:
