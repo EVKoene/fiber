@@ -203,9 +203,10 @@ func resolve_damage(value: int) -> void:
 
 
 func destroy() -> void:
-	GameManager.call_triggered_funcs(Collections.triggers.CARD_DESTROYED, self)
-	remove_from_cards_in_play()
-	queue_free()
+	var cid := card_owner_id
+	var cip_index := card_in_play_index
+	for p_id in GameManager.players:
+		MPCardManipulation.destroy.rpc_id(p_id, cid, cip_index)
 
 
 func shake() -> void:
