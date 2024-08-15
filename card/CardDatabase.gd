@@ -841,13 +841,14 @@ cards.FLOW_ACCELERATOR: {
 			Collections.factions.ANIMAL: 0,
 			Collections.factions.MAGIC: 0,
 			Collections.factions.NATURE: 0,
-			Collections.factions.ROBOT: 3, # 3
+			Collections.factions.ROBOT: 5, # 5
 		},
-		"Attack": 2,
+		"MaxAttack": 3,
+		"MinAttack": 1,
 		"Health": 3,
 		"Movement": 1,
 		"Lord": false,
-		"Text": "Exhaust, 1<R>: Refresh all your other units in range 2",
+		"Text": "Exhaust, 2<R>: Refresh all your other units in range 1",
 		"Purposes": [Collections.purposes.BUFF_ADJACENT],
 		"IMGPath": "res://library/robot/images/PlugBuddy.jpg",
 	},
@@ -1260,8 +1261,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = FurnaceBot
 		cards.EXTERMINATE:
 			card = Exterminate
-		#cards.PLUG_BUDDY:
-			#card = PlugBuddy
+		cards.PLUG_BUDDY:
+			card = PlugBuddy
 		#cards.COMPUTING_BOT:
 			#card = ComputingBot
 		#cards.ZOLOI_CHARGER:
