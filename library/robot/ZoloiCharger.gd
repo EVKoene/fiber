@@ -1,0 +1,54 @@
+extends CardInPlay
+
+
+class_name ZoloiCharger
+
+
+var charged := false
+
+
+func call_triggered_funcs(trigger: int, _triggering_card: CardInPlay) -> void:
+	if trigger != Collections.triggers.TURN_STARTED or GameManager.turn_manager.turn_owner_id != card_owner_id:
+		return
+
+	charged = true
+	if column == 0 or column == MapSettings.n_columns - 1:
+		charged = false
+	else:
+		for ps in [
+			GameManager.ps_column_row[column - 1][row], GameManager.ps_column_row[column + 1][row]
+		]:
+			if !ps.card_in_this_play_space:
+				charged = false
+				break
+			if ps.card_in_this_play_space.card_owner_id != card_owner_id:
+				charged = false
+				break
+		
+	if charged:
+		for p_id in GameManager.players:
+			MPCardManipulation.change_max_attack.rpc_id(
+				p_id, card_owner_id, card_in_play_index, 3, 2
+			)
+			MPCardManipulation.change_movement.rpc_id(
+				p_id, card_owner_id, card_in_play_index, 1, 2
+			)
+
+
+func attack_card(target_card: CardInPlay) -> void:
+	GameManager.call_triggered_funcs(Collections.triggers.ATTACK, self)
+	for p_id in [GameManager.p1_id, GameManager.p2_id]:
+		MPAnimation.animate_attack.rpc_id(
+			p_id, card_owner_id, card_in_play_index, 
+			target_card.current_play_space.direction_from_play_space(current_play_space)
+		)
+	
+	var adjacent_cards: Array = CardHelper.cards_in_range(
+		target_card, 1, TargetSelection.target_restrictions.OWN_UNITS
+	)
+	deal_damage_to_card(target_card, int(randi_range(min_attack, max_attack)))
+	
+	if charged:
+		for c in adjacent_cards:
+			c.resolve_damage(1)
+	GameManager.call_triggered_funcs(Collections.triggers.ATTACK_FINISHED, self)
