@@ -8,7 +8,6 @@ func enter_battle() -> void:
 	if card_owner_id == GameManager.player_id:
 		Events.show_instructions.emit("Choose a space to place the robot fabrication")
 		GameManager.battle_map.show_finish_button()
-		TargetSelection.making_selection = true
 		for ps in current_play_space.adjacent_play_spaces():
 			ps.highlight_space()
 		TargetSelection.select_play_spaces(1, current_play_space.adjacent_play_spaces())

@@ -804,13 +804,14 @@ cards.FLOW_ACCELERATOR: {
 			Collections.factions.ANIMAL: 0,
 			Collections.factions.MAGIC: 0,
 			Collections.factions.NATURE: 0,
-			Collections.factions.ROBOT: 2, # 2
+			Collections.factions.ROBOT: 4, # 2
 		},
-		"Attack": 1,
-		"Health": 2,
+		"MaxAttack": 2,
+		"MinAttack": 1,
+		"Health": 4,
 		"Movement": 2,
 		"Lord": false,
-		"Text": "Consume a unit in range 1: This unit gets +2 attack and health",
+		"Text": "Consume a unit in range 1: This unit gets +2 max attack, min attack and health",
 		"Purposes": [Collections.purposes.BATTLE],
 		"IMGPath": "res://library/robot/images/FurnaceBot.jpg",
 	},
@@ -1255,8 +1256,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = FactoryWorker
 		cards.NETWORK_FEEDER:
 			card = NetworkFeeder
-		#cards.FURNACE_BOT:
-			#card = FurnaceBot
+		cards.FURNACE_BOT:
+			card = FurnaceBot
 		#cards.EXTERMINATE:
 			#card = Exterminate
 		#cards.PLUG_BUDDY:

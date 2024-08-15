@@ -41,7 +41,7 @@ var selected_rows := []
 
 func select_targets(
 	n_targets: int, _target_restrictions: int, _selecting_unit: CardInPlay, _self_allowed: bool, 
-	range_from_unit: int, ignore_obstacles: bool
+	range_from_unit: int, ignore_obstacles := true
 ) -> void:
 	GameManager.turn_manager.turn_actions_enabled = false
 	making_selection = true
