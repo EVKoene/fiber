@@ -861,14 +861,14 @@ cards.FLOW_ACCELERATOR: {
 			Collections.factions.ANIMAL: 0,
 			Collections.factions.MAGIC: 0,
 			Collections.factions.NATURE: 0,
-			Collections.factions.ROBOT: 0, # 3
+			Collections.factions.ROBOT: 6, # 6
 		},
-		"Attack": 3,
-		"Health": 4,
+		"MaxAttack": 4,
+		"MinAttack": 2,
+		"Health": 5,
 		"Movement": 1,
 		"Lord": false,
-		"Text": "If at the start of your turn there are units in two adjacent spaces on opposite 
-		sides of this unit, This unit gets +3/+0, Impact and +2 movement until your next turn",
+		"Text": "If there's a unit to the left and right of this unit at the start of your turn, this unit gets +3 max attack, Impact and +2 movement until your next turn",
 		"Purposes": [Collections.purposes.BUFF_ADJACENT],
 		"IMGPath": "res://library/robot/images/ZoloiCharger.png",
 	},
@@ -1265,8 +1265,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = PlugBuddy
 		#cards.COMPUTING_BOT:
 			#card = ComputingBot
-		#cards.ZOLOI_CHARGER:
-			#card = ZoloiCharger
+		cards.ZOLOI_CHARGER:
+			card = ZoloiCharger
 		#cards.COPY_MACHINE:
 			#card = CopyMachine
 		#cards.ZALOGI_MIND_OF_MACHINES:

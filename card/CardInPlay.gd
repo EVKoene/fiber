@@ -68,6 +68,7 @@ func _connect_signals() -> void:
 
 
 func attack_card(target_card: CardInPlay) -> void:
+	GameManager.call_triggered_funcs(Collections.triggers.ATTACK, self)
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
 		MPAnimation.animate_attack.rpc_id(
 			p_id, card_owner_id, card_in_play_index, 
@@ -75,6 +76,7 @@ func attack_card(target_card: CardInPlay) -> void:
 		)
 	
 	deal_damage_to_card(target_card, int(randi_range(min_attack, max_attack)))
+	GameManager.call_triggered_funcs(Collections.triggers.ATTACK_FINISHED, self)
 
 
 func deal_damage_to_card(card: CardInPlay, value: int) -> void:
