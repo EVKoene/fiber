@@ -105,7 +105,7 @@ var opponent_testing_deck: Dictionary = animal_deck
 
 var player_testing_deck: Dictionary = {
 	"Cards": {
-		cards.FURNACE_BOT: 10,
+		cards.EXTERMINATE: 10,
 	},
 	"StartingCards": {
 		cards.ASSEMBLY_BOT: 2,

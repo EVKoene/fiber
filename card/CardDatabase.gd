@@ -824,9 +824,9 @@ cards.FLOW_ACCELERATOR: {
 			Collections.factions.ANIMAL: 0,
 			Collections.factions.MAGIC: 0,
 			Collections.factions.NATURE: 0,
-			Collections.factions.ROBOT: 3, # 3
+			Collections.factions.ROBOT: 6, # 3
 		},
-		"Text": "Consume one of your own units: Destroy a unit within range 2 of the consumed unit",
+		"Text": "Consume one of your own units: Destroy a unit within range 1 of the consumed unit",
 		"CardRange": -1,
 		"TargetRestrictions": TargetSelection.target_restrictions.OWN_UNITS,
 		"IMGPath": "res://library/robot/images/Exterminate.jpg",
@@ -1258,8 +1258,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = NetworkFeeder
 		cards.FURNACE_BOT:
 			card = FurnaceBot
-		#cards.EXTERMINATE:
-			#card = Exterminate
+		cards.EXTERMINATE:
+			card = Exterminate
 		#cards.PLUG_BUDDY:
 			#card = PlugBuddy
 		#cards.COMPUTING_BOT:
