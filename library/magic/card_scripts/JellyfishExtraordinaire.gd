@@ -10,5 +10,5 @@ func call_triggered_funcs(trigger: int, _triggering_card: CardInPlay):
 		and Collections.play_space_attributes.RESOURCE_SPACE in current_play_space.attributes
 		and !current_play_space.is_in_starting_area(card_owner_id)
 	):
-		GameManager.decks[card_owner_id].draw_card()
+		MPManager.draw_card.rpc_id(GameManager.p1_id, card_owner_id)
 		GameManager.resources[card_owner_id].add_resource(Collections.factions.MAGIC, 1)

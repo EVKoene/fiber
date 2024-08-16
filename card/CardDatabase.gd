@@ -881,13 +881,14 @@ cards.FLOW_ACCELERATOR: {
 			Collections.factions.ANIMAL: 0,
 			Collections.factions.MAGIC: 0,
 			Collections.factions.NATURE: 0,
-			Collections.factions.ROBOT: 4, # 4
+			Collections.factions.ROBOT: 6, # 4
 		},
-		"Attack": 4,
-		"Health": 4,
+		"MaxAttack": 4,
+		"MinAttack": 2,
+		"Health": 6,
 		"Lord": false,
 		"Movement": 1,
-		"Text": "Exhaust: Consume a unit in range 2: Discard 1 card and draw 3 cards",
+		"Text": "Exhaust, 1<R>: Consume a unit in range 1: Discard 1 card and draw 3 cards",
 		"Purposes": [Collections.purposes.REAR],
 		"IMGPath": "res://library/robot/images/ComputingBot.jpg",
 	},
@@ -1263,8 +1264,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = Exterminate
 		cards.PLUG_BUDDY:
 			card = PlugBuddy
-		#cards.COMPUTING_BOT:
-			#card = ComputingBot
+		cards.COMPUTING_BOT:
+			card = ComputingBot
 		cards.ZOLOI_CHARGER:
 			card = ZoloiCharger
 		#cards.COPY_MACHINE:
