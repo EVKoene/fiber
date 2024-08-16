@@ -10,3 +10,5 @@ signal resolve_spell_button_pressed
 signal hide_instructions
 
 signal clear_paths
+
+signal card_discarded

@@ -35,6 +35,14 @@ func highlight_card():
 	get_theme_stylebox("panel").border_color = Styling.gold_color
 
 
+func discard() -> void:
+	var h_index := hand_index
+	GameManager.call_triggered_funcs(Collections.triggers.CARD_DISCARDED, null)
+	for p_id in GameManager.players:
+		MPManager.remove_card_from_hand.rpc_id(p_id, card_owner_id, h_index)
+	Events.card_discarded.emit()
+
+
 func play_spell(column: int, row: int) -> void:
 	for p_id in GameManager.players:
 		MPManager.lock_zoom_preview_hand.rpc_id(p_id, card_owner_id, hand_index)
@@ -229,6 +237,16 @@ func _on_mouse_entered():
 
 func _on_mouse_exited():
 	get_theme_stylebox("panel").border_color = Styling.faction_colors[factions]
+
+
+func _gui_input(event):
+	if (
+		event is InputEventMouseButton 
+		and event.button_index == MOUSE_BUTTON_LEFT 
+		and event.pressed
+		and TargetSelection.discarding
+	):
+		discard()
 
 
 func _get_hand_index() -> int:

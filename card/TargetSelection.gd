@@ -39,6 +39,9 @@ var n_highest_axis_to_select := 0
 var selected_columns := []
 var selected_rows := []
 
+var discarding := false
+
+
 func select_targets(
 	n_targets: int, _target_restrictions: int, _selecting_unit: CardInPlay, _self_allowed: bool, 
 	range_from_unit: int, ignore_obstacles := true
@@ -76,6 +79,19 @@ func select_play_spaces(number_of_spaces: int, play_space_options: Array) -> voi
 
 
 @rpc("any_peer", "call_local")
+func select_card_to_discard() -> void:
+	if len(GameManager.cards_in_hand[GameManager.player_id]) == 0:
+		return
+	
+	GameManager.turn_manager.turn_actions_enabled = false
+	making_selection = true
+	discarding = true
+	Events.show_instructions.emit("Pick a card to discard")
+	await Events.card_discarded
+	end_selecting()
+
+
+@rpc("any_peer", "call_local")
 func end_selecting() -> void:
 	GameManager.turn_manager.turn_actions_enabled = true
 	if making_selection:
@@ -90,6 +106,7 @@ func end_selecting() -> void:
 	card_selected_for_movement = null
 	play_space_selected_for_movement = null
 	card_to_be_attacked = null
+	discarding = false
 	clear_paths()
 	clear_arrows()
 	clear_selections()

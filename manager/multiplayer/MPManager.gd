@@ -231,8 +231,8 @@ func set_hand_card_positions() -> void:
 
 @rpc("any_peer", "call_local")
 func draw_card(card_owner_id: int) -> void:
-	GameManager.decks[card_owner_id].draw_card()
-
+	await GameManager.decks[card_owner_id].draw_card()
+	return
 
 @rpc("any_peer", "call_local")
 func draw_type_put_rest_bottom(card_owner_id: int, card_type: int) -> void:

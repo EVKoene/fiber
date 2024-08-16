@@ -46,8 +46,10 @@ func shuffle() -> void:
 
 
 func draw_card() -> void:
+	GameManager.turn_manager.turn_actions_enabled = false
 	create_hand_card(deck_order[0])
 	deck_order.remove_at(0)
+	GameManager.turn_manager.turn_actions_enabled = true
 
 
 func draw_type_put_rest_bottom(card_type: int) -> bool:
@@ -81,6 +83,9 @@ func draw_starting_cards() -> void:
 
 
 func create_hand_card(card_index: int) -> void:
+	if len(GameManager.cards_in_hand[deck_owner_id]) >= 7:
+		TargetSelection.select_card_to_discard.rpc_id(deck_owner_id)
+	
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
 		MPManager.create_hand_card.rpc_id(p_id, deck_owner_id, card_index)
 
