@@ -105,7 +105,7 @@ var opponent_testing_deck: Dictionary = animal_deck
 
 var player_testing_deck: Dictionary = {
 	"Cards": {
-		cards.COPY_MACHINE: 20,
+		cards.ZALOGI_MIND_OF_MACHINES: 20,
 	},
 	"StartingCards": {
 		cards.ASSEMBLY_BOT: 2,

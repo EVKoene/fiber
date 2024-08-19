@@ -922,13 +922,14 @@ cards.FLOW_ACCELERATOR: {
 			Collections.factions.ANIMAL: 0,
 			Collections.factions.MAGIC: 0,
 			Collections.factions.NATURE: 0,
-			Collections.factions.ROBOT: 4, # 4
+			Collections.factions.ROBOT: 7, # 7
 		},
-		"Attack": 3,
-		"Health": 4,
+		"MaxAttack": 6,
+		"MinAttack": 4,
+		"Health": 7,
 		"Movement": 1,
 		"Lord": true,
-		"Text": "Fabrications are created with +2/+2",	
+		"Text": "Your fabrications are created with +2 max attack, min attack and health and +1 movement",
 		"Purposes": [Collections.purposes.REAR],
 		"IMGPath": "res://library/robot/images/ZalogiMindOfMachines.png",
 	},
@@ -1271,6 +1272,6 @@ func get_card_class(card_index: int) -> Variant:
 			card = ZoloiCharger
 		cards.COPY_MACHINE:
 			card = CopyMachine
-		#cards.ZALOGI_MIND_OF_MACHINES:
-			#card = ZalogiMindOfMachines
+		cards.ZALOGI_MIND_OF_MACHINES:
+			card = ZalogiMindOfMachines
 	return card
