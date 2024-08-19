@@ -48,6 +48,7 @@ func play_spell(column: int, row: int) -> void:
 		MPManager.lock_zoom_preview_hand.rpc_id(p_id, card_owner_id, hand_index)
 	var card: CardInPlay = CardDatabase.get_card_class(card_index).new()
 	card.card_owner_id = card_owner_id
+	@warning_ignore("redundant_await")
 	var succesfull_resolve: bool = await card.resolve_spell(column, row)
 	TargetSelection.end_selecting()
 	

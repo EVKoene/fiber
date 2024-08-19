@@ -901,13 +901,14 @@ cards.FLOW_ACCELERATOR: {
 			Collections.factions.ANIMAL: 0,
 			Collections.factions.MAGIC: 0,
 			Collections.factions.NATURE: 0,
-			Collections.factions.ROBOT: 0, # 3
+			Collections.factions.ROBOT: 7, # 7
 		},
-		"Attack": 2,
-		"Health": 3,
+		"MaxAttack": 4,
+		"MinAttack": 2,
+		"Health": 5,
 		"Movement": 1,
 		"Lord": false,
-		"Text": "Exhaust: Choose a unit in range 1. Create a fabrication that's a copy of that
+		"Text": "Exhaust, 3<R>: Choose a unit in range 1. Create a fabrication that's a copy of that
 		unit in range 1. Exhaust it.",
 		"Purposes": [Collections.purposes.REAR],
 		"IMGPath": "res://library/robot/images/CopyMachine.png",
@@ -1268,8 +1269,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = ComputingBot
 		cards.ZOLOI_CHARGER:
 			card = ZoloiCharger
-		#cards.COPY_MACHINE:
-			#card = CopyMachine
+		cards.COPY_MACHINE:
+			card = CopyMachine
 		#cards.ZALOGI_MIND_OF_MACHINES:
 			#card = ZalogiMindOfMachines
 	return card

@@ -105,7 +105,7 @@ var opponent_testing_deck: Dictionary = animal_deck
 
 var player_testing_deck: Dictionary = {
 	"Cards": {
-		cards.COMPUTING_BOT: 20,
+		cards.COPY_MACHINE: 20,
 	},
 	"StartingCards": {
 		cards.ASSEMBLY_BOT: 2,

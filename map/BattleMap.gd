@@ -34,8 +34,8 @@ func _ready():
 		_add_decks()
 		_start_first_turn()
 	
-	Events.show_instructions.connect(_show_instructions)
-	Events.hide_instructions.connect(_hide_instructions)
+	Events.show_instructions.connect(show_instructions)
+	Events.hide_instructions.connect(hide_instructions)
 
 
 func show_text(text_to_show: String) -> void:
@@ -298,11 +298,11 @@ func _create_progress_bars() -> void:
 					sb.bg_color = Color.hex(0xf3131edc)
 
 
-func _hide_instructions() -> void:
+func hide_instructions() -> void:
 	$InstructionContainer.hide()
 
 
-func _show_instructions(instruction_text: String) -> void:
+func show_instructions(instruction_text: String) -> void:
 	$InstructionContainer/InstructionText.text = instruction_text
 	$InstructionContainer.show()
 
