@@ -18,6 +18,7 @@ func start_game() -> void:
 	var battle_map = battle_map_scene.instantiate()
 	add_child(battle_map, true)
 	$CenterContainer.hide()
+	$DeckButtons.hide()
 
 
 func peer_connected(id: int) -> void:
@@ -121,6 +122,16 @@ func _on_animal_deck_button_pressed():
 func _on_magic_deck_button_pressed():
 	deck = DeckCollection.magic_deck
 	$DeckButtons/CurrentDeck.text = "Currently: Magic deck"
+
+
+func _on_nature_deck_button_pressed():
+	deck = DeckCollection.nature_deck
+	$DeckButtons/CurrentDeck.text = "Currently: Nature deck"
+
+
+func _on_robot_deck_button_pressed():
+	deck = DeckCollection.robot_deck
+	$DeckButtons/CurrentDeck.text = "Currently: Robot deck"
 
 
 func _on_exit_pressed():

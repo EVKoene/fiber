@@ -71,6 +71,14 @@ text = "Animal Deck"
 layout_mode = 2
 text = "Magic Deck"
 
+[node name="NatureDeckButton" type="Button" parent="DeckButtons"]
+layout_mode = 2
+text = "Nature Deck"
+
+[node name="RobotDeckButton" type="Button" parent="DeckButtons"]
+layout_mode = 2
+text = "Robot Deck"
+
 [node name="CurrentDeck" type="Label" parent="DeckButtons"]
 layout_mode = 2
 text = "Currently: Animal deck"
@@ -82,3 +90,5 @@ text = "Currently: Animal deck"
 [connection signal="pressed" from="TestingButton" to="." method="_on_testing_button_pressed"]
 [connection signal="pressed" from="DeckButtons/AnimalDeckButton" to="." method="_on_animal_deck_button_pressed"]
 [connection signal="pressed" from="DeckButtons/MagicDeckButton" to="." method="_on_magic_deck_button_pressed"]
+[connection signal="pressed" from="DeckButtons/NatureDeckButton" to="." method="_on_nature_deck_button_pressed"]
+[connection signal="pressed" from="DeckButtons/RobotDeckButton" to="." method="_on_robot_deck_button_pressed"]
