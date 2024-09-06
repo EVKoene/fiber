@@ -18,6 +18,8 @@ var turn_count := 0
 @export var turn_actions_enabled := false
 
 var can_start_turn := false
+var gold_gained := 0
+var turn_resource_increases := [1, 2, 4, 7]
 
 
 func _ready():
@@ -34,9 +36,12 @@ func show_start_turn_text() -> void:
 func start_turn(player_id: int) -> void:
 	assert(GameManager.is_server, "Start turn func should only be called by server")
 	turn_count += 1
+	if turn_count in turn_resource_increases:
+		gold_gained += 1
+	
 	turn_stage = turn_stages.START_TURN
 	turn_owner_id = player_id
-	GameManager.resources[player_id].refresh.rpc_id(player_id, turn_count)
+	GameManager.resources[player_id].refresh.rpc_id(player_id, gold_gained)
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
 		# NOTE that we update modifiers before calling triggered funcs. This choice has been
 		# made early in development and can be changed if it opens potential interesting 

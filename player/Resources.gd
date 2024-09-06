@@ -69,15 +69,13 @@ func spend_resource(faction: Collections.factions, value: int) -> void:
 
 
 @rpc("call_local", "any_peer")
-func refresh(turn_count: int) -> void:
+func refresh(gold_gained: int) -> void:
 	animal = 0
 	magic = 0
 	nature = 0
 	robot = 0
-	if turn_count >= 2:
-		gold = 2
-	else:
-		gold = 1
+	gold = gold_gained
+	
 	add_resources_from_spaces()
 	_update_resources()
 
