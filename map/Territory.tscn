@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cl226p5ni6gli"]
+
+[ext_resource type="Script" path="res://map/Territory.gd" id="1_8m5uu"]
+
+[node name="Territory" type="Panel"]
+mouse_filter = 2
+script = ExtResource("1_8m5uu")

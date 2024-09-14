@@ -19,7 +19,7 @@ var turn_count := 0
 
 var can_start_turn := false
 var gold_gained := 0
-var turn_resource_increases := [1, 2, 4, 7]
+var resource_increases_turns := [1, 2, 4, 7]
 
 
 func _ready():
@@ -36,8 +36,16 @@ func show_start_turn_text() -> void:
 func start_turn(player_id: int) -> void:
 	assert(GameManager.is_server, "Start turn func should only be called by server")
 	turn_count += 1
-	if turn_count in turn_resource_increases:
+	if turn_count in resource_increases_turns:
 		gold_gained += 1
+	
+		if resource_increases_turns.max() > turn_count:
+			for t in resource_increases_turns:
+				if t > turn_count:
+					GameManager.battle_map.update_gold_container_text(gold_gained, t - turn_count)
+					break
+		else:
+			GameManager.battle_map.update_gold_container_text(gold_gained, -1)
 	
 	turn_stage = turn_stages.START_TURN
 	turn_owner_id = player_id

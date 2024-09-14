@@ -34,6 +34,8 @@ var starting_draw: int = 3
 var cards_in_hand := {}
 var cards_in_play := {}
 
+var territories := []
+
 
 func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:
 	for p_id in [p1_id, p2_id]:
