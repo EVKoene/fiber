@@ -9,20 +9,8 @@ var map_data: Dictionary = {
 		"SpacesToWin": 8,
 		"Columns": 7,
 		"Rows": 5,
-		"P1StartSpaces": [
-			Vector2(1, 3), Vector2(2, 3), Vector2(3, 3), Vector2(4, 3), Vector2(5, 3),
-			Vector2(1, 4), Vector2(2, 4), Vector2(3, 4), Vector2(4, 4), Vector2(5, 4),
-		],
-		"P2StartSpaces": [
-			Vector2(1, 0), Vector2(2, 0), Vector2(3, 0), Vector2(4, 0), Vector2(5, 0), 
-			Vector2(1, 1), Vector2(2, 1), Vector2(3, 1), Vector2(4, 1), Vector2(5, 1),
-		],
-		"StartSpacesRows": 2,
-		"StartSpacesColumns": 5,
-		"P1LowestStartSpace": Vector2(1, 3),
-		"P1HighestStartSpace": Vector2(5, 4),
-		"P2LowestStartSpace": Vector2(1, 0),
-		"P2HighestStartSpace": Vector2(5, 1),
+		"P1Territory": [Vector2(3, 4)],
+		"P2Territory": [Vector2(3, 0)],
 		"ResourceSpaces": [
 			Vector2(0, 0), Vector2(3, 0), Vector2(6, 0),
 			Vector2(0, 2), Vector2(2, 2), Vector2(3, 2), Vector2(4, 2), Vector2(6, 2),
@@ -33,16 +21,6 @@ var map_data: Dictionary = {
 	maps.BOSS_MAP: {
 		"Columns": 12,
 		"Rows": 8,
-		"P2StartSpaces":[
-			Vector2(3, 0), Vector2(4, 0), Vector2(5, 0), Vector2(6, 0), Vector2(7, 0), 
-			Vector2(8, 0), Vector2(3, 1), Vector2(4, 1), Vector2(5, 1), Vector2(6, 1), 
-			Vector2(7, 1), Vector2(8, 1)
-		],
-		"P1StartSpaces": [
-			Vector2(3, 6), Vector2(4, 6), Vector2(5, 6), Vector2(6, 6), Vector2(7, 6), 
-			Vector2(8, 6), Vector2(3, 7), Vector2(4, 7), Vector2(5, 7), Vector2(6, 7), 
-			Vector2(7, 7), Vector2(8, 7)
-		],
 		"ResourceSpaces": [
 			Vector2(4, 0), Vector2(5, 0), Vector2(6, 0), Vector2(7, 0), Vector2(4, 7), 
 			Vector2(5, 7), Vector2(6, 7), Vector2(7, 7), Vector2(0, 0), Vector2(11, 0), 
@@ -54,13 +32,6 @@ var map_data: Dictionary = {
 
 func get_play_space_attributes(map: int, play_space: PlaySpace) -> Array:
 	var attributes: Array = []
-	for v in map_data[map]["P1StartSpaces"]:
-		if play_space.column == v.x and play_space.row == v.y:
-			attributes.append(Collections.play_space_attributes.P1_START_SPACE)
-
-	for v in map_data[map]["P2StartSpaces"]:
-		if play_space.column == v.x and play_space.row == v.y:
-			attributes.append(Collections.play_space_attributes.P2_START_SPACE)
 	
 	for v in map_data[map]["ResourceSpaces"]:
 		if play_space.column == v.x and play_space.row == v.y:

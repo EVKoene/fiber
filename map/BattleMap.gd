@@ -26,6 +26,7 @@ func _ready():
 	_set_cards_in_play_and_hand_dicts()
 	_create_progress_bars()
 	_create_resources()
+	_create_starting_territory()
 	if multiplayer.is_server():
 		GameManager.is_server = true
 		_add_turn_managers()
@@ -44,8 +45,7 @@ func show_text(text_to_show: String) -> void:
 
 
 func _start_first_turn() -> void:
-	var first_player_id = GameManager.p1_id
-	#var first_player_id = [GameManager.p1_id, GameManager.p2_id].pick_random()
+	var first_player_id = [GameManager.p1_id, GameManager.p2_id].pick_random()
 	GameManager.turn_manager.hide_end_turn_button.rpc_id(
 		GameManager.opposing_player_id(first_player_id)
 	)
@@ -69,8 +69,7 @@ func _create_battle_map() -> void:
 	_set_area_sizes()
 	_set_play_space_size()
 	_create_play_spaces()
-	_create_starting_spaces_panels()
-
+	
 
 func _set_area_sizes() -> void:
 	MapSettings.play_area_size = MapSettings.total_screen * Vector2(0.8, 0.9)
@@ -121,64 +120,11 @@ func _create_play_spaces() -> void:
 			GameManager.play_spaces.append(play_space)
 
 
-func _create_starting_spaces_panels() -> void:
-	for p_id in GameManager.players:
-		var start_space_panel := Panel.new()
-		var border := StyleBoxFlat.new()
-		add_child(start_space_panel)
-		start_space_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		start_space_panel.size = Vector2(
-			MapSettings.play_space_size.y * map_data["StartSpacesColumns"], 
-			MapSettings.play_space_size.x * map_data["StartSpacesRows"]
-		)
-		start_space_panel.add_theme_stylebox_override("panel", border)
-		start_space_panel.get_theme_stylebox("panel").bg_color = Color("99999900")
-		start_space_panel.get_theme_stylebox("panel").set_border_width_all(
-			MapSettings.play_space_size.x / 30
-		)
-		
-		
-		match [p_id, GameManager.player_id]:
-			[GameManager.p1_id, GameManager.p1_id]:
-				start_space_panel.get_theme_stylebox("panel").border_color = Styling.p1_color
-				start_space_panel.position.x = MapSettings.get_column_start_x(
-					(MapSettings.n_columns - map_data["StartSpacesColumns"]) / 2
-				)
-				start_space_panel.position.y = MapSettings.get_row_start_y(
-					MapSettings.n_rows - map_data["StartSpacesRows"]
-				)
-				start_space_panel.get_theme_stylebox("panel").border_width_bottom = 0
-			
-			[GameManager.p2_id, GameManager.p1_id]:
-				start_space_panel.get_theme_stylebox("panel").border_color = Styling.p2_color
-				start_space_panel.position.x = MapSettings.get_column_start_x(
-					(MapSettings.n_columns - map_data["StartSpacesColumns"]) / 2
-				)
-				start_space_panel.position.y = MapSettings.get_row_start_y(
-					0
-				)
-				start_space_panel.get_theme_stylebox("panel").border_width_top = 0
-			
-			[GameManager.p2_id, GameManager.p2_id]:
-				start_space_panel.get_theme_stylebox("panel").border_color = Styling.p2_color
-				start_space_panel.position.x = MapSettings.get_column_start_x(
-					map_data["StartSpacesColumns"]
-				)
-				start_space_panel.position.y = MapSettings.get_row_end_y(
-					map_data["StartSpacesRows"]
-				)
-				start_space_panel.get_theme_stylebox("panel").border_width_bottom = 0
-			
-			[GameManager.p1_id, GameManager.p2_id]:
-				start_space_panel.get_theme_stylebox("panel").border_color = Styling.p1_color
-				
-				start_space_panel.position.x = MapSettings.get_column_start_x(
-					map_data["StartSpacesColumns"]
-				)
-				start_space_panel.position.y = MapSettings.get_row_end_y(
-					MapSettings.n_rows
-				)
-				start_space_panel.get_theme_stylebox("panel").border_width_top = 0
+func _create_starting_territory() -> void:
+	for ps in map_data["P1Territory"]:
+		GameManager.ps_column_row[int(ps.x)][int(ps.y)].add_to_territory(GameManager.p1_id)
+	for ps in map_data["P2Territory"]:
+		GameManager.ps_column_row[int(ps.x)][int(ps.y)].add_to_territory(GameManager.p2_id)
 
 
 func _set_end_turn_button() -> void:
@@ -320,6 +266,29 @@ func _set_text_containers() -> void:
 	
 	$TextBox.size = MapSettings.total_screen
 	text_box = $TextBox
+	_set_gold_gained_container()
+
+
+func _set_gold_gained_container() -> void:
+	assert(instruction_container.size.x > 0, "Instruction container size not set yet")
+	$GoldGainedContainer.size.x = instruction_container.size.x
+	$GoldGainedContainer.size.y = instruction_container.size.y / 6
+	$GoldGainedContainer/GoldGained.label_settings.font_size = round(
+		MapSettings.play_space_size.x
+	)/15
+	$GoldGainedContainer.position.x = MapSettings.total_screen.x - $GoldGainedContainer.size.x
+	$GoldGainedContainer.position.y = MapSettings.total_screen.y * 0.8 - $GoldGainedContainer.size.y
+	update_gold_container_text(0, 1)
+
+
+
+func update_gold_container_text(gold_gained: int, turns_until_increase: int) -> void:
+	if turns_until_increase == -1:
+		$GoldGainedContainer/GoldGained.text = str("Gold gained: ", gold_gained)
+	else:
+		$GoldGainedContainer/GoldGained.text = str(
+			"Gold gained: ", gold_gained, "\nTurns until increase: ", turns_until_increase
+		)
 
 
 func _set_cards_in_play_and_hand_dicts() -> void:
@@ -330,7 +299,8 @@ func _set_cards_in_play_and_hand_dicts() -> void:
 
 
 func _on_end_turn_button_pressed():
-	GameManager.turn_manager.end_turn.rpc_id(GameManager.p1_id, GameManager.player_id)
+	if GameManager.turn_manager.turn_actions_enabled:
+		GameManager.turn_manager.end_turn.rpc_id(GameManager.p1_id, GameManager.player_id)
 
 
 func _on_finish_button_pressed():

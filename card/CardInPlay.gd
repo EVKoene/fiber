@@ -179,6 +179,9 @@ func use_ability(func_index: int) -> void:
 
 
 func conquer_space() -> void:
+	current_play_space.add_to_territory(card_owner_id)
+	for ps in current_play_space.adjacent_play_spaces():
+		ps.add_to_territory(card_owner_id)
 	current_play_space.set_conquered_by(card_owner_id)
 	exhaust()
 

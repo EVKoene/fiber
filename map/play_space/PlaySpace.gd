@@ -24,6 +24,7 @@ var contest_space: bool
 var card_in_this_play_space: CardInPlay
 var conquered_by: int
 var selected_for_movement := false
+var territory: Territory
 
 
 func _ready():
@@ -32,6 +33,11 @@ func _ready():
 	_set_play_space_attributes()
 	_add_border()
 	GameManager.ps_column_row[column][row] = self
+
+
+func add_to_territory(p_id: int) -> void:
+	territory = Territory.new(p_id, self)
+	GameManager.battle_map.add_child(territory)
 
 
 func update_stat_modifier(card_owner_id: int, stat: int, value: int) -> void:
@@ -211,8 +217,13 @@ func is_in_starting_area(player_id: int) -> bool:
 
 
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
-	if is_in_starting_area(data.card_owner_id) and data.card_type == Collections.card_types.UNIT:
-		return true
+	if territory:
+		if (
+			territory.owner_id == data.card_owner_id 
+			and data.card_type == Collections.card_types.UNIT
+		):
+			return true
+	
 	if data.card_type == Collections.card_types.SPELL and data.can_target_unit(null):
 		return true
 	
