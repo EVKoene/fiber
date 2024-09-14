@@ -105,6 +105,7 @@ func _set_play_space_size() -> void:
 	MapSettings.play_space_size = Vector2(ps_size, ps_size)
 	# TODO: Calculate an exact size based on borderwidth of playspace and card border
 	MapSettings.card_in_play_size = Vector2(ps_size, ps_size) * 0.9
+	MapSettings.card_option_size = MapSettings.card_in_play_size * 2
 
 
 func _create_play_spaces() -> void:

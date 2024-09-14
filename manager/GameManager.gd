@@ -26,7 +26,7 @@ var resources := {}
 # Decks should only be visible to the server
 var decks := {}
 
-var starting_draw: int = 3
+var starting_draw: int = 1
 
 # cards_in_hand and cards_in_play contain the two player ids as keys with an array containing all 
 # the the current card nodes beloning to them. They use the card_in_play_index (cip_index) and

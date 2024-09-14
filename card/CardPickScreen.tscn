@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dd5oo1m5fek4r"]
+
+[ext_resource type="Script" path="res://card/CardPickScreen.gd" id="1_anj03"]
+
+[node name="CardPickScreen" type="HBoxContainer"]
+script = ExtResource("1_anj03")

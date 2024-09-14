@@ -3,7 +3,7 @@ extends PanelContainer
 class_name CardInPlay
 
 
-@onready var card_action_menu_scene := preload("res://card/CardActionMenu.tscn")
+@onready var card_action_menu_scene := preload("res://card/card_assets/CardActionMenu.tscn")
 
 var card_index := 1
 var max_attack: int

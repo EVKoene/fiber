@@ -17,7 +17,7 @@ var animal_deck: Dictionary = {
 		cards.SKON_INSECT_FATHER: 1	
 	},
 	"StartingCards": {
-		cards.GORILLA: 3,
+		cards.GORILLA: 2,
 	}
 }
 
@@ -38,7 +38,7 @@ var magic_deck: Dictionary = {
 		cards.PSYCHIC_TAKEOVER: 2,
 	},
 	"StartingCards": {
-		cards.WIZARD_SCOUT: 3
+		cards.WIZARD_SCOUT: 2,
 	}
 }
 
@@ -58,8 +58,8 @@ var nature_deck: Dictionary = {
 		cards.VOLCANIC_ERUPTION: 2
 	},
 	"StartingCards": {
-		cards.GNOME_PROTECTOR: 2,
-		cards.FIRE_GOLEM: 1,
+		cards.GNOME_PROTECTOR: 1,
+		cards.BOTANO_GARDENER: 1,
 	}
 }
 
@@ -79,7 +79,7 @@ var robot_deck: Dictionary = {
 		cards.ZALOGI_MIND_OF_MACHINES: 2, 
 	},
 	"StartingCards":  {
-		cards.ASSEMBLY_BOT: 2,
+		cards.ASSEMBLY_BOT: 1,
 		cards.FACTORY_WORKER: 1,
 	},
 }
@@ -103,12 +103,15 @@ var nature_robot_deck: Dictionary = {
 var opponent_testing_deck: Dictionary = animal_deck
 
 
-var player_testing_deck: Dictionary = {
-	"Cards": {
-		cards.ZALOGI_MIND_OF_MACHINES: 20,
-	},
-	"StartingCards": {
-		cards.ASSEMBLY_BOT: 2,
-		cards.FACTORY_WORKER: 1,
-	}
-}
+var player_testing_deck: Dictionary = [
+	animal_deck, magic_deck, nature_deck, robot_deck
+].pick_random()
+#{
+	#"Cards": {
+		#cards.ZALOGI_MIND_OF_MACHINES: 20,
+	#},
+	#"StartingCards": {
+		#cards.ASSEMBLY_BOT: 1,
+		#cards.FACTORY_WORKER: 1,
+	#}
+#}
