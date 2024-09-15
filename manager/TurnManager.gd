@@ -64,8 +64,7 @@ func start_turn(player_id: int) -> void:
 			c.call_triggered_funcs(Collections.triggers.TURN_STARTED, c)
 	show_end_turn_button.rpc_id(player_id)
 	if turn_count >= 2:
-		await GameManager.decks[player_id].pick_card_option()
-	turn_actions_enabled = true
+		GameManager.decks[player_id].call_deferred("pick_card_option")
 
 
 @rpc("call_local")
@@ -100,3 +99,8 @@ func show_end_turn_button() -> void:
 @rpc("call_local")
 func hide_end_turn_button() -> void:
 	GameManager.battle_map.end_turn_button.hide()
+
+
+@rpc("any_peer", "call_local")
+func set_turn_actions_enabled(is_enabled: bool) -> void:
+	turn_actions_enabled = is_enabled

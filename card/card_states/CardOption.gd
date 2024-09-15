@@ -12,7 +12,6 @@ var card_owner_id: int
 
 var card_data: Dictionary
 
-var costs: Costs
 var ingame_name: String
 var card_type: int
 var factions: Array
@@ -27,9 +26,9 @@ var card_pick_screen: CardPickScreen
 
 func _ready():
 	card_data = CardDatabase.cards_info[card_index]
-	_create_costs()
+	_set_costs()
 	_load_card_properties()
-	_add_border()
+	call_deferred("_add_border")
 
 
 func pick() -> void:
@@ -37,7 +36,7 @@ func pick() -> void:
 		GameManager.p1_id, card_owner_id, option_index, card_pick_screen.card_indices
 	)
 	card_pick_screen.queue_free()
-	GameManager.turn_manager.turn_options_enabled = true
+	GameManager.turn_manager.set_turn_actions_enabled.rpc_id(GameManager.p1_id, true)
 
 
 func _load_card_properties() -> void:
@@ -69,30 +68,6 @@ func _set_labels() -> void:
 			$VBox/BotInfo/BattleStats.text = str(max_attack, "/", health)
 		else:
 			$VBox/BotInfo/BattleStats.text = str(max_attack, "-", min_attack,"/", health)
-	
-	for f in [
-		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Animal,
-			"Cost": costs.animal,
-		},
-		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Magic,
-			"Cost": costs.magic,
-		},
-		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Nature,
-			"Cost": costs.nature,
-		},
-		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Robot,
-			"Cost": costs.robot,
-		},
-	]:
-		f["Label"].text = str(f["Cost"])
-		if f["Cost"] == 0:
-			f["Label"].hide()
-		else:
-			f["Label"].show()
 
 
 
@@ -134,13 +109,30 @@ func _set_card_text_font_size() -> void:
 	$VBox/BotInfo/CardText.label_settings.font_size = card_text_font_size
 
 
-func _create_costs() -> void:
-	costs = Costs.new(
-		card_data["Costs"][Collections.factions.ANIMAL],
-		card_data["Costs"][Collections.factions.MAGIC],
-		card_data["Costs"][Collections.factions.NATURE],
-		card_data["Costs"][Collections.factions.ROBOT]
-	)
+func _set_costs() -> void:
+	for f in [
+		{
+			"Label": $VBox/TopInfo/Costs/CostLabels/Animal,
+			"Cost": card_data["Costs"][Collections.factions.ANIMAL],
+		},
+		{
+			"Label": $VBox/TopInfo/Costs/CostLabels/Magic,
+			"Cost": card_data["Costs"][Collections.factions.MAGIC],
+		},
+		{
+			"Label": $VBox/TopInfo/Costs/CostLabels/Nature,
+			"Cost": card_data["Costs"][Collections.factions.NATURE],
+		},
+		{
+			"Label": $VBox/TopInfo/Costs/CostLabels/Robot,
+			"Cost": card_data["Costs"][Collections.factions.ROBOT],
+		},
+	]:
+		f["Label"].text = str(f["Cost"])
+		if f["Cost"] == 0:
+			f["Label"].hide()
+		else:
+			f["Label"].show()
 
 
 func _get_card_range() -> int:

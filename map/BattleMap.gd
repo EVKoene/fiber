@@ -45,7 +45,7 @@ func pick_card_option(card_indices: Array) -> void:
 	var card_pick_screen := card_pick_scene.instantiate()
 	card_pick_screen.card_indices = card_indices
 	card_pick_screen.size = MapSettings.total_screen
-	GameManager.battle_map.add_child(card_pick_screen)
+	call_deferred("add_child", card_pick_screen)
 
 
 func show_text(text_to_show: String) -> void:

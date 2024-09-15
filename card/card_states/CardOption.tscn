@@ -16,7 +16,7 @@ bg_color = Color(0.741176, 0.741176, 0.741176, 1)
 bg_color = Color(0.196078, 0.196078, 0.196078, 0.866667)
 
 [node name="CardOption" type="PanelContainer"]
-custom_minimum_size = Vector2(200, 200)
+custom_minimum_size = Vector2(300, 300)
 script = ExtResource("1_4dpuv")
 
 [node name="CardImage" type="TextureRect" parent="."]
