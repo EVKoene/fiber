@@ -1,9 +1,10 @@
 extends Node2D
 
 @onready var play_space_scene: PackedScene = preload("res://map/play_space/PlaySpace.tscn")
-@onready var card_scene: PackedScene = preload("res://card/CardInPlay.tscn")
+@onready var card_scene: PackedScene = preload("res://card/card_states/CardInPlay.tscn")
 @onready var resource_bar_scene: PackedScene = preload("res://player/ResourceBar.tscn")
 @onready var turn_manager_scene: PackedScene = preload("res://manager/TurnManager.tscn")
+@onready var card_pick_scene: PackedScene = preload("res://card/CardPickScreen.tscn")
 
 
 var map = MapDatabase.maps.BASE_MAP
@@ -37,6 +38,14 @@ func _ready():
 	
 	Events.show_instructions.connect(show_instructions)
 	Events.hide_instructions.connect(hide_instructions)
+
+
+@rpc("any_peer", "call_local")
+func pick_card_option(card_indices: Array) -> void:
+	var card_pick_screen := card_pick_scene.instantiate()
+	card_pick_screen.card_indices = card_indices
+	card_pick_screen.size = MapSettings.total_screen
+	call_deferred("add_child", card_pick_screen)
 
 
 func show_text(text_to_show: String) -> void:
@@ -105,6 +114,7 @@ func _set_play_space_size() -> void:
 	MapSettings.play_space_size = Vector2(ps_size, ps_size)
 	# TODO: Calculate an exact size based on borderwidth of playspace and card border
 	MapSettings.card_in_play_size = Vector2(ps_size, ps_size) * 0.9
+	MapSettings.card_option_size = MapSettings.card_in_play_size * 2
 
 
 func _create_play_spaces() -> void:

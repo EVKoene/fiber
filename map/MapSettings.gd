@@ -9,9 +9,12 @@ var own_area_start: Vector2
 var own_area_end: Vector2
 var opponent_area_start: Vector2
 var opponent_area_end: Vector2
+
 var play_area_size: Vector2
 var play_space_size: Vector2
 var card_in_play_size: Vector2
+var card_option_size: Vector2
+
 var n_columns: int
 var n_rows: int
 var zoom_preview_size := Vector2(200, 200)

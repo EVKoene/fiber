@@ -7,8 +7,8 @@ necessary information. This means we hardly use the multiplayer spawner or synch
 client and server will create objects and execute functionality seperately. 
 """
 
-@onready var card_in_play_scene: PackedScene = preload("res://card/CardInPlay.tscn")
-@onready var card_in_hand_scene: PackedScene = preload("res://card/CardInHand.tscn")
+@onready var card_in_play_scene: PackedScene = preload("res://card/card_states/CardInPlay.tscn")
+@onready var card_in_hand_scene: PackedScene = preload("res://card/card_states/CardInHand.tscn")
 
 
 @rpc("any_peer", "call_local")
@@ -259,3 +259,11 @@ func resolve_spell_agreed() -> void:
 @rpc("any_peer", "call_local")
 func reset_zoom_preview() -> void:
 	GameManager.zoom_preview.reset_zoom_preview()
+
+
+@rpc("any_peer", "call_local")
+func pick_card(player_id: int, option_index: int, card_indices: Array) -> void:
+	GameManager.decks[player_id].create_hand_card(card_indices[option_index])
+	for c in len(card_indices):
+		if c != option_index:
+			GameManager.decks[GameManager.player_id].send_to_discard(card_indices[c])

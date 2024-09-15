@@ -7,7 +7,9 @@ var deck_owner_id: int
 var deck_order: Array
 var cards: Dictionary
 var starting_cards: Dictionary
-var cards_spawned: int = 0
+var cards_spawned := 0
+var discard := []
+var n_cards_to_pick_from := 3
 
 
 func _init(_deck_owner_id: int, _cards: Dictionary, _starting_cards: Dictionary):
@@ -52,6 +54,13 @@ func draw_card() -> void:
 	GameManager.turn_manager.turn_actions_enabled = true
 
 
+func pick_card_option() -> void:
+	GameManager.turn_manager.turn_actions_enabled = false
+	GameManager.battle_map.pick_card_option.rpc_id(deck_owner_id, deck_order.slice(0, n_cards_to_pick_from))
+	for c in range(n_cards_to_pick_from):
+		deck_order.remove_at(c)
+
+
 func draw_type_put_rest_bottom(card_type: int) -> bool:
 	var card_drawn: bool = false
 	var card_index: int = -1
@@ -89,7 +98,12 @@ func create_hand_card(card_index: int) -> void:
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
 		MPManager.create_hand_card.rpc_id(p_id, deck_owner_id, card_index)
 
+
 func put_card_bottom(deck_index) -> void:
 	var card_index = deck_order[deck_index]
 	deck_order.remove_at(deck_index)
 	deck_order.append(card_index)
+
+
+func send_to_discard(card_index: int) -> void:
+	discard.append(card_index)
