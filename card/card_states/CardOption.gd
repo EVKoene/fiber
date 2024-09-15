@@ -16,44 +16,43 @@ var costs: Costs
 var ingame_name: String
 var card_type: int
 var factions: Array
-var lord: bool
 var card_text: String
 var img_path: String
 var card_range: int: get = _get_card_range
 var border_style: StyleBox
-var card_option_index: int
 
-var n_options: int
-
-
-func _init(_card_index: int, _n_options: int):
-	card_index = _card_index
-	n_options = _n_options
+var option_index: int
+var card_pick_screen: CardPickScreen
 
 
 func _ready():
 	card_data = CardDatabase.cards_info[card_index]
-	scale *= MapSettings.card_in_play_size/size
 	_create_costs()
 	_load_card_properties()
-	_set_position_to_option_index()
 	_add_border()
 
 
 func pick() -> void:
-	GameManager.decks[card_owner_id].create_hand_card(card_index)
+	MPManager.pick_card.rpc_id(
+		GameManager.p1_id, card_owner_id, option_index, card_pick_screen.card_indices
+	)
+	card_pick_screen.queue_free()
+	GameManager.turn_manager.turn_options_enabled = true
+
 
 func _load_card_properties() -> void:
 	ingame_name = card_data["InGameName"]
 	card_type= card_data["CardType"]
 	factions = card_data["Factions"]
-	max_attack = card_data["MaxAttack"]
-	min_attack = card_data["MinAttack"]
-	health = card_data["Health"]
-	movement = card_data["Movement"]
-	lord = card_data["Lord"]
 	card_text = card_data["Text"]
 	img_path = card_data["IMGPath"]
+	
+	if card_type == Collections.card_types.UNIT:
+		max_attack = card_data["MaxAttack"]
+		min_attack = card_data["MinAttack"]
+		health = card_data["Health"]
+		movement = card_data["Movement"]
+	
 	$CardImage.texture = load(img_path)
 	_set_card_text_visuals()
 	
@@ -64,11 +63,13 @@ func set_border_to_faction():
 
 
 func _set_labels() -> void:
-	$VBox/BotInfo/Movement.text = str(movement)
-	if max_attack == min_attack:
-		$VBox/BotInfo/BattleStats.text = str(max_attack, "/", health)
-	else:
-		$VBox/BotInfo/BattleStats.text = str(max_attack, "-", min_attack,"/", health)
+	if card_type == Collections.card_types.UNIT:
+		$VBox/BotInfo/Movement.text = str(movement)
+		if max_attack == min_attack:
+			$VBox/BotInfo/BattleStats.text = str(max_attack, "/", health)
+		else:
+			$VBox/BotInfo/BattleStats.text = str(max_attack, "-", min_attack,"/", health)
+	
 	for f in [
 		{
 			"Label": $VBox/TopInfo/Costs/CostLabels/Animal,
@@ -131,15 +132,6 @@ func _set_card_text_font_size() -> void:
 	
 	$VBox/TopInfo/CardNameBG/CardName.label_settings.font_size = max_font
 	$VBox/BotInfo/CardText.label_settings.font_size = card_text_font_size
-
-
-func _set_position_to_option_index() -> void:
-	position.x = MapSettings.total_screen.x / 2 - MapSettings.card_option_size.x / 2
-	position.y = (
-		MapSettings.total_screen.y / 2 + 
-		(card_option_index / 2 - n_options / 2) * (MapSettings.card_option_size.y * 1.5)
-	)
-	z_index = 0
 
 
 func _create_costs() -> void:
