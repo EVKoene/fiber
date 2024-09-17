@@ -15,6 +15,9 @@ var text_box: Panel
 
 
 func _ready():
+	if GameManager.is_single_player:
+		_create_ai_player()
+	
 	GameManager.battle_map = self
 	$MultiplayerSpawner.add_spawnable_scene("res://manager/TurnManager.tscn")
 	_create_battle_map()
@@ -40,6 +43,12 @@ func _ready():
 	Events.hide_instructions.connect(hide_instructions)
 
 
+func _create_ai_player() -> void:
+	GameManager.ai_player = AIPlayer.new()
+	GameManager.ai_player_id = GameManager.p2_id
+	GameManager.ai_player.ai_turn_manager - AITurnManager.new()
+
+
 @rpc("any_peer", "call_local")
 func pick_card_option(card_indices: Array) -> void:
 	var card_pick_screen := card_pick_scene.instantiate()
@@ -53,12 +62,24 @@ func show_text(text_to_show: String) -> void:
 	$TextBox.show()
 
 
+func hide_text() -> void:
+	$TextBox.hide()
+
+
 func _start_first_turn() -> void:
 	var first_player_id = [GameManager.p1_id, GameManager.p2_id].pick_random()
-	GameManager.turn_manager.hide_end_turn_button.rpc_id(
-		GameManager.opposing_player_id(first_player_id)
-	)
-	GameManager.turn_manager.show_start_turn_text.rpc_id(first_player_id)
+	if GameManager.is_single_player:
+		if first_player_id == GameManager.p1_id:
+			GameManager.turn_manager.show_start_turn_text()
+		else:
+			GameManager.turn_manager.hide_end_turn_button()
+			GameManager.ai_turn_manager.start_turn()
+	
+	else:
+		GameManager.turn_manager.hide_end_turn_button.rpc_id(
+			GameManager.opposing_player_id(first_player_id)
+		)
+		GameManager.turn_manager.show_start_turn_text.rpc_id(first_player_id)
 
 
 func _add_decks() -> void:
@@ -309,8 +330,10 @@ func _set_cards_in_play_and_hand_dicts() -> void:
 
 
 func _on_end_turn_button_pressed():
-	if GameManager.turn_manager.turn_actions_enabled:
-		GameManager.turn_manager.end_turn.rpc_id(GameManager.p1_id, GameManager.player_id)
+	if !GameManager.turn_manager.turn_actions_enabled:
+		return
+	
+	GameManager.turn_manager.end_turn.rpc_id(GameManager.p1_id, GameManager.player_id)
 
 
 func _on_finish_button_pressed():

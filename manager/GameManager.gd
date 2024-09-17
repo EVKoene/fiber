@@ -6,6 +6,7 @@ var p1_id: int
 var p2_id: int
 var players := {}
 
+var is_single_player := false
 var battle_map
 var resource_spaces := []
 var turn_manager: TurnManager
@@ -35,6 +36,9 @@ var cards_in_hand := {}
 var cards_in_play := {}
 
 var territories := []
+
+var ai_player: AIPlayer
+var ai_player_id: int
 
 
 func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:

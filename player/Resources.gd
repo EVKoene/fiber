@@ -106,7 +106,12 @@ func get_resources() -> Dictionary:
 
 
 func _update_resources() -> void:
-	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		MPManager.set_resources.rpc_id(
-			p_id, resources_owner_id, gold, animal, magic, nature, robot
+	if GameManager.is_single_player:
+		GameManager.resource_bars[resources_owner_id].set_resources_labels(
+			gold, animal, magic, nature, robot
 		)
+	else:
+		for p_id in [GameManager.p1_id, GameManager.p2_id]:
+			MPManager.set_resources.rpc_id(
+				p_id, resources_owner_id, gold, animal, magic, nature, robot
+			)

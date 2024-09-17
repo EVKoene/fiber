@@ -87,8 +87,11 @@ func end_turn(player_id: int) -> void:
 	turn_actions_enabled = false
 	turn_stage = turn_stages.END_TURN
 	hide_end_turn_button.rpc_id(player_id)
-	var next_player_id: int = GameManager.opposing_player_id(player_id)
-	show_start_turn_text.rpc_id(next_player_id)
+	if GameManager.is_single_player:
+		GameManager.ai_turn_manager.start_turn
+	else:
+		var next_player_id: int = GameManager.opposing_player_id(player_id)
+		show_start_turn_text.rpc_id(next_player_id)
 
 
 @rpc("call_local")

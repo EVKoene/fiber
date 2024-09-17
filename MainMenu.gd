@@ -136,3 +136,15 @@ func _on_robot_deck_button_pressed():
 
 func _on_exit_pressed():
 	get_tree().quit()
+
+
+func _on_single_player_pressed():
+	_add_player_to_gamemanager(
+		1, 1, "Player1", deck
+	)
+	
+	_add_player_to_gamemanager(
+			2, 2, "AIOpponent", DeckCollection.opponent_testing_deck
+		)
+	GameManager.is_single_player = true
+	start_game()

@@ -38,8 +38,11 @@ func highlight_card():
 func discard() -> void:
 	var h_index := hand_index
 	GameManager.call_triggered_funcs(Collections.triggers.CARD_DISCARDED, null)
-	for p_id in GameManager.players:
-		MPManager.remove_card_from_hand.rpc_id(p_id, card_owner_id, h_index)
+	if GameManager.is_single_player:
+		TODO
+	else:
+		for p_id in GameManager.players:
+			MPManager.remove_card_from_hand.rpc_id(p_id, card_owner_id, h_index)
 	Events.card_discarded.emit()
 
 
