@@ -38,14 +38,17 @@ func highlight_card():
 func discard() -> void:
 	var h_index := hand_index
 	GameManager.call_triggered_funcs(Collections.triggers.CARD_DISCARDED, null)
-	for p_id in GameManager.players:
-		MPManager.remove_card_from_hand.rpc_id(p_id, card_owner_id, h_index)
+	if GameManager.is_single_player:
+		BattleManager.remove_card_from_hand(card_owner_id, h_index)
+	else:
+		for p_id in GameManager.players:
+			BattleManager.remove_card_from_hand.rpc_id(p_id, card_owner_id, h_index)
 	Events.card_discarded.emit()
 
 
 func play_spell(column: int, row: int) -> void:
 	for p_id in GameManager.players:
-		MPManager.lock_zoom_preview_hand.rpc_id(p_id, card_owner_id, hand_index)
+		BattleManager.lock_zoom_preview_hand.rpc_id(p_id, card_owner_id, hand_index)
 	var card: CardInPlay = CardDatabase.get_card_class(card_index).new()
 	card.card_owner_id = card_owner_id
 	@warning_ignore("redundant_await")
@@ -53,13 +56,13 @@ func play_spell(column: int, row: int) -> void:
 	TargetSelection.end_selecting()
 	
 	for p_id in GameManager.players:
-		MPManager.reset_zoom_preview.rpc_id(p_id)
+		BattleManager.reset_zoom_preview.rpc_id(p_id)
 	
 	var h_index = hand_index
 	if succesfull_resolve:
 		GameManager.resources[card_owner_id].pay_costs(costs)
 		for p_id in GameManager.players:
-			MPManager.remove_card_from_hand.rpc_id(p_id, card_owner_id, h_index)
+			BattleManager.remove_card_from_hand.rpc_id(p_id, card_owner_id, h_index)
 
 
 func can_target_unit(card: CardInPlay) -> bool:

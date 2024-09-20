@@ -71,7 +71,7 @@ func copy_unit() -> bool:
 func create_copy(card_to_copy: CardInPlay, ps: PlaySpace) -> void:
 	if card_to_copy.fabrication:
 		for p_id in [GameManager.p1_id, GameManager.p2_id]:
-			MPManager.create_fabrication.rpc_id(
+			BattleManager.create_fabrication.rpc_id(
 				p_id, card_owner_id, ps.column, ps.row, 
 				card_to_copy.ingame_name, card_to_copy.max_attack, card_to_copy.min_attack, 
 				card_to_copy.health, card_to_copy.movement, card_to_copy.triggered_funcs, 
@@ -80,7 +80,7 @@ func create_copy(card_to_copy: CardInPlay, ps: PlaySpace) -> void:
 	
 	if !card_to_copy.fabrication:
 		for p_id in [GameManager.p1_id, GameManager.p2_id]:
-			MPManager.play_unit.rpc_id(
+			BattleManager.play_unit.rpc_id(
 				p_id, card_to_copy.card_index, card_to_copy.card_owner_id, ps.column, ps.row
 			)
 	

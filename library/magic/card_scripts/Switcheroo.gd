@@ -15,7 +15,7 @@ func resolve_spell(selected_column: int, selected_row: int) -> bool:
 	Events.show_instructions.emit("Choose two cards with the same owner to swap")
 	await TargetSelection.target_selection_finished
 	if len(TargetSelection.selected_targets) == 1:
-		MPManager.ask_resolve_spell_agreement()
+		BattleManager.ask_resolve_spell_agreement()
 		await Events.resolve_spell_button_pressed
 		
 		var target_card: CardInPlay = TargetSelection.selected_targets[0]

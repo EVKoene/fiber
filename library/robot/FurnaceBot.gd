@@ -22,9 +22,9 @@ func consume_for_fuel() -> bool:
 	if len(TargetSelection.selected_targets) == 1:
 		TargetSelection.selected_targets[0].destroy()
 		for p_id in GameManager.players:
-			MPCardManipulation.change_max_attack.rpc_id(p_id, card_owner_id, card_in_play_index, 2, -1)
-			MPCardManipulation.change_min_attack.rpc_id(p_id, card_owner_id, card_in_play_index, 2, -1)
-			MPCardManipulation.change_health.rpc_id(p_id, card_owner_id, card_in_play_index, 2, -1)
+			CardManipulation.change_max_attack.rpc_id(p_id, card_owner_id, card_in_play_index, 2, -1)
+			CardManipulation.change_min_attack.rpc_id(p_id, card_owner_id, card_in_play_index, 2, -1)
+			CardManipulation.change_health.rpc_id(p_id, card_owner_id, card_in_play_index, 2, -1)
 		TargetSelection.end_selecting()
 		return true
 	else:

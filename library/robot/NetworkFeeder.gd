@@ -17,10 +17,10 @@ func call_triggered_funcs(trigger: int, _triggering_card: CardInPlay) -> void:
 
 		var stat_increase: int = new_n_allies - n_allies_in_adjacent_spaces
 		for p_id in GameManager.players:
-			MPCardManipulation.change_max_attack.rpc_id(
+			CardManipulation.change_max_attack.rpc_id(
 				p_id, card_owner_id, card_in_play_index, stat_increase * 2, -1
 			)
-			MPCardManipulation.change_health.rpc_id(
+			CardManipulation.change_health.rpc_id(
 				p_id, card_owner_id, card_in_play_index, stat_increase * 2, -1
 			)
 		
