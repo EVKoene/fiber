@@ -139,6 +139,8 @@ func _on_exit_pressed():
 
 
 func _on_single_player_pressed():
+	GameManager.player_id = 1
+	GameManager.is_player_1 = true
 	_add_player_to_gamemanager(
 		1, 1, "Player1", deck
 	)

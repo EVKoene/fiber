@@ -23,7 +23,7 @@ func consume_for_cards() -> bool:
 		TargetSelection.selected_targets[0].destroy()
 		await TargetSelection.select_card_to_discard()
 		for i in range(3):
-			MPManager.draw_card.rpc_id(GameManager.p1_id, card_owner_id)
+			BattleManager.draw_card.rpc_id(GameManager.p1_id, card_owner_id)
 		
 		exhaust()
 		TargetSelection.end_selecting()

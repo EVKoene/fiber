@@ -43,7 +43,7 @@ func resolve_damage(card_owner_id, cip_index, value):
 	
 	card.battle_stats.change_health(-value, -1)
 	if card.health <= 0:
-		MPCardManipulation.destroy.rpc_id(
+		CardManipulation.destroy.rpc_id(
 			GameManager.player_id, card.card_owner_id, card.card_in_play_index
 		)
 

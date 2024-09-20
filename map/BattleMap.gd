@@ -46,7 +46,7 @@ func _ready():
 func _create_ai_player() -> void:
 	GameManager.ai_player = AIPlayer.new()
 	GameManager.ai_player_id = GameManager.p2_id
-	GameManager.ai_player.ai_turn_manager - AITurnManager.new()
+	GameManager.ai_player.ai_turn_manager = AITurnManager.new()
 
 
 @rpc("any_peer", "call_local")
@@ -67,13 +67,14 @@ func hide_text() -> void:
 
 
 func _start_first_turn() -> void:
-	var first_player_id = [GameManager.p1_id, GameManager.p2_id].pick_random()
+	#var first_player_id = [GameManager.p1_id, GameManager.p2_id].pick_random()
+	var first_player_id = GameManager.p2_id
 	if GameManager.is_single_player:
 		if first_player_id == GameManager.p1_id:
 			GameManager.turn_manager.show_start_turn_text()
 		else:
 			GameManager.turn_manager.hide_end_turn_button()
-			GameManager.ai_turn_manager.start_turn()
+			GameManager.ai_player.ai_turn_manager.start_turn()
 	
 	else:
 		GameManager.turn_manager.hide_end_turn_button.rpc_id(
@@ -344,7 +345,7 @@ func _on_finish_button_pressed():
 
 
 func _on_resolve_spell_button_pressed():
-	MPManager.resolve_spell_agreed.rpc_id(
+	BattleManager.resolve_spell_agreed.rpc_id(
 		GameManager.opposing_player_id(GameManager.player_id)
 	)
 	$ResolveSpellButton.hide()
@@ -359,14 +360,17 @@ func _create_resources():
 
 func _input(_event):
 	if (
-		(
-			Input.is_action_just_pressed("ui_accept") 
-			or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
-		)
-		and GameManager.turn_manager.can_start_turn
+		Input.is_action_just_pressed("ui_accept") 
+		or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
 	):
-		GameManager.turn_manager.can_start_turn = false
 		$TextBox.hide()
+	if !GameManager.turn_manager.can_start_turn:
+		return
+	
+	GameManager.turn_manager.can_start_turn = false
+	if GameManager.is_single_player:
+		GameManager.turn_manager.start_turn(GameManager.p1_id)
+	if !GameManager.is_single_player:
 		GameManager.turn_manager.start_turn.rpc_id(GameManager.p1_id, GameManager.player_id)
 
 

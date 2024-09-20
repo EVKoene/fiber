@@ -18,14 +18,14 @@ func resolve_spell(_selected_column: int, _selected_row: int) -> bool:
 	if len(TargetSelection.selected_spaces) >= 1:
 		for ps in TargetSelection.selected_spaces:
 			for p_id in GameManager.players:
-				MPAnimation.play_hailstorm_animation.rpc_id(p_id, ps)
+				BattleAnimation.play_hailstorm_animation.rpc_id(p_id, ps)
 			if ps.card_in_this_play_space:
 				if ps.card_in_this_play_space.card_owner_id != card_owner_id:
 					for p_id in GameManager.players:
-						MPCardManipulation.change_max_attack.rpc_id(
+						CardManipulation.change_max_attack.rpc_id(
 							p_id, card_owner_id, card_in_play_index, -1, 2
 						)
-						MPCardManipulation.change_movement.rpc_id(
+						CardManipulation.change_movement.rpc_id(
 							p_id, card_owner_id, card_in_play_index, -1, 2
 						)
 	

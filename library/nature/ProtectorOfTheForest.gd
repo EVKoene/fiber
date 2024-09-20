@@ -13,7 +13,7 @@ func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:
 	):
 		if !has_moved:
 			for p_id in GameManager.players:
-				MPCardManipulation.change_health.rpc_id(
+				CardManipulation.change_health.rpc_id(
 					p_id, card_owner_id, card_in_play_index, 2, -1
 				)
 	

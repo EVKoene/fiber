@@ -24,10 +24,10 @@ func grow_unit() -> bool:
 	if len(TargetSelection.selected_targets) == 1:
 		var selected_card: CardInPlay = TargetSelection.selected_targets[0]
 		for p_id in GameManager.players:
-			MPCardManipulation.change_max_attack.rpc_id(
+			CardManipulation.change_max_attack.rpc_id(
 				p_id, selected_card.card_owner_id, selected_card.card_in_play_index, 1, -1
 			)
-			MPCardManipulation.change_health.rpc_id(
+			CardManipulation.change_health.rpc_id(
 				p_id, selected_card.card_owner_id, selected_card.card_in_play_index, 1, -1
 			)
 		exhaust()

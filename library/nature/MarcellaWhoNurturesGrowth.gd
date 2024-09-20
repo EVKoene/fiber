@@ -15,7 +15,7 @@ func _init():
 
 
 func nurture() -> bool:
-	MPManager.draw_card.rpc_id(GameManager.p1_id, card_owner_id)
+	BattleManager.draw_card.rpc_id(GameManager.p1_id, card_owner_id)
 	Events.show_instructions.emit("Choose a unit to give +1/+1")
 	GameManager.battle_map.show_finish_button()
 	select_card(true)
@@ -28,10 +28,10 @@ func nurture() -> bool:
 	if len(TargetSelection.selected_targets) == 1:
 		var selected_card: CardInPlay = TargetSelection.selected_targets[0]
 		for p_id in GameManager.players:
-			MPCardManipulation.change_max_attack.rpc_id(
+			CardManipulation.change_max_attack.rpc_id(
 				p_id, selected_card.card_owner_id, selected_card.card_in_play_index, 1, -1
 			)
-			MPCardManipulation.change_health.rpc_id(
+			CardManipulation.change_health.rpc_id(
 				p_id, selected_card.card_owner_id, selected_card.card_in_play_index, 1, -1
 			)
 		exhaust()

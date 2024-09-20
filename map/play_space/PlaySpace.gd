@@ -42,7 +42,7 @@ func add_to_territory(p_id: int) -> void:
 
 func update_stat_modifier(card_owner_id: int, stat: int, value: int) -> void:
 	for p_id in GameManager.players:
-		MPManager.update_play_space_stat_modifier.rpc_id(
+		BattleManager.update_play_space_stat_modifier.rpc_id(
 			p_id, card_owner_id, column, row, stat, value
 		)
 
@@ -176,7 +176,7 @@ func play_space_direction_in_same_line(play_space: PlaySpace) -> int:
 
 func set_conquered_by(player_id: int) -> void:
 	for p_id in GameManager.players:
-		MPManager.set_conquered_by.rpc_id(
+		BattleManager.set_conquered_by.rpc_id(
 			p_id, player_id, column, row
 		)
 
@@ -238,10 +238,10 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 			if !GameManager.testing:
 				GameManager.resources[data.card_owner_id].pay_costs(data.costs)
 			for p_id in [GameManager.p1_id, GameManager.p2_id]:
-				MPManager.play_unit.rpc_id(
+				BattleManager.play_unit.rpc_id(
 					p_id, data.card_index, data.card_owner_id, column, row
 				)
-				MPManager.remove_card_from_hand.rpc_id(
+				BattleManager.remove_card_from_hand.rpc_id(
 					p_id, c_owner_id, h_index
 				)
 			if len(data.factions) == 1:

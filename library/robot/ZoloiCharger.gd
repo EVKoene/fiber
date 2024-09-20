@@ -27,10 +27,10 @@ func call_triggered_funcs(trigger: int, _triggering_card: CardInPlay) -> void:
 		
 	if charged:
 		for p_id in GameManager.players:
-			MPCardManipulation.change_max_attack.rpc_id(
+			CardManipulation.change_max_attack.rpc_id(
 				p_id, card_owner_id, card_in_play_index, 3, 2
 			)
-			MPCardManipulation.change_movement.rpc_id(
+			CardManipulation.change_movement.rpc_id(
 				p_id, card_owner_id, card_in_play_index, 1, 2
 			)
 
@@ -38,7 +38,7 @@ func call_triggered_funcs(trigger: int, _triggering_card: CardInPlay) -> void:
 func attack_card(target_card: CardInPlay) -> void:
 	GameManager.call_triggered_funcs(Collections.triggers.ATTACK, self)
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		MPAnimation.animate_attack.rpc_id(
+		BattleAnimation.animate_attack.rpc_id(
 			p_id, card_owner_id, card_in_play_index, 
 			target_card.current_play_space.direction_from_play_space(current_play_space)
 		)

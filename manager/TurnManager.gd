@@ -49,12 +49,17 @@ func start_turn(player_id: int) -> void:
 	
 	turn_stage = turn_stages.START_TURN
 	turn_owner_id = player_id
-	GameManager.resources[player_id].refresh.rpc_id(player_id, gold_gained)
-	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		# NOTE that we update modifiers before calling triggered funcs. This choice has been
-		# made early in development and can be changed if it opens potential interesting 
-		# interactions
-		update_modifiers.rpc_id(p_id)
+	if GameManager.is_single_player:
+		GameManager.resources[player_id].refresh(gold_gained)
+		update_modifiers()
+	
+	else:
+		GameManager.resources[player_id].refresh.rpc_id(player_id, gold_gained)
+		for p_id in [GameManager.p1_id, GameManager.p2_id]:
+			# NOTE that we update modifiers before calling triggered funcs. This choice has been
+			# made early in development and can be changed if it opens potential interesting 
+			# interactions
+			update_modifiers.rpc_id(p_id)
 	
 	for c in GameManager.cards_in_play[player_id]:
 		c.refresh()
@@ -62,9 +67,15 @@ func start_turn(player_id: int) -> void:
 	for p in GameManager.players:
 		for c in GameManager.cards_in_play[p]:
 			c.call_triggered_funcs(Collections.triggers.TURN_STARTED, c)
-	show_end_turn_button.rpc_id(player_id)
 	if turn_count >= 2:
 		GameManager.decks[player_id].call_deferred("pick_card_option")
+	
+	if turn_owner_id == GameManager.p1_id and GameManager.is_single_player:
+		show_end_turn_button()
+	elif turn_owner_id == GameManager.ai_player_id:
+		GameManager.ai_player.play_turn()
+	elif !GameManager.is_single_player:
+		show_end_turn_button.rpc_id(player_id)
 
 
 @rpc("call_local")
@@ -88,7 +99,7 @@ func end_turn(player_id: int) -> void:
 	turn_stage = turn_stages.END_TURN
 	hide_end_turn_button.rpc_id(player_id)
 	if GameManager.is_single_player:
-		GameManager.ai_turn_manager.start_turn
+		GameManager.ai_player.ai_turn_manager.start_turn()
 	else:
 		var next_player_id: int = GameManager.opposing_player_id(player_id)
 		show_start_turn_text.rpc_id(next_player_id)

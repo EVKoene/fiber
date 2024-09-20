@@ -4,11 +4,11 @@ extends CardInPlay
 class_name FollowPheromones
 
 func resolve_spell(_c_column: int, _c_row) -> bool:
-	MPManager.ask_resolve_spell_agreement()
+	BattleManager.ask_resolve_spell_agreement()
 	await Events.resolve_spell_button_pressed
 	
 	for i in range(2):
-		MPManager.draw_type_put_rest_bottom.rpc_id(
+		BattleManager.draw_type_put_rest_bottom.rpc_id(
 			GameManager.p1_id, card_owner_id, Collections.card_types.UNIT
 		)
 		await GameManager.battle_map.get_tree().create_timer(0.25).timeout

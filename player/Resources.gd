@@ -70,10 +70,6 @@ func spend_resource(faction: Collections.factions, value: int) -> void:
 
 @rpc("call_local", "any_peer")
 func refresh(gold_gained: int) -> void:
-	animal = 0
-	magic = 0
-	nature = 0
-	robot = 0
 	gold = gold_gained
 	
 	add_resources_from_spaces()
@@ -112,6 +108,6 @@ func _update_resources() -> void:
 		)
 	else:
 		for p_id in [GameManager.p1_id, GameManager.p2_id]:
-			MPManager.set_resources.rpc_id(
+			BattleManager.set_resources.rpc_id(
 				p_id, resources_owner_id, gold, animal, magic, nature, robot
 			)

@@ -70,7 +70,7 @@ func _connect_signals() -> void:
 func attack_card(target_card: CardInPlay) -> void:
 	GameManager.call_triggered_funcs(Collections.triggers.ATTACK, self)
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		MPAnimation.animate_attack.rpc_id(
+		BattleAnimation.animate_attack.rpc_id(
 			p_id, card_owner_id, card_in_play_index, 
 			target_card.current_play_space.direction_from_play_space(current_play_space)
 		)
@@ -94,7 +94,7 @@ func swap_with_card(swap_card_owner_id: int, swap_cip_index: int) -> void:
 	GameManager.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, self)
 	GameManager.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, swap_card)
 	for p_id in GameManager.players:
-		MPManager.swap_cards.rpc_id(
+		BattleManager.swap_cards.rpc_id(
 			p_id, card_owner_id, card_in_play_index, swap_card_owner_id, swap_cip_index
 		)
 	GameManager.call_triggered_funcs(Collections.triggers.CARD_MOVED, self)
@@ -104,7 +104,7 @@ func swap_with_card(swap_card_owner_id: int, swap_cip_index: int) -> void:
 func move_to_play_space(new_column: int, new_row: int) -> void:
 	GameManager.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, self)	
 	for p_id in GameManager.players:
-		MPManager.move_to_play_space.rpc_id(
+		BattleManager.move_to_play_space.rpc_id(
 			p_id, card_owner_id, card_in_play_index, 
 			new_column, new_row
 		)
@@ -136,7 +136,7 @@ func move_over_path(path: PlaySpacePath) -> void:
 	TargetSelection.end_selecting()
 	GameManager.turn_manager.turn_actions_enabled = true
 	for p_id in GameManager.players:
-		MPManager.set_progress_bars.rpc_id(p_id)
+		BattleManager.set_progress_bars.rpc_id(p_id)
 
 
 func move_and_attack(target_card: CardInPlay) -> void:
@@ -165,12 +165,12 @@ func select_for_movement() -> void:
 
 func refresh():
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		MPManager.refresh_unit.rpc_id(p_id, card_owner_id, card_in_play_index)
+		BattleManager.refresh_unit.rpc_id(p_id, card_owner_id, card_in_play_index)
 
 
 func exhaust():
 	for p_id in GameManager.players:
-		MPManager.exhaust_unit.rpc_id(p_id, card_owner_id, card_in_play_index)
+		BattleManager.exhaust_unit.rpc_id(p_id, card_owner_id, card_in_play_index)
 
 
 func use_ability(func_index: int) -> void:
@@ -189,7 +189,7 @@ func conquer_space() -> void:
 func highlight_card(show_highlight: bool):
 	if show_highlight:
 		for p_id in GameManager.players:
-			MPCardManipulation.highlight_card.rpc_id(p_id, card_owner_id, card_in_play_index)
+			CardManipulation.highlight_card.rpc_id(p_id, card_owner_id, card_in_play_index)
 	else:
 		get_theme_stylebox("panel").border_color = Styling.gold_color
 
@@ -204,14 +204,14 @@ func resolve_damage(value: int) -> void:
 	var c_id := card_owner_id
 	var cip_index := card_in_play_index
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		MPManager.resolve_damage.rpc_id(p_id, c_id, cip_index, value)
+		BattleManager.resolve_damage.rpc_id(p_id, c_id, cip_index, value)
 
 
 func destroy() -> void:
 	var cid := card_owner_id
 	var cip_index := card_in_play_index
 	for p_id in GameManager.players:
-		MPCardManipulation.destroy.rpc_id(p_id, cid, cip_index)
+		CardManipulation.destroy.rpc_id(p_id, cid, cip_index)
 
 
 func shake() -> void:
@@ -327,7 +327,7 @@ func unflip_card() -> void:
 
 func _is_resolve_spell_agreed() -> bool:
 	Events.show_instructions.emit("Awaiting opponent agreement to spell resolve...")
-	MPManager.ask_resolve_spell_agreement()
+	BattleManager.ask_resolve_spell_agreement()
 	await Events.resolve_spell_button_pressed
 	
 	return true
@@ -525,7 +525,7 @@ func _on_gui_input(event):
 	):
 		TargetSelection.selected_targets.erase(self)
 		for p_id in [GameManager.p1_id, GameManager.p2_id]:
-			MPCardManipulation.set_border_to_faction.rpc_id(
+			CardManipulation.set_border_to_faction.rpc_id(
 				p_id, card_owner_id, card_in_play_index
 			)
 

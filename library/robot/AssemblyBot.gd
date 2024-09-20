@@ -28,7 +28,7 @@ func enter_battle() -> void:
 
 func _assemble_robot(fab_column: int, fab_row: int) -> void:
 	for p_id in GameManager.players:
-		MPManager.create_fabrication.rpc_id(
+		BattleManager.create_fabrication.rpc_id(
 			p_id, card_owner_id, fab_column, fab_row, "Robot", 1, 0, 1, 1, [], 
 			"res://library/robot/images/Robot.png", [Collections.factions.ROBOT], {
 						Collections.factions.ANIMAL: 0,
