@@ -103,11 +103,16 @@ func swap_with_card(swap_card_owner_id: int, swap_cip_index: int) -> void:
 
 func move_to_play_space(new_column: int, new_row: int) -> void:
 	GameManager.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, self)	
-	for p_id in GameManager.players:
-		BattleManager.move_to_play_space.rpc_id(
-			p_id, card_owner_id, card_in_play_index, 
-			new_column, new_row
-		)
+	
+	if GameManager.is_single_player:
+		BattleManager.move_to_play_space(card_owner_id, card_in_play_index, new_column, new_row)
+	if !GameManager.is_single_player:
+		for p_id in GameManager.players:
+			BattleManager.move_to_play_space.rpc_id(
+				p_id, card_owner_id, card_in_play_index, 
+				new_column, new_row
+			)
+			
 	GameManager.call_triggered_funcs(Collections.triggers.CARD_MOVED, self)
 
 
@@ -135,8 +140,6 @@ func move_over_path(path: PlaySpacePath) -> void:
 	
 	TargetSelection.end_selecting()
 	GameManager.turn_manager.turn_actions_enabled = true
-	for p_id in GameManager.players:
-		BattleManager.set_progress_bars.rpc_id(p_id)
 
 
 func move_and_attack(target_card: CardInPlay) -> void:
@@ -164,13 +167,19 @@ func select_for_movement() -> void:
 
 
 func refresh():
-	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		BattleManager.refresh_unit.rpc_id(p_id, card_owner_id, card_in_play_index)
+	if GameManager.is_single_player:
+		BattleManager.refresh_unit(card_owner_id, card_in_play_index)
+	if !GameManager.is_single_player:
+		for p_id in [GameManager.p1_id, GameManager.p2_id]:
+			BattleManager.refresh_unit.rpc_id(p_id, card_owner_id, card_in_play_index)
 
 
 func exhaust():
-	for p_id in GameManager.players:
-		BattleManager.exhaust_unit.rpc_id(p_id, card_owner_id, card_in_play_index)
+	if GameManager.is_single_player:
+		BattleManager.exhaust_unit(card_owner_id, card_in_play_index)
+	if !GameManager.is_single_player:
+		for p_id in GameManager.players:
+			BattleManager.exhaust_unit.rpc_id(p_id, card_owner_id, card_in_play_index)
 
 
 func use_ability(func_index: int) -> void:
@@ -188,8 +197,11 @@ func conquer_space() -> void:
 
 func highlight_card(show_highlight: bool):
 	if show_highlight:
-		for p_id in GameManager.players:
-			CardManipulation.highlight_card.rpc_id(p_id, card_owner_id, card_in_play_index)
+		if GameManager.is_single_player:
+			CardManipulation.highlight_card(card_owner_id, card_in_play_index)
+		if !GameManager.is_single_player:
+			for p_id in GameManager.players:
+				CardManipulation.highlight_card.rpc_id(p_id, card_owner_id, card_in_play_index)
 	else:
 		get_theme_stylebox("panel").border_color = Styling.gold_color
 
@@ -356,7 +368,6 @@ func _load_card_properties() -> void:
 		ingame_name = card_data["InGameName"]
 		card_type= card_data["CardType"]
 		factions = card_data["Factions"]
-		lord = card_data["Lord"]
 		card_text = card_data["Text"]
 		img_path = card_data["IMGPath"]
 	$CardImage.texture = load(img_path)

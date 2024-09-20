@@ -100,7 +100,19 @@ var nature_robot_deck: Dictionary = {
 }
 
 
-var opponent_testing_deck: Dictionary = animal_deck
+var opponent_testing_deck: Dictionary = {
+	"Cards": {
+		cards.GORILLA: 4, 
+		cards.GOOSE: 4, 
+		cards.WARTHOG_BERSERKER: 4, 
+		cards.GORILLA_BATTLECALLER: 2, 
+		cards.SNEK: 2, 
+		cards.FELOS_EXPEDITIONIST: 3,
+	},
+	"StartingCards": {
+		cards.GORILLA: 2,
+	}
+}
 
 
 var player_testing_deck: Dictionary = [

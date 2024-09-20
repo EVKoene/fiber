@@ -59,7 +59,6 @@ func play_unit(card_index: int, card_owner_id: int, column: int, row: int) -> vo
 	GameManager.cards_in_play[card_owner_id].append(card)
 	GameManager.battle_map.add_child(card)
 	GameManager.zoom_preview.reset_zoom_preview()
-	set_progress_bars()
 
 
 @rpc("any_peer", "call_local")

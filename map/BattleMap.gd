@@ -46,6 +46,7 @@ func _ready():
 func _create_ai_player() -> void:
 	GameManager.ai_player = AIPlayer.new()
 	GameManager.ai_player_id = GameManager.p2_id
+	GameManager.ai_player.player_id = GameManager.p2_id
 	GameManager.ai_player.ai_turn_manager = AITurnManager.new()
 
 
@@ -67,8 +68,7 @@ func hide_text() -> void:
 
 
 func _start_first_turn() -> void:
-	#var first_player_id = [GameManager.p1_id, GameManager.p2_id].pick_random()
-	var first_player_id = GameManager.p2_id
+	var first_player_id = [GameManager.p1_id, GameManager.p2_id].pick_random()
 	if GameManager.is_single_player:
 		if first_player_id == GameManager.p1_id:
 			GameManager.turn_manager.show_start_turn_text()
