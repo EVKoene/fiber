@@ -27,9 +27,9 @@ func enter_battle() -> void:
 
 
 func _assemble_robot(fab_column: int, fab_row: int) -> void:
-	for p_id in GameManager.players:
-		BattleManager.create_fabrication.rpc_id(
-			p_id, card_owner_id, fab_column, fab_row, "Robot", 1, 0, 1, 1, [], 
+	if GameManager.is_single_player:
+		BattleManager.create_fabrication(
+			card_owner_id, fab_column, fab_row, "Robot", 1, 0, 1, 1, [], 
 			"res://library/robot/images/Robot.png", [Collections.factions.ROBOT], {
 						Collections.factions.ANIMAL: 0,
 						Collections.factions.MAGIC: 0,
@@ -37,3 +37,14 @@ func _assemble_robot(fab_column: int, fab_row: int) -> void:
 						Collections.factions.ROBOT: 1,
 					}
 		)
+	if !GameManager.is_single_player:
+		for p_id in GameManager.players:
+			BattleManager.create_fabrication.rpc_id(
+				p_id, card_owner_id, fab_column, fab_row, "Robot", 1, 0, 1, 1, [], 
+				"res://library/robot/images/Robot.png", [Collections.factions.ROBOT], {
+							Collections.factions.ANIMAL: 0,
+							Collections.factions.MAGIC: 0,
+							Collections.factions.NATURE: 0,
+							Collections.factions.ROBOT: 1,
+						}
+			)

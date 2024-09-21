@@ -178,19 +178,29 @@ func play_space_direction_in_same_line(play_space: PlaySpace) -> int:
 
 
 func set_conquered_by(player_id: int) -> void:
-	for p_id in GameManager.players:
-		BattleManager.set_conquered_by.rpc_id(
-			p_id, player_id, column, row
-		)
+	if GameManager.is_single_player:
+		BattleManager.set_conquered_by(player_id, column, row)
+	
+	if !GameManager.is_single_player:
+		for p_id in GameManager.players:
+			BattleManager.set_conquered_by.rpc_id(
+				p_id, player_id, column, row
+			)
 
 
 func set_border() -> void:
+	if conquered_by:
+		match conquered_by:
+			GameManager.p1_id:
+				get_theme_stylebox("panel").border_color = Styling.p1_color
+			GameManager.p2_id:
+				get_theme_stylebox("panel").border_color = Styling.p2_color
+		return
+		
 	if Collections.play_space_attributes.RESOURCE_SPACE in attributes:
 		get_theme_stylebox("panel").border_color = Styling.resource_space_color
 	else:
 		get_theme_stylebox("panel").border_color = Styling.base_space_color
-
-	get_theme_stylebox("panel").set_border_width_all(size.x / 15)
 
 
 func highlight_space():
@@ -201,6 +211,7 @@ func _add_border() -> void:
 	var border := StyleBoxFlat.new()
 	add_theme_stylebox_override("panel", border)
 	get_theme_stylebox("panel").bg_color = Color("99999900")
+	get_theme_stylebox("panel").set_border_width_all(size.x / 15)
 	set_border()
 
 

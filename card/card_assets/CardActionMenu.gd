@@ -27,10 +27,12 @@ func _set_card_action_menu_buttons() -> void:
 		action_button.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		buttons_container.add_child(action_button)
 		n_buttons += 1
+	var play_space: PlaySpace = GameManager.ps_column_row[card.column][card.row]
 	if (
 		Collections.play_space_attributes.RESOURCE_SPACE 
-		in GameManager.ps_column_row[card.column][card.row].attributes
+		in play_space.attributes
 		and !card.fabrication
+		and play_space.conquered_by != card_owner_id
 	):
 		var action_button := action_button_scene.instantiate()
 		action_button.conquer_space = true
