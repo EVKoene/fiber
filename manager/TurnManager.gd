@@ -68,7 +68,10 @@ func start_turn(player_id: int) -> void:
 		for c in GameManager.cards_in_play[p]:
 			c.call_triggered_funcs(Collections.triggers.TURN_STARTED, c)
 	if turn_count >= 2:
-		GameManager.decks[player_id].call_deferred("pick_card_option")
+		if player_id == GameManager.ai_player_id:
+			GameManager.decks[player_id].draw_card()
+		else:
+			GameManager.decks[player_id].pick_card_option()
 	
 	if turn_owner_id == GameManager.p1_id and GameManager.is_single_player:
 		show_end_turn_button()

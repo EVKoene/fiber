@@ -54,6 +54,11 @@ func add_resource(faction: int, amount: int) -> void:
 	_update_resources()
 
 
+func add_gold(amount: int) -> void:
+	gold += amount
+	_update_resources()
+
+
 func spend_resource(faction: Collections.factions, value: int) -> void:
 	match faction:
 		Collections.factions.ANIMAL:
@@ -72,7 +77,6 @@ func spend_resource(faction: Collections.factions, value: int) -> void:
 func refresh(gold_gained: int) -> void:
 	gold = gold_gained
 	
-	add_resources_from_spaces()
 	_update_resources()
 
 
@@ -84,12 +88,6 @@ func gold_needed(costs: Costs) -> int:
 			deficiency -= resources_minus_costs
 			
 	return deficiency
-
-
-func add_resources_from_spaces() -> void:
-	for ps in GameManager.resource_spaces:
-		if ps.conquered_by == resources_owner_id:
-			gold += 2
 
 
 func get_resources() -> Dictionary:

@@ -35,6 +35,7 @@ var border_style: StyleBox
 var move_through_units := false
 var card_in_play_index: int: get = _get_card_in_play_index
 
+
 func _ready():
 	scale *= MapSettings.card_in_play_size/size
 	_load_card_properties()
@@ -69,18 +70,24 @@ func _connect_signals() -> void:
 
 func attack_card(target_card: CardInPlay) -> void:
 	GameManager.call_triggered_funcs(Collections.triggers.ATTACK, self)
-	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		BattleAnimation.animate_attack.rpc_id(
-			p_id, card_owner_id, card_in_play_index, 
+	if GameManager.is_single_player:
+		BattleAnimation.animate_attack(
+			card_owner_id, card_in_play_index, 
 			target_card.current_play_space.direction_from_play_space(current_play_space)
 		)
+	if !GameManager.is_single_player:
+		for p_id in [GameManager.p1_id, GameManager.p2_id]:
+			BattleAnimation.animate_attack.rpc_id(
+				p_id, card_owner_id, card_in_play_index, 
+				target_card.current_play_space.direction_from_play_space(current_play_space)
+			)
 	
-	deal_damage_to_card(target_card, int(randi_range(min_attack, max_attack)))
-	GameManager.call_triggered_funcs(Collections.triggers.ATTACK_FINISHED, self)
+	await deal_damage_to_card(target_card, int(randi_range(min_attack, max_attack)))
+	await GameManager.call_triggered_funcs(Collections.triggers.ATTACK_FINISHED, self)
 
 
 func deal_damage_to_card(card: CardInPlay, value: int) -> void:
-	card.resolve_damage(value)
+	await card.resolve_damage(value)
 
 
 func select_card(show_select: bool) -> void:
@@ -103,11 +110,16 @@ func swap_with_card(swap_card_owner_id: int, swap_cip_index: int) -> void:
 
 func move_to_play_space(new_column: int, new_row: int) -> void:
 	GameManager.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, self)	
-	for p_id in GameManager.players:
-		BattleManager.move_to_play_space.rpc_id(
-			p_id, card_owner_id, card_in_play_index, 
-			new_column, new_row
-		)
+	
+	if GameManager.is_single_player:
+		BattleManager.move_to_play_space(card_owner_id, card_in_play_index, new_column, new_row)
+	if !GameManager.is_single_player:
+		for p_id in GameManager.players:
+			BattleManager.move_to_play_space.rpc_id(
+				p_id, card_owner_id, card_in_play_index, 
+				new_column, new_row
+			)
+			
 	GameManager.call_triggered_funcs(Collections.triggers.CARD_MOVED, self)
 
 
@@ -135,15 +147,16 @@ func move_over_path(path: PlaySpacePath) -> void:
 	
 	TargetSelection.end_selecting()
 	GameManager.turn_manager.turn_actions_enabled = true
-	for p_id in GameManager.players:
-		BattleManager.set_progress_bars.rpc_id(p_id)
 
 
 func move_and_attack(target_card: CardInPlay) -> void:
-	if TargetSelection.current_path:
+	if current_play_space.distance_to_play_space(target_card.current_play_space, false) == 1:
+		await attack_card(target_card)
+	
+	elif TargetSelection.current_path:
 		if TargetSelection.current_path.last_space in spaces_in_range_to_attack_card(target_card):
 			await(move_over_path(TargetSelection.current_path))
-			attack_card(target_card)
+			await attack_card(target_card)
 	
 	else:
 		var spaces_to_attack_from: Array = spaces_in_range_to_attack_card(target_card)
@@ -153,7 +166,7 @@ func move_and_attack(target_card: CardInPlay) -> void:
 			spaces_to_attack_from.pick_random(), move_through_units
 		)
 		await(move_over_path(path_to_space))
-		attack_card(target_card)
+		await attack_card(target_card)
 
 
 func select_for_movement() -> void:
@@ -164,13 +177,19 @@ func select_for_movement() -> void:
 
 
 func refresh():
-	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		BattleManager.refresh_unit.rpc_id(p_id, card_owner_id, card_in_play_index)
+	if GameManager.is_single_player:
+		BattleManager.refresh_unit(card_owner_id, card_in_play_index)
+	if !GameManager.is_single_player:
+		for p_id in [GameManager.p1_id, GameManager.p2_id]:
+			BattleManager.refresh_unit.rpc_id(p_id, card_owner_id, card_in_play_index)
 
 
 func exhaust():
-	for p_id in GameManager.players:
-		BattleManager.exhaust_unit.rpc_id(p_id, card_owner_id, card_in_play_index)
+	if GameManager.is_single_player:
+		BattleManager.exhaust_unit(card_owner_id, card_in_play_index)
+	if !GameManager.is_single_player:
+		for p_id in GameManager.players:
+			BattleManager.exhaust_unit.rpc_id(p_id, card_owner_id, card_in_play_index)
 
 
 func use_ability(func_index: int) -> void:
@@ -188,8 +207,11 @@ func conquer_space() -> void:
 
 func highlight_card(show_highlight: bool):
 	if show_highlight:
-		for p_id in GameManager.players:
-			CardManipulation.highlight_card.rpc_id(p_id, card_owner_id, card_in_play_index)
+		if GameManager.is_single_player:
+			CardManipulation.highlight_card(card_owner_id, card_in_play_index)
+		if !GameManager.is_single_player:
+			for p_id in GameManager.players:
+				CardManipulation.highlight_card.rpc_id(p_id, card_owner_id, card_in_play_index)
 	else:
 		get_theme_stylebox("panel").border_color = Styling.gold_color
 
@@ -203,15 +225,21 @@ func reset_card_stats():
 func resolve_damage(value: int) -> void:
 	var c_id := card_owner_id
 	var cip_index := card_in_play_index
-	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		BattleManager.resolve_damage.rpc_id(p_id, c_id, cip_index, value)
+	if GameManager.is_single_player:
+		await BattleManager.resolve_damage(c_id, cip_index, value)
+	if !GameManager.is_single_player:
+		for p_id in [GameManager.p1_id, GameManager.p2_id]:
+			BattleManager.resolve_damage.rpc_id(p_id, c_id, cip_index, value)
 
 
 func destroy() -> void:
 	var cid := card_owner_id
 	var cip_index := card_in_play_index
-	for p_id in GameManager.players:
-		CardManipulation.destroy.rpc_id(p_id, cid, cip_index)
+	if GameManager.is_single_player:
+		CardManipulation.destroy(cid, cip_index)
+	if !GameManager.is_single_player:
+		for p_id in GameManager.players:
+			CardManipulation.destroy.rpc_id(p_id, cid, cip_index)
 
 
 func shake() -> void:
@@ -260,6 +288,7 @@ func spaces_in_range(range_to_check: int, ignore_obstacles: bool) -> Array:
 
 
 func spaces_in_range_to_attack_card(card: CardInPlay) -> Array:
+	"""Returns an array of spaces where self can attack card from"""
 	var spaces_to_attack_from: Array = []
 	for ps in card.current_play_space.adjacent_play_spaces():
 		if ps in spaces_in_range(movement, false):
@@ -356,7 +385,6 @@ func _load_card_properties() -> void:
 		ingame_name = card_data["InGameName"]
 		card_type= card_data["CardType"]
 		factions = card_data["Factions"]
-		lord = card_data["Lord"]
 		card_text = card_data["Text"]
 		img_path = card_data["IMGPath"]
 	$CardImage.texture = load(img_path)

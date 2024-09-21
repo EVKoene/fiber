@@ -82,6 +82,29 @@ func closest_enemy_units(card: CardInPlay) -> Array:
 	return closest_cards
 
 
+func closest_conquerable_space(player_id: int, card: CardInPlay) -> Array:
+	var shortest_distance: int = -1
+	var closest_spaces: Array
+	for ps in GameManager.play_spaces:
+		if !ps.territory:
+			continue
+		if ps.territory.owner_id == player_id:
+			continue
+		var distance_to_space = card.current_play_space.distance_to_play_space(
+			ps, card.move_through_units
+		)
+		if shortest_distance == -1 and distance_to_space >= 1:
+			shortest_distance = distance_to_space
+			closest_spaces = [ps]
+		elif shortest_distance != -1 and distance_to_space == shortest_distance:
+			closest_spaces.append(ps)
+		elif shortest_distance != -1 and distance_to_space < shortest_distance:
+			shortest_distance = distance_to_space
+			closest_spaces = [ps]
+	
+	return closest_spaces
+
+
 func n_cards_in_adjacent_play_spaces(card: CardInPlay, target_restrictions: int) -> int:
 	var n: int = 0
 	for ps in card.current_play_space.adjacent_play_spaces():
