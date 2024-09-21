@@ -32,6 +32,7 @@ TriggeredCardFuncs="*res://card/TriggeredCardFuncs.gd"
 BattleAnimation="*res://manager/BattleAnimation.gd"
 CardManipulation="*res://manager/CardManipulation.gd"
 PlaySpaceHelper="*res://map/play_space/PlaySpaceHelper.gd"
+NPCDatabase="*res://overworld/npc/NPCDatabase.gd"
 
 [display]
 
