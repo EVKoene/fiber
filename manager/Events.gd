@@ -19,3 +19,4 @@ signal resume_player_movement
 signal direction_changed(direction: int)
 signal overworld_text_request(text: String)
 signal npc_interaction_started(npc_id: int)
+signal dialogue_finished

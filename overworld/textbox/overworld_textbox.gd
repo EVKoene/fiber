@@ -10,13 +10,15 @@ func _ready():
 
 
 func show_text(npc_text_lines: Array) -> void:
+	GameManager.can_move = false
 	if !in_dialogue:
 		text_lines = npc_text_lines
 		show()
-		Events.pause_player_movement.emit()
 		$TextboxContainer/MarginContainer/HBoxContainer/Text.text = text_lines[0]
 		await get_tree().create_timer(0.5).timeout
 		in_dialogue = true
+		Events.dialogue_finished.emit()
+	GameManager.can_move = true
 	
 	
 func _process(_delta):
