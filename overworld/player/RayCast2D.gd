@@ -15,10 +15,10 @@ func _process(_delta):
 func _change_collision_shape_direction(direction: int) -> void:
 	match direction:
 		Collections.directions.DOWN:
-			target_position = Vector2(0.0, 16.0)
+			target_position = Vector2(0.0, 40.0)
 		Collections.directions.LEFT:
-			target_position = Vector2(-16.0, 0.0)
+			target_position = Vector2(-40.0, 0.0)
 		Collections.directions.RIGHT:
-			target_position = Vector2(16.0, 0.0)
+			target_position = Vector2(40.0, 0.0)
 		Collections.directions.UP:
-			target_position = Vector2(0.0, -16.0)
+			target_position = Vector2(0.0, -40.0)
