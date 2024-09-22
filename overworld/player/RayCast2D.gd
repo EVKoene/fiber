@@ -9,7 +9,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if is_colliding() and Input.is_action_just_pressed("ui_accept"):
-		Events.npc_interaction_started.emit(get_collider().get_instance_id())
+		Events.npc_interaction_started.emit(get_collider().npc_id)
 
 
 func _change_collision_shape_direction(direction: int) -> void:

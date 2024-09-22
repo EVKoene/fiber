@@ -1,20 +1,39 @@
 extends Control
 
+class_name MainMenu
+
+
 @export var address := "127.0.0.1"
 @export var port = 8910
+var battle_map_scene: PackedScene = load("res://map/BattleMap.tscn")
+var overworld_scene := load("res://overworld/areas/StartingArea.tscn")
 var peer
 var deck := DeckCollection.player_testing_deck
+var current_area: OverworldArea
+
 
 func _ready():
 	multiplayer.peer_connected.connect(peer_connected)
 	multiplayer.peer_disconnected.connect(peer_disconnected)
 	multiplayer.connected_to_server.connect(connected_to_server)
 	multiplayer.connection_failed.connect(connection_failed)
+	GameManager.main_menu = self
+
+
+func start_single_player_battle(npc_id: int) -> void:
+	var npc_data: Dictionary = NPCDatabase.npc_data[npc_id]
+	GameManager.add_player_to_gamemanager(
+		1, 1, "Player1", deck
+	)
+	
+	GameManager.add_player_to_gamemanager(
+			2, 2, npc_data["Name"], npc_data["Deck"]
+		)
+	start_game()
 
 
 @rpc("any_peer", "call_local")
 func start_game() -> void:
-	var battle_map_scene: PackedScene = load("res://map/BattleMap.tscn")
 	var battle_map = battle_map_scene.instantiate()
 	add_child(battle_map, true)
 	$CenterContainer.hide()
@@ -32,7 +51,7 @@ func peer_disconnected(id: int) -> void:
 func connected_to_server() -> void:
 	print("Connected to server!")
 	# This will only work as long as we have max 2 players
-	_add_player_to_gamemanager.rpc_id(
+	GameManager._add_player_to_gamemanager.rpc_id(
 		1, 2, multiplayer.get_unique_id(), "Player2", deck
 	)
 	GameManager.player_id = multiplayer.get_unique_id()
@@ -40,32 +59,6 @@ func connected_to_server() -> void:
 
 func connection_failed() -> void:
 	print("Failed to connect!")
-
-
-@rpc("any_peer")
-func _add_player_to_gamemanager(
-	player_number: int, player_id: int, player_name: String, p_deck: Dictionary
-) -> void:
-	if !GameManager.players.has(player_id):
-		GameManager.players[player_id] = {
-			"Name": player_name,
-			"PlayerNumber": player_number,
-			"ID": player_id,
-			"Deck": p_deck,
-		}
-		if player_number == 1:
-			GameManager.p1_id = player_id
-		if player_number == 2:
-			GameManager.p2_id = player_id
-	
-	if multiplayer.is_server():
-		for i in GameManager.players:
-			_add_player_to_gamemanager.rpc(
-				GameManager.players[i]["PlayerNumber"], 
-				GameManager.players[i]["ID"], 
-				GameManager.players[i]["Name"], 
-				GameManager.players[i]["Deck"]
-			)
 
 
 func _on_start_pressed():
@@ -83,14 +76,14 @@ func _on_host_pressed():
 	multiplayer.set_multiplayer_peer(peer)
 	print("Waiting for players")
 	
-	_add_player_to_gamemanager(
+	GameManager.add_player_to_gamemanager(
 		1, multiplayer.get_unique_id(), "Player1", deck
 	)
 	GameManager.player_id = multiplayer.get_unique_id()
-	GameManager.is_player_1 = true
 
 
 func _on_join_pressed():
+	GameManager.is_player_1 = false
 	peer = ENetMultiplayerPeer.new()
 	if GameManager.testing:
 		peer.create_client(address, port)
@@ -141,13 +134,8 @@ func _on_exit_pressed():
 func _on_single_player_pressed():
 	GameManager.testing = false
 	GameManager.player_id = 1
-	GameManager.is_player_1 = true
-	_add_player_to_gamemanager(
-		1, 1, "Player1", deck
-	)
-	
-	_add_player_to_gamemanager(
-			2, 2, "AIOpponent", DeckCollection.opponent_testing_deck
-		)
 	GameManager.is_single_player = true
-	start_game()
+	current_area = overworld_scene.instantiate()
+	$CenterContainer.hide()
+	$DeckButtons.hide()
+	add_child(current_area)

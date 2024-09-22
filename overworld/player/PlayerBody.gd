@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 
-const SPEED: int = 100
+const SPEED: int = 200
 var current_direction: int
 var movement_paused: bool = false
 
