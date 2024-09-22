@@ -19,8 +19,8 @@ data_*/
 mono_crash.*.json
 
 # Pictures
-.png
-.jpg
+*.png
+*.jpg
 
 # Music
 fuse/music/
