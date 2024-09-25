@@ -9,6 +9,8 @@ var map_data: Dictionary = {
 		"SpacesToWin": 8,
 		"Columns": 7,
 		"Rows": 5,
+		"P1StartingConqueredSpaces": [Vector2(3, 4)],
+		"P2StartingConqueredSpaces": [Vector2(3, 0)],
 		"P1Territory": [Vector2(3, 3), Vector2(3, 4), Vector2(2, 4), Vector2(4, 4)],
 		"P2Territory": [Vector2(3, 0), Vector2(2, 0), Vector2(4, 0), Vector2(3, 1)],
 		"ResourceSpaces": [

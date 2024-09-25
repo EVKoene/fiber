@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c741sshssnf7x"]
 
-[ext_resource type="Script" path="res://overworld/textbox/overworld_textbox.gd" id="1_wrf80"]
+[ext_resource type="Script" path="res://overworld/textbox/OverworldTextbox.gd" id="1_lbuf3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vpk51"]
 bg_color = Color(0.2, 0.2, 0.2, 1)
@@ -11,7 +11,7 @@ border_width_bottom = 2
 border_color = Color(1, 1, 1, 1)
 
 [node name="OverworldTextbox" type="CanvasLayer"]
-script = ExtResource("1_wrf80")
+script = ExtResource("1_lbuf3")
 
 [node name="TextboxContainer" type="MarginContainer" parent="."]
 anchors_preset = 12
@@ -51,11 +51,12 @@ size_flags_horizontal = 3
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 31
 text = "Text!"
-horizontal_alignment = 3
 autowrap_mode = 2
 clip_text = true
+visible_characters = 0
+visible_ratio = 0.0
 
-[node name="Continue" type="Label" parent="TextboxContainer/MarginContainer/HBoxContainer"]
+[node name="ContinueSymbol" type="Label" parent="TextboxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8

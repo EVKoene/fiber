@@ -45,9 +45,6 @@ var territories := []
 var ai_player: AIPlayer
 var ai_player_id: int
 
-### OVERWORLD ###
-var can_move := true
-
 
 func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:
 	for p_id in [p1_id, p2_id]:

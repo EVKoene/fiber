@@ -8,7 +8,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	if is_colliding() and Input.is_action_just_pressed("ui_accept"):
+	if is_colliding() and Input.is_action_just_pressed("ui_accept") and OverworldManager.can_move:
 		Events.npc_interaction_started.emit(get_collider().npc_id)
 
 

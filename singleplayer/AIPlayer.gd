@@ -104,7 +104,7 @@ func move_to_conquer_space(card: CardInPlay) -> bool:
 		return false 
 	
 	if card_path.path_length <= card.movement:
-		await card.move_to_play_space(space_to_move_to.column, space_to_move_to.row)
+		card.move_to_play_space(space_to_move_to.column, space_to_move_to.row)
 		card.exhaust()
 		return true
 	

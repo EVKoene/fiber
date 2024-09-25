@@ -11,6 +11,6 @@ func _ready():
 
 func start_npc_interaction(npc_id: int) -> void:
 	var npc_dialogue: Array = NPCDatabase.npc_data[npc_id]["Dialogue"]
-	Events.overworld_text_request.emit(npc_dialogue)
+	OverworldManager.overworld_textbox.read_text(npc_dialogue)
 	await Events.dialogue_finished
 	TransitionScene.transition_to_npc_battle(npc_id)
