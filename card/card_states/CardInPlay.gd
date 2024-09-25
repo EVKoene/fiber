@@ -121,6 +121,7 @@ func move_to_play_space(new_column: int, new_row: int) -> void:
 			)
 			
 	GameManager.call_triggered_funcs(Collections.triggers.CARD_MOVED, self)
+	return
 
 
 func move_over_path(path: PlaySpacePath) -> void:

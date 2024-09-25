@@ -12,6 +12,5 @@ func start_turn() -> void:
 
 
 func end_turn() -> void:
-	GameManager.battle_map.show_text("Opponents turn finished")
 	await GameManager.battle_map.get_tree().create_timer(0.25).timeout
 	GameManager.turn_manager.show_start_turn_text()

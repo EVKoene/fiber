@@ -11,7 +11,7 @@ func _ready():
 	Events.resume_player_movement.connect(resume_movement)
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	_player_movement()
 	
 

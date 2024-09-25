@@ -157,6 +157,10 @@ func _create_starting_territory() -> void:
 		GameManager.ps_column_row[int(ps.x)][int(ps.y)].add_to_territory(GameManager.p1_id)
 	for ps in map_data["P2Territory"]:
 		GameManager.ps_column_row[int(ps.x)][int(ps.y)].add_to_territory(GameManager.p2_id)
+	for ps in map_data["P1StartingConqueredSpaces"]:
+		GameManager.ps_column_row[int(ps.x)][int(ps.y)].set_conquered_by(GameManager.p1_id)
+	for ps in map_data["P2StartingConqueredSpaces"]:
+		GameManager.ps_column_row[int(ps.x)][int(ps.y)].set_conquered_by(GameManager.p2_id)
 
 
 func _set_end_turn_button() -> void:

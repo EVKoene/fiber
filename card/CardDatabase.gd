@@ -2,7 +2,7 @@ extends Node
 
 # All the exisiting cards go into this enum
 enum cards {GENERAL_FABRICATION, GORILLA, ATTACK_COMMAND, GOOSE, WARTHOG_BERSERKER, GORILLA_BATTLECALLER, SNEK,
-FOLLOW_PHEROMONES, RHINOCEROS, STAMPEDE, FELOS_EXPEDITIONIST, SKON_INSECT_FATHER, WIZARD_SCOUT, 
+FOLLOW_PHEROMONES, RHINOCEROS, STAMPEDE, FELOS_EXPEDITIONIST, GORILLA_KING, SKON_INSECT_FATHER, WIZARD_SCOUT, 
 SWITCHEROO, ARCANE_ARROW, MIST_CONJURER, FLOW_ACCELERATOR, EPHEMERAL_ASSASSIN, FIREBALL_SHOOTER, 
 HOMUNCULUS, JELLYFISH_EXTRAORDINAIRE, AUDACIOUS_RESEARCHER, HYRSMIR_RULER_OF_PHYSICS, 
 PSYCHIC_TAKEOVER,  GNOME_PROTECTOR,  BOTANO_GARDENER, MORNING_LIGHT, ICE_GOLEM, FIRE_GOLEM, 
@@ -212,6 +212,26 @@ var cards_info = {
 		"Text": "On Attack: Draw a Card",
 		"Purposes": [Collections.purposes.BATTLE],
 		"IMGPath": "res://library/animal/images/FelosExpeditionist.png",
+	},
+	
+	cards.GORILLA_KING: {
+		"InGameName": "GorillaKing",
+		"CardType": Collections.card_types.UNIT,
+		"Factions": [Collections.factions.ANIMAL],
+		"Costs": {
+			Collections.factions.ANIMAL: 6, # 4
+			Collections.factions.MAGIC: 0,
+			Collections.factions.NATURE: 0,
+			Collections.factions.ROBOT: 0,
+		},
+		"MaxAttack": 5,
+		"MinAttack": 1,
+		"Health": 3,
+		"Movement": 1, # 1
+		"Lord": true,
+		"Text": "Your units get +2 max attack for each adjacent unit",
+		"Purposes": [],
+		"IMGPath": "res://library/animal/images/GorillaKing.png",
 	},
 	
 	cards.SKON_INSECT_FATHER: {
@@ -1187,6 +1207,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = Rhinoceros
 		cards.FOLLOW_PHEROMONES:
 			card = FollowPheromones
+		cards.GORILLA_KING:
+			card = GorillaKing
 		cards.FELOS_EXPEDITIONIST:
 			card = FelosExpeditionist
 		cards.SKON_INSECT_FATHER:

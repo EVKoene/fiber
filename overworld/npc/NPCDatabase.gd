@@ -10,7 +10,7 @@ var npc_data: Dictionary = {
 		"Dialogue": ["You think you can handle me?", "My gorillas will fucking tear you to shreds"],
 		"Battle": true,
 		"CharacterType": Collections.character_types.BEEBOY,
-		"Deck": DeckCollection.animal_deck
+		"Deck": DeckCollection.gorilla_deck
 	},
 	npcs.JOS: {
 		"Name": "Jos",
