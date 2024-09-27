@@ -12,7 +12,9 @@ func call_triggered_funcs(trigger: int, _triggering_card: CardInPlay) -> void:
 		Collections.triggers.CARD_CREATED, Collections.triggers.CARD_MOVED, Collections.triggers.CARD_MOVING_AWAY
 	] and card_owner_id == GameManager.player_id:
 		var new_n_allies: int = len(
-			CardHelper.cards_in_range(self, 1, TargetSelection.target_restrictions.OWN_UNITS)
+			CardHelper.cards_in_range_of_card(
+				self, 1, TargetSelection.target_restrictions.OWN_UNITS
+			)
 		)
 
 		var stat_increase: int = new_n_allies - n_allies_in_adjacent_spaces

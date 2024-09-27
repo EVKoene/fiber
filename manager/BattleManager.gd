@@ -156,13 +156,13 @@ func set_progress_bars() -> void:
 			and GameManager.player_id == p_id
 		):
 			GameManager.battle_map.show_text("You win!")
-			get_tree().quit()
+			OverworldManager.transition_to_overworld()
 		elif (
 			conquered_resource_spaces > MapSettings.n_progress_bars 
 			and GameManager.player_id != p_id
 		):
 			GameManager.battle_map.show_text("You lose!")
-			get_tree().quit()
+			OverworldManager.transition_to_overworld()
 		
 		for b in range(len(GameManager.progress_bars[p_id])):
 			if conquered_resource_spaces > b:
@@ -248,9 +248,12 @@ func lock_zoom_preview_hand(card_owner_id: int, hand_index: int) -> void:
 
 
 func ask_resolve_spell_agreement() -> void:
-	GameManager.battle_map.show_resolve_spell_button.rpc_id(
-		GameManager.opposing_player_id(GameManager.player_id)
-	)
+	if GameManager.is_single_player:
+		GameManager.battle_map.show_resolve_spell_button()
+	if !GameManager.is_single_player:
+		GameManager.battle_map.show_resolve_spell_button.rpc_id(
+			GameManager.opposing_player_id(GameManager.player_id)
+		)
 
 
 @rpc("any_peer", "call_local")

@@ -35,6 +35,7 @@ PlaySpaceHelper="*res://map/play_space/PlaySpaceHelper.gd"
 NPCDatabase="*res://overworld/npc/NPCDatabase.gd"
 TransitionScene="*res://overworld/scene_transition/TransitionScene.tscn"
 OverworldManager="*res://overworld/OverworldManager.gd"
+AiHelper="*res://singleplayer/ai/AIHelper.gd"
 
 [display]
 

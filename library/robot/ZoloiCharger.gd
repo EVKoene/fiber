@@ -43,7 +43,7 @@ func attack_card(target_card: CardInPlay) -> void:
 			target_card.current_play_space.direction_from_play_space(current_play_space)
 		)
 	
-	var adjacent_cards: Array = CardHelper.cards_in_range(
+	var adjacent_cards: Array = CardHelper.cards_in_range_of_card(
 		target_card, 1, TargetSelection.target_restrictions.OWN_UNITS
 	)
 	deal_damage_to_card(target_card, int(randi_range(min_attack, max_attack)))

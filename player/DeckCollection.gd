@@ -2,7 +2,7 @@ extends Node
 
 var cards = load("res://card/CardDatabase.gd").cards
 
-var gorilla_deck: Dictionary = {
+var gorilla: Dictionary = {
 	"Cards": {
 		cards.GORILLA: 20,
 		cards.GORILLA_BATTLECALLER: 10,
@@ -10,11 +10,24 @@ var gorilla_deck: Dictionary = {
 	},
 	"StartingCards": {
 		cards.GORILLA: 2,
-		cards.GORILLA_KING: 1,
+		cards.GORILLA_BATTLECALLER: 1,
 	}
 }
 
-var animal_deck: Dictionary = {
+var magic_missiles: Dictionary = {
+	"Cards": {
+		cards.WIZARD_SCOUT: 15,
+		cards.ARCANE_ARROW: 10,
+		cards.FIREBALL_SHOOTER: 15,
+		cards.JELLYFISH_EXTRAORDINAIRE: 5,
+	},
+	"StartingCards": {
+		cards.WIZARD_SCOUT: 2,
+		cards.ARCANE_ARROW: 1,
+	}
+}
+
+var animal: Dictionary = {
 	"Cards": {
 		cards.GORILLA: 4, 
 		cards.ATTACK_COMMAND: 2, 
@@ -34,7 +47,7 @@ var animal_deck: Dictionary = {
 }
 
 
-var magic_deck: Dictionary = {
+var magic: Dictionary = {
 	"Cards": {
 		cards.WIZARD_SCOUT: 2,
 		cards.SWITCHEROO: 2, 
@@ -54,7 +67,7 @@ var magic_deck: Dictionary = {
 	}
 }
 
-var nature_deck: Dictionary = {
+var nature: Dictionary = {
 	"Cards": {
 		cards.GNOME_PROTECTOR: 2,  
 		cards.BOTANO_GARDENER: 2, 
@@ -75,7 +88,7 @@ var nature_deck: Dictionary = {
 	}
 }
 
-var robot_deck: Dictionary = {
+var robot: Dictionary = {
 	"Cards": {
 		cards.ASSEMBLY_BOT: 1, 
 		cards.OBSTRUCTION_CONSTRUCTION: 2, 
@@ -99,7 +112,7 @@ var robot_deck: Dictionary = {
 
 
 
-var nature_robot_deck: Dictionary = {
+var nature_robot: Dictionary = {
 	cards.FACTORY_WORKER: 10,
 	cards.ASSEMBLY_BOT: 7,
 	cards.ZOLOI_CHARGER: 5,
@@ -112,7 +125,7 @@ var nature_robot_deck: Dictionary = {
 }
 
 
-var opponent_testing_deck: Dictionary = {
+var opponent_testing: Dictionary = {
 	"Cards": {
 		cards.GORILLA: 4, 
 		cards.GOOSE: 4, 
@@ -127,8 +140,8 @@ var opponent_testing_deck: Dictionary = {
 }
 
 
-var player_testing_deck: Dictionary = [
-	animal_deck, magic_deck, nature_deck, robot_deck
+var player_testing: Dictionary = [
+	animal, magic, nature, robot
 ].pick_random()
 #{
 	#"Cards": {
