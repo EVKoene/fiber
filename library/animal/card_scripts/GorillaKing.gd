@@ -22,7 +22,7 @@ func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:
 		if !ps.card_in_this_play_space:
 			continue
 		var adj_own_units := len(
-			CardHelper.cards_in_range(
+			CardHelper.cards_in_range_of_card(
 				ps.card_in_this_play_space, 1, TargetSelection.target_restrictions.OWN_UNITS
 			)
 		)

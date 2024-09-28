@@ -265,7 +265,7 @@ var cards_info = {
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
 		},
-		"MaxAttack": 2,
+		"MaxAttack": 1,
 		"MinAttack": 1,
 		"Health": 1,
 		"Movement": 2,

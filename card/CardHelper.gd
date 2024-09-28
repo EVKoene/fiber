@@ -9,19 +9,34 @@ extends Node
 
 
 func cards_in_range(
-	card: CardInPlay, card_range: int, target_restrictions: int, ignore_obstacles := true, include_self := false
+	player_id: int, card_range: int, target_restrictions: int, ignore_obstacles := true, 
+	include_self := false
 ) -> Array:
-	var cards: Array = []
-	for p in GameManager.cards_in_play:
-		for c in GameManager.cards_in_play[p]:
+	var cards := []
+	for card in GameManager.cards_in_play[player_id]:
+		for c in cards_in_range_of_card(
+			card, card_range, target_restrictions, ignore_obstacles, false
+		):
+			if c not in cards:
+				cards.append(c)
+	return cards
+
+
+func cards_in_range_of_card(
+	card: CardInPlay, card_range: int, target_restrictions: int, ignore_obstacles := true,
+	include_self := false
+) -> Array:
+	var cards := []
+	for p_id in GameManager.players:
+		for c in GameManager.cards_in_play[p_id]:
 			if c == card and !include_self:
 				continue
 			match target_restrictions:
 				TargetSelection.target_restrictions.ANY_UNITS:
-							if card.current_play_space.distance_to_play_space(
-								c.current_play_space, ignore_obstacles
-							) <= card_range:
-								cards.append(c)
+					if card.current_play_space.distance_to_play_space(
+						c.current_play_space, ignore_obstacles
+					) <= card_range:
+						cards.append(c)
 				TargetSelection.target_restrictions.OWN_UNITS:
 					if (
 						card.current_play_space.distance_to_play_space(
@@ -30,7 +45,7 @@ func cards_in_range(
 						and card.card_owner_id == c.card_owner_id 
 					):
 						cards.append(c)
-				TargetSelection.target_restrictions.OWN_UNITS:
+				TargetSelection.target_restrictions.OPPONENT_UNITS:
 					if (
 						card.current_play_space.distance_to_play_space(
 						c.current_play_space, ignore_obstacles

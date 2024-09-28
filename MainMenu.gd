@@ -8,7 +8,7 @@ class_name MainMenu
 var battle_map_scene: PackedScene = load("res://map/BattleMap.tscn")
 var overworld_scene := load("res://overworld/areas/StartingArea.tscn")
 var peer
-var deck := DeckCollection.player_testing_deck
+var deck := DeckCollection.player_testing
 var current_area: OverworldArea
 
 
@@ -108,30 +108,33 @@ func _on_testing_button_pressed():
 
 
 func _on_animal_deck_button_pressed():
-	deck = DeckCollection.animal_deck
+	deck = DeckCollection.animal
 	$DeckButtons/CurrentDeck.text = "Currently: Animal deck"
 
 
 func _on_magic_deck_button_pressed():
-	deck = DeckCollection.magic_deck
+	deck = DeckCollection.magic
 	$DeckButtons/CurrentDeck.text = "Currently: Magic deck"
 
 
 func _on_nature_deck_button_pressed():
-	deck = DeckCollection.nature_deck
+	deck = DeckCollection.nature
 	$DeckButtons/CurrentDeck.text = "Currently: Nature deck"
 
 
-func _on_robot_deck_button_pressed():
-	deck = DeckCollection.robot_deck
+func _on_robot_deck_button_pressed() -> void:
+	deck = DeckCollection.robot
 	$DeckButtons/CurrentDeck.text = "Currently: Robot deck"
 
 
-func _on_exit_pressed():
+func _on_exit_pressed() -> void:
 	get_tree().quit()
 
 
-func _on_single_player_pressed():
+func _on_single_player_pressed() -> void:
+	go_to_overworld()
+
+func go_to_overworld() -> void:
 	GameManager.testing = false
 	GameManager.player_id = 1
 	GameManager.is_single_player = true
