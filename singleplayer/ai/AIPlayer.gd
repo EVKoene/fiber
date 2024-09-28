@@ -77,7 +77,10 @@ func use_cards_in_play() -> void:
 
 
 func use_card_action(card: CardInPlay) -> bool:
-	if Collections.play_space_attributes.RESOURCE_SPACE in card.current_play_space.attributes:
+	if (
+		Collections.play_space_attributes.RESOURCE_SPACE in card.current_play_space.attributes
+		and !card.fabrication
+	):
 		if card.current_play_space.conquered_by != player_id:
 			card.conquer_space()
 			return true
@@ -123,3 +126,12 @@ func move_to_conquer_space(card: CardInPlay) -> bool:
 	await card.move_over_path(path_to_take)
 	card.exhaust()
 	return true
+
+
+func discard_cards(n: int) -> void:
+	var discarded_cards: int = 0
+	while discarded_cards < n and len(GameManager.cards_in_hand[player_id]) > 0:
+		AIHelper.find_cards_with_stat_from_options(
+			GameManager.cards_in_hand[player_id], Collections.stats.TOTAL_COST, 
+			Collections.stat_params.LOWEST, -1
+		).pick_random().discard_card()

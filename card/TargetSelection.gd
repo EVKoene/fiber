@@ -93,6 +93,7 @@ func select_card_to_discard() -> void:
 
 @rpc("any_peer", "call_local")
 func end_selecting() -> void:
+	GameManager.zoom_preview.reset_zoom_preview()
 	GameManager.turn_manager.turn_actions_enabled = true
 	if making_selection:
 		target_selection_finished.emit()

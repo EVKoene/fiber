@@ -45,5 +45,5 @@ enum players { P1, P2 }
 
 
 ### OVERWORLD ###
-enum character_types { BEEBOY, BUSINESS_CAP_BOY}
+enum character_types { BEEBOY, BUSINESS_CAP_BOY, ROBOT_GUY, }
 enum animation_types { IDLE, WALKING }
