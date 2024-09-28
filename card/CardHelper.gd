@@ -10,7 +10,6 @@ extends Node
 
 func cards_in_range(
 	player_id: int, card_range: int, target_restrictions: int, ignore_obstacles := true, 
-	include_self := false
 ) -> Array:
 	var cards := []
 	for card in GameManager.cards_in_play[player_id]:

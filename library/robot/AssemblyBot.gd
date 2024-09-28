@@ -5,7 +5,7 @@ class_name AssemblyBot
 
 
 func enter_battle() -> void:
-	if card_owner_id == GameManager.player_id:
+	if card_owner_id == GameManager.player_id and card_owner_id != GameManager.ai_player_id:
 		Events.show_instructions.emit("Choose a space to place the robot fabrication")
 		GameManager.battle_map.show_finish_button()
 		for ps in current_play_space.adjacent_play_spaces():
@@ -24,6 +24,14 @@ func enter_battle() -> void:
 		TargetSelection.end_selecting()
 		Events.hide_instructions.emit()
 		GameManager.battle_map.hide_finish_button()
+	
+	
+	if card_owner_id == GameManager.ai_player_id:
+		await get_tree().create_timer(0.25).timeout
+		for ps in current_play_space.adjacent_play_spaces():
+			if !ps.card_in_this_play_space:
+				_assemble_robot(ps.column, ps.row)
+				break
 
 
 func _assemble_robot(fab_column: int, fab_row: int) -> void:

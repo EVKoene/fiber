@@ -38,6 +38,7 @@ func swap() -> bool:
 
 func resolve_ability_for_ai() -> void:
 	var card_to_swap_with: CardInPlay
+	card_to_swap_with = AIHelper.cards_to_swap_with(self).pick_random()
 	select_card(true)
 	await get_tree().create_timer(0.5).timeout
 	swap_with_card(card_to_swap_with.card_owner_id, card_to_swap_with.card_in_play_index)

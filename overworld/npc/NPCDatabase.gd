@@ -1,7 +1,7 @@
 extends Node
 
 
-enum npcs {HANS, JOS}
+enum npcs {HANS, JOS, ROB}
 
 
 var npc_data: Dictionary = {
@@ -16,9 +16,16 @@ var npc_data: Dictionary = {
 		"Name": "Jos",
 		"Dialogue": ["Let's see how well you can dance..."],
 		"Battle": true,
-		"CharacterType": Collections.character_types.BEEBOY,
+		"CharacterType": Collections.character_types.BUSINESS_CAP_BOY,
 		"Deck": DeckCollection.magic_missiles
-	}
+	},
+	npcs.ROB: {
+		"Name": "Rob",
+		"Dialogue": ["Everyone has their part to play."],
+		"Battle": true,
+		"CharacterType": Collections.character_types.ROBOT_GUY,
+		"Deck": DeckCollection.robot_factory,
+	},
 }
 
 
@@ -51,4 +58,5 @@ func npc_animation(npc: int, direction: int, animation_type: int) -> String:
 var _character_type := {
 	Collections.character_types.BEEBOY: "beeboy",
 	Collections.character_types.BUSINESS_CAP_BOY: "business_cap_boy",
+	Collections.character_types.ROBOT_GUY: "robot_guy",
 }

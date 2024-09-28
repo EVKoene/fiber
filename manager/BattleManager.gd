@@ -130,6 +130,13 @@ func set_conquered_by(player_id: int, column: int, row: int) -> void:
 			play_space.get_theme_stylebox("panel").border_color = Styling.p1_color
 		GameManager.p2_id:
 			play_space.get_theme_stylebox("panel").border_color = Styling.p2_color
+	
+	if GameManager.is_single_player:
+		set_progress_bars()
+	
+	if !GameManager.is_single_player:
+		for p in GameManager.players:
+			set_progress_bars.rpc_id(p)
 
 
 @rpc("any_peer", "call_local")

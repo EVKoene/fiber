@@ -17,17 +17,27 @@ func resolve_spell(_selected_column: int, _selected_row: int) -> bool:
 	
 	if len(TargetSelection.selected_spaces) >= 1:
 		for ps in TargetSelection.selected_spaces:
-			for p_id in GameManager.players:
-				BattleAnimation.play_hailstorm_animation.rpc_id(p_id, ps)
-			if ps.card_in_this_play_space:
-				if ps.card_in_this_play_space.card_owner_id != card_owner_id:
-					for p_id in GameManager.players:
-						CardManipulation.change_max_attack.rpc_id(
-							p_id, card_owner_id, card_in_play_index, -1, 2
+			if GameManager.is_single_player:
+				BattleAnimation.play_hailstorm_animation(ps)
+				if ps.card_in_this_play_space:
+					if ps.card_in_this_play_space.card_owner_id != card_owner_id:
+						CardManipulation.change_max_attack(card_owner_id, card_in_play_index, -1, 2)
+						CardManipulation.change_movement(
+							card_owner_id, card_in_play_index, -1, 2
 						)
-						CardManipulation.change_movement.rpc_id(
-							p_id, card_owner_id, card_in_play_index, -1, 2
-						)
+			
+			if !GameManager.is_single_player:
+				for p_id in GameManager.players:
+					BattleAnimation.play_hailstorm_animation.rpc_id(p_id, ps)
+				if ps.card_in_this_play_space:
+					if ps.card_in_this_play_space.card_owner_id != card_owner_id:
+						for p_id in GameManager.players:
+							CardManipulation.change_max_attack.rpc_id(
+								p_id, card_owner_id, card_in_play_index, -1, 2
+							)
+							CardManipulation.change_movement.rpc_id(
+								p_id, card_owner_id, card_in_play_index, -1, 2
+							)
 	
 		TargetSelection.end_drag_to_select()
 		TargetSelection.end_selecting()

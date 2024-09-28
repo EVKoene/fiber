@@ -15,8 +15,11 @@ func _init():
 func burn() -> bool:
 	for ps in spaces_in_range(2, true):
 		if ps != current_play_space:
-			for p_id in GameManager.players:
-				BattleAnimation.play_burn_animation.rpc_id(p_id, ps.column, ps.row)
+			if GameManager.is_single_player:
+				BattleAnimation.play_burn_animation(ps.column, ps.row)
+			if !GameManager.is_single_player:
+				for p_id in GameManager.players:
+					BattleAnimation.play_burn_animation.rpc_id(p_id, ps.column, ps.row)
 		if ps.card_in_this_play_space:
 			if ps.card_in_this_play_space.card_owner_id != card_owner_id:
 				ps.card_in_this_play_space.resolve_damage(battle_stats.min_attack)

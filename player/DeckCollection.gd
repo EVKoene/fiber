@@ -26,6 +26,18 @@ var magic_missiles: Dictionary = {
 	}
 }
 
+var robot_factory: Dictionary = {
+	"Cards": {
+		cards.ASSEMBLY_BOT: 15, 
+		cards.NETWORK_FEEDER: 15, 
+		cards.FURNACE_BOT: 5,
+		cards.COMPUTING_BOT: 5 
+	},
+	"StartingCards": {
+		cards.ASSEMBLY_BOT: 2,
+	}
+}
+
 var animal: Dictionary = {
 	"Cards": {
 		cards.GORILLA: 4, 

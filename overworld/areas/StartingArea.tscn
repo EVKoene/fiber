@@ -1505,9 +1505,13 @@ layer_0/tile_data = PackedInt32Array(1179681, 2883584, 5, 1245217, 2883584, 6, 1
 position = Vector2(171, 171)
 
 [node name="Jos" parent="." instance=ExtResource("4_oo6n3")]
-position = Vector2(459, 142)
+position = Vector2(83, 83)
 npc_id = 1
-direction = 1
+direction = 2
+
+[node name="Rob" parent="." instance=ExtResource("4_oo6n3")]
+position = Vector2(532, 40)
+npc_id = 2
 
 [node name="PlayerBody" parent="." instance=ExtResource("2_77obs")]
 position = Vector2(287, 119)

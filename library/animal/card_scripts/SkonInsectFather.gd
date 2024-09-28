@@ -32,16 +32,26 @@ func create_insects() -> bool:
 		
 		var insect_img_path = "res://library/animal/images/Insect.png"
 		if !ps.card_in_this_play_space:
-			for p_id in GameManager.players:
-				BattleManager.create_fabrication.rpc_id(
-					p_id, card_owner_id, ps.column, ps.row, "Insect", 1, 1, 1, 1, 
+			if GameManager.is_single_player:
+				BattleManager.create_fabrication(
+					card_owner_id, ps.column, ps.row, "Insect", 1, 1, 1, 1, 
 					insect_triggered_funcs, insect_img_path, [Collections.factions.ANIMAL], {
 						Collections.factions.ANIMAL: 1,
 						Collections.factions.MAGIC: 0,
 						Collections.factions.NATURE: 0,
 						Collections.factions.ROBOT: 0,
-					}
-				)
+					})
+			if !GameManager.is_single_player:
+				for p_id in GameManager.players:
+					BattleManager.create_fabrication.rpc_id(
+						p_id, card_owner_id, ps.column, ps.row, "Insect", 1, 1, 1, 1, 
+						insect_triggered_funcs, insect_img_path, [Collections.factions.ANIMAL], {
+							Collections.factions.ANIMAL: 1,
+							Collections.factions.MAGIC: 0,
+							Collections.factions.NATURE: 0,
+							Collections.factions.ROBOT: 0,
+						}
+					)
 			
 	exhaust()
 
@@ -52,7 +62,7 @@ func resolve_ability_for_ai() -> void:
 	create_insects()
 
 
-func should_use_ability_ai() -> bool:
+func is_ability_to_use_now() -> bool:
 	if (
 		CardHelper.n_cards_in_adjacent_play_spaces(self, TargetSelection.target_restrictions.ANY_UNITS) 
 		< len(current_play_space.adjacent_play_spaces())

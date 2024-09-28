@@ -1,6 +1,56 @@
 extends Node
 
 
+func find_cards_with_stat_from_options(
+	card_options: Array, stat: int, stat_param: int, stat_target: int
+) -> Array:
+	var cards: Array = []
+	var lowest_stat: int = 0
+	
+	for c in card_options:
+		var card_stat: int
+		
+		match stat:
+			Collections.stats.HEALTH:
+				card_stat = c.battle_stats.health
+			Collections.stats.MAX_ATTACK:
+				card_stat = c.battle_stats.max_attack
+			Collections.stats.MIN_ATTACK:
+				card_stat = c.battle_stats.min_attack
+			Collections.stats.MOVEMENT:
+				card_stat = c.battle_stats.movement
+			Collections.stats.TOTAL_COST:
+				card_stat = c.costs.total()
+		
+		match stat_param:
+			Collections.stat_params.LOWEST:
+				if card_stat == lowest_stat:
+					cards.append(c)
+				elif card_stat < lowest_stat or (card_stat > lowest_stat and len(cards) == 0):
+					cards = [c]
+					lowest_stat = card_stat
+
+			Collections.stat_params.HIGHEST:
+				var highest_stat = 0
+				if card_stat == highest_stat:
+					cards.append(c)
+				elif (
+					card_stat > highest_stat 
+				):
+					cards = [c]
+					highest_stat = card_stat
+
+			Collections.stat_params.OVER_VALUE:
+				if card_stat > stat_target:
+					cards.append(c)
+
+			Collections.stat_params.UNDER_VALUE:
+				if card_stat < stat_target:
+					cards.append(c)
+
+	return cards
+
+
 func cards_to_swap_with(card) -> Array:
 	# Calculate for each card whether the swap is beneficial for the card with the highest cost.
 	# Return the cards with the highest cost and a beneficial swap

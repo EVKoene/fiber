@@ -180,12 +180,13 @@ func path_to_closest_movable_space(
 func set_conquered_by(player_id: int) -> void:
 	if GameManager.is_single_player:
 		BattleManager.set_conquered_by(player_id, column, row)
-	
+		
 	if !GameManager.is_single_player:
 		for p_id in GameManager.players:
 			BattleManager.set_conquered_by.rpc_id(
 				p_id, player_id, column, row
 			)
+	
 
 
 func set_border() -> void:

@@ -17,8 +17,13 @@ func resolve_spell(_selected_column: int, _selected_row: int) -> bool:
 	
 	if len(TargetSelection.selected_spaces) >= 1:
 		for ps in TargetSelection.selected_spaces:
-			for p_id in GameManager.players:
-				BattleAnimation.play_burn_animation.rpc_id(p_id, ps.column, ps.row)
+			if GameManager.is_single_player:
+				BattleAnimation.play_burn_animation(ps.column, ps.row)
+				
+			if !GameManager.is_single_player:
+				for p_id in GameManager.players:
+					BattleAnimation.play_burn_animation.rpc_id(p_id, ps.column, ps.row)
+			
 			if ps.card_in_this_play_space:
 				if ps.card_in_this_play_space.card_owner_id != card_owner_id:
 					ps.card_in_this_play_space.resolve_damage(2)
