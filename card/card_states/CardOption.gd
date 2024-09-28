@@ -16,6 +16,7 @@ var ingame_name: String
 var card_type: int
 var factions: Array
 var card_text: String
+var battle_stats: BattleStats
 var img_path: String
 var card_range: int: get = _get_card_range
 var border_style: StyleBox
@@ -61,11 +62,15 @@ func _load_card_properties() -> void:
 	
 	set_border_to_faction()
 
+
 func set_border_to_faction():
 	get_theme_stylebox("panel").border_color = Styling.faction_colors[factions]
 
 
 func _set_labels() -> void:
+	if card_type == Collections.card_types.SPELL:
+		$VBox/BotInfo/BattleStats.hide()
+		$VBox/BotInfo/Movement.hide()
 	if card_type == Collections.card_types.UNIT:
 		$VBox/BotInfo/Movement.text = str(movement)
 		if max_attack == min_attack:
@@ -91,6 +96,7 @@ func _set_card_text_visuals() -> void:
 		$VBox/BotInfo/CardText.show()
 	
 	$VBox/TopInfo/CardNameBG/CardName.text = ingame_name
+	_set_labels()
 
 
 func _set_card_text_font_size() -> void:

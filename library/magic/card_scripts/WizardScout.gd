@@ -34,3 +34,19 @@ func swap() -> bool:
 	else:
 		TargetSelection.end_selecting()
 		return false
+
+
+func resolve_ability_for_ai() -> void:
+	var card_to_swap_with: CardInPlay
+	select_card(true)
+	await get_tree().create_timer(0.5).timeout
+	swap_with_card(card_to_swap_with.card_owner_id, card_to_swap_with.card_in_play_index)
+	exhaust()
+	TargetSelection.end_selecting()
+
+
+func is_ability_to_use_now() -> bool:
+	if len(AIHelper.cards_to_swap_with(self)) > 0:
+		return true
+
+	return false

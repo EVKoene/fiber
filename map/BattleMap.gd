@@ -349,9 +349,12 @@ func _on_finish_button_pressed():
 
 
 func _on_resolve_spell_button_pressed():
-	BattleManager.resolve_spell_agreed.rpc_id(
-		GameManager.opposing_player_id(GameManager.player_id)
-	)
+	if GameManager.is_single_player:
+		BattleManager.resolve_spell_agreed()
+	if !GameManager.is_single_player:
+		BattleManager.resolve_spell_agreed.rpc_id(
+			GameManager.opposing_player_id(GameManager.player_id)
+		)
 	$ResolveSpellButton.hide()
 
 

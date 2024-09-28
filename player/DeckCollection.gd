@@ -10,7 +10,6 @@ var gorilla: Dictionary = {
 	},
 	"StartingCards": {
 		cards.GORILLA: 2,
-		cards.GORILLA_BATTLECALLER: 1,
 	}
 }
 
@@ -22,7 +21,7 @@ var magic_missiles: Dictionary = {
 		cards.JELLYFISH_EXTRAORDINAIRE: 5,
 	},
 	"StartingCards": {
-		cards.WIZARD_SCOUT: 2,
+		cards.WIZARD_SCOUT: 1,
 		cards.ARCANE_ARROW: 1,
 	}
 }

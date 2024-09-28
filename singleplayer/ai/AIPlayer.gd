@@ -28,13 +28,17 @@ func play_playable_cards() -> void:
 	while playing_cards:
 		playing_cards = false
 		for c in GameManager.cards_in_hand[player_id]:
-			if (
-				GameManager.resources[player_id].can_pay_costs(c.costs) 
-				and c.card_type == Collections.card_types.UNIT
-			):
+			if !GameManager.resources[player_id].can_pay_costs(c.costs):
+				return
+			if c.card_type == Collections.card_types.UNIT:
 				playing_cards = await play_card(c)
 				if playing_cards:
 					await GameManager.battle_map.get_tree().create_timer(0.25).timeout
+			elif c.card_type == Collections.card_types.SPELL:
+				BattleManager.lock_zoom_preview_hand(c.card_owner_id, c.hand_index)
+				var spell: CardInPlay = CardDatabase.get_card_class(c.card_index).new()
+				if spell.is_spell_to_play_now():
+					await spell.resolve_spell_for_ai()
 
 
 func play_card(card: CardInHand) -> bool:
@@ -78,6 +82,11 @@ func use_card_action(card: CardInPlay) -> bool:
 			card.conquer_space()
 			return true
 	
+	# Checking if any abilities should be used
+	if card.is_ability_to_use_now():
+		card.resolve_ability_for_ai()
+	
+	# Finding the first card to attack
 	for c in GameManager.cards_in_play[GameManager.p1_id]:
 		if !is_instance_valid(c):
 			continue

@@ -140,6 +140,19 @@ func direction_from_play_space(play_space: PlaySpace) -> int:
 	return direction
 
 
+func play_space_direction_in_same_line(play_space: PlaySpace) -> int:
+	if play_space.column > column and play_space.row == row:
+		return Collections.directions.RIGHT
+	elif play_space.column < column and play_space.row == row:
+		return Collections.directions.LEFT
+	elif play_space.column == column and play_space.row > row:
+		return Collections.directions.DOWN 
+	elif play_space.column == column and play_space.row < row:
+		return Collections.directions.UP
+	
+	return -1
+
+
 func path_to_closest_movable_space(
 	goal_space: PlaySpace, max_moves: int, ignore_obstacles: bool
 ) -> PlaySpacePath:
@@ -162,19 +175,6 @@ func path_to_closest_movable_space(
 					tried_spaces.append(adj_ps)
 	
 	return PlaySpacePath.new(goal_space, self, false)
-
-
-func play_space_direction_in_same_line(play_space: PlaySpace) -> int:
-	if play_space.column > column and play_space.row == row:
-		return Collections.directions.RIGHT
-	elif play_space.column < column and play_space.row == row:
-		return Collections.directions.LEFT
-	elif play_space.column == column and play_space.row > row:
-		return Collections.directions.DOWN 
-	elif play_space.column == column and play_space.row < row:
-		return Collections.directions.UP
-	
-	return -1
 
 
 func set_conquered_by(player_id: int) -> void:

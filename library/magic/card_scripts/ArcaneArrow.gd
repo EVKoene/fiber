@@ -15,7 +15,7 @@ func resolve_spell(selected_column: int, selected_row: int) -> bool:
 
 func is_spell_to_play_now() -> bool:
 	for c in CardHelper.cards_in_range(
-		2, TargetSelection.target_restrictions.OPPONENT_UNITS
+		GameManager.ai_player_id, 2, TargetSelection.target_restrictions.OPPONENT_UNITS
 	):
 		if c.battle_stats.health <= 3:
 			return true
@@ -24,9 +24,10 @@ func is_spell_to_play_now() -> bool:
 
 
 func resolve_spell_for_ai() -> void:
-	GameManager.zoom_preview.lock_zoom_preview_play(self)
 	var targets: Array = []
-	for c in CardHelper.cards_in_range(2, TargetSelection.target_restrictions.OPPONENT_UNITS):
+	for c in CardHelper.cards_in_range(
+		GameManager.ai_player_id, 2, TargetSelection.target_restrictions.OPPONENT_UNITS
+	):
 		if c.battle_stats.health <= 3:
 			targets.append(c)
 	

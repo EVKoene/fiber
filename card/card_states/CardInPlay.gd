@@ -64,8 +64,18 @@ func enter_battle() -> void:
 
 
 func _connect_signals() -> void:
-	pass
 	# Override in card script to connect to signals on _ready
+	pass
+
+
+func is_ability_to_use_now() -> bool:
+	# Override in card script to help AI decide if ability should be used
+	return false
+
+
+func resolve_ability_for_ai() -> void:
+	# Override in card script to help AI use ability
+	pass
 
 
 func attack_card(target_card: CardInPlay) -> void:
