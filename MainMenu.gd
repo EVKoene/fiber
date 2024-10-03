@@ -61,6 +61,24 @@ func connection_failed() -> void:
 	print("Failed to connect!")
 
 
+func set_current_deck(deck_to_set: Dictionary) -> void:
+	deck = deck_to_set
+	var deckname: String
+	match deck:
+		DeckCollection.animal:
+			deckname = "Animal"
+		DeckCollection.magic:
+			deckname = "Magic"
+		DeckCollection.nature:
+			deckname = "Nature"
+		DeckCollection.robot:
+			deckname = "Robot"
+	
+	$DeckButtons/CurrentDeck.text = str(
+		"Currently: ", deckname, "\nIP Address: ", IP.get_local_addresses()[3]
+	)
+
+
 func _on_start_pressed():
 	start_game.rpc()
 
@@ -96,6 +114,7 @@ func _on_join_pressed():
 
 func _on_testing_button_pressed():
 	if GameManager.testing:
+		set_current_deck(DeckCollection.animal)
 		$TestingButton.text = "Turn on testing"
 		GameManager.testing = false
 		$CenterContainer/VBoxContainer/IPAddress.show()
@@ -108,23 +127,19 @@ func _on_testing_button_pressed():
 
 
 func _on_animal_deck_button_pressed():
-	deck = DeckCollection.animal
-	$DeckButtons/CurrentDeck.text = "Currently: Animal deck"
+	set_current_deck(DeckCollection.animal)
 
 
 func _on_magic_deck_button_pressed():
-	deck = DeckCollection.magic
-	$DeckButtons/CurrentDeck.text = "Currently: Magic deck"
+	set_current_deck(DeckCollection.magic)
 
 
 func _on_nature_deck_button_pressed():
-	deck = DeckCollection.nature
-	$DeckButtons/CurrentDeck.text = "Currently: Nature deck"
+	set_current_deck(DeckCollection.nature)
 
 
 func _on_robot_deck_button_pressed() -> void:
-	deck = DeckCollection.robot
-	$DeckButtons/CurrentDeck.text = "Currently: Robot deck"
+	set_current_deck(DeckCollection.robot)
 
 
 func _on_exit_pressed() -> void:

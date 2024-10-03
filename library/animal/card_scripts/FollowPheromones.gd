@@ -4,9 +4,6 @@ extends CardInPlay
 class_name FollowPheromones
 
 func resolve_spell(_c_column: int, _c_row) -> bool:
-	BattleManager.ask_resolve_spell_agreement()
-	await Events.resolve_spell_button_pressed
-	
 	for i in range(2):
 		if GameManager.is_single_player:
 			BattleManager.draw_type_put_rest_bottom(card_owner_id, Collections.card_types.UNIT)

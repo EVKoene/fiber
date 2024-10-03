@@ -22,22 +22,39 @@ func _ready():
 func can_pay_costs(costs: Costs) -> bool:
 	if GameManager.testing:
 		return true
-	if gold_needed(costs) <= gold:
-		return true
-	else:
+	
+	var deficiency: int = 0
+	
+	for faction in Collections.faction_names:
+		var resources_minus_costs: int = get_resources()[faction] - costs.get_costs()[faction]
+		if resources_minus_costs < 0:
+			deficiency -= resources_minus_costs
+			
+	if deficiency > gold:
 		return false
+	
+	return true
 
 
 func pay_costs(costs: Costs) -> void:
 	if GameManager.testing:
 		return
 	
-	gold -= gold_needed(costs)
-	for faction in Collections.all_factions:
-		if get_resources()[faction] > costs.get_costs()[faction]:
-			spend_resource(faction, costs.get_costs()[faction])
+	if gold >= costs.total():
+		gold -= costs.total()
+		return
+	
+	for f in [
+		Collections.factions.ANIMAL, Collections.factions.MAGIC, Collections.factions.NATURE, 
+		Collections.factions.ROBOT
+	]:
+		var cost: int = costs.get_costs()[f]
+		if cost == 0:
+			continue
+		if gold >= cost:
+			gold -= cost
 		else:
-			spend_resource(faction, get_resources()[faction])
+			spend_resource(f, cost)
 
 
 func add_resource(faction: int, amount: int) -> void:
@@ -78,16 +95,6 @@ func refresh(gold_gained: int) -> void:
 	gold = gold_gained
 	
 	_update_resources()
-
-
-func gold_needed(costs: Costs) -> int:
-	var deficiency: int = 0
-	for faction in Collections.faction_names:
-		var resources_minus_costs: int = get_resources()[faction] - costs.get_costs()[faction]
-		if resources_minus_costs < 0:
-			deficiency -= resources_minus_costs
-			
-	return deficiency
 
 
 func get_resources() -> Dictionary:

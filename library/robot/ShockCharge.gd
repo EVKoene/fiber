@@ -15,8 +15,6 @@ func resolve_spell(_c_column: int, _c_row) -> bool:
 	
 	await TargetSelection.target_selection_finished
 	if len(TargetSelection.selected_targets) in [1, 2]:
-		BattleManager.ask_resolve_spell_agreement()
-		await Events.resolve_spell_button_pressed
 		
 		for c in TargetSelection.selected_targets:
 			c.refresh()

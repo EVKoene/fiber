@@ -5,7 +5,7 @@ extends Node2D
 @onready var resource_bar_scene: PackedScene = preload("res://player/ResourceBar.tscn")
 @onready var turn_manager_scene: PackedScene = preload("res://manager/TurnManager.tscn")
 @onready var card_pick_scene: PackedScene = preload("res://card/CardPickScreen.tscn")
-
+@onready var card_resolve_scene := preload("res://card/card_states/CardResolve.tscn")
 
 var map = MapDatabase.maps.BASE_MAP
 var map_data = MapDatabase.map_data[map]
@@ -56,6 +56,23 @@ func pick_card_option(card_indices: Array) -> void:
 	card_pick_screen.card_indices = card_indices
 	card_pick_screen.size = MapSettings.total_screen
 	call_deferred("add_child", card_pick_screen)
+
+
+@rpc("any_peer", "call_local")
+func create_card_resolve(card_owner_id: int, cih_index: int, column: int, row: int) -> void:
+	if GameManager.is_single_player:
+		GameManager.turn_manager.set_turn_actions_enabled(false)
+	if !GameManager.is_single_player:
+		GameManager.turn_manager.set_turn_actions_enabled.rpc_id(GameManager.p1_id, false)
+	var card_resolve = card_resolve_scene.instantiate()
+	var card_in_hand = GameManager.cards_in_hand[card_owner_id][cih_index]
+	card_resolve.card_index = card_in_hand.card_index
+	card_resolve.column = column
+	card_resolve.row = row
+	card_resolve.card_owner_id = card_in_hand.card_owner_id
+	card_resolve.card_in_hand_index = cih_index
+	card_resolve.size = MapSettings.total_screen
+	GameManager.battle_map.add_child(card_resolve)
 
 
 func show_text(text_to_show: String) -> void:

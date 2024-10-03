@@ -60,6 +60,9 @@ func play_card(card: CardInHand) -> bool:
 	if !play_space:
 		play_space = ps_options.pick_random()
 	BattleManager.play_unit(card.card_index, player_id, play_space.column, play_space.row)
+	if len(card.factions) == 1:
+		GameManager.resources[player_id].add_resource(card.factions[0], 1)
+	GameManager.resources[player_id].pay_costs(card.costs)
 	BattleManager.remove_card_from_hand(player_id, card.hand_index)
 	return true
 

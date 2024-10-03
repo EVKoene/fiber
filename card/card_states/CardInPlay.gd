@@ -135,7 +135,10 @@ func move_to_play_space(new_column: int, new_row: int) -> void:
 
 
 func move_over_path(path: PlaySpacePath) -> void:
-	GameManager.turn_manager.turn_actions_enabled = false
+	if GameManager.is_single_player:
+		GameManager.turn_manager.set_turn_actions_enabled(false)
+	if !GameManager.is_single_player:
+		GameManager.turn_manager.set_turn_actions_enabled.rpc_id(GameManager.p1_id, false)
 	TargetSelection.clear_arrows()
 	if path.path_length > 0:
 		for s in range(path.path_length):
@@ -157,7 +160,11 @@ func move_over_path(path: PlaySpacePath) -> void:
 			
 	
 	TargetSelection.end_selecting()
-	GameManager.turn_manager.turn_actions_enabled = true
+	
+	if GameManager.is_single_player:
+		GameManager.turn_manager.set_turn_actions_enabled(true)
+	if !GameManager.is_single_player:
+		GameManager.turn_manager.set_turn_actions_enabled.rpc_id(GameManager.p1_id, true)
 
 
 func move_and_attack(target_card: CardInPlay) -> void:
@@ -367,8 +374,6 @@ func unflip_card() -> void:
 
 func _is_resolve_spell_agreed() -> bool:
 	Events.show_instructions.emit("Awaiting opponent agreement to spell resolve...")
-	BattleManager.ask_resolve_spell_agreement()
-	await Events.resolve_spell_button_pressed
 	
 	return true
 
@@ -534,6 +539,7 @@ func _on_gui_input(event):
 	)
 	var card_sel_for_movement: CardInPlay = TargetSelection.card_selected_for_movement
 	
+	# These actions can be performed if the unit is exhausted (selecting the card for example)
 	if (
 		left_mouse_button_pressed
 		and TargetSelection.selecting_spaces
@@ -631,11 +637,20 @@ func _on_gui_input(event):
 				card_sel_for_movement.card_owner_id != card_owner_id
 				and TargetSelection.card_to_be_attacked == self
 			):
-				GameManager.turn_manager.turn_actions_enabled = false
+				
+				if GameManager.is_single_player:
+					GameManager.turn_manager.set_turn_actions_enabled(false)
+				if !GameManager.is_single_player:
+					GameManager.turn_manager.set_turn_actions_enabled.rpc_id(GameManager.p1_id, false)
 				card_sel_for_movement.move_and_attack(self)
 				Input.set_custom_mouse_cursor(null)
 				card_sel_for_movement.exhaust()
-				GameManager.turn_manager.turn_actions_enabled = true
+				TargetSelection.end_selecting()
+				
+				if GameManager.is_single_player:
+					GameManager.turn_manager.set_turn_actions_enabled(true)
+				if !GameManager.is_single_player:
+					GameManager.turn_manager.set_turn_actions_enabled.rpc_id(GameManager.p1_id, true)
 	
 	elif (
 		right_mouse_button_pressed

@@ -98,7 +98,8 @@ func end_turn(player_id: int) -> void:
 			player_id ", player_id)
 	)
 	
-	turn_actions_enabled = false
+	GameManager.turn_manager.set_turn_actions_enabled(false)
+	
 	turn_stage = turn_stages.END_TURN
 	hide_end_turn_button.rpc_id(player_id)
 	if GameManager.is_single_player:

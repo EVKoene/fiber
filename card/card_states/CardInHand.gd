@@ -4,6 +4,7 @@ class_name CardInHand
 
 
 @onready var border := StyleBoxFlat.new()
+
 var card_index: int = 1
 var card_owner_id: int
 var ingame_name: String
@@ -52,23 +53,8 @@ func play_spell(column: int, row: int) -> void:
 	if !GameManager.is_single_player:
 		for p_id in GameManager.players:
 			BattleManager.lock_zoom_preview_hand.rpc_id(p_id, card_owner_id, hand_index)
-	var card: CardInPlay = CardDatabase.get_card_class(card_index).new()
-	card.card_owner_id = card_owner_id
-	@warning_ignore("redundant_await")
-	var succesfull_resolve: bool = await card.resolve_spell(column, row)
-	TargetSelection.end_selecting()
 	
-	var h_index = hand_index
-	if succesfull_resolve:
-		GameManager.resources[card_owner_id].pay_costs(costs)
-	
-	if GameManager.is_single_player:
-		BattleManager.reset_zoom_preview()
-		BattleManager.remove_card_from_hand(card_owner_id, h_index)
-	if !GameManager.is_single_player:
-		for p_id in GameManager.players:
-			BattleManager.reset_zoom_preview.rpc_id(p_id)
-			BattleManager.remove_card_from_hand.rpc_id(p_id, card_owner_id, h_index)
+	GameManager.battle_map.create_card_resolve(card_owner_id, hand_index, column, row)
 
 
 func can_target_unit(card: CardInPlay) -> bool:
