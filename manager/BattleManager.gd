@@ -279,3 +279,30 @@ func pick_card(player_id: int, option_index: int, card_indices: Array) -> void:
 	for c in len(card_indices):
 		if c != option_index:
 			GameManager.decks[GameManager.player_id].send_to_discard(card_indices[c])
+
+
+@rpc("any_peer", "call_local")
+func resolve_spell(card_owner_id: int, hand_index: int, column: int, row: int) -> void:
+	var card_in_hand: CardInHand = GameManager.cards_in_hand[card_owner_id][hand_index]
+	var card: CardInPlay = CardDatabase.get_card_class(card_in_hand.card_index).new()
+	card.card_owner_id = card_in_hand.card_owner_id
+	@warning_ignore("redundant_await")
+	var succesfull_resolve: bool = await card.resolve_spell(column, row)
+	TargetSelection.end_selecting()
+	
+	var h_index = hand_index
+	if succesfull_resolve:
+		GameManager.resources[card_in_hand.card_owner_id].pay_costs(card_in_hand.costs)
+	
+	if GameManager.is_single_player:
+		BattleManager.reset_zoom_preview()
+		BattleManager.remove_card_from_hand(card_owner_id, h_index)
+	if !GameManager.is_single_player:
+		for p_id in GameManager.players:
+			BattleManager.reset_zoom_preview.rpc_id(p_id)
+			BattleManager.remove_card_from_hand.rpc_id(p_id, card_owner_id, h_index)
+	
+	if GameManager.is_single_player:
+		GameManager.turn_manager.set_turn_actions_enabled(true)
+	if !GameManager.is_single_player:
+		GameManager.turn_manager.set_turn_actions_enabled.rpc_id(GameManager.p1_id, true)

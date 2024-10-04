@@ -1,15 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://p8yvimkqthv4"]
+[gd_scene load_steps=2 format=3 uid="uid://p8yvimkqthv4"]
 
 [ext_resource type="Script" path="res://map/play_space/PlaySpace.gd" id="1_alh3i"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c5u1p"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [node name="PlaySpace" type="Panel"]
 z_as_relative = false
 custom_minimum_size = Vector2(100, 100)
 mouse_filter = 1
-theme_override_styles/panel = SubResource("StyleBoxFlat_c5u1p")
 script = ExtResource("1_alh3i")
 
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]

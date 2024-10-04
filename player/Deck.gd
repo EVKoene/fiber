@@ -48,14 +48,14 @@ func shuffle() -> void:
 
 
 func draw_card() -> void:
-	GameManager.turn_manager.turn_actions_enabled = false
+	GameManager.turn_manager.set_turn_actions_enabled(false)
 	create_hand_card(deck_order[0])
 	deck_order.remove_at(0)
-	GameManager.turn_manager.turn_actions_enabled = true
+	GameManager.turn_manager.set_turn_actions_enabled(true)
 
 
 func pick_card_option() -> void:
-	GameManager.turn_manager.turn_actions_enabled = false
+	GameManager.turn_manager.set_turn_actions_enabled(false)
 	if GameManager.is_single_player:
 		GameManager.battle_map.pick_card_option(deck_order.slice(0, n_cards_to_pick_from))
 	if !GameManager.is_single_player:

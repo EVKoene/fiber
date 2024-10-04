@@ -193,9 +193,9 @@ func set_border() -> void:
 	if conquered_by:
 		match conquered_by:
 			GameManager.p1_id:
-				get_theme_stylebox("panel").border_color = Styling.p1_color
+				get_theme_stylebox("panel").border_color = Styling.p1_conquered_color
 			GameManager.p2_id:
-				get_theme_stylebox("panel").border_color = Styling.p2_color
+				get_theme_stylebox("panel").border_color = Styling.p2_conquered_color
 		return
 		
 	if Collections.play_space_attributes.RESOURCE_SPACE in attributes:
@@ -362,4 +362,5 @@ func _on_gui_input(event):
 		GameManager.turn_manager.turn_actions_enabled = false
 		TargetSelection.card_selected_for_movement.move_over_path(TargetSelection.current_path)
 		TargetSelection.card_selected_for_movement.exhaust()
+		TargetSelection.end_selecting()
 		GameManager.turn_manager.turn_actions_enabled = true

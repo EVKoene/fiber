@@ -151,9 +151,18 @@ var opponent_testing: Dictionary = {
 }
 
 
-var player_testing: Dictionary = [
-	animal, magic, nature, robot
-].pick_random()
+var player_testing: Dictionary = {
+	"Cards": {
+		cards.GORILLA: 15, 
+		cards.FOLLOW_PHEROMONES: 20,
+	},
+	"StartingCards": {
+		cards.FOLLOW_PHEROMONES: 2,
+	}
+}
+#[
+	#animal, magic, nature, robot
+#].pick_random()
 #{
 	#"Cards": {
 		#cards.ZALOGI_MIND_OF_MACHINES: 20,

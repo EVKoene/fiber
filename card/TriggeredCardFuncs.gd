@@ -2,11 +2,14 @@ extends Node
 
 
 func frenzy(
-	card: CardInPlay, trigger: int, _triggering_card: CardInPlay, _func_arguments: Dictionary
+	card: CardInPlay, trigger: int, triggering_card: CardInPlay, _func_arguments: Dictionary
 ) -> void:
 	if (
 		trigger == Collections.triggers.TURN_STARTED 
 		and GameManager.turn_manager.turn_owner_id == card.card_owner_id
+	) or (
+		trigger == Collections.triggers.CARD_CREATED
+		and card.card_id == triggering_card.card_id
 	):
 		var units_to_attack: Array = CardHelper.closest_enemy_units(card)
 		if len(units_to_attack) > 0:

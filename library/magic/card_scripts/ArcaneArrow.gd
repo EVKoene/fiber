@@ -37,7 +37,5 @@ func resolve_spell_for_ai() -> void:
 	)
 	var target: CardInPlay = targets.pick_random()
 	target.highlight_card(true)
-	BattleManager.ask_resolve_spell_agreement()
-	await Events.resolve_spell_button_pressed
 	target.resolve_damage(3)
 	TargetSelection.end_selecting()

@@ -46,7 +46,11 @@ func select_targets(
 	n_targets: int, _target_restrictions: int, _selecting_unit: CardInPlay, _self_allowed: bool, 
 	range_from_unit: int, ignore_obstacles := true
 ) -> void:
-	GameManager.turn_manager.turn_actions_enabled = false
+	if GameManager.is_single_player:
+		GameManager.turn_manager.set_turn_actions_enabled(false)
+	if !GameManager.is_single_player:
+		GameManager.turn_manager.set_turn_actions_enabled.rpc_id(GameManager.p1_id, false)
+		
 	making_selection = true
 	number_of_targets_to_select = n_targets
 	self_allowed = _self_allowed
@@ -71,7 +75,11 @@ func select_targets(
 
 
 func select_play_spaces(number_of_spaces: int, play_space_options: Array) -> void:
-	GameManager.turn_manager.turn_actions_enabled = false
+	if GameManager.is_single_player:
+		GameManager.turn_manager.set_turn_actions_enabled(false)
+	if !GameManager.is_single_player:
+		GameManager.turn_manager.set_turn_actions_enabled.rpc_id(GameManager.p1_id, false)
+	
 	making_selection = true
 	number_of_spaces_to_select = number_of_spaces
 	target_play_space_options = play_space_options
@@ -83,7 +91,11 @@ func select_card_to_discard() -> void:
 	if len(GameManager.cards_in_hand[GameManager.player_id]) == 0:
 		return
 	
-	GameManager.turn_manager.turn_actions_enabled = false
+	if GameManager.is_single_player:
+		GameManager.turn_manager.set_turn_actions_enabled(false)
+	if !GameManager.is_single_player:
+		GameManager.turn_manager.set_turn_actions_enabled.rpc_id(GameManager.p1_id, false)
+	
 	making_selection = true
 	discarding = true
 	Events.show_instructions.emit("Pick a card to discard")
@@ -94,7 +106,7 @@ func select_card_to_discard() -> void:
 @rpc("any_peer", "call_local")
 func end_selecting() -> void:
 	GameManager.zoom_preview.reset_zoom_preview()
-	GameManager.turn_manager.turn_actions_enabled = true
+	
 	if making_selection:
 		target_selection_finished.emit()
 		making_selection = false
