@@ -22,6 +22,7 @@ func _ready():
 func continue_resolve() -> void:
 	if GameManager.is_single_player:
 		BattleManager.resolve_spell(card_owner_id, card_in_hand_index, column, row)
+		queue_free()
 		return
 	
 	var opposing_player_id: int = GameManager.opposing_player_id(GameManager.player_id)

@@ -1517,3 +1517,7 @@ npc_id = 2
 position = Vector2(287, 119)
 
 [node name="Camera2D" type="Camera2D" parent="PlayerBody"]
+
+[node name="Jesus" parent="." instance=ExtResource("4_oo6n3")]
+position = Vector2(467, 139)
+npc_id = 3

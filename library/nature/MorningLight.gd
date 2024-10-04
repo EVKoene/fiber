@@ -21,3 +21,25 @@ func resolve_spell(selected_column: int, selected_row: int) -> bool:
 				p_id, card_owner_id, card_in_play_index, 1, -1
 			)
 	return true
+
+
+func is_spell_to_play_now() -> bool:
+	for c in GameManager.cards_in_play[GameManager.ai_player_id]:
+		if c.costs.total() >= 3:
+			return true
+	
+	return false
+
+
+func resolve_spell_for_ai() -> void:
+	var potential_targets: Array = AIHelper.find_cards_with_stat_from_options(
+		GameManager.cards_in_play[card_owner_id], Collections.stats.TOTAL_COST, 
+		Collections.stat_params.HIGHEST, -1
+	)
+	
+	assert(
+		len(potential_targets) > 0, 
+		str("No targets to select, AI shouldn't have played this spell: ", ingame_name)
+	)
+	var target: CardInPlay = potential_targets.pick_random()
+	resolve_spell(target.column, target.row)

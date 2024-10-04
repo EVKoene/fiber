@@ -1,7 +1,8 @@
 extends Node
 
 
-enum npcs {HANS, JOS, ROB}
+enum npcs { HANS, JOS, ROB, JESUS }
+enum character_types { BEEBOY, BUSINESS_CAP_BOY, ROBOT_GUY, JESUS, }
 
 
 var npc_data: Dictionary = {
@@ -9,22 +10,29 @@ var npc_data: Dictionary = {
 		"Name": "Hans",
 		"Dialogue": ["You think you can handle me?", "My gorillas will fucking tear you to shreds"],
 		"Battle": true,
-		"CharacterType": Collections.character_types.BEEBOY,
+		"CharacterType": character_types.BEEBOY,
 		"Deck": DeckCollection.gorilla
 	},
 	npcs.JOS: {
 		"Name": "Jos",
 		"Dialogue": ["Let's see how well you can dance..."],
 		"Battle": true,
-		"CharacterType": Collections.character_types.BUSINESS_CAP_BOY,
+		"CharacterType": character_types.BUSINESS_CAP_BOY,
 		"Deck": DeckCollection.magic_missiles
 	},
 	npcs.ROB: {
 		"Name": "Rob",
 		"Dialogue": ["Everyone has their part to play."],
 		"Battle": true,
-		"CharacterType": Collections.character_types.ROBOT_GUY,
+		"CharacterType": character_types.ROBOT_GUY,
 		"Deck": DeckCollection.robot_factory,
+	},
+	npcs.JESUS: {
+		"Name": "Jesus",
+		"Dialogue": ["Hi.", "I'm Jesus.", "I play some beefy boys."],
+		"Battle": true,
+		"CharacterType": character_types.JESUS,
+		"Deck": DeckCollection.beefy_boys,
 	},
 }
 
@@ -56,7 +64,8 @@ func npc_animation(npc: int, direction: int, animation_type: int) -> String:
 
 
 var _character_type := {
-	Collections.character_types.BEEBOY: "beeboy",
-	Collections.character_types.BUSINESS_CAP_BOY: "business_cap_boy",
-	Collections.character_types.ROBOT_GUY: "robot_guy",
+	character_types.BEEBOY: "beeboy",
+	character_types.BUSINESS_CAP_BOY: "business_cap_boy",
+	character_types.ROBOT_GUY: "robot_guy",
+	character_types.JESUS: "jesus",
 }

@@ -38,6 +38,18 @@ var robot_factory: Dictionary = {
 	}
 }
 
+var beefy_boys: Dictionary = {"Cards": {
+		cards.GNOME_PROTECTOR: 10,  
+		cards.MORNING_LIGHT: 15, 
+		cards.EARTH_GOLEM: 15, 
+		cards.HEART_OF_THE_FOREST: 5, 
+	},
+	"StartingCards": {
+		cards.GNOME_PROTECTOR: 2,
+	},
+}
+
+
 var animal: Dictionary = {
 	"Cards": {
 		cards.GORILLA: 4, 
@@ -95,7 +107,8 @@ var nature: Dictionary = {
 	},
 	"StartingCards": {
 		cards.GNOME_PROTECTOR: 1,
-		cards.BOTANO_GARDENER: 1,
+		cards.MORNING_LIGHT: 1,
+		#cards.BOTANO_GARDENER: 1,
 	}
 }
 
@@ -151,24 +164,7 @@ var opponent_testing: Dictionary = {
 }
 
 
-var player_testing: Dictionary = {
-	"Cards": {
-		cards.GORILLA: 15, 
-		cards.FOLLOW_PHEROMONES: 20,
-	},
-	"StartingCards": {
-		cards.FOLLOW_PHEROMONES: 2,
-	}
-}
-#[
+var player_testing: Dictionary = [
 	#animal, magic, nature, robot
-#].pick_random()
-#{
-	#"Cards": {
-		#cards.ZALOGI_MIND_OF_MACHINES: 20,
-	#},
-	#"StartingCards": {
-		#cards.ASSEMBLY_BOT: 1,
-		#cards.FACTORY_WORKER: 1,
-	#}
-#}
+	nature
+].pick_random()
