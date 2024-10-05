@@ -47,6 +47,10 @@ visible = false
 layout_mode = 2
 placeholder_text = "IP Address"
 
+[node name="Tutorial" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Tutorial"
+
 [node name="Exit" type="Button" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
 text = "Exit"
@@ -62,7 +66,6 @@ grow_vertical = 0
 text = "Turn off testing"
 
 [node name="DeckButtons" type="VBoxContainer" parent="."]
-visible = false
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -83,17 +86,22 @@ text = "Nature Deck"
 layout_mode = 2
 text = "Robot Deck"
 
+[node name="RandomDeckButton" type="Button" parent="DeckButtons"]
+layout_mode = 2
+text = "Random Deck"
+
 [node name="CurrentDeck" type="Label" parent="DeckButtons"]
 layout_mode = 2
-text = "Currently: Animal deck"
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/SinglePlayer" to="." method="_on_single_player_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Tutorial" to="." method="_on_tutorial_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
 [connection signal="pressed" from="TestingButton" to="." method="_on_testing_button_pressed"]
 [connection signal="pressed" from="DeckButtons/AnimalDeckButton" to="." method="_on_animal_deck_button_pressed"]
 [connection signal="pressed" from="DeckButtons/MagicDeckButton" to="." method="_on_magic_deck_button_pressed"]
 [connection signal="pressed" from="DeckButtons/NatureDeckButton" to="." method="_on_nature_deck_button_pressed"]
 [connection signal="pressed" from="DeckButtons/RobotDeckButton" to="." method="_on_robot_deck_button_pressed"]
+[connection signal="pressed" from="DeckButtons/RandomDeckButton" to="." method="_on_random_deck_button_pressed"]
