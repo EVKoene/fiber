@@ -15,10 +15,7 @@ func _init():
 
 
 func shoot_fireballs() -> bool:
-	if GameManager.is_single_player:
-		GameManager.turn_manager.set_turn_actions_enabled(false)
-	if !GameManager.is_single_player:
-		GameManager.turn_manager.set_turn_actions_enabled.rpc_id(GameManager.p1_id, false)
+	GameManager.turn_manager.set_turn_actions_enabled(false)
 	
 	var play_space_options: Array = []
 	for ps in GameManager.play_spaces:
@@ -33,7 +30,7 @@ func shoot_fireballs() -> bool:
 	
 	await TargetSelection.space_selection_finished
 	if len(TargetSelection.selected_spaces) == 0:
-		TargetSelection.end_selecting()
+		BattleManager.finish_resolve()
 		return false
 	
 	elif len(TargetSelection.selected_spaces) == 1:
@@ -66,7 +63,7 @@ func shoot_fireballs() -> bool:
 						current_play_space.row
 					)
 	
-		TargetSelection.end_selecting()
+		BattleManager.finish_resolve()
 		return true
 	
 	else:

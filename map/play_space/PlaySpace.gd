@@ -359,8 +359,8 @@ func _on_gui_input(event):
 		and !card_in_this_play_space
 		and selected_for_movement
 	):
-		GameManager.turn_manager.turn_actions_enabled = false
+		GameManager.turn_manager.set_turn_actions_enabled(false)
 		TargetSelection.card_selected_for_movement.move_over_path(TargetSelection.current_path)
 		TargetSelection.card_selected_for_movement.exhaust()
 		TargetSelection.end_selecting()
-		GameManager.turn_manager.turn_actions_enabled = true
+		GameManager.turn_manager.set_turn_actions_enabled(true)

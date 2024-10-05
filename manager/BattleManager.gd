@@ -302,7 +302,11 @@ func resolve_spell(card_owner_id: int, hand_index: int, column: int, row: int) -
 			BattleManager.reset_zoom_preview.rpc_id(p_id)
 			BattleManager.remove_card_from_hand.rpc_id(p_id, card_owner_id, h_index)
 	
-	if GameManager.is_single_player:
-		GameManager.turn_manager.set_turn_actions_enabled(true)
-	if !GameManager.is_single_player:
-		GameManager.turn_manager.set_turn_actions_enabled.rpc_id(GameManager.p1_id, true)
+	GameManager.turn_manager.set_turn_actions_enabled(true)
+	
+
+func finish_resolve() -> void:
+	Events.hide_instructions.emit()
+	GameManager.battle_map.hide_finish_button()
+	GameManager.turn_manager.set_turn_actions_enabled(true)
+	TargetSelection.end_selecting()

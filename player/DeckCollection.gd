@@ -59,7 +59,6 @@ var animal: Dictionary = {
 		cards.GORILLA_BATTLECALLER: 2, 
 		cards.SNEK: 2,
 		cards.FOLLOW_PHEROMONES: 3, 
-		cards.RHINOCEROS: 3, 
 		cards.STAMPEDE: 2, 
 		cards.FELOS_EXPEDITIONIST: 3, 
 		cards.SKON_INSECT_FATHER: 1	
@@ -107,8 +106,7 @@ var nature: Dictionary = {
 	},
 	"StartingCards": {
 		cards.GNOME_PROTECTOR: 1,
-		cards.MORNING_LIGHT: 1,
-		#cards.BOTANO_GARDENER: 1,
+		cards.BOTANO_GARDENER: 1,
 	}
 }
 
@@ -165,6 +163,5 @@ var opponent_testing: Dictionary = {
 
 
 var player_testing: Dictionary = [
-	#animal, magic, nature, robot
-	nature
+	animal, magic, nature, robot
 ].pick_random()

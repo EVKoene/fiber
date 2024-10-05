@@ -25,14 +25,13 @@ func copy_unit() -> bool:
 	if !is_ps_for_copy_available:
 		GameManager.battle_map.show_instructions("No adjacent units to copy")
 		await get_tree().create_timer(2).timeout
-		GameManager.battle_map.hide_instructions()
+		BattleManager.finish_resolve()
 		return false
 	
 	if len(ps_to_put_copy) == 0:
 		GameManager.battle_map.show_instructions("No adjacent space to put fabrication")
 		await get_tree().create_timer(2).timeout
-		GameManager.battle_map.hide_instructions()
-		return false
+		BattleManager.finish_resolve()
 	
 	
 	Events.show_instructions.emit("Pick an adjacent unit to copy")
@@ -43,7 +42,7 @@ func copy_unit() -> bool:
 	await TargetSelection.target_selection_finished
 	
 	if len(TargetSelection.selected_targets) == 0:
-		TargetSelection.end_selecting()
+		BattleManager.finish_resolve()
 		return false
 	
 	if len(TargetSelection.selected_targets) == 1 and len(ps_to_put_copy) == 1:
@@ -64,7 +63,7 @@ func copy_unit() -> bool:
 
 		exhaust()
 	
-	TargetSelection.end_selecting()
+	BattleManager.finish_resolve()
 	return true
 
 

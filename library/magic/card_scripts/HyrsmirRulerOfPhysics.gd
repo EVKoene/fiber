@@ -11,6 +11,7 @@ func call_triggered_funcs(trigger: int, _triggering_card: CardInPlay) -> void:
 		and GameManager.turn_manager.turn_owner_id == card_owner_id
 		and len(GameManager.cards_in_play[card_owner_id]) > 1
 	):
+		GameManager.turn_manager.set_turn_actions_enabled(false)
 		Events.show_instructions.emit("Swap any number of cards and press finish")
 		swapping_cards = true
 		GameManager.battle_map.show_finish_button()
@@ -34,7 +35,7 @@ func call_triggered_funcs(trigger: int, _triggering_card: CardInPlay) -> void:
 func finish_swapping() -> void:
 	swapping_cards = false
 	TargetSelection.target_selection_finished.emit()
-	TargetSelection.end_selecting()
+	BattleManager.finish_resolve()
 
 
 func _connect_signals() -> void:

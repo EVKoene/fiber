@@ -30,7 +30,6 @@ func grow_unit() -> bool:
 			CardManipulation.change_health(
 				selected_card.card_owner_id, selected_card.card_in_play_index, 1, -1
 			)
-			GameManager.turn_manager.set_turn_actions_enabled(true)
 			
 		if !GameManager.is_single_player:
 			for p_id in GameManager.players:
@@ -40,14 +39,13 @@ func grow_unit() -> bool:
 				CardManipulation.change_health.rpc_id(
 					p_id, selected_card.card_owner_id, selected_card.card_in_play_index, 1, -1
 				)
-			GameManager.turn_manager.set_turn_actions_enabled.rpc_id(GameManager.p1_id, true)
+		
 		exhaust()
 		TargetSelection.making_selection = false
 		
-		TargetSelection.end_selecting()
+		BattleManager.finish_resolve()
 		return true
 
 	else:
-		TargetSelection.end_selecting()
-		Events.hide_instructions.emit()
+		BattleManager.finish_resolve()
 		return false

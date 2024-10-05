@@ -31,10 +31,11 @@ func consume_for_fuel() -> bool:
 				CardManipulation.change_max_attack.rpc_id(p_id, card_owner_id, card_in_play_index, 2, -1)
 				CardManipulation.change_min_attack.rpc_id(p_id, card_owner_id, card_in_play_index, 2, -1)
 				CardManipulation.change_health.rpc_id(p_id, card_owner_id, card_in_play_index, 2, -1)
-		TargetSelection.end_selecting()
+		BattleManager.finish_resolve()
 		return true
+	
 	else:
-		TargetSelection.end_selecting()
+		BattleManager.finish_resolve()
 		return false
 
 

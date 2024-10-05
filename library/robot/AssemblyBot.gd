@@ -21,9 +21,7 @@ func enter_battle() -> void:
 			var fab_space: PlaySpace = TargetSelection.selected_spaces[0]
 			_assemble_robot(fab_space.column, fab_space.row)
 
-		TargetSelection.end_selecting()
-		Events.hide_instructions.emit()
-		GameManager.battle_map.hide_finish_button()
+		BattleManager.finish_resolve()
 	
 	
 	if card_owner_id == GameManager.ai_player_id:
