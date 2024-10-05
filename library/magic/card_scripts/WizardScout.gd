@@ -29,10 +29,10 @@ func swap() -> bool:
 		)
 		exhaust()
 		TargetSelection.making_selection = false
-		TargetSelection.end_selecting()
+		BattleManager.finish_resolve()
 		return true
 	else:
-		TargetSelection.end_selecting()
+		BattleManager.finish_resolve()
 		return false
 
 

@@ -16,12 +16,12 @@ func resolve_spell(c_column: int, c_row: int) -> bool:
 	selected_card.select_card(true)
 	await TargetSelection.target_selection_finished
 	if len(TargetSelection.selected_targets) == 1:
-	
 		var card_to_destroy: CardInPlay = TargetSelection.selected_targets[0]
 		selected_card.destroy()
 		card_to_destroy.destroy()
-		TargetSelection.end_selecting()
+		BattleManager.finish_resolve()
 		return true
+	
 	else:
-		TargetSelection.end_selecting()
+		BattleManager.finish_resolve()
 		return false

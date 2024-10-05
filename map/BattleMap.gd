@@ -60,10 +60,8 @@ func pick_card_option(card_indices: Array) -> void:
 
 @rpc("any_peer", "call_local")
 func create_card_resolve(card_owner_id: int, cih_index: int, column: int, row: int) -> void:
-	if GameManager.is_single_player:
-		GameManager.turn_manager.set_turn_actions_enabled(false)
-	if !GameManager.is_single_player:
-		GameManager.turn_manager.set_turn_actions_enabled.rpc_id(GameManager.p1_id, false)
+	GameManager.turn_manager.set_turn_actions_enabled(false)
+	
 	var card_resolve = card_resolve_scene.instantiate()
 	var card_in_hand = GameManager.cards_in_hand[card_owner_id][cih_index]
 	card_resolve.card_index = card_in_hand.card_index

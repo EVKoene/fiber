@@ -46,11 +46,10 @@ func select_targets(
 	n_targets: int, _target_restrictions: int, _selecting_unit: CardInPlay, _self_allowed: bool, 
 	range_from_unit: int, ignore_obstacles := true
 ) -> void:
-	if GameManager.is_single_player:
-		GameManager.turn_manager.set_turn_actions_enabled(false)
-	if !GameManager.is_single_player:
-		GameManager.turn_manager.set_turn_actions_enabled.rpc_id(GameManager.p1_id, false)
-		
+	#NOTE: We disable turn actions here but don't enable them in the same function. That means
+	# that any function that will call this function will have to enable turn actions again
+	GameManager.turn_manager.set_turn_actions_enabled(false)
+	
 	making_selection = true
 	number_of_targets_to_select = n_targets
 	self_allowed = _self_allowed
@@ -75,10 +74,9 @@ func select_targets(
 
 
 func select_play_spaces(number_of_spaces: int, play_space_options: Array) -> void:
-	if GameManager.is_single_player:
-		GameManager.turn_manager.set_turn_actions_enabled(false)
-	if !GameManager.is_single_player:
-		GameManager.turn_manager.set_turn_actions_enabled.rpc_id(GameManager.p1_id, false)
+	#NOTE: We disable turn actions here but don't enable them in the same function. That means
+	# that any function that will call this function will have to enable turn actions again
+	GameManager.turn_manager.set_turn_actions_enabled(false)
 	
 	making_selection = true
 	number_of_spaces_to_select = number_of_spaces
@@ -91,10 +89,7 @@ func select_card_to_discard() -> void:
 	if len(GameManager.cards_in_hand[GameManager.player_id]) == 0:
 		return
 	
-	if GameManager.is_single_player:
-		GameManager.turn_manager.set_turn_actions_enabled(false)
-	if !GameManager.is_single_player:
-		GameManager.turn_manager.set_turn_actions_enabled.rpc_id(GameManager.p1_id, false)
+	GameManager.turn_manager.set_turn_actions_enabled(false)
 	
 	making_selection = true
 	discarding = true
@@ -125,7 +120,6 @@ func end_selecting() -> void:
 	clear_selections()
 	clear_card_action_menu()
 	Events.hide_instructions.emit()
-	GameManager.battle_map.hide_finish_button()
 
 
 func clear_selections() -> void:

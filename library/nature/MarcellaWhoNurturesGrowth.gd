@@ -49,12 +49,10 @@ func nurture() -> bool:
 				)
 		
 		exhaust()
-		TargetSelection.making_selection = false
-		TargetSelection.end_selecting()
+		BattleManager.finish_resolve()
 		return true
 
 	else:
 		exhaust()
-		TargetSelection.end_selecting()
-		Events.hide_instructions.emit()
+		BattleManager.finish_resolve()
 		return false

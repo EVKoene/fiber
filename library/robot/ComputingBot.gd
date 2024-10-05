@@ -30,11 +30,11 @@ func consume_for_cards() -> bool:
 				BattleManager.draw_card.rpc_id(GameManager.p1_id, card_owner_id)
 		
 		exhaust()
-		TargetSelection.end_selecting()
+		BattleManager.finish_resolve()
 		return true
 	
 	else:
-		TargetSelection.end_selecting()
+		BattleManager.finish_resolve()
 		return false
 
 

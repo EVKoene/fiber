@@ -18,11 +18,10 @@ func resolve_spell(c_column: int, c_row: int) -> bool:
 	
 		var card_to_attack: CardInPlay = TargetSelection.selected_targets[0]
 		selected_card.attack_card(card_to_attack)
-		if GameManager.is_single_player:
-			TargetSelection.end_selecting()
-		if !GameManager.is_single_player:
-			for p_id in GameManager.players:
-				TargetSelection.end_selecting.rpc_id(p_id)
+		
+		BattleManager.finish_resolve()
 		return true
+	
 	else:
+		BattleManager.finish_resolve()
 		return false

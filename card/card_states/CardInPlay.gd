@@ -135,10 +135,9 @@ func move_to_play_space(new_column: int, new_row: int) -> void:
 
 
 func move_over_path(path: PlaySpacePath) -> void:
-	if GameManager.is_single_player:
-		GameManager.turn_manager.set_turn_actions_enabled(false)
-	if !GameManager.is_single_player:
-		GameManager.turn_manager.set_turn_actions_enabled.rpc_id(GameManager.p1_id, false)
+	GameManager.turn_manager.set_turn_actions_enabled(false)
+	
+	TargetSelection.clear_arrows()
 	TargetSelection.clear_arrows()
 	if path.path_length > 0:
 		for s in range(path.path_length):
@@ -161,10 +160,7 @@ func move_over_path(path: PlaySpacePath) -> void:
 	
 	TargetSelection.end_selecting()
 	
-	if GameManager.is_single_player:
-		GameManager.turn_manager.set_turn_actions_enabled(true)
-	if !GameManager.is_single_player:
-		GameManager.turn_manager.set_turn_actions_enabled.rpc_id(GameManager.p1_id, true)
+	GameManager.turn_manager.set_turn_actions_enabled(true)
 
 
 func move_and_attack(target_card: CardInPlay) -> void:
@@ -309,6 +305,9 @@ func spaces_in_range_to_attack_card(card: CardInPlay) -> Array:
 	"""Returns an array of spaces where self can attack card from"""
 	var spaces_to_attack_from: Array = []
 	for ps in card.current_play_space.adjacent_play_spaces():
+		if ps.card_in_this_play_space:
+			if ps.card_in_this_play_space != card:
+				continue
 		if ps in spaces_in_range(movement, false):
 			spaces_to_attack_from.append(ps)
 
@@ -498,7 +497,7 @@ func _add_border() -> void:
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 	if (
 		data.can_target_unit(self)
-		and GameManager.resources[card_owner_id].can_pay_costs(data.costs)
+		and GameManager.resources[data.card_owner_id].can_pay_costs(data.costs)
 	):
 		return true
 	else:
@@ -638,19 +637,14 @@ func _on_gui_input(event):
 				and TargetSelection.card_to_be_attacked == self
 			):
 				
-				if GameManager.is_single_player:
-					GameManager.turn_manager.set_turn_actions_enabled(false)
-				if !GameManager.is_single_player:
-					GameManager.turn_manager.set_turn_actions_enabled.rpc_id(GameManager.p1_id, false)
+				GameManager.turn_manager.set_turn_actions_enabled(false)
+				
 				card_sel_for_movement.move_and_attack(self)
 				Input.set_custom_mouse_cursor(null)
 				card_sel_for_movement.exhaust()
 				TargetSelection.end_selecting()
 				
-				if GameManager.is_single_player:
-					GameManager.turn_manager.set_turn_actions_enabled(true)
-				if !GameManager.is_single_player:
-					GameManager.turn_manager.set_turn_actions_enabled.rpc_id(GameManager.p1_id, true)
+				GameManager.turn_manager.set_turn_actions_enabled(true)
 	
 	elif (
 		right_mouse_button_pressed

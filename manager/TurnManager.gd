@@ -119,6 +119,14 @@ func hide_end_turn_button() -> void:
 	GameManager.battle_map.end_turn_button.hide()
 
 
-@rpc("any_peer", "call_local")
 func set_turn_actions_enabled(is_enabled: bool) -> void:
+	if GameManager.is_single_player:
+		turn_actions_enabled = is_enabled
+	if !GameManager.is_single_player:
+		for p_id in GameManager.players:
+			set_turn_actions_enabled_mp.rpc_id(p_id, is_enabled)
+
+
+@rpc("any_peer", "call_local")
+func set_turn_actions_enabled_mp(is_enabled: bool) -> void:
 	turn_actions_enabled = is_enabled

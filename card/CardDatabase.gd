@@ -2,7 +2,7 @@ extends Node
 
 # All the exisiting cards go into this enum
 enum cards {GENERAL_FABRICATION, GORILLA, ATTACK_COMMAND, GOOSE, WARTHOG_BERSERKER, GORILLA_BATTLECALLER, SNEK,
-FOLLOW_PHEROMONES, RHINOCEROS, STAMPEDE, FELOS_EXPEDITIONIST, GORILLA_KING, SKON_INSECT_FATHER, WIZARD_SCOUT, 
+FOLLOW_PHEROMONES, STAMPEDE, FELOS_EXPEDITIONIST, GORILLA_KING, SKON_INSECT_FATHER, WIZARD_SCOUT, 
 SWITCHEROO, ARCANE_ARROW, MIST_CONJURER, FLOW_ACCELERATOR, EPHEMERAL_ASSASSIN, FIREBALL_SHOOTER, 
 HOMUNCULUS, JELLYFISH_EXTRAORDINAIRE, AUDACIOUS_RESEARCHER, HYRSMIR_RULER_OF_PHYSICS, 
 PSYCHIC_TAKEOVER,  GNOME_PROTECTOR,  BOTANO_GARDENER, MORNING_LIGHT, ICE_GOLEM, FIRE_GOLEM, 
@@ -156,26 +156,6 @@ var cards_info = {
 		"Text": "Look at the top cards of your deck until you find 2 units. Draw them and put the 
 		rest on the bottom of your deck.",
 		"IMGPath": "res://library/animal/images/FollowPheromones.png",
-	},
-	
-	cards.RHINOCEROS: {
-		"InGameName": "Rhinoceros",
-		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.ANIMAL],
-		"Costs": {
-			Collections.factions.ANIMAL: 4, # 4
-			Collections.factions.MAGIC: 0,
-			Collections.factions.NATURE: 0,
-			Collections.factions.ROBOT: 0,
-		},
-		"MaxAttack": 4,
-		"MinAttack": 2,
-		"Health": 5,
-		"Movement": 10, # 10
-		"Lord": false,
-		"Text": "Can only move in a straight line without stopping. If this unit moves 2 or more before attacking, will deal 1 damage to defending unit and 1 damage to itself",
-		"Purposes": [],
-		"IMGPath": "res://library/animal/images/Rhinoceros.png",
 	},
 	
 	cards.STAMPEDE: {
@@ -1203,8 +1183,6 @@ func get_card_class(card_index: int) -> Variant:
 			card = Snek
 		cards.GORILLA_BATTLECALLER:
 			card = GorillaBattlecaller
-		cards.RHINOCEROS:
-			card = Rhinoceros
 		cards.FOLLOW_PHEROMONES:
 			card = FollowPheromones
 		cards.GORILLA_KING:

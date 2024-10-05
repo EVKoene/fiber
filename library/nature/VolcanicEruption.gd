@@ -11,7 +11,7 @@ func resolve_spell(_selected_column: int, _selected_row: int) -> bool:
 	Events.show_instructions.emit("Choose a 4x4 area in range 1 of one of your units")
 	GameManager.battle_map.show_finish_button()
 	TargetSelection.making_selection = true
-	GameManager.turn_manager.turn_actions_enabled = false
+	GameManager.turn_manager.set_turn_actions_enabled(false)
 	
 	await TargetSelection.space_selection_finished
 	
@@ -30,6 +30,8 @@ func resolve_spell(_selected_column: int, _selected_row: int) -> bool:
 
 		TargetSelection.end_selecting()
 		TargetSelection.end_drag_to_select()
+		GameManager.turn_manager.set_turn_actions_enabled(true)
+		
 		return true
 
 	else:
@@ -37,4 +39,6 @@ func resolve_spell(_selected_column: int, _selected_row: int) -> bool:
 		TargetSelection.end_drag_to_select()
 		Events.hide_instructions.emit()
 		GameManager.battle_map.hide_finish_button()
+		GameManager.turn_manager.set_turn_actions_enabled(true)
+		
 		return false

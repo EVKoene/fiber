@@ -54,6 +54,8 @@ func pay_costs(costs: Costs) -> void:
 		if gold >= cost:
 			gold -= cost
 		else:
+			cost -= gold
+			gold = 0
 			spend_resource(f, cost)
 
 

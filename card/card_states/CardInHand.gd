@@ -57,12 +57,12 @@ func play_spell(column: int, row: int) -> void:
 	GameManager.battle_map.create_card_resolve(card_owner_id, hand_index, column, row)
 
 
-func can_target_unit(card: CardInPlay) -> bool:
+func can_target_unit(unit: CardInPlay) -> bool:
 	if card_type == Collections.card_types.UNIT:
 		return false
 
-	if card:
-		if card_range >= 0 and !card.current_play_space.in_play_range(card_range, card_owner_id):
+	if unit:
+		if card_range >= 0 and !unit.current_play_space.in_play_range(card_range, card_owner_id):
 			return false
 
 	var can_target := false
@@ -70,17 +70,17 @@ func can_target_unit(card: CardInPlay) -> bool:
 
 	if target_restrictions == TargetSelection.target_restrictions.ANY_SPACE:
 		return true
-	elif !card:
+	elif !unit:
 		return false
 
 	match target_restrictions:
 		TargetSelection.target_restrictions.ANY_UNITS:
 			can_target = true
 		TargetSelection.target_restrictions.OWN_UNITS:
-			if card.card_owner_id == card_owner_id:
+			if unit.card_owner_id == card_owner_id:
 				can_target = true
 		TargetSelection.target_restrictions.OPPONENT_UNITS:
-			if card.card_owner_id != card_owner_id:
+			if unit.card_owner_id != card_owner_id:
 				can_target = true
 
 	return can_target
