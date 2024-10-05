@@ -161,7 +161,8 @@ var opponent_testing: Dictionary = {
 	}
 }
 
-
-var player_testing: Dictionary = [
+var random_deck: Dictionary = [
 	animal, magic, nature, robot
 ].pick_random()
+
+var player_testing: Dictionary = random_deck

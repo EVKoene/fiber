@@ -306,7 +306,7 @@ func spaces_in_range_to_attack_card(card: CardInPlay) -> Array:
 	var spaces_to_attack_from: Array = []
 	for ps in card.current_play_space.adjacent_play_spaces():
 		if ps.card_in_this_play_space:
-			if ps.card_in_this_play_space != card:
+			if ps.card_in_this_play_space != self:
 				continue
 		if ps in spaces_in_range(movement, false):
 			spaces_to_attack_from.append(ps)

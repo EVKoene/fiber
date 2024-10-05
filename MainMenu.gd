@@ -7,6 +7,7 @@ class_name MainMenu
 @export var port = 8910
 var battle_map_scene: PackedScene = load("res://map/BattleMap.tscn")
 var overworld_scene := load("res://overworld/areas/StartingArea.tscn")
+var tutorial_scene := load("res://singleplayer/Tutorial.tscn")
 var peer
 var deck := DeckCollection.player_testing
 var current_area: OverworldArea
@@ -18,6 +19,7 @@ func _ready():
 	multiplayer.connected_to_server.connect(connected_to_server)
 	multiplayer.connection_failed.connect(connection_failed)
 	GameManager.main_menu = self
+	set_current_deck(random_deck())
 
 
 func start_single_player_battle(npc_id: int) -> void:
@@ -61,6 +63,13 @@ func connection_failed() -> void:
 	print("Failed to connect!")
 
 
+func random_deck() -> Dictionary:
+	var rand_deck: Dictionary = [
+		DeckCollection.animal, DeckCollection.magic, DeckCollection.nature, DeckCollection.robot
+	].pick_random()
+	return rand_deck
+
+
 func set_current_deck(deck_to_set: Dictionary) -> void:
 	deck = deck_to_set
 	var deckname: String
@@ -73,10 +82,37 @@ func set_current_deck(deck_to_set: Dictionary) -> void:
 			deckname = "Nature"
 		DeckCollection.robot:
 			deckname = "Robot"
+		DeckCollection.random:
+			deckname = "Random"
 	
 	$DeckButtons/CurrentDeck.text = str(
 		"Currently: ", deckname, "\nIP Address: ", IP.get_local_addresses()[3]
 	)
+
+
+func _start_tutorial() -> void:
+	var tutorial = tutorial_scene.instantiate()
+	tutorial.size = MapSettings.total_screen
+	add_child(tutorial)
+	$CenterContainer.hide()
+	$TestingButton.hide()
+	$DeckButtons.hide()
+
+
+func show_main_menu() -> void:
+	$CenterContainer.show()
+	$TestingButton.show()
+	$DeckButtons.show()
+
+
+func go_to_overworld() -> void:
+	GameManager.testing = false
+	GameManager.player_id = 1
+	GameManager.is_single_player = true
+	current_area = overworld_scene.instantiate()
+	$CenterContainer.hide()
+	$DeckButtons.hide()
+	add_child(current_area)
 
 
 func _on_start_pressed():
@@ -114,16 +150,14 @@ func _on_join_pressed():
 
 func _on_testing_button_pressed():
 	if GameManager.testing:
-		set_current_deck(DeckCollection.animal)
+		set_current_deck(DeckCollection.random_deck)
 		$TestingButton.text = "Turn on testing"
 		GameManager.testing = false
 		$CenterContainer/VBoxContainer/IPAddress.show()
-		$DeckButtons.show()
 	else:
 		$TestingButton.text = "Turn off testing"
 		GameManager.testing = true
 		$CenterContainer/VBoxContainer/IPAddress.hide()
-		$DeckButtons.hide()
 
 
 func _on_animal_deck_button_pressed():
@@ -142,6 +176,10 @@ func _on_robot_deck_button_pressed() -> void:
 	set_current_deck(DeckCollection.robot)
 
 
+func _on_random_deck_button_pressed():
+	set_current_deck(random_deck())
+
+
 func _on_exit_pressed() -> void:
 	get_tree().quit()
 
@@ -149,11 +187,6 @@ func _on_exit_pressed() -> void:
 func _on_single_player_pressed() -> void:
 	go_to_overworld()
 
-func go_to_overworld() -> void:
-	GameManager.testing = false
-	GameManager.player_id = 1
-	GameManager.is_single_player = true
-	current_area = overworld_scene.instantiate()
-	$CenterContainer.hide()
-	$DeckButtons.hide()
-	add_child(current_area)
+
+func _on_tutorial_pressed():
+	_start_tutorial()
