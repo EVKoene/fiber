@@ -24,9 +24,10 @@ func _ready():
 
 func start_single_player_battle(npc_id: int) -> void:
 	var npc_data: Dictionary = NPCDatabase.npc_data[npc_id]
-	GameManager.add_player_to_gamemanager(
-		1, 1, "Player1", deck
-	)
+	if !GameManager.players.has(1):
+		GameManager.add_player_to_gamemanager(
+			1, 1, "Player1", deck
+		)
 	
 	GameManager.add_player_to_gamemanager(
 			2, 2, npc_data["Name"], npc_data["Deck"]
@@ -38,6 +39,7 @@ func start_single_player_battle(npc_id: int) -> void:
 func start_game() -> void:
 	var battle_map = battle_map_scene.instantiate()
 	add_child(battle_map, true)
+	$TestingButton.hide()
 	$CenterContainer.hide()
 	$DeckButtons.hide()
 
@@ -82,8 +84,10 @@ func set_current_deck(deck_to_set: Dictionary) -> void:
 			deckname = "Nature"
 		DeckCollection.robot:
 			deckname = "Robot"
-		DeckCollection.random:
+		DeckCollection.random_deck:
 			deckname = "Random"
+		DeckCollection.player_testing:
+			deckname = "Testing"
 	
 	$DeckButtons/CurrentDeck.text = str(
 		"Currently: ", deckname, "\nIP Address: ", IP.get_local_addresses()[3]
@@ -155,6 +159,7 @@ func _on_testing_button_pressed():
 		GameManager.testing = false
 		$CenterContainer/VBoxContainer/IPAddress.show()
 	else:
+		set_current_deck(DeckCollection.player_testing)
 		$TestingButton.text = "Turn off testing"
 		GameManager.testing = true
 		$CenterContainer/VBoxContainer/IPAddress.hide()

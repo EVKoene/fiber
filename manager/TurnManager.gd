@@ -79,6 +79,7 @@ func start_turn(player_id: int) -> void:
 		GameManager.ai_player.play_turn()
 	elif !GameManager.is_single_player:
 		show_end_turn_button.rpc_id(player_id)
+	set_turn_actions_enabled(true)
 
 
 @rpc("call_local")

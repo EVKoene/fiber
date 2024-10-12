@@ -3,7 +3,7 @@ extends CardInPlay
 
 class_name GorillaKing
 
-var ps_adj_units := {} 
+var n_adj_units := {}
 
 
 func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:
@@ -14,19 +14,30 @@ func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:
 	):
 		return
 	
-	if triggering_card == self:
-		for ps in GameManager.play_spaces:
-			ps_adj_units[ps] = 0
+	if trigger == Collections.triggers.CARD_DESTROYED and triggering_card == self:
+		for c in n_adj_units:
+			CardManipulation.change_max_attack(
+				c.card_owner_id, c.card_in_play_index, -n_adj_units[c] * 2, -1
+			)
+		return
+
+	for c in n_adj_units:
+		if !is_instance_valid(c):
+			n_adj_units.erase(c)
 	
-	for ps in ps_adj_units:
-		if !ps.card_in_this_play_space:
-			continue
-		var adj_own_units := len(
+	for c in GameManager.cards_in_play[card_owner_id]:
+		if !n_adj_units.has(c):
+			n_adj_units[c] = 0
+	
+	for c in n_adj_units.keys():
+		var count := len(
 			CardHelper.cards_in_range_of_card(
-				ps.card_in_this_play_space, 1, TargetSelection.target_restrictions.OWN_UNITS
+				c, 1, TargetSelection.target_restrictions.OWN_UNITS
 			)
 		)
-		var increase_in_adj_units: int
-		increase_in_adj_units =  adj_own_units - ps_adj_units[ps]
-		ps.update_stat_modifier(card_owner_id, Collections.stats.MAX_ATTACK, increase_in_adj_units * 2)
-		ps_adj_units[ps] = adj_own_units
+		var increase_in_n_adj_units: int
+		increase_in_n_adj_units =  count - n_adj_units[c]
+		CardManipulation.change_max_attack(
+			c.card_owner_id, c.card_in_play_index, increase_in_n_adj_units * 2, -1
+		)
+		n_adj_units[c] = count

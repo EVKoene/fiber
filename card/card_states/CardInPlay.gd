@@ -75,7 +75,8 @@ func is_ability_to_use_now() -> bool:
 
 func resolve_ability_for_ai() -> void:
 	# Override in card script to help AI use ability
-	pass
+	await get_tree().create_timer(0.25).timeout
+	return
 
 
 func attack_card(target_card: CardInPlay) -> void:
@@ -212,11 +213,11 @@ func use_ability(func_index: int) -> void:
 
 
 func conquer_space() -> void:
+	exhaust()
 	current_play_space.add_to_territory(card_owner_id)
 	for ps in current_play_space.adjacent_play_spaces():
 		ps.add_to_territory(card_owner_id)
 	current_play_space.set_conquered_by(card_owner_id)
-	exhaust()
 
 
 func highlight_card(show_highlight: bool):
@@ -293,9 +294,10 @@ func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:
 func spaces_in_range(range_to_check: int, ignore_obstacles: bool) -> Array:
 	var spaces: Array = []
 	for ps in GameManager.play_spaces:
-		if current_play_space.distance_to_play_space(
-			ps, ignore_obstacles
-		) <= range_to_check:
+		var distance := current_play_space.distance_to_play_space(ps, ignore_obstacles)
+		if distance == -1:
+			continue
+		elif distance <= range_to_check:
 			spaces.append(ps)
 
 	return spaces
@@ -610,7 +612,7 @@ func _on_gui_input(event):
 		and !card_sel_for_movement
 		and (
 			len(abilities) > 0 
-			or Collections.play_space_attributes.RESOURCE_SPACE in current_play_space.attributes
+			or Collections.play_space_attributes.VICTORY_SPACE in current_play_space.attributes
 		)
 		and GameManager.turn_manager.turn_actions_enabled
 	):

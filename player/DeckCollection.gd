@@ -9,7 +9,7 @@ var gorilla: Dictionary = {
 		cards.GORILLA_KING: 20,
 	},
 	"StartingCards": {
-		cards.GORILLA: 2,
+		cards.GORILLA: 3,
 	}
 }
 
@@ -21,7 +21,7 @@ var magic_missiles: Dictionary = {
 		cards.JELLYFISH_EXTRAORDINAIRE: 5,
 	},
 	"StartingCards": {
-		cards.WIZARD_SCOUT: 1,
+		cards.WIZARD_SCOUT: 2,
 		cards.ARCANE_ARROW: 1,
 	}
 }
@@ -34,7 +34,7 @@ var robot_factory: Dictionary = {
 		cards.COMPUTING_BOT: 5 
 	},
 	"StartingCards": {
-		cards.ASSEMBLY_BOT: 2,
+		cards.ASSEMBLY_BOT: 3,
 	}
 }
 
@@ -46,6 +46,7 @@ var beefy_boys: Dictionary = {"Cards": {
 	},
 	"StartingCards": {
 		cards.GNOME_PROTECTOR: 2,
+		cards.MORNING_LIGHT: 1,
 	},
 }
 
@@ -65,6 +66,7 @@ var animal: Dictionary = {
 	},
 	"StartingCards": {
 		cards.GORILLA: 2,
+		cards.GOOSE: 1,
 	}
 }
 
@@ -86,6 +88,7 @@ var magic: Dictionary = {
 	},
 	"StartingCards": {
 		cards.WIZARD_SCOUT: 2,
+		cards.ARCANE_ARROW: 1,
 	}
 }
 
@@ -105,7 +108,7 @@ var nature: Dictionary = {
 		cards.VOLCANIC_ERUPTION: 2
 	},
 	"StartingCards": {
-		cards.GNOME_PROTECTOR: 1,
+		cards.GNOME_PROTECTOR: 2,
 		cards.BOTANO_GARDENER: 1,
 	}
 }
@@ -126,7 +129,7 @@ var robot: Dictionary = {
 		cards.ZALOGI_MIND_OF_MACHINES: 2, 
 	},
 	"StartingCards":  {
-		cards.ASSEMBLY_BOT: 1,
+		cards.ASSEMBLY_BOT: 2,
 		cards.FACTORY_WORKER: 1,
 	},
 }
@@ -165,4 +168,10 @@ var random_deck: Dictionary = [
 	animal, magic, nature, robot
 ].pick_random()
 
-var player_testing: Dictionary = random_deck
+var player_testing: Dictionary = {
+	"Cards": {
+		cards.GORILLA: 10,
+	},
+	"StartingCards": {
+		cards.GORILLA_KING: 3
+	}}

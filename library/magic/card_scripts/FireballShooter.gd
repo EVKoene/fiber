@@ -80,7 +80,8 @@ func burn_and_damage(ps_column: int, ps_row: int) -> void:
 	
 	var play_space: PlaySpace = GameManager.ps_column_row[ps_column][ps_row]
 	if play_space.card_in_this_play_space:
-		play_space.card_in_this_play_space.resolve_damage(1)
+		if play_space.card_in_this_play_space.card_owner_id != card_owner_id:
+			play_space.card_in_this_play_space.resolve_damage(1)
 
 
 func resolve_ability_for_ai() -> void:
@@ -93,75 +94,51 @@ func resolve_ability_for_ai() -> void:
 		Collections.directions.DOWN: 0,
 	}
 	
-	for ps in GameManager.play_spaces:
-		for d in Collections.directions:
-			if (
-				ps.card_in_this_play_space 
-				and current_play_space.play_space_direction_in_same_line(ps) == d
-			):
-				if ps.card_in_this_play_space.card_owner_id != card_owner_id:
-					enemies_in_direction[d] += 1
+	for c in GameManager.cards_in_play[GameManager.p1_id]:
+		if current_play_space.play_space_direction_in_same_line(c.current_play_space) != -1:
+			enemies_in_direction[
+				current_play_space.play_space_direction_in_same_line(c.current_play_space)
+			] += 1
 	
-	var highest_number_of_enemies_direction = max(enemies_in_direction.values())
-	
-	# We prefer striking down as it has the highest change of hitting enemies the player wants to
-	# protect
-	if enemies_in_direction[Collections.directions.DOWN] == highest_number_of_enemies_direction:
+	var highest_number_of_enemies_direction = enemies_in_direction.values().max()
+		# We prefer striking down as it has the highest change of hitting enemies the player wants to
+		# protect
+	if highest_number_of_enemies_direction == enemies_in_direction[Collections.directions.DOWN]:
 		for ps_row in range(MapSettings.n_rows - current_play_space.row - 1):
-			var play_space = GameManager.ps_column_row[
-				current_play_space.column
-			][ps_row + 1]
 			await get_tree().create_timer(0.2).timeout
-			call("burn_and_damage", play_space)
+			call("burn_and_damage", current_play_space.column, ps_row + 1)
+	
 	# Next we go for striking up to eliminate potential enemies in the backline, but improving
 	# target selection here would be welcome
-	elif enemies_in_direction[Collections.directions.UP] == highest_number_of_enemies_direction:
+	if highest_number_of_enemies_direction == enemies_in_direction[Collections.directions.UP]:
 		for ps_row in range(current_play_space.row):
-			var play_space = GameManager.ps_column_row[
-				current_play_space.column][current_play_space.row - ps_row]
 			await get_tree().create_timer(0.2).timeout
-			call("burn_and_damage", play_space)
-	elif enemies_in_direction[Collections.directions.RIGHT] == highest_number_of_enemies_direction:
-		for ps_column in range(MapSettings.n_columns - current_play_space.column):
-			var play_space = GameManager.ps_column_row[
-				ps_column + 1][current_play_space.row]
+			call(
+				"burn_and_damage", current_play_space.column,
+				current_play_space.row - ps_row - 1
+			)
+	
+	if highest_number_of_enemies_direction == enemies_in_direction[Collections.directions.RIGHT]:
+		for ps_column in range(MapSettings.n_columns - current_play_space.column - 1):
 			await get_tree().create_timer(0.2).timeout
-			call("burn_and_damage", play_space)
-	else:
+			call("burn_and_damage", ps_column + 1, current_play_space.row)
+	
+	if highest_number_of_enemies_direction == enemies_in_direction[Collections.directions.LEFT]:
 		for ps_column in range(current_play_space.column):
-			var play_space = GameManager.ps_column_row[
-				current_play_space.column - ps_column][current_play_space.row]
 			await get_tree().create_timer(0.2).timeout
-			call("burn_and_damage", play_space)
+			call(
+				"burn_and_damage", current_play_space.column - ps_column - 1, 
+				current_play_space.row
+			)
 	
 	exhaust()
-	TargetSelection.end_selecting()
-
-
-func should_use_ability_ai() -> bool:
-	for ps in GameManager.play_spaces:
-		if (
-			current_play_space.play_space_direction_in_same_line(ps) == Collections.directions.RIGHT
-			or current_play_space.play_space_direction_in_same_line(ps) == Collections.directions.DOWN
-			or current_play_space.play_space_direction_in_same_line(ps) == Collections.directions.LEFT
-			or current_play_space.play_space_direction_in_same_line(ps) == Collections.directions.UP
-		) and ps.card_in_this_play_space:
-			if ps.card_in_this_play_space.card_owner_id != card_owner_id:
-				return true
-	
-	return false
-
+	Events.card_ability_resolved_for_ai.emit()
 
 
 func is_ability_to_use_now() -> bool:
-	for ps in GameManager.play_spaces:
-		if (
-			current_play_space.play_space_direction_in_same_line(ps) == Collections.directions.RIGHT
-			or current_play_space.play_space_direction_in_same_line(ps) == Collections.directions.DOWN
-			or current_play_space.play_space_direction_in_same_line(ps) == Collections.directions.LEFT
-			or current_play_space.play_space_direction_in_same_line(ps) == Collections.directions.UP
-		) and ps.card_in_this_play_space:
-			if ps.card_in_this_play_space.card_owner_id != card_owner_id:
-				return true
+	for c in GameManager.cards_in_play[GameManager.p1_id]:
+		if current_play_space.play_space_direction_in_same_line(c.current_play_space) != -1:
+			return true
+	
 	
 	return false

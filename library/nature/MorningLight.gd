@@ -20,6 +20,7 @@ func resolve_spell(selected_column: int, selected_row: int) -> bool:
 			CardManipulation.change_movement.rpc_id(
 				p_id, card_owner_id, card_in_play_index, 1, -1
 			)
+	BattleManager.finish_resolve()
 	return true
 
 
@@ -43,3 +44,5 @@ func resolve_spell_for_ai() -> void:
 	)
 	var target: CardInPlay = potential_targets.pick_random()
 	resolve_spell(target.column, target.row)
+	Events.spell_resolved_for_ai.emit()
+	BattleManager.finish_resolve()

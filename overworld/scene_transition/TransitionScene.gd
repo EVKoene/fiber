@@ -17,6 +17,7 @@ func transition_to_npc_battle(npc_id: int) -> void:
 
 
 func transition_to_overworld() -> void:
+	GameManager.players.erase(2)
 	animation_player.play("fade_scene")
 	await animation_player.animation_finished
 	GameManager.main_menu.remove_child(GameManager.battle_map)

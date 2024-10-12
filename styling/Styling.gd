@@ -20,7 +20,7 @@ var multifaction_color := Color("e74c22")
 
 """Space Border colors"""
 var base_space_color = Color("3b3b3bdc")
-var resource_space_color = Color("63ac23")
+var victory_space_color = Color("63ac23")
 var start_space_color = Color("ffffffdc")
 var p1_color = Color("3b3be7dc")
 var p2_color = Color("f70800")

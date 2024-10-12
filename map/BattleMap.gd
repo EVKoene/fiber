@@ -59,7 +59,9 @@ func pick_card_option(card_indices: Array) -> void:
 
 
 @rpc("any_peer", "call_local")
-func create_card_resolve(card_owner_id: int, cih_index: int, column: int, row: int) -> void:
+func create_card_resolve(
+	card_owner_id: int, cih_index: int, column: int, row: int
+	) -> void:
 	GameManager.turn_manager.set_turn_actions_enabled(false)
 	
 	var card_resolve = card_resolve_scene.instantiate()
@@ -70,7 +72,7 @@ func create_card_resolve(card_owner_id: int, cih_index: int, column: int, row: i
 	card_resolve.card_owner_id = card_in_hand.card_owner_id
 	card_resolve.card_in_hand_index = cih_index
 	card_resolve.size = MapSettings.total_screen
-	GameManager.battle_map.add_child(card_resolve)
+	add_child(card_resolve)
 
 
 func show_text(text_to_show: String) -> void:

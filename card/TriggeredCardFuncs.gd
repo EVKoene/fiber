@@ -9,7 +9,7 @@ func frenzy(
 		and GameManager.turn_manager.turn_owner_id == card.card_owner_id
 	) or (
 		trigger == Collections.triggers.CARD_CREATED
-		and card.card_id == triggering_card.card_id
+		and card == triggering_card
 	):
 		var units_to_attack: Array = CardHelper.closest_enemy_units(card)
 		if len(units_to_attack) > 0:

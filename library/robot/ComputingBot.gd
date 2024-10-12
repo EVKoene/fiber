@@ -51,7 +51,8 @@ func resolve_ability_for_ai() -> void:
 	
 	for i in range(3):
 		GameManager.decks[card_owner_id].draw_card()
-
+	Events.card_ability_resolved_for_ai.emit()
+	
 
 func is_ability_to_use_now() -> bool:
 	for c in CardHelper.cards_in_range(

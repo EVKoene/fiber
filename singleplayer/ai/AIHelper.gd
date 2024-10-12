@@ -103,8 +103,8 @@ func is_wanting_to_swap_with_card(card: CardInPlay, card_swap: CardInPlay) -> bo
 					want = true
 			Collections.purposes.DEFEND_RESOURCE:
 				if (
-					CardHelper.on_resource_space(card_swap) 
-					and !CardHelper.on_resource_space(card)
+					CardHelper.on_victory_space(card_swap) 
+					and !CardHelper.on_victory_space(card)
 				):
 					want = true
 			Collections.purposes.BATTLE:

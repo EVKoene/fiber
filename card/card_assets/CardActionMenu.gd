@@ -29,7 +29,7 @@ func _set_card_action_menu_buttons() -> void:
 		n_buttons += 1
 	var play_space: PlaySpace = GameManager.ps_column_row[card.column][card.row]
 	if (
-		Collections.play_space_attributes.RESOURCE_SPACE 
+		Collections.play_space_attributes.VICTORY_SPACE 
 		in play_space.attributes
 		and !card.fabrication
 		and play_space.conquered_by != card_owner_id

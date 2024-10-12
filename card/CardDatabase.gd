@@ -120,6 +120,23 @@ var cards_info = {
 	
 		"IMGPath": "res://library/animal/images/Snek.jpg",
 		},
+		
+	cards.FOLLOW_PHEROMONES: {
+		"InGameName": "Follow Pheromones",
+		"CardType": Collections.card_types.SPELL,
+		"Factions": [Collections.factions.ANIMAL],
+		"Costs": {
+			Collections.factions.ANIMAL: 3, # 3
+			Collections.factions.MAGIC: 0,
+			Collections.factions.NATURE: 0,
+			Collections.factions.ROBOT: 0,
+		},
+		"CardRange": -1,
+		"TargetRestrictions": TargetSelection.target_restrictions.ANY_SPACE,
+		"Text": "Look at the top cards of your deck until you find 2 units. Draw them and put the 
+		rest on the bottom of your deck.",
+		"IMGPath": "res://library/animal/images/FollowPheromones.png",
+	},
 	
 	cards.GORILLA_BATTLECALLER: {
 		"InGameName": "Gorilla Battlecaller",
@@ -139,23 +156,6 @@ var cards_info = {
 		"Text": "Add 2 max attack and 1 movement to the units in adjacent spaces",
 		"Purposes": [Collections.purposes.BUFF_ADJACENT],
 		"IMGPath": "res://library/animal/images/GorillaBattlecaller.png",
-	},
-	
-	cards.FOLLOW_PHEROMONES: {
-		"InGameName": "Follow Pheromones",
-		"CardType": Collections.card_types.SPELL,
-		"Factions": [Collections.factions.ANIMAL],
-		"Costs": {
-			Collections.factions.ANIMAL: 3, # 3
-			Collections.factions.MAGIC: 0,
-			Collections.factions.NATURE: 0,
-			Collections.factions.ROBOT: 0,
-		},
-		"CardRange": -1,
-		"TargetRestrictions": TargetSelection.target_restrictions.ANY_SPACE,
-		"Text": "Look at the top cards of your deck until you find 2 units. Draw them and put the 
-		rest on the bottom of your deck.",
-		"IMGPath": "res://library/animal/images/FollowPheromones.png",
 	},
 	
 	cards.STAMPEDE: {
@@ -271,13 +271,33 @@ var cards_info = {
 		"IMGPath": "res://library/magic/images/Switcheroo.png",
 	},
 	
+	cards.MIST_CONJURER: {
+		"InGameName": "Mist Conjurer",
+		"CardType": Collections.card_types.UNIT,
+		"Factions": [Collections.factions.MAGIC],
+		"Costs": {
+			Collections.factions.ANIMAL: 0,
+			Collections.factions.MAGIC: 2, # 3
+			Collections.factions.NATURE: 0,
+			Collections.factions.ROBOT: 0,
+		},
+		"MaxAttack": 3,
+		"MinAttack": 1,
+		"Health": 1,
+		"Movement": 1,
+		"Lord": false,
+		"Text": "Opponent units in adjacent spaces get -1 Max attack",
+		"Purposes": [Collections.purposes.BATTLE, Collections.purposes.DEBUFF_ADJACENT],
+		"IMGPath": "res://library/magic/images/MistConjurer.png",
+	},
+	
 	cards.ARCANE_ARROW: {
 		"InGameName": "Arcane Arrow",
 		"CardType": Collections.card_types.SPELL,
 		"Factions": [Collections.factions.MAGIC],
 		"Costs": {
 			Collections.factions.ANIMAL: 0,
-			Collections.factions.MAGIC: 3, # 3
+			Collections.factions.MAGIC: 2, # 3
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
 		},
@@ -287,8 +307,8 @@ var cards_info = {
 		"IMGPath": "res://library/magic/images/ArcaneArrow.png",
 	},
 	
-	cards.MIST_CONJURER: {
-		"InGameName": "Mist Conjurer",
+	cards.FIREBALL_SHOOTER: {
+		"InGameName": "Fireball Shooter",
 		"CardType": Collections.card_types.UNIT,
 		"Factions": [Collections.factions.MAGIC],
 		"Costs": {
@@ -297,14 +317,14 @@ var cards_info = {
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
 		},
-		"MaxAttack": 4,
-		"MinAttack": 2,
-		"Health": 2,
+		"MaxAttack": 3,
+		"MinAttack": 1,
+		"Health": 3,
 		"Movement": 1,
+		"Purposes": [Collections.purposes.REAR],
 		"Lord": false,
-		"Text": "Opponent units in adjacent spaces get -2 Max attack",
-		"Purposes": [Collections.purposes.BATTLE, Collections.purposes.DEBUFF_ADJACENT],
-		"IMGPath": "res://library/magic/images/MistConjurer.png",
+		"Text": "Exhaust: deal 1 damage to all enemey units in any direction from this unit",
+		"IMGPath": "res://library/magic/images/FireballShooter.png",
 	},
 
 cards.FLOW_ACCELERATOR: {
@@ -327,66 +347,6 @@ cards.FLOW_ACCELERATOR: {
 		"IMGPath": "res://library/magic/images/FlowAccelerator.png",
 	},
 	
-	cards.EPHEMERAL_ASSASSIN: {
-		"InGameName": "Ephemeral Assassin",
-		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.MAGIC],
-		"Costs": {
-			Collections.factions.ANIMAL: 0,
-			Collections.factions.MAGIC: 4, # 2
-			Collections.factions.NATURE: 0,
-			Collections.factions.ROBOT: 0,
-		},
-		"MaxAttack": 4,
-		"MinAttack": 3,
-		"Health": 3,
-		"Movement": 3,
-		"Lord": false,
-		"Text": "This unit can move through units",
-		"Purposes": [Collections.purposes.REAR],
-		"IMGPath": "res://library/magic/images/EphemeralAssassin.png",
-	},
-
-	cards.FIREBALL_SHOOTER: {
-		"InGameName": "Fireball Shooter",
-		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.MAGIC],
-		"Costs": {
-			Collections.factions.ANIMAL: 0,
-			Collections.factions.MAGIC: 4, # 3
-			Collections.factions.NATURE: 0,
-			Collections.factions.ROBOT: 0,
-		},
-		"MaxAttack": 3,
-		"MinAttack": 1,
-		"Health": 3,
-		"Movement": 1,
-		"Purposes": [Collections.purposes.REAR],
-		"Lord": false,
-		"Text": "Exhaust: deal 1 damage to all units in any direction from this unit",
-		"IMGPath": "res://library/magic/images/FireballShooter.png",
-	},
-	
-	cards.HOMUNCULUS: {
-		"InGameName": "Homunculus",
-		"Factions": [Collections.factions.MAGIC],
-		"CardType": Collections.card_types.UNIT,
-		"Costs": {
-			Collections.factions.ANIMAL: 0,
-			Collections.factions.MAGIC: 5,
-			Collections.factions.NATURE: 0,
-			Collections.factions.ROBOT: 0,
-		},
-		"MaxAttack": 5,
-		"MinAttack": 3,
-		"Health": 5,
-		"Movement": 1,
-		"Lord": false,
-		"Purposes": [Collections.purposes.BATTLE],
-		"Text": "",
-		"IMGPath": "res://library/magic/images/Homunculus.png",
-	},
-	
 	cards.AUDACIOUS_RESEARCHER: {
 		"InGameName": "Audacious Researcher",
 		"CardType": Collections.card_types.UNIT,
@@ -406,6 +366,46 @@ cards.FLOW_ACCELERATOR: {
 		"Text": "At the start of your turn, if this unit is in a row that's at least halfway towards
 		your opponent: draw the top spell in your deck.",
 		"IMGPath": "res://library/magic/images/AudaciousResearcher.png",
+	},
+	
+	cards.HOMUNCULUS: {
+		"InGameName": "Homunculus",
+		"Factions": [Collections.factions.MAGIC],
+		"CardType": Collections.card_types.UNIT,
+		"Costs": {
+			Collections.factions.ANIMAL: 0,
+			Collections.factions.MAGIC: 4,
+			Collections.factions.NATURE: 0,
+			Collections.factions.ROBOT: 0,
+		},
+		"MaxAttack": 5,
+		"MinAttack": 3,
+		"Health": 5,
+		"Movement": 1,
+		"Lord": false,
+		"Purposes": [Collections.purposes.BATTLE],
+		"Text": "",
+		"IMGPath": "res://library/magic/images/Homunculus.png",
+	},
+	
+	cards.EPHEMERAL_ASSASSIN: {
+		"InGameName": "Ephemeral Assassin",
+		"CardType": Collections.card_types.UNIT,
+		"Factions": [Collections.factions.MAGIC],
+		"Costs": {
+			Collections.factions.ANIMAL: 0,
+			Collections.factions.MAGIC: 5,
+			Collections.factions.NATURE: 0,
+			Collections.factions.ROBOT: 0,
+		},
+		"MaxAttack": 6,
+		"MinAttack": 2,
+		"Health": 3,
+		"Movement": 3,
+		"Lord": false,
+		"Text": "This unit can move through units",
+		"Purposes": [Collections.purposes.REAR],
+		"IMGPath": "res://library/magic/images/EphemeralAssassin.png",
 	},
 	
 	cards.JELLYFISH_EXTRAORDINAIRE: {
@@ -436,7 +436,7 @@ cards.FLOW_ACCELERATOR: {
 		"Factions": [Collections.factions.MAGIC],
 		"Costs": {
 			Collections.factions.ANIMAL: 0,
-			Collections.factions.MAGIC: 7,
+			Collections.factions.MAGIC: 6,
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
 		},
@@ -456,7 +456,7 @@ cards.FLOW_ACCELERATOR: {
 		"Factions": [Collections.factions.MAGIC],
 		"Costs": {
 			Collections.factions.ANIMAL: 0,
-			Collections.factions.MAGIC: 4, # 4
+			Collections.factions.MAGIC: 6, # 4
 			Collections.factions.NATURE: 0,
 			Collections.factions.ROBOT: 0,
 		},
@@ -484,6 +484,21 @@ cards.FLOW_ACCELERATOR: {
 		"Text": "Your units in adjacent spaces have +1 health",
 		"Purposes": [Collections.purposes.BUFF_ADJACENT],
 		"IMGPath": "res://library/nature/images/GnomeProtector.png",
+	},
+	cards.MORNING_LIGHT: {
+		"InGameName": "Morning Light",
+		"CardType": Collections.card_types.SPELL,
+		"Factions": [Collections.factions.NATURE],
+		"Costs": {
+			Collections.factions.ANIMAL: 0,
+			Collections.factions.MAGIC: 0,
+			Collections.factions.NATURE: 1, # 1
+			Collections.factions.ROBOT: 0,
+		},
+		"CardRange": 0,
+		"TargetRestrictions": TargetSelection.target_restrictions.ANY_UNITS,
+		"Text": "Target unit gets 2 health and +1 movement.",
+		"IMGPath": "res://library/nature/images/MorningLight.jpg",
 	},
 	
 	cards.BOTANO_GARDENER: {
@@ -527,22 +542,6 @@ cards.FLOW_ACCELERATOR: {
 		"IMGPath": "res://library/nature/images/FireGolem.jpg",
 	},
 	
-	cards.MORNING_LIGHT: {
-		"InGameName": "Morning Light",
-		"CardType": Collections.card_types.SPELL,
-		"Factions": [Collections.factions.NATURE],
-		"Costs": {
-			Collections.factions.ANIMAL: 0,
-			Collections.factions.MAGIC: 0,
-			Collections.factions.NATURE: 1, # 1
-			Collections.factions.ROBOT: 0,
-		},
-		"CardRange": 0,
-		"TargetRestrictions": TargetSelection.target_restrictions.ANY_UNITS,
-		"Text": "Target unit gets 2 health and +1 movement.",
-		"IMGPath": "res://library/nature/images/MorningLight.jpg",
-	},
-	
 	cards.HAIL_STORM: {
 		"InGameName": "Hail Storm",
 		"CardType": Collections.card_types.SPELL,
@@ -555,8 +554,7 @@ cards.FLOW_ACCELERATOR: {
 		},
 		"CardRange": -1,
 		"TargetRestrictions": TargetSelection.target_restrictions.ANY_SPACE,
-		"Text": "Select a 3 x 3 square at range 1. Deal 1 damage to each enemy unit in the selected 
-		square. Those units get -1/-0 and -1 movement.",
+		"Text": "Select a 3 x 3 square at range 1. All units in that square get -1/-0 and -1 movement.",
 		"IMGPath": "res://library/nature/images/HailStorm.jpg",
 	},
 	
@@ -567,7 +565,7 @@ cards.FLOW_ACCELERATOR: {
 		"Costs": {
 			Collections.factions.ANIMAL: 0,
 			Collections.factions.MAGIC: 0,
-			Collections.factions.NATURE: 4, # 4
+			Collections.factions.NATURE: 3, # 4
 			Collections.factions.ROBOT: 0,
 		},
 		"MaxAttack": 3,
@@ -581,7 +579,6 @@ cards.FLOW_ACCELERATOR: {
 		"IMGPath": "res://library/nature/images/IceGolem.jpg",
 	},
 	
-	
 	cards.EARTH_GOLEM: {
 		"InGameName": "Earth Golem",
 		"CardType": Collections.card_types.UNIT,
@@ -589,7 +586,7 @@ cards.FLOW_ACCELERATOR: {
 		"Costs": {
 			Collections.factions.ANIMAL: 0,
 			Collections.factions.MAGIC: 0,
-			Collections.factions.NATURE: 5,
+			Collections.factions.NATURE: 4,
 			Collections.factions.ROBOT: 0,
 		},
 		"MaxAttack": 2,
@@ -609,7 +606,7 @@ cards.FLOW_ACCELERATOR: {
 		"Costs": {
 			Collections.factions.ANIMAL: 0,
 			Collections.factions.MAGIC: 0,
-			Collections.factions.NATURE: 6, # 6
+			Collections.factions.NATURE: 4, # 6
 			Collections.factions.ROBOT: 0,
 		},
 		"MaxAttack": 4,
@@ -620,6 +617,43 @@ cards.FLOW_ACCELERATOR: {
 		"Text": "At the start of your turn: If Protector didn't move since your last turn, it gets +2 health",
 		"Purposes": [Collections.purposes.DEFEND_RESOURCE, Collections.purposes.BATTLE,],
 		"IMGPath": "res://library/nature/images/ProtectorOfTheForest.jpg",
+	},
+
+	cards.HEART_OF_THE_FOREST: {
+		"InGameName": "Heart of the Forest",
+		"CardType": Collections.card_types.UNIT,
+		"Factions": [Collections.factions.NATURE],
+		"Costs": {
+			Collections.factions.ANIMAL: 0,
+			Collections.factions.MAGIC: 0,
+			Collections.factions.NATURE: 5, # 8
+			Collections.factions.ROBOT: 0,
+		},
+		"MaxAttack": 0,
+		"MinAttack": 0,
+		"Health": 8,
+		"Movement": 0,
+		"Lord": false,
+		"Text": "Allied units in range 1 get +0/+4. Units in range 2 get +0/+2",
+		"Purposes": [Collections.purposes.BUFF_ADJACENT],
+		"IMGPath": "res://library/nature/images/HeartOfTheForest.jpg",
+	},
+	
+	cards.VOLCANIC_ERUPTION: {
+		"InGameName": "Volcanic Eruption",
+		"CardType": Collections.card_types.SPELL,
+		"Factions": [Collections.factions.NATURE],
+		"Costs": {
+			Collections.factions.ANIMAL: 0,
+			Collections.factions.MAGIC: 0,
+			Collections.factions.NATURE: 5, # 4
+			Collections.factions.ROBOT: 0,
+		},
+		"CardRange": -1,
+		"TargetRestrictions": TargetSelection.target_restrictions.ANY_SPACE,
+		"Text": "Select a 4 x 4 square at range 1. Deal 2 damage to each enemy unit in the selected 
+		square.",
+		"IMGPath": "res://library/nature/images/VolcanicEruption.jpg",
 	},
 	
 	cards.PRANCING_VERDEN: {
@@ -642,26 +676,6 @@ cards.FLOW_ACCELERATOR: {
 		"Purposes": [Collections.purposes.BUFF_ADJACENT],
 		"IMGPath": "res://library/nature/images/PrancingVerden.jpg",
 	},
-
-	cards.HEART_OF_THE_FOREST: {
-		"InGameName": "Heart of the Forest",
-		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.NATURE],
-		"Costs": {
-			Collections.factions.ANIMAL: 0,
-			Collections.factions.MAGIC: 0,
-			Collections.factions.NATURE: 7, # 8
-			Collections.factions.ROBOT: 0,
-		},
-		"MaxAttack": 0,
-		"MinAttack": 0,
-		"Health": 8,
-		"Movement": 0,
-		"Lord": false,
-		"Text": "Allied units in range 1 get +0/+4. Units in range 2 get +0/+2",
-		"Purposes": [Collections.purposes.BUFF_ADJACENT],
-		"IMGPath": "res://library/nature/images/HeartOfTheForest.jpg",
-	},
 	
 	cards.MARCELLA_WHO_NURTURES_GROWTH: {
 		"InGameName": "Marcella, Who Nurtures Growth",
@@ -670,7 +684,7 @@ cards.FLOW_ACCELERATOR: {
 		"Costs": {
 			Collections.factions.ANIMAL: 0,
 			Collections.factions.MAGIC: 0,
-			Collections.factions.NATURE: 8, # 8
+			Collections.factions.NATURE: 7, # 8
 			Collections.factions.ROBOT: 0,
 		},
 		"MaxAttack": 4,
@@ -681,23 +695,6 @@ cards.FLOW_ACCELERATOR: {
 		"Text": "Pay 2<N>: Draw a card, add 1 max attack and 1 health to up to one adjacent unit",
 		"Purposes": [Collections.purposes.REAR,],
 		"IMGPath": "res://library/nature/images/MarcellaWhoNurturesGrowth.png",
-	},
-	
-	cards.VOLCANIC_ERUPTION: {
-		"InGameName": "Volcanic Eruption",
-		"CardType": Collections.card_types.SPELL,
-		"Factions": [Collections.factions.NATURE],
-		"Costs": {
-			Collections.factions.ANIMAL: 0,
-			Collections.factions.MAGIC: 0,
-			Collections.factions.NATURE: 4, # 4
-			Collections.factions.ROBOT: 0,
-		},
-		"CardRange": -1,
-		"TargetRestrictions": TargetSelection.target_restrictions.ANY_SPACE,
-		"Text": "Select a 4 x 4 square at range 1. Deal 2 damage to each enemy unit in the selected 
-		square.",
-		"IMGPath": "res://library/nature/images/HailStorm.jpg",
 	},
 	
 	cards.ASSEMBLY_BOT: {
@@ -720,6 +717,7 @@ cards.FLOW_ACCELERATOR: {
 		"Purposes": [],
 		"IMGPath": "res://library/robot/images/AssemblyBot.png",
 	},
+	
 	cards.OBSTRUCTION_CONSTRUCTION: {
 		"InGameName": "Obstruction Construction",
 		"CardType": Collections.card_types.UNIT,
@@ -796,6 +794,23 @@ cards.FLOW_ACCELERATOR: {
 		"IMGPath": "res://library/robot/images/NetworkFeeder.jpg",
 	},
 	
+	cards.EXTERMINATE: {
+		"InGameName": "Exterminate",
+		"CardType": Collections.card_types.SPELL,
+		"Factions": [Collections.factions.ROBOT],
+		"Costs": {
+			Collections.factions.ANIMAL: 0,
+			Collections.factions.MAGIC: 0,
+			Collections.factions.NATURE: 0,
+			Collections.factions.ROBOT: 3, # 3
+		},
+		"Text": "Consume one of your own units: Destroy a unit within range 1 of the consumed unit",
+		"CardRange": -1,
+		"TargetRestrictions": TargetSelection.target_restrictions.OWN_UNITS,
+		"IMGPath": "res://library/robot/images/Exterminate.jpg",
+	
+	},
+	
 	cards.FURNACE_BOT: {
 		"InGameName": "Furnace Bot",
 		"CardType": Collections.card_types.UNIT,
@@ -816,21 +831,24 @@ cards.FLOW_ACCELERATOR: {
 		"IMGPath": "res://library/robot/images/FurnaceBot.jpg",
 	},
 	
-	cards.EXTERMINATE: {
-		"InGameName": "Exterminate",
-		"CardType": Collections.card_types.SPELL,
+	cards.ZOLOI_CHARGER: {
+		"InGameName": "Zoloi Charger",
+		"CardType": Collections.card_types.UNIT,
 		"Factions": [Collections.factions.ROBOT],
 		"Costs": {
 			Collections.factions.ANIMAL: 0,
 			Collections.factions.MAGIC: 0,
 			Collections.factions.NATURE: 0,
-			Collections.factions.ROBOT: 6, # 3
+			Collections.factions.ROBOT: 4, # 6
 		},
-		"Text": "Consume one of your own units: Destroy a unit within range 1 of the consumed unit",
-		"CardRange": -1,
-		"TargetRestrictions": TargetSelection.target_restrictions.OWN_UNITS,
-		"IMGPath": "res://library/robot/images/Exterminate.jpg",
-	
+		"MaxAttack": 4,
+		"MinAttack": 2,
+		"Health": 5,
+		"Movement": 1,
+		"Lord": false,
+		"Text": "If there's a unit to the left and right of this unit at the start of your turn, this unit gets +3 max attack, Impact and +2 movement until your next turn",
+		"Purposes": [Collections.purposes.BUFF_ADJACENT],
+		"IMGPath": "res://library/robot/images/ZoloiCharger.png",
 	},
 	
 	cards.PLUG_BUDDY: {
@@ -853,26 +871,6 @@ cards.FLOW_ACCELERATOR: {
 		"IMGPath": "res://library/robot/images/PlugBuddy.jpg",
 	},
 	
-	cards.ZOLOI_CHARGER: {
-		"InGameName": "Zoloi Charger",
-		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.ROBOT],
-		"Costs": {
-			Collections.factions.ANIMAL: 0,
-			Collections.factions.MAGIC: 0,
-			Collections.factions.NATURE: 0,
-			Collections.factions.ROBOT: 6, # 6
-		},
-		"MaxAttack": 4,
-		"MinAttack": 2,
-		"Health": 5,
-		"Movement": 1,
-		"Lord": false,
-		"Text": "If there's a unit to the left and right of this unit at the start of your turn, this unit gets +3 max attack, Impact and +2 movement until your next turn",
-		"Purposes": [Collections.purposes.BUFF_ADJACENT],
-		"IMGPath": "res://library/robot/images/ZoloiCharger.png",
-	},
-	
 	cards.COMPUTING_BOT: {
 		"InGameName": "Computing Bot",
 		"CardType": Collections.card_types.UNIT,
@@ -881,7 +879,7 @@ cards.FLOW_ACCELERATOR: {
 			Collections.factions.ANIMAL: 0,
 			Collections.factions.MAGIC: 0,
 			Collections.factions.NATURE: 0,
-			Collections.factions.ROBOT: 6, # 4
+			Collections.factions.ROBOT: 5, # 4
 		},
 		"MaxAttack": 4,
 		"MinAttack": 2,
@@ -901,7 +899,7 @@ cards.FLOW_ACCELERATOR: {
 			Collections.factions.ANIMAL: 0,
 			Collections.factions.MAGIC: 0,
 			Collections.factions.NATURE: 0,
-			Collections.factions.ROBOT: 7, # 7
+			Collections.factions.ROBOT: 6, # 7
 		},
 		"MaxAttack": 4,
 		"MinAttack": 2,
@@ -922,7 +920,7 @@ cards.FLOW_ACCELERATOR: {
 			Collections.factions.ANIMAL: 0,
 			Collections.factions.MAGIC: 0,
 			Collections.factions.NATURE: 0,
-			Collections.factions.ROBOT: 7, # 7
+			Collections.factions.ROBOT: 6, # 7
 		},
 		"MaxAttack": 6,
 		"MinAttack": 4,
@@ -933,6 +931,7 @@ cards.FLOW_ACCELERATOR: {
 		"Purposes": [Collections.purposes.REAR],
 		"IMGPath": "res://library/robot/images/ZalogiMindOfMachines.png",
 	},
+	
 	cards.PLUTO_MUSICAL_GUIDE: {
 		"InGameName": "Pluto, Musical Guide",
 		"CardType": Collections.card_types.UNIT,

@@ -141,6 +141,7 @@ func direction_from_play_space(play_space: PlaySpace) -> int:
 
 
 func play_space_direction_in_same_line(play_space: PlaySpace) -> int:
+	# If the target play space is either in the same row or the same column, returns the direction.
 	if play_space.column > column and play_space.row == row:
 		return Collections.directions.RIGHT
 	elif play_space.column < column and play_space.row == row:
@@ -198,8 +199,8 @@ func set_border() -> void:
 				get_theme_stylebox("panel").border_color = Styling.p2_conquered_color
 		return
 		
-	if Collections.play_space_attributes.RESOURCE_SPACE in attributes:
-		get_theme_stylebox("panel").border_color = Styling.resource_space_color
+	if Collections.play_space_attributes.VICTORY_SPACE in attributes:
+		get_theme_stylebox("panel").border_color = Styling.victory_space_color
 	else:
 		get_theme_stylebox("panel").border_color = Styling.base_space_color
 
@@ -272,8 +273,8 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 func _set_play_space_attributes() -> void:
 	# If we want to enable multiple maps, we should load id it as an export var in this script
 	attributes = MapDatabase.get_play_space_attributes(MapDatabase.maps.BASE_MAP, self)
-	if Collections.play_space_attributes.RESOURCE_SPACE in attributes:
-		GameManager.resource_spaces.append(self) 
+	if Collections.play_space_attributes.VICTORY_SPACE in attributes:
+		GameManager.victory_spaces.append(self) 
 
 
 func _calc_position() -> Vector2:

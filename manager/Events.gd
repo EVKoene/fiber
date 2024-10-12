@@ -13,6 +13,9 @@ signal hide_instructions
 signal clear_paths
 signal card_discarded
 
+### AI ###
+signal spell_resolved_for_ai
+signal card_ability_resolved_for_ai
 ### OVERWORLD ###
 signal pause_player_movement
 signal resume_player_movement

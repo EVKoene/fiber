@@ -52,7 +52,8 @@ func resolve_ability_for_ai() -> void:
 	CardManipulation.change_max_attack(card_owner_id, card_in_play_index, 2, -1)
 	CardManipulation.change_min_attack(card_owner_id, card_in_play_index, 2, -1)
 	CardManipulation.change_health(card_owner_id, card_in_play_index, 2, -1)
-
+	Events.card_ability_resolved_for_ai.emit()
+	
 
 func is_ability_to_use_now() -> bool:
 	for c in CardHelper.cards_in_range(

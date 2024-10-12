@@ -15,7 +15,6 @@ func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:
 		if GameManager.is_single_player:
 			CardManipulation.change_max_attack(card_owner_id, card_in_play_index, spaces_moved, 2)
 			CardManipulation.change_health(card_owner_id, card_in_play_index, spaces_moved, 2)
-			CardManipulation.update_stats(card_owner_id, card_in_play_index)
 		if !GameManager.is_single_player:
 			for p_id in GameManager.players:
 				CardManipulation.change_max_attack.rpc_id(
