@@ -62,7 +62,7 @@ func shoot_fireballs() -> bool:
 						"burn_and_damage", current_play_space.column - ps_column - 1, 
 						current_play_space.row
 					)
-	
+		exhaust()
 		BattleManager.finish_resolve()
 		return true
 	

@@ -29,6 +29,8 @@ func start_single_player_battle(npc_id: int) -> void:
 			1, 1, "Player1", deck
 		)
 	
+	if GameManager.players.has(2):
+		GameManager.players.erase(2)
 	GameManager.add_player_to_gamemanager(
 			2, 2, npc_data["Name"], npc_data["Deck"]
 		)

@@ -281,6 +281,10 @@ func update_stats() -> void:
 	min_attack = battle_stats.min_attack
 	health = battle_stats.health
 	movement = battle_stats.movement
+	if health == 0:
+		CardManipulation.change_battle_stat(
+			Collections.stats.HEALTH, card_owner_id, card_in_play_index, 1, -1
+		)
 	_set_labels()
 
 
