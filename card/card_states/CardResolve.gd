@@ -5,11 +5,13 @@ class_name CardResolve
 
 @onready var zoom_preview_scene := preload("res://player/ZoomPreview.tscn")
 @onready var card_resolve_scene := preload("res://card/card_states/CardResolve.tscn")
+var ai_player := false
 var card_index: int
 var card_in_hand_index
 var column: int
 var row: int
 var card_owner_id: int
+var resolved := false
 
 
 func _ready():
@@ -20,6 +22,10 @@ func _ready():
 
 
 func continue_resolve() -> void:
+	if ai_player:
+		_resolve_spell_for_ai()
+		return
+	
 	if GameManager.is_single_player:
 		BattleManager.resolve_spell(card_owner_id, card_in_hand_index, column, row)
 		queue_free()
@@ -40,9 +46,18 @@ func continue_resolve() -> void:
 	queue_free()
 
 
+func _resolve_spell_for_ai() -> void:
+	var spell: CardInPlay = CardDatabase.get_card_class(card_index).new()
+	await spell.resolve_spell_for_ai()
+	queue_free()
+
+
+
 func _input(_event):
 	if (
 		Input.is_action_just_pressed("ui_accept") 
 		or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
 	):
-		continue_resolve()
+		if !resolved:
+			resolved = true
+			continue_resolve()

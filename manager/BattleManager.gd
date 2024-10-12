@@ -151,28 +151,28 @@ func set_resources(
 @rpc("any_peer", "call_local")
 func set_progress_bars() -> void:
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		var conquered_resource_spaces := 0
-		for s in GameManager.resource_spaces:
+		var conquered_victory_spaces := 0
+		for s in GameManager.victory_spaces:
 			if !s.conquered_by:
 				continue
 			if s.conquered_by == p_id:
-				conquered_resource_spaces += 1
+				conquered_victory_spaces += 1
 		
 		if (
-			conquered_resource_spaces > MapSettings.n_progress_bars 
+			conquered_victory_spaces >= MapSettings.n_progress_bars 
 			and GameManager.player_id == p_id
 		):
 			GameManager.battle_map.show_text("You win!")
-			OverworldManager.transition_to_overworld()
+			TransitionScene.transition_to_overworld()
 		elif (
-			conquered_resource_spaces > MapSettings.n_progress_bars 
+			conquered_victory_spaces >= MapSettings.n_progress_bars 
 			and GameManager.player_id != p_id
 		):
 			GameManager.battle_map.show_text("You lose!")
 			OverworldManager.transition_to_overworld()
 		
 		for b in range(len(GameManager.progress_bars[p_id])):
-			if conquered_resource_spaces > b:
+			if conquered_victory_spaces > b:
 				GameManager.progress_bars[p_id][b].value = 100
 			else:
 				GameManager.progress_bars[p_id][b].value = 0

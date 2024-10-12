@@ -23,7 +23,7 @@ var is_server := false
 
 #### BATTLE ###
 var battle_map
-var resource_spaces := []
+var victory_spaces := []
 var turn_manager: TurnManager
 var play_spaces := []
 var ps_column_row := {}
@@ -33,7 +33,7 @@ var progress_bars := {}
 var resources := {}
 # Decks should only be visible to the server
 var decks := {}
-var starting_draw: int = 1
+var starting_draw: int = 0
 # cards_in_hand and cards_in_play contain the two player ids as keys with an array containing all 
 # the the current card nodes beloning to them. They use the card_in_play_index (cip_index) and
 # hand_index.

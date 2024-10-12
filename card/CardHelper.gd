@@ -56,8 +56,8 @@ func cards_in_range_of_card(
 	return cards
 
 
-func on_resource_space(card: CardInPlay) -> bool:
-	if Collections.play_space_attributes.RESOURCE_SPACE in card.current_play_space.attributes:
+func on_victory_space(card: CardInPlay) -> bool:
+	if Collections.play_space_attributes.VICTORY_SPACE in card.current_play_space.attributes:
 		return true
 	else:
 		return false

@@ -37,6 +37,6 @@ func get_play_space_attributes(map: int, play_space: PlaySpace) -> Array:
 	
 	for v in map_data[map]["ResourceSpaces"]:
 		if play_space.column == v.x and play_space.row == v.y:
-			attributes.append(Collections.play_space_attributes.RESOURCE_SPACE)
+			attributes.append(Collections.play_space_attributes.VICTORY_SPACE)
 
 	return attributes

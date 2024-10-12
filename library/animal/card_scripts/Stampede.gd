@@ -27,8 +27,11 @@ func resolve_spell(_c_column: int, _c_row: int) -> bool:
 				)
 				c.update_stats.rpc_id(p_id, card_owner_id, card_in_play_index)
 
+	BattleManager.finish_resolve()
 	return true
 
 
 func resolve_spell_for_ai() -> void:
 	resolve_spell(-1, -1)
+	Events.spell_resolved_for_ai.emit()
+	BattleManager.finish_resolve()

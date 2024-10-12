@@ -60,6 +60,7 @@ func create_insects() -> bool:
 
 func resolve_ability_for_ai() -> void:
 	create_insects()
+	Events.card_ability_resolved_for_ai.emit()
 
 
 func is_ability_to_use_now() -> bool:

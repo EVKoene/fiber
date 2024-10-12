@@ -3,6 +3,7 @@ extends Node
 class_name AIPlayer
 
 
+@onready var card_resolve_scene := preload("res://card/card_states/CardResolve.tscn")
 var ai_turn_manager: AITurnManager
 var player_id: int
 var moving_cards := false
@@ -29,16 +30,17 @@ func play_playable_cards() -> void:
 		playing_cards = false
 		for c in GameManager.cards_in_hand[player_id]:
 			if !GameManager.resources[player_id].can_pay_costs(c.costs):
-				return
+				continue
 			if c.card_type == Collections.card_types.UNIT:
 				playing_cards = await play_card(c)
 				if playing_cards:
 					await GameManager.battle_map.get_tree().create_timer(0.25).timeout
 			elif c.card_type == Collections.card_types.SPELL:
-				BattleManager.lock_zoom_preview_hand(c.card_owner_id, c.hand_index)
 				var spell: CardInPlay = CardDatabase.get_card_class(c.card_index).new()
 				if spell.is_spell_to_play_now():
-					await spell.resolve_spell_for_ai()
+					BattleManager.lock_zoom_preview_hand(c.card_owner_id, c.hand_index)
+					resolve_spell_for_ai(c)
+					await Events.spell_resolved_for_ai
 
 
 func play_card(card: CardInHand) -> bool:
@@ -55,7 +57,7 @@ func play_card(card: CardInHand) -> bool:
 	
 	var play_space: PlaySpace 
 	for ps in ps_options:
-		if Collections.play_space_attributes.RESOURCE_SPACE in ps.attributes:
+		if Collections.play_space_attributes.VICTORY_SPACE in ps.attributes:
 			play_space = ps
 	if !play_space:
 		play_space = ps_options.pick_random()
@@ -81,7 +83,7 @@ func use_cards_in_play() -> void:
 
 func use_card_action(card: CardInPlay) -> bool:
 	if (
-		Collections.play_space_attributes.RESOURCE_SPACE in card.current_play_space.attributes
+		Collections.play_space_attributes.VICTORY_SPACE in card.current_play_space.attributes
 		and !card.fabrication
 	):
 		if card.current_play_space.conquered_by != player_id:
@@ -91,6 +93,9 @@ func use_card_action(card: CardInPlay) -> bool:
 	# Checking if any abilities should be used
 	if card.is_ability_to_use_now():
 		card.resolve_ability_for_ai()
+		await Events.card_ability_resolved_for_ai
+		if card.exhausted:
+			return true
 	
 	# Finding the first card to attack
 	for c in GameManager.cards_in_play[GameManager.p1_id]:
@@ -98,8 +103,8 @@ func use_card_action(card: CardInPlay) -> bool:
 			continue
 		
 		if len(card.spaces_in_range_to_attack_card(c)) > 0:
-			await card.move_and_attack(c)
 			card.exhaust()
+			await card.move_and_attack(c)
 			return true
 	
 	return await move_to_conquer_space(card)
@@ -138,3 +143,16 @@ func discard_cards(n: int) -> void:
 			GameManager.cards_in_hand[player_id], Collections.stats.TOTAL_COST, 
 			Collections.stat_params.LOWEST, -1
 		).pick_random().discard_card()
+
+
+func resolve_spell_for_ai(spell: CardInHand) -> void:
+	var card_resolve = GameManager.battle_map.card_resolve_scene.instantiate()
+	card_resolve.ai_player = true
+	card_resolve.card_index = spell.card_index
+	card_resolve.column = -1
+	card_resolve.row = -1
+	card_resolve.card_owner_id = player_id
+	card_resolve.card_in_hand_index = spell.hand_index
+	card_resolve.size = MapSettings.total_screen
+	GameManager.battle_map.add_child(card_resolve)
+	BattleManager.remove_card_from_hand(player_id, spell.hand_index)
