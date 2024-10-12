@@ -22,15 +22,11 @@ func consume_for_fuel() -> bool:
 	
 	if len(TargetSelection.selected_targets) == 1:
 		TargetSelection.selected_targets[0].destroy()
-		if GameManager.is_single_player:
-			CardManipulation.change_max_attack(card_owner_id, card_in_play_index, 2, -1)
-			CardManipulation.change_min_attack(card_owner_id, card_in_play_index, 2, -1)
-			CardManipulation.change_health(card_owner_id, card_in_play_index, 2, -1)
-		if !GameManager.is_single_player:
-			for p_id in GameManager.players:
-				CardManipulation.change_max_attack.rpc_id(p_id, card_owner_id, card_in_play_index, 2, -1)
-				CardManipulation.change_min_attack.rpc_id(p_id, card_owner_id, card_in_play_index, 2, -1)
-				CardManipulation.change_health.rpc_id(p_id, card_owner_id, card_in_play_index, 2, -1)
+		for stat in [
+			Collections.stats.MAX_ATTACK, Collections.stats.MIN_ATTACK, Collections.stats.HEALTH
+		]:
+			CardManipulation.change_battle_stat(stat, card_owner_id, card_in_play_index, 2, -1)
+		
 		BattleManager.finish_resolve()
 		return true
 	
@@ -49,11 +45,12 @@ func resolve_ability_for_ai() -> void:
 	
 	consume_options.pick_random().destroy_card()
 	
-	CardManipulation.change_max_attack(card_owner_id, card_in_play_index, 2, -1)
-	CardManipulation.change_min_attack(card_owner_id, card_in_play_index, 2, -1)
-	CardManipulation.change_health(card_owner_id, card_in_play_index, 2, -1)
+	for stat in [
+			Collections.stats.MAX_ATTACK, Collections.stats.MIN_ATTACK, Collections.stats.HEALTH
+	]:
+		CardManipulation.change_battle_stat(stat, card_owner_id, card_in_play_index, 2, -1)
 	Events.card_ability_resolved_for_ai.emit()
-	
+
 
 func is_ability_to_use_now() -> bool:
 	for c in CardHelper.cards_in_range(

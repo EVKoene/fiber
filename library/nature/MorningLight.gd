@@ -9,17 +9,13 @@ func resolve_spell(selected_column: int, selected_row: int) -> bool:
 		GameManager.ps_column_row[selected_column][selected_row].card_in_this_play_space
 	)
 	selected_card.highlight_card(true)
-	if GameManager.is_single_player:
-		CardManipulation.change_health(card_owner_id, card_in_play_index, 2, -1)
-		CardManipulation.change_movement(card_owner_id, card_in_play_index, 1, -1)
-	if !GameManager.is_single_player:
-		for p_id in GameManager.players:
-			CardManipulation.change_health.rpc_id(
-				p_id, card_owner_id, card_in_play_index, 2, -1
-			)
-			CardManipulation.change_movement.rpc_id(
-				p_id, card_owner_id, card_in_play_index, 1, -1
-			)
+	CardManipulation.change_battle_stat(
+		Collections.stats.HEALTH, card_owner_id, card_in_play_index, 2, -1
+	)
+	CardManipulation.change_battle_stat(
+		Collections.stats.MOVEMENT, card_owner_id, card_in_play_index, 1, -1
+	)
+	
 	BattleManager.finish_resolve()
 	return true
 

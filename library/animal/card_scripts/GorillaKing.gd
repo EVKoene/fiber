@@ -16,8 +16,9 @@ func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:
 	
 	if trigger == Collections.triggers.CARD_DESTROYED and triggering_card == self:
 		for c in n_adj_units:
-			CardManipulation.change_max_attack(
-				c.card_owner_id, c.card_in_play_index, -n_adj_units[c] * 2, -1
+			CardManipulation.change_battle_stat(
+				Collections.stats.MAX_ATTACK, c.card_owner_id, c.card_in_play_index, 
+				-n_adj_units[c] * 2, -1
 			)
 		return
 
@@ -37,7 +38,8 @@ func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:
 		)
 		var increase_in_n_adj_units: int
 		increase_in_n_adj_units =  count - n_adj_units[c]
-		CardManipulation.change_max_attack(
-			c.card_owner_id, c.card_in_play_index, increase_in_n_adj_units * 2, -1
+		CardManipulation.change_battle_stat(
+			Collections.stats.MAX_ATTACK, c.card_owner_id, c.card_in_play_index, 
+			increase_in_n_adj_units * 2, -1
 		)
 		n_adj_units[c] = count

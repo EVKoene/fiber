@@ -18,21 +18,11 @@ func call_triggered_funcs(trigger: int, _triggering_card: CardInPlay) -> void:
 		)
 
 		var stat_increase: int = new_n_allies - n_allies_in_adjacent_spaces
-		if GameManager.is_single_player:
-			CardManipulation.change_max_attack(
-				card_owner_id, card_in_play_index, stat_increase * 2, -1
-			)
-			CardManipulation.change_health(
-				card_owner_id, card_in_play_index, stat_increase * 2, -1
-			)
-		
-		if !GameManager.is_single_player:
-			for p_id in GameManager.players:
-				CardManipulation.change_max_attack.rpc_id(
-					p_id, card_owner_id, card_in_play_index, stat_increase * 2, -1
-				)
-				CardManipulation.change_health.rpc_id(
-					p_id, card_owner_id, card_in_play_index, stat_increase * 2, -1
-				)
+		CardManipulation.change_battle_stat(
+			Collections.stats.MAX_ATTACK, card_owner_id, card_in_play_index, stat_increase * 2, -1
+		)
+		CardManipulation.change_battle_stat(
+			Collections.stats.HEALTH, card_owner_id, card_in_play_index, stat_increase * 2, -1
+		)
 		
 		n_allies_in_adjacent_spaces = new_n_allies

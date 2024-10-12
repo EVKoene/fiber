@@ -26,22 +26,27 @@ func call_triggered_funcs(trigger: int, _triggering_card: CardInPlay) -> void:
 				break
 		
 	if charged:
-		for p_id in GameManager.players:
-			CardManipulation.change_max_attack.rpc_id(
-				p_id, card_owner_id, card_in_play_index, 3, 2
-			)
-			CardManipulation.change_movement.rpc_id(
-				p_id, card_owner_id, card_in_play_index, 1, 2
-			)
+		CardManipulation.change_battle_stat(
+			Collections.stats.MAX_ATTACK, card_owner_id, card_in_play_index, 3, 2
+		)
+		CardManipulation.change_battle_stat(
+			Collections.stats.MOVEMENT, card_owner_id, card_in_play_index, 1, 2
+		)
 
 
 func attack_card(target_card: CardInPlay) -> void:
 	GameManager.call_triggered_funcs(Collections.triggers.ATTACK, self)
-	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		BattleAnimation.animate_attack.rpc_id(
-			p_id, card_owner_id, card_in_play_index, 
+	if GameManager.is_single_player:
+		BattleAnimation.animate_attack(
+			card_owner_id, card_in_play_index, 
 			target_card.current_play_space.direction_from_play_space(current_play_space)
 		)
+	if !GameManager.is_single_player:
+		for p_id in [GameManager.p1_id, GameManager.p2_id]:
+			BattleAnimation.animate_attack.rpc_id(
+				p_id, card_owner_id, card_in_play_index, 
+				target_card.current_play_space.direction_from_play_space(current_play_space)
+			)
 	
 	var adjacent_cards: Array = CardHelper.cards_in_range_of_card(
 		target_card, 1, TargetSelection.target_restrictions.OWN_UNITS

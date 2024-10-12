@@ -41,7 +41,10 @@ func resolve_damage(card_owner_id, cip_index, value):
 	if value > 0:
 		card.shake()
 	
-	card.battle_stats.change_health(-value, -1)
+	CardManipulation.change_battle_stat(
+		Collections.stats.HEALTH, card_owner_id, cip_index,-value, -1
+	)
+	
 	if card.health <= 0:
 		if GameManager.is_single_player:
 			CardManipulation.destroy(card.card_owner_id, card.card_in_play_index)
