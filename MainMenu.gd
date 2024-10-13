@@ -29,8 +29,6 @@ func start_single_player_battle(npc_id: int) -> void:
 			1, 1, "Player1", deck
 		)
 	
-	if GameManager.players.has(2):
-		GameManager.players.erase(2)
 	GameManager.add_player_to_gamemanager(
 			2, 2, npc_data["Name"], npc_data["Deck"]
 		)
@@ -44,6 +42,7 @@ func start_game() -> void:
 	$TestingButton.hide()
 	$CenterContainer.hide()
 	$DeckButtons.hide()
+	OverworldManager.can_move = true
 
 
 func peer_connected(id: int) -> void:
@@ -112,6 +111,9 @@ func show_main_menu() -> void:
 
 
 func go_to_overworld() -> void:
+	GameManager.clean_manager()
+	if current_area:
+		current_area.queue_free()
 	GameManager.testing = false
 	GameManager.player_id = 1
 	GameManager.is_single_player = true

@@ -18,11 +18,9 @@ func transition_to_npc_battle(npc_id: int) -> void:
 
 func transition_to_overworld() -> void:
 	animation_player.play("fade_scene")
+	GameManager.main_menu.call_deferred("go_to_overworld")
+	
 	await animation_player.animation_finished
-	GameManager.main_menu.remove_child(GameManager.battle_map)
-	GameManager.battle_map = null
-	OverworldManager.can_move = true
-	GameManager.main_menu.go_to_overworld()
 	animation_player.play_backwards("fade_scene")
 
 

@@ -27,22 +27,23 @@ func exhaust_unit(card_owner_id: int, cip_index: int):
 
 @rpc("any_peer", "call_local")
 func resolve_damage(card_owner_id, cip_index, value):
+	var min_value: int = max(0, value)
 	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
 	var damage_number = Label.new()
 	card.add_child(damage_number)
 	damage_number.scale *= MapSettings.card_in_play_size * 0.9 / damage_number.size 
-	damage_number.text = str(value)
+	damage_number.text = str(min_value)
 	damage_number.label_settings = LabelSettings.new()
 	damage_number.label_settings.font_size = 100
 	damage_number.label_settings.font_color = Color("f41700")
 	await get_tree().create_timer(0.5).timeout
 	damage_number.queue_free()
 	
-	if value > 0:
+	if min_value > 0:
 		card.shake()
 	
 	CardManipulation.change_battle_stat(
-		Collections.stats.HEALTH, card_owner_id, cip_index,-value, -1
+		Collections.stats.HEALTH, card_owner_id, cip_index,-min_value, -1
 	)
 	
 	if card.health <= 0:
@@ -153,7 +154,7 @@ func set_resources(
 
 @rpc("any_peer", "call_local")
 func set_progress_bars() -> void:
-	for p_id in [GameManager.p1_id, GameManager.p2_id]:
+	for p_id in GameManager.players:
 		var conquered_victory_spaces := 0
 		for s in GameManager.victory_spaces:
 			if !s.conquered_by:
@@ -167,12 +168,14 @@ func set_progress_bars() -> void:
 		):
 			GameManager.battle_map.show_text("You win!")
 			TransitionScene.transition_to_overworld()
+			return
 		elif (
 			conquered_victory_spaces >= MapSettings.n_progress_bars 
 			and GameManager.player_id != p_id
 		):
 			GameManager.battle_map.show_text("You lose!")
-			OverworldManager.transition_to_overworld()
+			TransitionScene.transition_to_overworld()
+			return
 		
 		for b in range(len(GameManager.progress_bars[p_id])):
 			if conquered_victory_spaces > b:
