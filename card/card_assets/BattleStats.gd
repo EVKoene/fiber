@@ -32,35 +32,35 @@ func _init(
 	card = _card
 
 
-func change_max_attack(value: int, turn_duration: int) -> void:
-	if turn_duration == -1:
-		base_max_attack += value
-	else:
-		max_attack_modifiers.append([value, turn_duration])
-	card.update_stats()
+func change_battle_stat(battle_stat: int, value: int, turn_duration: int) -> void:
+	match battle_stat:
+		Collections.stats.HEALTH:
+			if turn_duration == -1:
+				base_health += value
+			else:
+				health_modifiers.append([value, turn_duration])
+		Collections.stats.MAX_ATTACK:
+			if turn_duration == -1:
+				base_max_attack += value
+			else:
+				max_attack_modifiers.append([value, turn_duration])
+		Collections.stats.MIN_ATTACK:
+			if turn_duration == -1:
+				if base_min_attack < base_max_attack:
+					base_min_attack += value
+				else:
+					base_max_attack += value
+			else:
+				if min_attack < max_attack:
+					min_attack_modifiers.append([value, turn_duration])
+				else:
+					max_attack_modifiers.append([value, turn_duration])
+		Collections.stats.MOVEMENT:
+			if turn_duration == -1:
+				base_movement += value
+			else:
+				movement_modifiers.append([value, turn_duration])
 
-
-func change_min_attack(value: int, turn_duration: int) -> void:
-	if turn_duration == -1:
-		base_min_attack += value
-	else:
-		min_attack_modifiers.append([value, turn_duration])
-	card.update_stats()
-
-
-func change_health(value: int, turn_duration: int) -> void:
-	if turn_duration == -1:
-		base_health += value
-	else:
-		health_modifiers.append([value, turn_duration])
-	card.update_stats()
-
-
-func change_movement(value: int, turn_duration: int) -> void:
-	if turn_duration == -1:
-		base_movement += value
-	else:
-		movement_modifiers.append([value, turn_duration])
 	card.update_stats()
 
 

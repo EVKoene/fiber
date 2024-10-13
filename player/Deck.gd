@@ -61,6 +61,8 @@ func pick_card_option() -> void:
 	if !GameManager.is_single_player:
 		GameManager.battle_map.pick_card_option.rpc_id(deck_owner_id, deck_order.slice(0, n_cards_to_pick_from))
 	for c in range(n_cards_to_pick_from):
+		# We return the cards to the back of the deck
+		deck_order.append(c)
 		deck_order.remove_at(c)
 
 

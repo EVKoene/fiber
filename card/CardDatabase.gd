@@ -517,7 +517,7 @@ cards.FLOW_ACCELERATOR: {
 		"Movement": 1,
 		"Purposes": [Collections.purposes.REAR],
 		"Lord": false,
-		"Text": "Exhaust: 1 min attack and 1 health to an adjacent unit",
+		"Text": "Exhaust: Add 1 min attack and 1 health to an adjacent unit",
 		"IMGPath": "res://library/nature/images/BotanoGardener.png",
 	},
 	
@@ -684,7 +684,7 @@ cards.FLOW_ACCELERATOR: {
 		"Costs": {
 			Collections.factions.ANIMAL: 0,
 			Collections.factions.MAGIC: 0,
-			Collections.factions.NATURE: 7, # 8
+			Collections.factions.NATURE: 6, # 8
 			Collections.factions.ROBOT: 0,
 		},
 		"MaxAttack": 4,
@@ -692,7 +692,7 @@ cards.FLOW_ACCELERATOR: {
 		"Health": 7,
 		"Movement": 1,
 		"Lord": true,
-		"Text": "Pay 2<N>: Draw a card, add 1 max attack and 1 health to up to one adjacent unit",
+		"Text": "Pay 2<N>: Draw a card, add 1 min attack and 1 health to up to one adjacent unit",
 		"Purposes": [Collections.purposes.REAR,],
 		"IMGPath": "res://library/nature/images/MarcellaWhoNurturesGrowth.png",
 	},

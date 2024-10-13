@@ -35,7 +35,6 @@ func _process(_delta):
 			if !text_queue.is_empty():
 				_display_text()
 			else:
-				OverworldManager.can_move = true
 				Events.dialogue_finished.emit()
 		State.READING:
 			if Input.is_action_just_pressed("ui_accept"):

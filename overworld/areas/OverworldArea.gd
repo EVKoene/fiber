@@ -16,5 +16,3 @@ func start_npc_interaction(npc_id: int) -> void:
 	await Events.dialogue_finished
 	if npc_properties["Deck"]:
 		TransitionScene.transition_to_npc_battle(npc_id)
-	else:
-		OverworldManager.can_move = true

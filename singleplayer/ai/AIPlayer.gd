@@ -8,6 +8,7 @@ var ai_turn_manager: AITurnManager
 var player_id: int
 var moving_cards := false
 var turn_finished := false
+var game_over := false
 
 
 func play_turn() -> void:
@@ -15,7 +16,10 @@ func play_turn() -> void:
 	await GameManager.battle_map.get_tree().create_timer(0.5).timeout
 	await use_cards_in_play()
 	await GameManager.battle_map.get_tree().create_timer(0.5).timeout
-	ai_turn_manager.end_turn()
+	# If the AI wins by conquering victory spaces, the battle map will be removed and they won't
+	# be able to end the turn anymore
+	if is_instance_valid(GameManager.battle_map) and !game_over:
+		ai_turn_manager.end_turn()
 
 
 func discard_card() -> void:
@@ -74,9 +78,9 @@ func use_cards_in_play() -> void:
 	while using_actions:
 		using_actions = false
 		for c in GameManager.cards_in_play[player_id]:
-			if !c.exhausted:
+			if !c.exhausted and !game_over:
 				using_actions = await use_card_action(c)
-				if using_actions:
+				if using_actions and !game_over:
 					await GameManager.battle_map.get_tree().create_timer(0.25).timeout
 					await GameManager.battle_map.get_tree().process_frame
 
@@ -87,8 +91,7 @@ func use_card_action(card: CardInPlay) -> bool:
 		and !card.fabrication
 	):
 		if card.current_play_space.conquered_by != player_id:
-			card.conquer_space()
-			return true
+			return AIHelper.conquer_space(card)
 	
 	# Checking if any abilities should be used
 	if card.is_ability_to_use_now():

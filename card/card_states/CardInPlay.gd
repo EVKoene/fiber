@@ -111,10 +111,15 @@ func swap_with_card(swap_card_owner_id: int, swap_cip_index: int) -> void:
 	var swap_card: CardInPlay = GameManager.cards_in_play[swap_card_owner_id][swap_cip_index]
 	GameManager.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, self)
 	GameManager.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, swap_card)
-	for p_id in GameManager.players:
-		BattleManager.swap_cards.rpc_id(
-			p_id, card_owner_id, card_in_play_index, swap_card_owner_id, swap_cip_index
+	if GameManager.is_single_player:
+		BattleManager.swap_cards(
+			card_owner_id, card_in_play_index, swap_card_owner_id, swap_cip_index
 		)
+	if !GameManager.is_single_player:
+		for p_id in GameManager.players:
+			BattleManager.swap_cards.rpc_id(
+				p_id, card_owner_id, card_in_play_index, swap_card_owner_id, swap_cip_index
+			)
 	GameManager.call_triggered_funcs(Collections.triggers.CARD_MOVED, self)
 	GameManager.call_triggered_funcs(Collections.triggers.CARD_MOVED, swap_card)
 
@@ -281,6 +286,7 @@ func update_stats() -> void:
 	min_attack = battle_stats.min_attack
 	health = battle_stats.health
 	movement = battle_stats.movement
+	
 	_set_labels()
 
 

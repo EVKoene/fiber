@@ -42,6 +42,7 @@ func start_game() -> void:
 	$TestingButton.hide()
 	$CenterContainer.hide()
 	$DeckButtons.hide()
+	OverworldManager.can_move = true
 
 
 func peer_connected(id: int) -> void:
@@ -110,6 +111,9 @@ func show_main_menu() -> void:
 
 
 func go_to_overworld() -> void:
+	GameManager.clean_manager()
+	if current_area:
+		current_area.queue_free()
 	GameManager.testing = false
 	GameManager.player_id = 1
 	GameManager.is_single_player = true

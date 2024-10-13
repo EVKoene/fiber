@@ -122,3 +122,19 @@ func is_wanting_to_swap_with_card(card: CardInPlay, card_swap: CardInPlay) -> bo
 	
 
 	return want
+
+
+func conquer_space(card: CardInPlay) -> bool:
+	var n_conquered_victory_spaces := 0
+	for s in GameManager.victory_spaces:
+		if !s.conquered_by:
+			continue
+		
+		card.conquer_space()
+		if s.conquered_by == GameManager.ai_player_id:
+			n_conquered_victory_spaces += 1
+	if n_conquered_victory_spaces >= MapSettings.n_progress_bars:
+		GameManager.ai_player.game_over = true
+		return true
+	
+	return false

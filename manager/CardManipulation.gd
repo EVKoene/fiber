@@ -18,27 +18,17 @@ func update_stats(card_owner_id: int, cip_index: int) -> void:
 
 
 @rpc("any_peer", "call_local")
-func change_max_attack(card_owner_id: int, cip_index: int, value: int, duration: int) -> void:
-	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
-	card.battle_stats.change_max_attack(value, duration)
-
-
-@rpc("any_peer", "call_local")
-func change_min_attack(card_owner_id: int, cip_index: int, value: int, duration: int) -> void:
-	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
-	card.battle_stats.change_min_attack(value, duration)
-
-
-@rpc("any_peer", "call_local")
-func change_health(card_owner_id: int, cip_index: int, value: int, duration: int) -> void:
-	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
-	card.battle_stats.change_health(value, duration)
-
-
-@rpc("any_peer", "call_local")
-func change_movement(card_owner_id: int, cip_index: int, value: int, duration: int) -> void:
-	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
-	card.battle_stats.change_movement(value, duration)
+func change_battle_stat(
+	battle_stat: int, card_owner_id: int, cip_index: int, value: int, duration: int
+) -> void:
+	if GameManager.is_single_player:
+		var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
+		card.battle_stats.change_battle_stat(battle_stat, value, duration)
+	if !GameManager.is_single_player:
+		for p_id in GameManager.players:
+			MPCardManipulation.change_battle_stat.rpc_id(
+				p_id, battle_stat, card_owner_id, cip_index, value, duration
+)
 
 
 @rpc("any_peer", "call_local")

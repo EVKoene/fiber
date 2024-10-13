@@ -83,3 +83,31 @@ func add_player_to_gamemanager(
 				players[i]["Name"], 
 				players[i]["Deck"]
 			)
+
+
+func clean_manager() -> void:
+	p1_id = -1
+	p2_id = -1
+	players = {}
+	is_single_player = false
+	player_id = 1
+	is_server = false
+
+	if battle_map:
+		battle_map.queue_free()
+	battle_map = null
+	victory_spaces = []
+	turn_manager = null
+	play_spaces = []
+	ps_column_row = {}
+	zoom_preview = null
+	resource_bars = {}
+	progress_bars = {}
+	resources = {}
+	decks = {}
+	cards_in_hand = {}
+	cards_in_play = {}
+	territories = []
+
+	ai_player = null
+	ai_player_id = -1

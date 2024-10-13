@@ -23,22 +23,14 @@ func grow_unit() -> bool:
 	
 	if len(TargetSelection.selected_targets) == 1:
 		var selected_card: CardInPlay = TargetSelection.selected_targets[0]
-		if GameManager.is_single_player:
-			CardManipulation.change_max_attack(
-				selected_card.card_owner_id, selected_card.card_in_play_index, 1, -1
-			)
-			CardManipulation.change_health(
-				selected_card.card_owner_id, selected_card.card_in_play_index, 1, -1
-			)
-			
-		if !GameManager.is_single_player:
-			for p_id in GameManager.players:
-				CardManipulation.change_max_attack.rpc_id(
-					p_id, selected_card.card_owner_id, selected_card.card_in_play_index, 1, -1
-				)
-				CardManipulation.change_health.rpc_id(
-					p_id, selected_card.card_owner_id, selected_card.card_in_play_index, 1, -1
-				)
+		CardManipulation.change_battle_stat(
+			Collections.stats.MIN_ATTACK, selected_card.card_owner_id, 
+			selected_card.card_in_play_index, 1, -1
+		)
+		CardManipulation.change_battle_stat(
+			Collections.stats.HEALTH, selected_card.card_owner_id, 
+			selected_card.card_in_play_index, 1, -1
+		)
 		
 		exhaust()
 		TargetSelection.making_selection = false
