@@ -37,6 +37,7 @@ TransitionScene="*res://overworld/scene_transition/TransitionScene.tscn"
 OverworldManager="*res://overworld/OverworldManager.gd"
 AIHelper="*res://singleplayer/ai/AIHelper.gd"
 MPCardManipulation="*res://manager/MPCardManipulation.gd"
+MultiplayerManager="*res://manager/MultiplayerManager.gd"
 
 [display]
 

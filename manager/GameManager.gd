@@ -19,6 +19,7 @@ var players := {}
 var is_single_player := false
 var player_id := 1  # The player's own id
 var is_server := false
+@onready var deck := DeckCollection.player_testing
 
 
 #### BATTLE ###
