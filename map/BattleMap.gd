@@ -383,6 +383,9 @@ func _create_resources():
 
 
 func _input(_event):
+	# If the game has ended we don't want to do anything with input
+	if !GameManager.turn_manager:
+		return
 	if (
 		Input.is_action_just_pressed("ui_accept") 
 		or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
