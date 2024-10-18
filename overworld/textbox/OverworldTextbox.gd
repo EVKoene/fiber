@@ -19,14 +19,13 @@ enum State { READY, READING, FINISHED }
 
 
 func _ready():
-	print("I'm a textbox container with id ", str(get_instance_id()))
 	OverworldManager.overworld_textbox = self
 	_hide_textbox()
 
 
 func read_text(text_to_read: Array) -> void:
 	OverworldManager.can_move = false
-	for t in text_to_read: 
+	for t in text_to_read:
 		_queue_text(t)
 
 
