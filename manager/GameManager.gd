@@ -2,6 +2,7 @@ extends Node
 
 
 ### SCENES ###
+var battle_map_scene: PackedScene = load("res://map/BattleMap.tscn")
 var overworld_scene: PackedScene = load("res://overworld/areas/StartingArea.tscn")
 
 ### GAME ###
@@ -59,6 +60,13 @@ func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:
 			await card.call_triggered_funcs(trigger, triggering_card)
 
 
+@rpc("any_peer", "call_local")
+func start_game() -> void:
+	main_menu.hide_main_menu()
+	var b_map = battle_map_scene.instantiate()
+	main_menu.add_child(b_map, true)
+
+
 func start_single_player_battle(npc_id: int) -> void:
 	var npc_data: Dictionary = NPCDatabase.npc_data[npc_id]
 	if !GameManager.players.has(1):
@@ -69,7 +77,7 @@ func start_single_player_battle(npc_id: int) -> void:
 	GameManager.add_player_to_gamemanager(
 			2, 2, npc_data["Name"], npc_data["Deck"]
 		)
-	main_menu.start_game()
+	start_game()
 
 	ai_player = null
 	ai_player_id = -1

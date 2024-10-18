@@ -3,7 +3,6 @@ extends Control
 class_name MainMenu
 
 
-var battle_map_scene: PackedScene = load("res://map/BattleMap.tscn")
 var tutorial_scene := load("res://singleplayer/Tutorial.tscn")
 var current_deck_label: Node
 
@@ -14,15 +13,14 @@ func _ready():
 	GameManager.set_current_deck(DeckCollection.random_deck())
 
 
-@rpc("any_peer", "call_local")
-func start_game() -> void:
-	get_tree().change_scene_to_packed(battle_map_scene)
-
-
 func _start_tutorial() -> void:
 	var tutorial = tutorial_scene.instantiate()
 	tutorial.size = MapSettings.total_screen
 	add_child(tutorial)
+	hide_main_menu()
+
+
+func hide_main_menu() -> void:
 	$CenterContainer.hide()
 	$TestingButton.hide()
 	$DeckButtons.hide()
@@ -35,14 +33,16 @@ func show_main_menu() -> void:
 
 
 func _on_start_pressed():
-	start_game.rpc()
+	GameManager.start_game.rpc()
 
+func _on_join_random_pressed():
+	MultiplayerManager.join_random_game()
 
-func _on_host_pressed():
-	MultiplayerManager.become_host()
+func _on_host_lan_pressed():
+	MultiplayerManager.become_lan_host()
 
-func _on_join_pressed():
-	MultiplayerManager.join_game()
+func _on_join_lan_pressed():
+	MultiplayerManager.join_lan_game()
 	
 
 func _on_testing_button_pressed():

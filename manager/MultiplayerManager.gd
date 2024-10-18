@@ -10,7 +10,7 @@ var dedicated_server := false
 func _ready() -> void:
 	if OS.has_feature("dedicated_server"):
 		dedicated_server = true
-		become_host()
+		become_dedicated_server_host()
 	multiplayer.peer_connected.connect(peer_connected)
 	multiplayer.peer_disconnected.connect(peer_disconnected)
 	multiplayer.connected_to_server.connect(connected_to_server)
@@ -38,7 +38,16 @@ func connection_failed() -> void:
 	print("Failed to connect!")
 
 
-func become_host() -> void:
+func join_random_game() -> void:
+	GameManager.is_player_1 = false
+	peer = ENetMultiplayerPeer.new()
+	peer.create_client($CenterContainer/VBoxContainer/IPAddress.text, port)
+	
+	multiplayer.set_multiplayer_peer(peer)
+	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
+
+
+func become_dedicated_server_host() -> void:
 	peer = ENetMultiplayerPeer.new()
 	var error = peer.create_server(port, 2)
 	if error != OK:
@@ -46,8 +55,19 @@ func become_host() -> void:
 		return
 	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
 	
-	if dedicated_server:
+	multiplayer.set_multiplayer_peer(peer)
+	print("Waiting for players")
+	
+	GameManager.is_server = true
+
+
+func become_lan_host() -> void:
+	peer = ENetMultiplayerPeer.new()
+	var error = peer.create_server(port, 2)
+	if error != OK:
+		print("Cannot host: " + str(error))
 		return
+	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
 	
 	multiplayer.set_multiplayer_peer(peer)
 	print("Waiting for players")
@@ -58,13 +78,10 @@ func become_host() -> void:
 	GameManager.player_id = multiplayer.get_unique_id()
 
 
-func join_game() -> void:
+func join_lan_game() -> void:
 	GameManager.is_player_1 = false
 	peer = ENetMultiplayerPeer.new()
-	if GameManager.testing:
-		peer.create_client(address, port)
-	else:
-		peer.create_client($CenterContainer/VBoxContainer/IPAddress.text, port)
+	peer.create_client(address, port)
 	
 	multiplayer.set_multiplayer_peer(peer)
 	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
