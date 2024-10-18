@@ -6,7 +6,7 @@ enum maps {BASE_MAP, BOSS_MAP,}
 var map_data: Dictionary = {
 	
 	maps.BASE_MAP: {
-		"SpacesToWin": 4,
+		"SpacesToWin": 2,
 		"Columns": 7,
 		"Rows": 5,
 		"P1StartingConqueredSpaces": [Vector2(3, 4)],

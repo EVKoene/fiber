@@ -130,11 +130,11 @@ func conquer_space(card: CardInPlay) -> bool:
 		if !s.conquered_by:
 			continue
 		
-		card.conquer_space()
 		if s.conquered_by == GameManager.ai_player_id:
 			n_conquered_victory_spaces += 1
 	if n_conquered_victory_spaces >= MapSettings.n_progress_bars:
 		GameManager.ai_player.game_over = true
-		return true
+	
+	card.conquer_space()
 	
 	return false
