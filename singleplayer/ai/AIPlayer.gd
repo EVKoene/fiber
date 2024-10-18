@@ -91,7 +91,7 @@ func use_card_action(card: CardInPlay) -> bool:
 		and !card.fabrication
 	):
 		if card.current_play_space.conquered_by != player_id:
-			return await AIHelper.conquer_space(card)
+			return AIHelper.conquer_space(card)
 	
 	# Checking if any abilities should be used
 	if card.is_ability_to_use_now():
