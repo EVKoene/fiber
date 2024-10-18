@@ -1,6 +1,7 @@
 extends Node
 
 
+@onready var server_manager := ServerManager.new()
 var peer
 var dedicated_server := false
 @export var address := "127.0.0.1"
@@ -19,6 +20,10 @@ func _ready() -> void:
 
 func peer_connected(id: int) -> void:
 	print("Player connected " + str(id))
+	if !dedicated_server:
+		return
+	
+	server_manager.add_player_to_lobby(id)
 
 
 func peer_disconnected(id: int) -> void:
@@ -29,7 +34,8 @@ func connected_to_server() -> void:
 	print("Connected to server!")
 	# This will only work as long as we have max 2 players
 	GameManager.add_player_to_gamemanager.rpc_id(
-		1, 2, multiplayer.get_unique_id(), "Player2", GameManager.deck
+		1, multiplayer.get_unique_id(), multiplayer.get_unique_id(), 
+		str(multiplayer.get_unique_id()), GameManager.deck
 	)
 	GameManager.player_id = multiplayer.get_unique_id()
 
