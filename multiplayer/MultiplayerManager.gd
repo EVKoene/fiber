@@ -28,10 +28,10 @@ func peer_disconnected(id: int) -> void:
 
 func connected_to_server() -> void:
 	print("Connected to server!")
-	GameManager.player_id = multiplayer.get_unique_id()
 	add_player.rpc_id(
 		1, multiplayer.get_unique_id(), str(multiplayer.get_unique_id()), GameManager.deck
 	)
+	GameManager.player_id = multiplayer.get_unique_id()
 
 
 func connection_failed() -> void:
@@ -64,7 +64,6 @@ func become_dedicated_server_host() -> void:
 
 func become_lan_host() -> void:
 	GameManager.is_server = true
-	GameManager.is_player_1 = true
 	peer = ENetMultiplayerPeer.new()
 	var error = peer.create_server(port, 2)
 	if error != OK:
@@ -74,7 +73,8 @@ func become_lan_host() -> void:
 	
 	multiplayer.set_multiplayer_peer(peer)
 	print("Waiting for players")
-	
+	add_player(multiplayer.get_unique_id(), str(multiplayer.get_unique_id()), GameManager.deck)
+	GameManager.player_id = multiplayer.get_unique_id()
 
 
 func join_lan_game() -> void:
@@ -88,4 +88,4 @@ func join_lan_game() -> void:
 @rpc("any_peer")
 func add_player(p_id: int, player_name: String, p_deck: Dictionary) -> void:
 	n_connected_players += 1
-	GameManager.add_player(n_connected_players, p_id, player_name, p_deck)
+	GameManager.add_player.rpc_id(1, n_connected_players, p_id, player_name, p_deck)

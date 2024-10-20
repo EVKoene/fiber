@@ -39,12 +39,24 @@ func start_turn(player_id: int) -> void:
 	if turn_count in resource_increases_turns:
 		gold_gained += 1
 	
-		if resource_increases_turns.max() > turn_count:
-			for t in resource_increases_turns:
-				if t > turn_count:
+	if resource_increases_turns.max() > turn_count:
+		for t in resource_increases_turns:
+			if t > turn_count:
+				if !GameManager.is_single_player:
+					for p_id in GameManager.players:
+						GameManager.battle_map.update_gold_container_text.rpc_id(
+							p_id, gold_gained, t - turn_count
+						)
+				if !GameManager.is_single_player:
 					GameManager.battle_map.update_gold_container_text(gold_gained, t - turn_count)
-					break
-		else:
+				break
+	else:
+		if !GameManager.is_single_player:
+			for p_id in GameManager.players:
+				GameManager.battle_map.update_gold_container_text.rpc_id(
+					p_id, gold_gained, -1
+				)
+		if !GameManager.is_single_player:
 			GameManager.battle_map.update_gold_container_text(gold_gained, -1)
 	
 	turn_stage = turn_stages.START_TURN

@@ -4,6 +4,7 @@ extends Node
 ### SCENES ###
 var battle_map_scene: PackedScene = load("res://map/BattleMap.tscn")
 var overworld_scene: PackedScene = load("res://overworld/areas/StartingArea.tscn")
+@onready var turn_manager_scene: PackedScene = preload("res://manager/TurnManager.tscn")
 
 ### GENERAL ###
 var version := "0.0.1"
@@ -43,6 +44,7 @@ var decks := {}
 var cards_in_hand := {}
 var cards_in_play := {}
 var territories := []
+var starting_draw := 1
 
 ### SINGLEPLAYER ###
 var ai_player: AIPlayer
@@ -65,19 +67,30 @@ func add_player(
 		}
 		if player_number == 1:
 			p1_id = p_id
+			if multiplayer.get_unique_id() == p1_id:
+				is_player_1 = true
 		if player_number == 2:
 			p2_id = p_id
 	
-	if multiplayer.is_server():
+	if is_server and player_number == 2:
 		for i in players:
-			add_player.rpc(
+			add_player.rpc_id(
+				p2_id,
 				players[i]["PlayerNumber"], 
 				players[i]["ID"], 
 				players[i]["Name"], 
 				players[i]["Deck"]
 			)
-	
-	start_game.rpc()
+			if MultiplayerManager.dedicated_server:
+				add_player.rpc_id(
+					p1_id,
+					players[i]["PlayerNumber"], 
+					players[i]["ID"], 
+					players[i]["Name"], 
+					players[i]["Deck"]
+				)
+		
+		main_menu.show_start_game_button.rpc()
 
 
 @rpc("any_peer", "call_local")
@@ -107,7 +120,6 @@ func opposing_player_id(p_id: int) -> int:
 	else:
 		return p1_id
 
-var starting_draw := 1
 
 func go_to_overworld() -> void:
 	GameManager.testing = false
@@ -138,3 +150,56 @@ func set_current_deck(deck_to_set: Dictionary) -> void:
 	main_menu.current_deck_label.text = str(
 		"Currently: ", deckname, "\nIP Address: ", IP.get_local_addresses()[3]
 	)
+
+
+@rpc("any_peer")
+func setup_game() -> void:
+	_set_cards_in_hand_and_play.rpc()
+	_create_resources.rpc()
+	_add_turn_managers()
+	_add_decks()
+	_start_first_turn()
+
+
+func _add_turn_managers() -> void:
+	var t_manager = turn_manager_scene.instantiate()
+	main_menu.add_child(t_manager, true)
+
+
+func _add_decks() -> void:
+	for p_id in GameManager.players:
+		var deck_data: Dictionary = GameManager.players[p_id]["Deck"]
+		decks[p_id] = Deck.new(p_id, deck_data["Cards"], deck_data["StartingCards"])
+		main_menu.add_child(GameManager.decks[p_id])
+
+
+func _start_first_turn() -> void:
+	var first_player_id = [GameManager.p1_id, GameManager.p2_id].pick_random()
+	if is_single_player:
+		if first_player_id == p1_id:
+			turn_manager.show_start_turn_text()
+		else:
+			turn_manager.hide_end_turn_button()
+			ai_player.ai_turn_manager.start_turn()
+	
+	else:
+		turn_manager.hide_end_turn_button.rpc_id(
+			opposing_player_id(first_player_id)
+		)
+		turn_manager.show_start_turn_text.rpc_id(first_player_id)
+
+
+@rpc("call_local")
+func _set_cards_in_hand_and_play() -> void:
+	GameManager.cards_in_hand[GameManager.p1_id] = []
+	GameManager.cards_in_play[GameManager.p1_id] = []
+	GameManager.cards_in_hand[GameManager.p2_id] = []
+	GameManager.cards_in_play[GameManager.p2_id] = []
+
+
+@rpc("call_local")
+func _create_resources():
+	for p_id in players:
+		var res := Resources.new(p_id)
+		resources[p_id] = res
+		main_menu.add_child(res)

@@ -54,7 +54,7 @@ func _ready():
 		flip_card()
 	GameManager.ps_column_row[column][row].card_in_this_play_space = self
 	if GameManager.is_server:
-		GameManager.call_deferred("call_triggered_funcs", Collections.triggers.CARD_CREATED, self)
+		BattleManager.call_deferred("call_triggered_funcs", Collections.triggers.CARD_CREATED, self)
 	_connect_signals()
 	enter_battle.call_deferred()
 

@@ -114,7 +114,7 @@ func _update_resources() -> void:
 			gold, animal, magic, nature, robot
 		)
 	else:
-		for p_id in [GameManager.p1_id, GameManager.p2_id]:
+		for p_id in GameManager.players:
 			BattleManager.set_resources.rpc_id(
 				p_id, resources_owner_id, gold, animal, magic, nature, robot
 			)

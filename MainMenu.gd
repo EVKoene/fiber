@@ -8,6 +8,7 @@ var current_deck_label: Node
 
 
 func _ready():
+	$MultiplayerSpawner.add_spawnable_scene("res://manager/TurnManager.tscn")
 	current_deck_label = $DeckButtons/CurrentDeck
 	GameManager.main_menu = self
 	GameManager.set_current_deck(DeckCollection.random_deck())
@@ -30,6 +31,11 @@ func show_main_menu() -> void:
 	$CenterContainer.show()
 	$TestingButton.show()
 	$DeckButtons.show()
+
+
+@rpc("any_peer")
+func show_start_game_button() -> void:
+	$CenterContainer/VBoxContainer/Start.show()
 
 
 func _on_start_pressed():

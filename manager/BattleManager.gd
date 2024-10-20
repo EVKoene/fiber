@@ -174,7 +174,9 @@ func set_progress_bars() -> void:
 			conquered_victory_spaces >= MapSettings.n_progress_bars 
 			and GameManager.player_id != p_id
 		):
-			GameManager.ai_player.game_over = true
+			if GameManager.is_single_player:
+				GameManager.ai_player.game_over = true
+			
 			GameManager.battle_map.show_text("You lose!")
 			TransitionScene.transition_to_overworld()
 			return
