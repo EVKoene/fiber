@@ -13,14 +13,14 @@ client and server will create objects and execute functionality seperately.
 
 @rpc("any_peer", "call_local")
 func refresh_unit(card_owner_id: int, cip_index: int):
-	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
+	var card: CardInPlay = GameManager.lobby.cards_in_play[card_owner_id][cip_index]
 	card.modulate = Color(1, 1, 1, 1)
 	card.exhausted = false
 
 
 @rpc("any_peer", "call_local")
 func exhaust_unit(card_owner_id: int, cip_index: int):
-	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
+	var card: CardInPlay = GameManager.lobby.cards_in_play[card_owner_id][cip_index]
 	card.modulate = Color(0.5, 0.5, 0.5, 1)
 	card.exhausted = true
 
@@ -28,7 +28,7 @@ func exhaust_unit(card_owner_id: int, cip_index: int):
 @rpc("any_peer", "call_local")
 func resolve_damage(card_owner_id, cip_index, value):
 	var min_value: int = max(0, value)
-	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
+	var card: CardInPlay = GameManager.lobby.cards_in_play[card_owner_id][cip_index]
 	var damage_number = Label.new()
 	card.add_child(damage_number)
 	damage_number.scale *= MapSettings.card_in_play_size * 0.9 / damage_number.size 
@@ -47,11 +47,11 @@ func resolve_damage(card_owner_id, cip_index, value):
 	)
 	
 	if card.health <= 0:
-		if GameManager.is_single_player:
+		if GameManager.lobby.is_single_player:
 			CardManipulation.destroy(card.card_owner_id, card.card_in_play_index)
-		if !GameManager.is_single_player:
+		if !GameManager.lobby.is_single_player:
 			CardManipulation.destroy.rpc_id(
-				GameManager.player_id, card.card_owner_id, card.card_in_play_index
+				GameManager.lobby.player_id, card.card_owner_id, card.card_in_play_index
 			)
 
 
@@ -63,9 +63,9 @@ func play_unit(card_index: int, card_owner_id: int, column: int, row: int) -> vo
 	card.card_index = card_index
 	card.column = column
 	card.row = row
-	GameManager.cards_in_play[card_owner_id].append(card)
-	GameManager.battle_map.add_child(card)
-	GameManager.zoom_preview.reset_zoom_preview()
+	GameManager.lobby.cards_in_play[card_owner_id].append(card)
+	GameManager.lobby.battle_map.add_child(card)
+	GameManager.lobby.zoom_preview.reset_zoom_preview()
 
 
 @rpc("any_peer", "call_local")
@@ -92,16 +92,16 @@ func create_fabrication(
 			costs[Collections.factions.NATURE],
 			costs[Collections.factions.ROBOT],
 	)
-	GameManager.cards_in_play[card_owner_id].append(fabrication)
-	GameManager.battle_map.add_child(fabrication)
+	GameManager.lobby.cards_in_play[card_owner_id].append(fabrication)
+	GameManager.lobby.battle_map.add_child(fabrication)
 	
 	await get_tree().create_timer(0.1).timeout
 
 
 @rpc("any_peer", "call_local")
 func remove_card_from_hand(card_owner_id: int, hand_index: int) -> void:
-	var card: CardInHand = GameManager.cards_in_hand[card_owner_id][hand_index]
-	GameManager.cards_in_hand[card_owner_id].remove_at(hand_index)
+	var card: CardInHand = GameManager.lobby.cards_in_hand[card_owner_id][hand_index]
+	GameManager.lobby.cards_in_hand[card_owner_id].remove_at(hand_index)
 	set_hand_card_positions()
 	card.queue_free()
 
@@ -110,10 +110,10 @@ func remove_card_from_hand(card_owner_id: int, hand_index: int) -> void:
 func update_play_space_stat_modifier(
 	card_owner_id: int, column: int, row: int, stat: int, value: int
 ) -> void:
-	var play_space: PlaySpace = GameManager.ps_column_row[column][row]
+	var play_space: PlaySpace = GameManager.lobby.ps_column_row[column][row]
 	play_space.stat_modifier[card_owner_id][stat] += value
-	for p in GameManager.players:
-		for c in GameManager.cards_in_play[p]:
+	for p in GameManager.lobby.players:
+		for c in GameManager.lobby.cards_in_play[p]:
 			c.update_stats()
 
 
@@ -122,24 +122,24 @@ func create_hand_card(card_owner_id: int, card_index: int) -> void:
 	var hand_card: CardInHand = card_in_hand_scene.instantiate()
 	hand_card.card_index = card_index
 	hand_card.card_owner_id = card_owner_id
-	GameManager.battle_map.add_child(hand_card)
+	GameManager.lobby.battle_map.add_child(hand_card)
 
 
 @rpc("any_peer", "call_local")
 func set_conquered_by(player_id: int, column: int, row: int) -> void:
-	var play_space = GameManager.ps_column_row[column][row]
+	var play_space = GameManager.lobby.ps_column_row[column][row]
 	play_space.conquered_by = player_id
 	match player_id:
-		GameManager.p1_id:
+		GameManager.lobby.p1_id:
 			play_space.get_theme_stylebox("panel").border_color = Styling.p1_color
-		GameManager.p2_id:
+		GameManager.lobby.p2_id:
 			play_space.get_theme_stylebox("panel").border_color = Styling.p2_color
 	
-	if GameManager.is_single_player:
+	if GameManager.lobby.is_single_player:
 		set_progress_bars()
 	
-	if !GameManager.is_single_player:
-		for p in GameManager.players:
+	if !GameManager.lobby.is_single_player:
+		for p in GameManager.lobby.players:
 			set_progress_bars.rpc_id(p)
 
 
@@ -147,16 +147,16 @@ func set_conquered_by(player_id: int, column: int, row: int) -> void:
 func set_resources(
 	resource_owner_id: int, gold: int, animal: int, magic: int, nature: int, robot: int
 ) -> void:
-	GameManager.resource_bars[resource_owner_id].set_resources_labels(
+	GameManager.lobby.resource_bars[resource_owner_id].set_resources_labels(
 		gold, animal, magic, nature, robot
 	)
 
 
 @rpc("any_peer", "call_local")
 func set_progress_bars() -> void:
-	for p_id in GameManager.players:
+	for p_id in GameManager.lobby.players:
 		var conquered_victory_spaces := 0
-		for s in GameManager.victory_spaces:
+		for s in GameManager.lobby.victory_spaces:
 			if !s.conquered_by:
 				continue
 			if s.conquered_by == p_id:
@@ -164,43 +164,43 @@ func set_progress_bars() -> void:
 		
 		if (
 			conquered_victory_spaces >= MapSettings.n_progress_bars 
-			and GameManager.player_id == p_id
+			and GameManager.lobby.player_id == p_id
 		):
-			GameManager.ai_player.game_over = true
-			GameManager.battle_map.show_text("You win!")
+			GameManager.lobby.ai_player.game_over = true
+			GameManager.lobby.battle_map.show_text("You win!")
 			TransitionScene.transition_to_overworld()
 			return
 		elif (
 			conquered_victory_spaces >= MapSettings.n_progress_bars 
-			and GameManager.player_id != p_id
+			and GameManager.lobby.player_id != p_id
 		):
-			GameManager.ai_player.game_over = true
-			GameManager.battle_map.show_text("You lose!")
+			GameManager.lobby.ai_player.game_over = true
+			GameManager.lobby.battle_map.show_text("You lose!")
 			TransitionScene.transition_to_overworld()
 			return
 		
-		for b in range(len(GameManager.progress_bars[p_id])):
+		for b in range(len(GameManager.lobby.progress_bars[p_id])):
 			if conquered_victory_spaces > b:
-				GameManager.progress_bars[p_id][b].value = 100
+				GameManager.lobby.progress_bars[p_id][b].value = 100
 			else:
-				GameManager.progress_bars[p_id][b].value = 0
+				GameManager.lobby.progress_bars[p_id][b].value = 0
 
 
 @rpc("any_peer", "call_local")
 func remove_from_cards_in_play(card: CardInPlay) -> void:
 	var card_owner_id := card.card_owner_id
 	var card_in_play_index := card.card_in_play_index
-	for p_id in GameManager.players:
-		GameManager.cards_in_play[card_owner_id].remove_at(card_in_play_index)
+	for p_id in GameManager.lobby.players:
+		GameManager.lobby.cards_in_play[card_owner_id].remove_at(card_in_play_index)
 
 
 @rpc("any_peer", "call_local")
 func move_to_play_space(
 	card_owner_id: int, card_in_play_index: int, new_column: int, new_row: int
 ) -> void:
-	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][card_in_play_index]
+	var card: CardInPlay = GameManager.lobby.cards_in_play[card_owner_id][card_in_play_index]
 	assert(
-		!GameManager.ps_column_row[new_column][new_row].card_in_this_play_space, 
+		!GameManager.lobby.ps_column_row[new_column][new_row].card_in_this_play_space, 
 		"tried to move to occupied space"
 	)
 	
@@ -216,8 +216,8 @@ func move_to_play_space(
 func swap_cards(
 	card_owner_id_1: int, cip_index_1: int, card_owner_id_2: int, cip_index_2: int
 ) -> void:
-	var card_1: CardInPlay = GameManager.cards_in_play[card_owner_id_1][cip_index_1]
-	var card_2: CardInPlay = GameManager.cards_in_play[card_owner_id_2][cip_index_2]
+	var card_1: CardInPlay = GameManager.lobby.cards_in_play[card_owner_id_1][cip_index_1]
+	var card_2: CardInPlay = GameManager.lobby.cards_in_play[card_owner_id_2][cip_index_2]
 	var new_column_1 := card_2.column
 	var new_column_2 := card_1.column
 	var new_row_1 := card_2.row
@@ -240,34 +240,34 @@ func swap_cards(
 
 @rpc("any_peer", "call_local")
 func set_hand_card_positions() -> void:
-	for p_id in GameManager.players:
-		for k in range(len(GameManager.cards_in_hand[p_id])):
-			var card: CardInHand = GameManager.cards_in_hand[p_id][k]
+	for p_id in GameManager.lobby.players:
+		for k in range(len(GameManager.lobby.cards_in_hand[p_id])):
+			var card: CardInHand = GameManager.lobby.cards_in_hand[p_id][k]
 			card.set_card_position()
 
 
 @rpc("any_peer", "call_local")
 func draw_card(card_owner_id: int) -> void:
-	await GameManager.decks[card_owner_id].draw_card()
+	await GameManager.lobby.decks[card_owner_id].draw_card()
 	return
 
 @rpc("any_peer", "call_local")
 func draw_type_put_rest_bottom(card_owner_id: int, card_type: int) -> void:
-	GameManager.decks[card_owner_id].draw_type_put_rest_bottom(card_type)
+	GameManager.lobby.decks[card_owner_id].draw_type_put_rest_bottom(card_type)
 
 
 @rpc("any_peer", "call_local")
 func lock_zoom_preview_hand(card_owner_id: int, hand_index: int) -> void:
-	var hand_card: CardInHand = GameManager.cards_in_hand[card_owner_id][hand_index]
-	GameManager.zoom_preview.lock_zoom_preview_hand(hand_card)
+	var hand_card: CardInHand = GameManager.lobby.cards_in_hand[card_owner_id][hand_index]
+	GameManager.lobby.zoom_preview.lock_zoom_preview_hand(hand_card)
 
 
 func ask_resolve_spell_agreement() -> void:
-	if GameManager.is_single_player:
-		GameManager.battle_map.show_resolve_spell_button()
-	if !GameManager.is_single_player:
-		GameManager.battle_map.show_resolve_spell_button.rpc_id(
-			GameManager.opposing_player_id(GameManager.player_id)
+	if GameManager.lobby.is_single_player:
+		GameManager.lobby.battle_map.show_resolve_spell_button()
+	if !GameManager.lobby.is_single_player:
+		GameManager.lobby.battle_map.show_resolve_spell_button.rpc_id(
+			GameManager.lobby.opposing_player_id(GameManager.lobby.player_id)
 		)
 
 
@@ -278,20 +278,20 @@ func resolve_spell_agreed() -> void:
 
 @rpc("any_peer", "call_local")
 func reset_zoom_preview() -> void:
-	GameManager.zoom_preview.reset_zoom_preview()
+	GameManager.lobby.zoom_preview.reset_zoom_preview()
 
 
 @rpc("any_peer", "call_local")
 func pick_card(player_id: int, option_index: int, card_indices: Array) -> void:
-	GameManager.decks[player_id].create_hand_card(card_indices[option_index])
+	GameManager.lobby.decks[player_id].create_hand_card(card_indices[option_index])
 	for c in len(card_indices):
 		if c != option_index:
-			GameManager.decks[GameManager.player_id].send_to_discard(card_indices[c])
+			GameManager.lobby.decks[GameManager.lobby.player_id].send_to_discard(card_indices[c])
 
 
 @rpc("any_peer", "call_local")
 func resolve_spell(card_owner_id: int, hand_index: int, column: int, row: int) -> void:
-	var card_in_hand: CardInHand = GameManager.cards_in_hand[card_owner_id][hand_index]
+	var card_in_hand: CardInHand = GameManager.lobby.cards_in_hand[card_owner_id][hand_index]
 	var card: CardInPlay = CardDatabase.get_card_class(card_in_hand.card_index).new()
 	card.card_owner_id = card_in_hand.card_owner_id
 	@warning_ignore("redundant_await")
@@ -300,21 +300,27 @@ func resolve_spell(card_owner_id: int, hand_index: int, column: int, row: int) -
 	
 	var h_index = hand_index
 	if succesfull_resolve:
-		GameManager.resources[card_in_hand.card_owner_id].pay_costs(card_in_hand.costs)
+		GameManager.lobby.resources[card_in_hand.card_owner_id].pay_costs(card_in_hand.costs)
 	
-	if GameManager.is_single_player:
+	if GameManager.lobby.is_single_player:
 		BattleManager.reset_zoom_preview()
 		BattleManager.remove_card_from_hand(card_owner_id, h_index)
-	if !GameManager.is_single_player:
-		for p_id in GameManager.players:
+	if !GameManager.lobby.is_single_player:
+		for p_id in GameManager.lobby.players:
 			BattleManager.reset_zoom_preview.rpc_id(p_id)
 			BattleManager.remove_card_from_hand.rpc_id(p_id, card_owner_id, h_index)
 	
-	GameManager.turn_manager.set_turn_actions_enabled(true)
+	GameManager.lobby.turn_manager.set_turn_actions_enabled(true)
 	
 
 func finish_resolve() -> void:
 	Events.hide_instructions.emit()
-	GameManager.battle_map.hide_finish_button()
-	GameManager.turn_manager.set_turn_actions_enabled(true)
+	GameManager.lobby.battle_map.hide_finish_button()
+	GameManager.lobby.turn_manager.set_turn_actions_enabled(true)
 	TargetSelection.end_selecting()
+
+
+func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:
+	for p_id in GameManager.lobby.players:
+		for card in GameManager.lobby.cards_in_play[p_id]:
+			await card.call_triggered_funcs(trigger, triggering_card)

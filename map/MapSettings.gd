@@ -23,7 +23,7 @@ var n_progress_bars: int
 
 
 func get_column_start_x(column) -> float:
-	if GameManager.is_player_1:
+	if GameManager.lobby.is_player_1:
 		return MapSettings.play_area_start.x + MapSettings.play_space_size.x * column
 	else:
 		return (
@@ -45,7 +45,7 @@ func get_row_start_y(row) -> float:
 
 
 func get_column_end_x(column) -> float:
-	if multiplayer.get_unique_id() == GameManager.p1_id:
+	if multiplayer.get_unique_id() == GameManager.lobby.p1_id:
 		return MapSettings.play_area_start.x + MapSettings.play_space_size.x * (column + 1)
 	else:
 		return (
@@ -55,7 +55,7 @@ func get_column_end_x(column) -> float:
 		)
 
 func get_row_end_y(row) -> float:
-	if multiplayer.get_unique_id() == GameManager.p1_id:
+	if multiplayer.get_unique_id() == GameManager.lobby.p1_id:
 		return MapSettings.play_area_start.y + MapSettings.play_space_size.y * (row + 1)
 	else:
 		return (

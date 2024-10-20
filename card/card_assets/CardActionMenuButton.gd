@@ -23,11 +23,11 @@ func _ready():
 
 
 func _on_pressed():
-	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
+	var card: CardInPlay = GameManager.lobby.cards_in_play[card_owner_id][cip_index]
 	if conquer_space:
 		card.conquer_space()
 		TargetSelection.end_selecting()
-	elif GameManager.resources[card_owner_id].can_pay_costs(
+	elif GameManager.lobby.resources[card_owner_id].can_pay_costs(
 		card.abilities[func_index]["AbilityCosts"]
 	):
 		card.use_ability(func_index)

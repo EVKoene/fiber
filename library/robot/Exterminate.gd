@@ -6,7 +6,7 @@ class_name Exterminate
 
 func resolve_spell(c_column: int, c_row: int) -> bool:
 	var selected_card: CardInPlay = (
-		GameManager.ps_column_row[c_column][c_row].card_in_this_play_space
+		GameManager.lobby.ps_column_row[c_column][c_row].card_in_this_play_space
 	)
 	Events.show_instructions.emit("Choose a unit to destroy")
 	TargetSelection.select_targets(

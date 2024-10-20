@@ -6,7 +6,7 @@ func frenzy(
 ) -> void:
 	if (
 		trigger == Collections.triggers.TURN_STARTED 
-		and GameManager.turn_manager.turn_owner_id == card.card_owner_id
+		and GameManager.lobby.turn_manager.turn_owner_id == card.card_owner_id
 	) or (
 		trigger == Collections.triggers.CARD_CREATED
 		and card == triggering_card

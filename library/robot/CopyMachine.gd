@@ -23,13 +23,13 @@ func copy_unit() -> bool:
 			is_ps_for_copy_available = true
 	
 	if !is_ps_for_copy_available:
-		GameManager.battle_map.show_instructions("No adjacent units to copy")
+		GameManager.lobby.battle_map.show_instructions("No adjacent units to copy")
 		await get_tree().create_timer(2).timeout
 		BattleManager.finish_resolve()
 		return false
 	
 	if len(ps_to_put_copy) == 0:
-		GameManager.battle_map.show_instructions("No adjacent space to put fabrication")
+		GameManager.lobby.battle_map.show_instructions("No adjacent space to put fabrication")
 		await get_tree().create_timer(2).timeout
 		BattleManager.finish_resolve()
 	
@@ -69,7 +69,7 @@ func copy_unit() -> bool:
 
 func create_copy(card_to_copy: CardInPlay, ps: PlaySpace) -> void:
 	if card_to_copy.fabrication:
-		for p_id in [GameManager.p1_id, GameManager.p2_id]:
+		for p_id in [GameManager.lobby.p1_id, GameManager.lobby.p2_id]:
 			BattleManager.create_fabrication.rpc_id(
 				p_id, card_owner_id, ps.column, ps.row, 
 				card_to_copy.ingame_name, card_to_copy.max_attack, card_to_copy.min_attack, 
@@ -78,9 +78,9 @@ func create_copy(card_to_copy: CardInPlay, ps: PlaySpace) -> void:
 			)
 	
 	if !card_to_copy.fabrication:
-		for p_id in [GameManager.p1_id, GameManager.p2_id]:
+		for p_id in [GameManager.lobby.p1_id, GameManager.lobby.p2_id]:
 			BattleManager.play_unit.rpc_id(
 				p_id, card_to_copy.card_index, card_to_copy.card_owner_id, ps.column, ps.row
 			)
 	
-	GameManager.cards_in_play[card_owner_id][-1].call_deferred("exhaust")
+	GameManager.lobby.cards_in_play[card_owner_id][-1].call_deferred("exhaust")

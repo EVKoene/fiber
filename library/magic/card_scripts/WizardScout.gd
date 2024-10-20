@@ -17,7 +17,7 @@ func _init():
 func swap() -> bool:
 	select_card(true)
 	Events.show_instructions.emit("Choose a card to swap with")
-	GameManager.battle_map.show_finish_button()
+	GameManager.lobby.battle_map.show_finish_button()
 	TargetSelection.select_targets(
 		1, TargetSelection.target_restrictions.OWN_UNITS, self, false, -1, true
 	)

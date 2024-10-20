@@ -1,16 +1,17 @@
 extends Node
 
 
+var lobby_scene := load("res://multiplayer/Lobby.tscn")
 @onready var server_manager := ServerManager.new()
 var peer
 var dedicated_server := false
 @export var address := "127.0.0.1"
 @export var port = 8910
+@export var server_addres = "188.245.54.189"
 
 
 func _ready() -> void:
 	if OS.has_feature("dedicated_server"):
-		dedicated_server = true
 		become_dedicated_server_host()
 	multiplayer.peer_connected.connect(peer_connected)
 	multiplayer.peer_disconnected.connect(peer_disconnected)
@@ -20,10 +21,6 @@ func _ready() -> void:
 
 func peer_connected(id: int) -> void:
 	print("Player connected " + str(id))
-	if !dedicated_server:
-		return
-	
-	server_manager.add_player_to_lobby(id)
 
 
 func peer_disconnected(id: int) -> void:
@@ -33,11 +30,7 @@ func peer_disconnected(id: int) -> void:
 func connected_to_server() -> void:
 	print("Connected to server!")
 	# This will only work as long as we have max 2 players
-	GameManager.add_player_to_gamemanager.rpc_id(
-		1, multiplayer.get_unique_id(), multiplayer.get_unique_id(), 
-		str(multiplayer.get_unique_id()), GameManager.deck
-	)
-	GameManager.player_id = multiplayer.get_unique_id()
+	add_player.rpc_id(1, multiplayer.get_unique_id(), str(multiplayer.get_unique_id()), GameManager.deck)
 
 
 func connection_failed() -> void:
@@ -45,15 +38,16 @@ func connection_failed() -> void:
 
 
 func join_random_game() -> void:
-	GameManager.is_player_1 = false
 	peer = ENetMultiplayerPeer.new()
-	peer.create_client($CenterContainer/VBoxContainer/IPAddress.text, port)
+	#peer.create_client(server_addres, port)
+	peer.create_client(address, port)
 	
 	multiplayer.set_multiplayer_peer(peer)
 	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
 
 
 func become_dedicated_server_host() -> void:
+	dedicated_server = true
 	peer = ENetMultiplayerPeer.new()
 	var error = peer.create_server(port, 2)
 	if error != OK:
@@ -68,6 +62,7 @@ func become_dedicated_server_host() -> void:
 
 
 func become_lan_host() -> void:
+	GameManager.is_server = true
 	peer = ENetMultiplayerPeer.new()
 	var error = peer.create_server(port, 2)
 	if error != OK:
@@ -78,16 +73,40 @@ func become_lan_host() -> void:
 	multiplayer.set_multiplayer_peer(peer)
 	print("Waiting for players")
 	
-	GameManager.add_player_to_gamemanager(
-		1, multiplayer.get_unique_id(), "Player1", GameManager.deck
-	)
-	GameManager.player_id = multiplayer.get_unique_id()
 
 
 func join_lan_game() -> void:
-	GameManager.is_player_1 = false
 	peer = ENetMultiplayerPeer.new()
 	peer.create_client(address, port)
 	
 	multiplayer.set_multiplayer_peer(peer)
 	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
+
+
+@rpc("any_peer")
+func add_player(player_id: int, player_name: String, deck: Dictionary) -> void:
+	if dedicated_server:
+		add_player_to_server_lobby(player_id, player_name, deck)
+	if !dedicated_server:
+		create_lan_lobby.rpc()
+		var own_id := multiplayer.get_unique_id()
+		for p_id in [player_id, own_id]:
+			GameManager.lobby.add_player.rpc_id(
+				p_id, own_id, str(own_id), GameManager.deck
+			)
+			GameManager.lobby.add_player.rpc_id(
+				p_id, player_id, player_name, deck
+			)
+
+
+@rpc("any_peer", "call_local")
+func create_lan_lobby() -> void:
+	var lobby = lobby_scene.instantiate()
+	GameManager.main_menu.add_child(lobby)
+
+
+@rpc("any_peer", "call_local")
+func add_player_to_server_lobby(
+	p_id: int, player_name: String, p_deck: Dictionary
+) -> void:
+	server_manager.add_player_to_lobby(p_id, player_name, p_deck)

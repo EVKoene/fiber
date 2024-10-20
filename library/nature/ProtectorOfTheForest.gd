@@ -9,7 +9,7 @@ var has_moved: bool = false
 func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:
 	if (
 		trigger == Collections.triggers.TURN_STARTED 
-		and GameManager.turn_manager.turn_owner_id == card_owner_id
+		and GameManager.lobby.turn_manager.turn_owner_id == card_owner_id
 	):
 		if !has_moved:
 			CardManipulation.change_battle_stat(

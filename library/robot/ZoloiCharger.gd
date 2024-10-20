@@ -8,7 +8,7 @@ var charged := false
 
 
 func call_triggered_funcs(trigger: int, _triggering_card: CardInPlay) -> void:
-	if trigger != Collections.triggers.TURN_STARTED or GameManager.turn_manager.turn_owner_id != card_owner_id:
+	if trigger != Collections.triggers.TURN_STARTED or GameManager.lobby.turn_manager.turn_owner_id != card_owner_id:
 		return
 
 	charged = true
@@ -16,7 +16,7 @@ func call_triggered_funcs(trigger: int, _triggering_card: CardInPlay) -> void:
 		charged = false
 	else:
 		for ps in [
-			GameManager.ps_column_row[column - 1][row], GameManager.ps_column_row[column + 1][row]
+			GameManager.lobby.ps_column_row[column - 1][row], GameManager.lobby.ps_column_row[column + 1][row]
 		]:
 			if !ps.card_in_this_play_space:
 				charged = false
@@ -35,14 +35,14 @@ func call_triggered_funcs(trigger: int, _triggering_card: CardInPlay) -> void:
 
 
 func attack_card(target_card: CardInPlay) -> void:
-	GameManager.call_triggered_funcs(Collections.triggers.ATTACK, self)
-	if GameManager.is_single_player:
+	BattleManager.call_triggered_funcs(Collections.triggers.ATTACK, self)
+	if GameManager.lobby.is_single_player:
 		BattleAnimation.animate_attack(
 			card_owner_id, card_in_play_index, 
 			target_card.current_play_space.direction_from_play_space(current_play_space)
 		)
-	if !GameManager.is_single_player:
-		for p_id in [GameManager.p1_id, GameManager.p2_id]:
+	if !GameManager.lobby.is_single_player:
+		for p_id in [GameManager.lobby.p1_id, GameManager.lobby.p2_id]:
 			BattleAnimation.animate_attack.rpc_id(
 				p_id, card_owner_id, card_in_play_index, 
 				target_card.current_play_space.direction_from_play_space(current_play_space)
@@ -56,4 +56,4 @@ func attack_card(target_card: CardInPlay) -> void:
 	if charged:
 		for c in adjacent_cards:
 			c.resolve_damage(1)
-	GameManager.call_triggered_funcs(Collections.triggers.ATTACK_FINISHED, self)
+	BattleManager.call_triggered_funcs(Collections.triggers.ATTACK_FINISHED, self)

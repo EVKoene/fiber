@@ -10,7 +10,7 @@ func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:
 	):
 		for ps in current_play_space.adjacent_play_spaces():
 			ps.update_stat_modifier(
-				GameManager.opposing_player_id(card_owner_id), Collections.stats.MAX_ATTACK, -1
+				GameManager.lobby.opposing_player_id(card_owner_id), Collections.stats.MAX_ATTACK, -1
 			)
 	elif (
 		(
@@ -21,5 +21,5 @@ func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:
 	):
 		for ps in current_play_space.adjacent_play_spaces():
 			ps.update_stat_modifier(
-				GameManager.opposing_player_id(card_owner_id), Collections.stats.MAX_ATTACK, 1
+				GameManager.lobby.opposing_player_id(card_owner_id), Collections.stats.MAX_ATTACK, 1
 			)

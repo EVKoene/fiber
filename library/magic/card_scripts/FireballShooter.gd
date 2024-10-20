@@ -15,10 +15,10 @@ func _init():
 
 
 func shoot_fireballs() -> bool:
-	GameManager.turn_manager.set_turn_actions_enabled(false)
+	GameManager.lobby.turn_manager.set_turn_actions_enabled(false)
 	
 	var play_space_options: Array = []
-	for ps in GameManager.play_spaces:
+	for ps in GameManager.lobby.play_spaces:
 		if ps == current_play_space:
 			continue
 		elif ps.column == current_play_space.column or ps.row == current_play_space.row:
@@ -72,13 +72,13 @@ func shoot_fireballs() -> bool:
 
 
 func burn_and_damage(ps_column: int, ps_row: int) -> void:
-	if GameManager.is_single_player:
+	if GameManager.lobby.is_single_player:
 		BattleAnimation.play_burn_animation(ps_column, ps_row)
-	if !GameManager.is_single_player:
-		for p_id in GameManager.players:
+	if !GameManager.lobby.is_single_player:
+		for p_id in GameManager.lobby.players:
 			BattleAnimation.play_burn_animation.rpc_id(p_id, ps_column, ps_row)
 	
-	var play_space: PlaySpace = GameManager.ps_column_row[ps_column][ps_row]
+	var play_space: PlaySpace = GameManager.lobby.ps_column_row[ps_column][ps_row]
 	if play_space.card_in_this_play_space:
 		if play_space.card_in_this_play_space.card_owner_id != card_owner_id:
 			play_space.card_in_this_play_space.resolve_damage(1)
@@ -94,7 +94,7 @@ func resolve_ability_for_ai() -> void:
 		Collections.directions.DOWN: 0,
 	}
 	
-	for c in GameManager.cards_in_play[GameManager.p1_id]:
+	for c in GameManager.lobby.cards_in_play[GameManager.lobby.p1_id]:
 		if current_play_space.play_space_direction_in_same_line(c.current_play_space) != -1:
 			enemies_in_direction[
 				current_play_space.play_space_direction_in_same_line(c.current_play_space)
@@ -136,7 +136,7 @@ func resolve_ability_for_ai() -> void:
 
 
 func is_ability_to_use_now() -> bool:
-	for c in GameManager.cards_in_play[GameManager.p1_id]:
+	for c in GameManager.lobby.cards_in_play[GameManager.lobby.p1_id]:
 		if current_play_space.play_space_direction_in_same_line(c.current_play_space) != -1:
 			return true
 	

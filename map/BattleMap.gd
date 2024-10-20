@@ -6,6 +6,7 @@ extends Node2D
 @onready var turn_manager_scene: PackedScene = preload("res://manager/TurnManager.tscn")
 @onready var card_pick_scene: PackedScene = preload("res://card/CardPickScreen.tscn")
 @onready var card_resolve_scene := preload("res://card/card_states/CardResolve.tscn")
+@onready var lobby: Lobby
 
 var map = MapDatabase.maps.BASE_MAP
 var map_data = MapDatabase.map_data[map]
@@ -15,10 +16,10 @@ var text_box: Panel
 
 
 func _ready():
-	if GameManager.is_single_player:
+	if lobby.is_single_player:
 		_create_ai_player()
 	
-	GameManager.battle_map = self
+	lobby.battle_map = self
 	$MultiplayerSpawner.add_spawnable_scene("res://manager/TurnManager.tscn")
 	_create_battle_map()
 	_set_zoom_preview_position_and_size()
@@ -31,8 +32,7 @@ func _ready():
 	_create_progress_bars()
 	_create_resources()
 	_create_starting_territory()
-	if multiplayer.is_server():
-		GameManager.is_server = true
+	if GameManager.is_server:
 		_add_turn_managers()
 		# To make sure the cards and card orders are always the same for both players, we only create
 		# the decks on the server
@@ -44,10 +44,10 @@ func _ready():
 
 
 func _create_ai_player() -> void:
-	GameManager.ai_player = AIPlayer.new()
-	GameManager.ai_player_id = GameManager.p2_id
-	GameManager.ai_player.player_id = GameManager.p2_id
-	GameManager.ai_player.ai_turn_manager = AITurnManager.new()
+	lobby.ai_player = AIPlayer.new()
+	lobby.ai_player_id = lobby.p2_id
+	lobby.ai_player.player_id = lobby.p2_id
+	lobby.ai_player.ai_turn_manager = AITurnManager.new()
 
 
 @rpc("any_peer", "call_local")
@@ -62,10 +62,10 @@ func pick_card_option(card_indices: Array) -> void:
 func create_card_resolve(
 	card_owner_id: int, cih_index: int, column: int, row: int
 	) -> void:
-	GameManager.turn_manager.set_turn_actions_enabled(false)
+	lobby.turn_manager.set_turn_actions_enabled(false)
 	
 	var card_resolve = card_resolve_scene.instantiate()
-	var card_in_hand = GameManager.cards_in_hand[card_owner_id][cih_index]
+	var card_in_hand = lobby.cards_in_hand[card_owner_id][cih_index]
 	card_resolve.card_index = card_in_hand.card_index
 	card_resolve.column = column
 	card_resolve.row = row
@@ -85,26 +85,26 @@ func hide_text() -> void:
 
 
 func _start_first_turn() -> void:
-	var first_player_id = [GameManager.p1_id, GameManager.p2_id].pick_random()
-	if GameManager.is_single_player:
-		if first_player_id == GameManager.p1_id:
-			GameManager.turn_manager.show_start_turn_text()
+	var first_player_id = [lobby.p1_id, lobby.p2_id].pick_random()
+	if lobby.is_single_player:
+		if first_player_id == lobby.p1_id:
+			lobby.turn_manager.show_start_turn_text()
 		else:
-			GameManager.turn_manager.hide_end_turn_button()
-			GameManager.ai_player.ai_turn_manager.start_turn()
+			lobby.turn_manager.hide_end_turn_button()
+			lobby.ai_player.ai_turn_manager.start_turn()
 	
 	else:
-		GameManager.turn_manager.hide_end_turn_button.rpc_id(
-			GameManager.opposing_player_id(first_player_id)
+		lobby.turn_manager.hide_end_turn_button.rpc_id(
+			lobby.opposing_player_id(first_player_id)
 		)
-		GameManager.turn_manager.show_start_turn_text.rpc_id(first_player_id)
+		lobby.turn_manager.show_start_turn_text.rpc_id(first_player_id)
 
 
 func _add_decks() -> void:
-	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		var deck_data: Dictionary = GameManager.players[p_id]["Deck"]
-		GameManager.decks[p_id] = Deck.new(p_id, deck_data["Cards"], deck_data["StartingCards"])
-		add_child(GameManager.decks[p_id])
+	for p_id in [lobby.p1_id, lobby.p2_id]:
+		var deck_data: Dictionary = lobby.players[p_id]["Deck"]
+		lobby.decks[p_id] = Deck.new(p_id, deck_data["Cards"], deck_data["StartingCards"])
+		add_child(lobby.decks[p_id])
 
 
 func _add_turn_managers() -> void:
@@ -160,24 +160,24 @@ func _create_play_spaces() -> void:
 	MapSettings.n_columns = map_data["Columns"]
 	MapSettings.n_rows = map_data["Rows"]
 	for column in map_data["Columns"]:
-		GameManager.ps_column_row[column] = {}
+		lobby.ps_column_row[column] = {}
 		for row in map_data["Rows"]:
 			var play_space: PlaySpace = play_space_scene.instantiate()
 			play_space.column = column
 			play_space.row = row
 			add_child(play_space)
-			GameManager.play_spaces.append(play_space)
+			lobby.play_spaces.append(play_space)
 
 
 func _create_starting_territory() -> void:
 	for ps in map_data["P1Territory"]:
-		GameManager.ps_column_row[int(ps.x)][int(ps.y)].add_to_territory(GameManager.p1_id)
+		lobby.ps_column_row[int(ps.x)][int(ps.y)].add_to_territory(lobby.p1_id)
 	for ps in map_data["P2Territory"]:
-		GameManager.ps_column_row[int(ps.x)][int(ps.y)].add_to_territory(GameManager.p2_id)
+		lobby.ps_column_row[int(ps.x)][int(ps.y)].add_to_territory(lobby.p2_id)
 	for ps in map_data["P1StartingConqueredSpaces"]:
-		GameManager.ps_column_row[int(ps.x)][int(ps.y)].set_conquered_by(GameManager.p1_id)
+		lobby.ps_column_row[int(ps.x)][int(ps.y)].set_conquered_by(lobby.p1_id)
 	for ps in map_data["P2StartingConqueredSpaces"]:
-		GameManager.ps_column_row[int(ps.x)][int(ps.y)].set_conquered_by(GameManager.p2_id)
+		lobby.ps_column_row[int(ps.x)][int(ps.y)].set_conquered_by(lobby.p2_id)
 
 
 func _set_end_turn_button() -> void:
@@ -231,14 +231,14 @@ func _set_zoom_preview_position_and_size() -> void:
 	$ZoomPreview.scale.x *= zoom_preview_size.x / $ZoomPreview.size.x
 	$ZoomPreview.scale.y *= zoom_preview_size.x / $ZoomPreview.size.y
 	MapSettings.zoom_preview_size = zoom_preview_size
-	GameManager.zoom_preview = $ZoomPreview
+	lobby.zoom_preview = $ZoomPreview
 
 
 func _set_resource_bars_position_and_size() -> void:
 	var rb_1 = resource_bar_scene.instantiate()
 	var rb_2 = resource_bar_scene.instantiate()
 	
-	match GameManager.is_player_1:
+	match lobby.is_player_1:
 		true:
 			rb_1.position.y = (
 				MapSettings.total_screen.y - MapSettings.resource_bar_size.y 
@@ -257,19 +257,19 @@ func _set_resource_bars_position_and_size() -> void:
 		rb.scale.x *= MapSettings.resource_bar_size.x / rb.size.x
 		rb.scale.y *= MapSettings.resource_bar_size.y / rb.size.y
 
-	GameManager.resource_bars[GameManager.p1_id] = rb_1
-	GameManager.resource_bars[GameManager.p2_id] = rb_2
+	lobby.resource_bars[lobby.p1_id] = rb_1
+	lobby.resource_bars[lobby.p2_id] = rb_2
 	add_child(rb_1)
 	add_child(rb_2)
 
 
 func _create_progress_bars() -> void:
-	GameManager.progress_bars[GameManager.p1_id] = []
-	GameManager.progress_bars[GameManager.p2_id] = []
+	lobby.progress_bars[lobby.p1_id] = []
+	lobby.progress_bars[lobby.p2_id] = []
 	
 	# In the future we probably want players to get all resource spaces on their half + the ones
 	# center. For now it's total number / 2 however.
-	for p_id in [GameManager.p1_id, GameManager.p2_id]:
+	for p_id in [lobby.p1_id, lobby.p2_id]:
 		for b in MapSettings.n_progress_bars:
 			var progress_bar = ProgressBar.new()
 			var progress_bar_y_size = MapSettings.play_space_size.y / MapSettings.n_progress_bars
@@ -281,18 +281,18 @@ func _create_progress_bars() -> void:
 			progress_bar.show_percentage = false
 			var sb = StyleBoxFlat.new()
 			progress_bar.add_theme_stylebox_override("fill", sb)
-			GameManager.progress_bars[p_id].append(progress_bar)
-			match [GameManager.is_player_1, p_id]:
-				[true, GameManager.p1_id]:
+			lobby.progress_bars[p_id].append(progress_bar)
+			match [lobby.is_player_1, p_id]:
+				[true, lobby.p1_id]:
 					progress_bar.position.y = MapSettings.total_screen.y / 2 + progress_bar.size.y
 					sb.bg_color = Color.hex(0x3b3be7dc)
-				[true, GameManager.p2_id]:
+				[true, lobby.p2_id]:
 					progress_bar.position.y = MapSettings.total_screen.y / 2 - progress_bar.size.y
 					sb.bg_color = Color.hex(0xf3131edc)
-				[false, GameManager.p1_id]:
+				[false, lobby.p1_id]:
 					progress_bar.position.y = MapSettings.total_screen.y / 2 - progress_bar.size.y
 					sb.bg_color = Color.hex(0x3b3be7dc)
-				[false, GameManager.p2_id]:
+				[false, lobby.p2_id]:
 					progress_bar.position.y = MapSettings.total_screen.y / 2 + progress_bar.size.y
 					sb.bg_color = Color.hex(0xf3131edc)
 
@@ -345,17 +345,17 @@ func update_gold_container_text(gold_gained: int, turns_until_increase: int) -> 
 
 
 func _set_cards_in_play_and_hand_dicts() -> void:
-	GameManager.cards_in_hand[GameManager.p1_id] = []
-	GameManager.cards_in_play[GameManager.p1_id] = []
-	GameManager.cards_in_hand[GameManager.p2_id] = []
-	GameManager.cards_in_play[GameManager.p2_id] = []
+	lobby.cards_in_hand[lobby.p1_id] = []
+	lobby.cards_in_play[lobby.p1_id] = []
+	lobby.cards_in_hand[lobby.p2_id] = []
+	lobby.cards_in_play[lobby.p2_id] = []
 
 
 func _on_end_turn_button_pressed():
-	if !GameManager.turn_manager.turn_actions_enabled:
+	if !lobby.turn_manager.turn_actions_enabled:
 		return
 	
-	GameManager.turn_manager.end_turn.rpc_id(GameManager.p1_id, GameManager.player_id)
+	lobby.turn_manager.end_turn.rpc_id(lobby.p1_id, lobby.player_id)
 
 
 func _on_finish_button_pressed():
@@ -366,39 +366,39 @@ func _on_finish_button_pressed():
 
 
 func _on_resolve_spell_button_pressed():
-	if GameManager.is_single_player:
+	if lobby.is_single_player:
 		BattleManager.resolve_spell_agreed()
-	if !GameManager.is_single_player:
+	if !lobby.is_single_player:
 		BattleManager.resolve_spell_agreed.rpc_id(
-			GameManager.opposing_player_id(GameManager.player_id)
+			lobby.opposing_player_id(lobby.player_id)
 		)
 	$ResolveSpellButton.hide()
 
 
 func _create_resources():
-	for p_id in [GameManager.p1_id, GameManager.p2_id]:
+	for p_id in [lobby.p1_id, lobby.p2_id]:
 		var resources := Resources.new(p_id)
-		GameManager.resources[p_id] = resources
+		lobby.resources[p_id] = resources
 		add_child(resources)
 
 
 func _input(_event):
 	# If the game has ended we don't want to do anything with input
-	if !GameManager.turn_manager:
+	if !lobby.turn_manager:
 		return
 	if (
 		Input.is_action_just_pressed("ui_accept") 
 		or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
 	):
 		$TextBox.hide()
-	if !GameManager.turn_manager.can_start_turn:
+	if !lobby.turn_manager.can_start_turn:
 		return
 	
-	GameManager.turn_manager.can_start_turn = false
-	if GameManager.is_single_player:
-		GameManager.turn_manager.start_turn(GameManager.p1_id)
-	if !GameManager.is_single_player:
-		GameManager.turn_manager.start_turn.rpc_id(GameManager.p1_id, GameManager.player_id)
+	lobby.turn_manager.can_start_turn = false
+	if lobby.is_single_player:
+		lobby.turn_manager.start_turn(lobby.p1_id)
+	if !lobby.is_single_player:
+		lobby.turn_manager.start_turn.rpc_id(lobby.p1_id, lobby.player_id)
 
 
 func _unhandled_input(event):
@@ -458,7 +458,7 @@ func _unhandled_input(event):
 				)
 			):
 				# Add the spaces to selected spaces and check if at least one space is in range
-				for ps in GameManager.play_spaces:
+				for ps in lobby.play_spaces:
 					if (
 						ps.column in TargetSelection.selected_columns 
 						and ps.row in TargetSelection.selected_rows
@@ -467,7 +467,7 @@ func _unhandled_input(event):
 				var selection_in_range := false
 				for ps in TargetSelection.selected_spaces:
 					if PlaySpaceHelper.is_space_in_range(
-						ps, GameManager.player_id, TargetSelection.drag_selection_range
+						ps, lobby.player_id, TargetSelection.drag_selection_range
 					):
 						selection_in_range = true
 						break

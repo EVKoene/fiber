@@ -15,13 +15,13 @@ func _init():
 
 
 func nurture() -> bool:
-	if GameManager.is_single_player:
+	if GameManager.lobby.is_single_player:
 		BattleManager.draw_card(card_owner_id)
-	if !GameManager.is_single_player:
-		BattleManager.draw_card.rpc_id(GameManager.p1_id, card_owner_id)
+	if !GameManager.lobby.is_single_player:
+		BattleManager.draw_card.rpc_id(GameManager.lobby.p1_id, card_owner_id)
 	
 	Events.show_instructions.emit("Choose a unit to give +1/+1")
-	GameManager.battle_map.show_finish_button()
+	GameManager.lobby.battle_map.show_finish_button()
 	select_card(true)
 	
 	TargetSelection.select_targets(

@@ -48,13 +48,13 @@ func _ready():
 	update_stats()
 	_add_border()
 	if (
-		(GameManager.is_player_1 and card_owner_id == GameManager.p2_id)
-		or (!GameManager.is_player_1 and card_owner_id == GameManager.p1_id)
+		(GameManager.lobby.is_player_1 and card_owner_id == GameManager.lobby.p2_id)
+		or (!GameManager.lobby.is_player_1 and card_owner_id == GameManager.lobby.p1_id)
 	):
 		flip_card()
-	GameManager.ps_column_row[column][row].card_in_this_play_space = self
-	if GameManager.is_server:
-		GameManager.call_deferred("call_triggered_funcs", Collections.triggers.CARD_CREATED, self)
+	GameManager.lobby.ps_column_row[column][row].card_in_this_play_space = self
+	if GameManager.lobby.is_server:
+		GameManager.lobby.call_deferred("call_triggered_funcs", Collections.triggers.CARD_CREATED, self)
 	_connect_signals()
 	enter_battle.call_deferred()
 
@@ -80,21 +80,21 @@ func resolve_ability_for_ai() -> void:
 
 
 func attack_card(target_card: CardInPlay) -> void:
-	GameManager.call_triggered_funcs(Collections.triggers.ATTACK, self)
-	if GameManager.is_single_player:
+	BattleManager.call_triggered_funcs(Collections.triggers.ATTACK, self)
+	if GameManager.lobby.is_single_player:
 		BattleAnimation.animate_attack(
 			card_owner_id, card_in_play_index, 
 			target_card.current_play_space.direction_from_play_space(current_play_space)
 		)
-	if !GameManager.is_single_player:
-		for p_id in [GameManager.p1_id, GameManager.p2_id]:
+	if !GameManager.lobby.is_single_player:
+		for p_id in [GameManager.lobby.p1_id, GameManager.lobby.p2_id]:
 			BattleAnimation.animate_attack.rpc_id(
 				p_id, card_owner_id, card_in_play_index, 
 				target_card.current_play_space.direction_from_play_space(current_play_space)
 			)
 	
 	await deal_damage_to_card(target_card, int(randi_range(min_attack, max_attack)))
-	await GameManager.call_triggered_funcs(Collections.triggers.ATTACK_FINISHED, self)
+	await BattleManager.call_triggered_funcs(Collections.triggers.ATTACK_FINISHED, self)
 
 
 func deal_damage_to_card(card: CardInPlay, value: int) -> void:
@@ -108,40 +108,40 @@ func select_card(show_select: bool) -> void:
 
 
 func swap_with_card(swap_card_owner_id: int, swap_cip_index: int) -> void:
-	var swap_card: CardInPlay = GameManager.cards_in_play[swap_card_owner_id][swap_cip_index]
-	GameManager.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, self)
-	GameManager.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, swap_card)
-	if GameManager.is_single_player:
+	var swap_card: CardInPlay = GameManager.lobby.cards_in_play[swap_card_owner_id][swap_cip_index]
+	BattleManager.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, self)
+	BattleManager.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, swap_card)
+	if GameManager.lobby.is_single_player:
 		BattleManager.swap_cards(
 			card_owner_id, card_in_play_index, swap_card_owner_id, swap_cip_index
 		)
-	if !GameManager.is_single_player:
-		for p_id in GameManager.players:
+	if !GameManager.lobby.is_single_player:
+		for p_id in GameManager.lobby.players:
 			BattleManager.swap_cards.rpc_id(
 				p_id, card_owner_id, card_in_play_index, swap_card_owner_id, swap_cip_index
 			)
-	GameManager.call_triggered_funcs(Collections.triggers.CARD_MOVED, self)
-	GameManager.call_triggered_funcs(Collections.triggers.CARD_MOVED, swap_card)
+	BattleManager.call_triggered_funcs(Collections.triggers.CARD_MOVED, self)
+	BattleManager.call_triggered_funcs(Collections.triggers.CARD_MOVED, swap_card)
 
 
 func move_to_play_space(new_column: int, new_row: int) -> void:
-	GameManager.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, self)	
+	BattleManager.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, self)	
 	
-	if GameManager.is_single_player:
+	if GameManager.lobby.is_single_player:
 		BattleManager.move_to_play_space(card_owner_id, card_in_play_index, new_column, new_row)
-	if !GameManager.is_single_player:
-		for p_id in GameManager.players:
+	if !GameManager.lobby.is_single_player:
+		for p_id in GameManager.lobby.players:
 			BattleManager.move_to_play_space.rpc_id(
 				p_id, card_owner_id, card_in_play_index, 
 				new_column, new_row
 			)
 			
-	GameManager.call_triggered_funcs(Collections.triggers.CARD_MOVED, self)
+	BattleManager.call_triggered_funcs(Collections.triggers.CARD_MOVED, self)
 	return
 
 
 func move_over_path(path: PlaySpacePath) -> void:
-	GameManager.turn_manager.set_turn_actions_enabled(false)
+	GameManager.lobby.turn_manager.set_turn_actions_enabled(false)
 	
 	TargetSelection.clear_arrows()
 	TargetSelection.clear_arrows()
@@ -166,7 +166,7 @@ func move_over_path(path: PlaySpacePath) -> void:
 	
 	TargetSelection.end_selecting()
 	
-	GameManager.turn_manager.set_turn_actions_enabled(true)
+	GameManager.lobby.turn_manager.set_turn_actions_enabled(true)
 
 
 func move_and_attack(target_card: CardInPlay) -> void:
@@ -193,28 +193,28 @@ func select_for_movement() -> void:
 	TargetSelection.card_selected_for_movement = self
 	TargetSelection.making_selection = true
 	highlight_card(false)
-	GameManager.zoom_preview.lock_zoom_preview_play(self)
+	GameManager.lobby.zoom_preview.lock_zoom_preview_play(self)
 
 
 func refresh():
-	if GameManager.is_single_player:
+	if GameManager.lobby.is_single_player:
 		BattleManager.refresh_unit(card_owner_id, card_in_play_index)
-	if !GameManager.is_single_player:
-		for p_id in [GameManager.p1_id, GameManager.p2_id]:
+	if !GameManager.lobby.is_single_player:
+		for p_id in [GameManager.lobby.p1_id, GameManager.lobby.p2_id]:
 			BattleManager.refresh_unit.rpc_id(p_id, card_owner_id, card_in_play_index)
 
 
 func exhaust():
-	if GameManager.is_single_player:
+	if GameManager.lobby.is_single_player:
 		BattleManager.exhaust_unit(card_owner_id, card_in_play_index)
-	if !GameManager.is_single_player:
-		for p_id in GameManager.players:
+	if !GameManager.lobby.is_single_player:
+		for p_id in GameManager.lobby.players:
 			BattleManager.exhaust_unit.rpc_id(p_id, card_owner_id, card_in_play_index)
 
 
 func use_ability(func_index: int) -> void:
 	if call(abilities[func_index]["FuncName"]):
-		GameManager.resources[card_owner_id].pay_costs(abilities[func_index]["AbilityCosts"])
+		GameManager.lobby.resources[card_owner_id].pay_costs(abilities[func_index]["AbilityCosts"])
 
 
 func conquer_space() -> void:
@@ -227,10 +227,10 @@ func conquer_space() -> void:
 
 func highlight_card(show_highlight: bool):
 	if show_highlight:
-		if GameManager.is_single_player:
+		if GameManager.lobby.is_single_player:
 			CardManipulation.highlight_card(card_owner_id, card_in_play_index)
-		if !GameManager.is_single_player:
-			for p_id in GameManager.players:
+		if !GameManager.lobby.is_single_player:
+			for p_id in GameManager.lobby.players:
 				CardManipulation.highlight_card.rpc_id(p_id, card_owner_id, card_in_play_index)
 	else:
 		get_theme_stylebox("panel").border_color = Styling.gold_color
@@ -245,20 +245,20 @@ func reset_card_stats():
 func resolve_damage(value: int) -> void:
 	var c_id := card_owner_id
 	var cip_index := card_in_play_index
-	if GameManager.is_single_player:
+	if GameManager.lobby.is_single_player:
 		await BattleManager.resolve_damage(c_id, cip_index, value)
-	if !GameManager.is_single_player:
-		for p_id in [GameManager.p1_id, GameManager.p2_id]:
+	if !GameManager.lobby.is_single_player:
+		for p_id in [GameManager.lobby.p1_id, GameManager.lobby.p2_id]:
 			BattleManager.resolve_damage.rpc_id(p_id, c_id, cip_index, value)
 
 
 func destroy() -> void:
 	var cid := card_owner_id
 	var cip_index := card_in_play_index
-	if GameManager.is_single_player:
+	if GameManager.lobby.is_single_player:
 		CardManipulation.destroy(cid, cip_index)
-	if !GameManager.is_single_player:
-		for p_id in GameManager.players:
+	if !GameManager.lobby.is_single_player:
+		for p_id in GameManager.lobby.players:
 			CardManipulation.destroy.rpc_id(p_id, cid, cip_index)
 
 
@@ -299,7 +299,7 @@ func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:
 
 func spaces_in_range(range_to_check: int, ignore_obstacles: bool) -> Array:
 	var spaces: Array = []
-	for ps in GameManager.play_spaces:
+	for ps in GameManager.lobby.play_spaces:
 		var distance := current_play_space.distance_to_play_space(ps, ignore_obstacles)
 		if distance == -1:
 			continue
@@ -387,7 +387,7 @@ func _is_resolve_spell_agreed() -> bool:
 
 @rpc("any_peer", "call_local")
 func remove_from_cards_in_play() -> void:
-	GameManager.cards_in_play[card_owner_id].remove_at(card_in_play_index)
+	GameManager.lobby.cards_in_play[card_owner_id].remove_at(card_in_play_index)
 
 
 func create_card_action_menu() -> void:
@@ -399,7 +399,7 @@ func create_card_action_menu() -> void:
 	ca_menu.size.x = MapSettings.play_space_size.x * 0.9
 	ca_menu.size.y = MapSettings.play_space_size.y / (5 - len(abilities) + 1)
 	ca_menu.z_index = 100
-	GameManager.battle_map.add_child(ca_menu)
+	GameManager.lobby.battle_map.add_child(ca_menu)
 
 
 func _load_card_properties() -> void:
@@ -484,7 +484,7 @@ func _get_play_space() -> PlaySpace:
 		assert(false, "Column not set")
 	if column == -1:
 		assert(false, "Row not set")
-	return GameManager.ps_column_row[column][row]
+	return GameManager.lobby.ps_column_row[column][row]
 
 
 func _get_card_range() -> int:
@@ -505,7 +505,7 @@ func _add_border() -> void:
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 	if (
 		data.can_target_unit(self)
-		and GameManager.resources[data.card_owner_id].can_pay_costs(data.costs)
+		and GameManager.lobby.resources[data.card_owner_id].can_pay_costs(data.costs)
 	):
 		return true
 	else:
@@ -517,7 +517,7 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 
 
 func _on_mouse_entered():
-	GameManager.zoom_preview.hover_zoom_preview_play(self)
+	GameManager.lobby.zoom_preview.hover_zoom_preview_play(self)
 	
 	if !TargetSelection.card_selected_for_movement:
 		return
@@ -571,31 +571,31 @@ func _on_gui_input(event):
 
 	elif (
 		left_mouse_button_pressed 
-		and GameManager.player_id == card_owner_id
+		and GameManager.lobby.player_id == card_owner_id
 		and TargetSelection.number_of_targets_to_select > 0
 		and self in TargetSelection.selected_targets
 	):
 		TargetSelection.selected_targets.erase(self)
-		for p_id in [GameManager.p1_id, GameManager.p2_id]:
+		for p_id in [GameManager.lobby.p1_id, GameManager.lobby.p2_id]:
 			CardManipulation.set_border_to_faction.rpc_id(
 				p_id, card_owner_id, card_in_play_index
 			)
 
 	elif (
 		left_mouse_button_pressed 
-		and GameManager.turn_manager.turn_owner_id == GameManager.player_id
+		and GameManager.lobby.turn_manager.turn_owner_id == GameManager.lobby.player_id
 		and !exhausted
-		and GameManager.turn_manager.turn_actions_enabled
+		and GameManager.lobby.turn_manager.turn_actions_enabled
 		and TargetSelection.card_selected_for_movement == self
 	):
 		TargetSelection.end_selecting()
 	
 	elif (
 		left_mouse_button_pressed 
-		and GameManager.player_id == card_owner_id
-		and GameManager.turn_manager.turn_owner_id == GameManager.player_id
+		and GameManager.lobby.player_id == card_owner_id
+		and GameManager.lobby.turn_manager.turn_owner_id == GameManager.lobby.player_id
 		and !exhausted
-		and GameManager.turn_manager.turn_actions_enabled
+		and GameManager.lobby.turn_manager.turn_actions_enabled
 		and TargetSelection.card_selected_for_movement != self
 	):
 		TargetSelection.end_selecting()
@@ -606,21 +606,21 @@ func _on_gui_input(event):
 	elif (
 		left_mouse_button_pressed 
 		and card_sel_for_movement 
-		and card_owner_id == GameManager.player_id
+		and card_owner_id == GameManager.lobby.player_id
 	):
 		if card_sel_for_movement == self and !exhausted:
 			TargetSelection.end_selecting()
 	
 	elif (
 		right_mouse_button_pressed 
-		and card_owner_id == GameManager.player_id 
+		and card_owner_id == GameManager.lobby.player_id 
 		and !exhausted
 		and !card_sel_for_movement
 		and (
 			len(abilities) > 0 
 			or Collections.play_space_attributes.VICTORY_SPACE in current_play_space.attributes
 		)
-		and GameManager.turn_manager.turn_actions_enabled
+		and GameManager.lobby.turn_manager.turn_actions_enabled
 	):
 		TargetSelection.end_selecting()
 		create_card_action_menu()
@@ -628,8 +628,8 @@ func _on_gui_input(event):
 	elif (
 		right_mouse_button_pressed 
 		and card_sel_for_movement
-		and GameManager.turn_manager.turn_actions_enabled 
-		and card_owner_id != GameManager.player_id
+		and GameManager.lobby.turn_manager.turn_actions_enabled 
+		and card_owner_id != GameManager.lobby.player_id
 	):
 		var ps_to_attack_from = card_sel_for_movement.spaces_in_range_to_attack_card(self)
 
@@ -645,18 +645,18 @@ func _on_gui_input(event):
 				and TargetSelection.card_to_be_attacked == self
 			):
 				
-				GameManager.turn_manager.set_turn_actions_enabled(false)
+				GameManager.lobby.turn_manager.set_turn_actions_enabled(false)
 				
 				card_sel_for_movement.move_and_attack(self)
 				Input.set_custom_mouse_cursor(null)
 				card_sel_for_movement.exhaust()
 				TargetSelection.end_selecting()
 				
-				GameManager.turn_manager.set_turn_actions_enabled(true)
+				GameManager.lobby.turn_manager.set_turn_actions_enabled(true)
 	
 	elif (
 		right_mouse_button_pressed
-		and GameManager.turn_manager.turn_actions_enabled
+		and GameManager.lobby.turn_manager.turn_actions_enabled
 		and TargetSelection.card_selected_for_movement
 		and !TargetSelection.current_path
 	):
@@ -671,7 +671,7 @@ func _on_gui_input(event):
 	
 	elif (
 		right_mouse_button_pressed
-		and GameManager.turn_manager.turn_actions_enabled
+		and GameManager.lobby.turn_manager.turn_actions_enabled
 		and TargetSelection.card_selected_for_movement
 		and TargetSelection.play_space_selected_for_movement != self
 		and TargetSelection.current_path
@@ -685,4 +685,4 @@ func _on_gui_input(event):
 
 
 func _get_card_in_play_index() -> int:
-	return GameManager.cards_in_play[card_owner_id].find(self)
+	return GameManager.lobby.cards_in_play[card_owner_id].find(self)

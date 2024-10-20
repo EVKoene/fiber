@@ -48,7 +48,7 @@ func select_targets(
 ) -> void:
 	#NOTE: We disable turn actions here but don't enable them in the same function. That means
 	# that any function that will call this function will have to enable turn actions again
-	GameManager.turn_manager.set_turn_actions_enabled(false)
+	GameManager.lobby.turn_manager.set_turn_actions_enabled(false)
 	
 	making_selection = true
 	number_of_targets_to_select = n_targets
@@ -57,16 +57,16 @@ func select_targets(
 	
 	match _target_restrictions:
 		target_restrictions.ANY_UNITS:
-			players_to_select_targets_from = [GameManager.p1_id, GameManager.p2_id]
+			players_to_select_targets_from = [GameManager.lobby.p1_id, GameManager.lobby.p2_id]
 		target_restrictions.OWN_UNITS:
-			players_to_select_targets_from = [GameManager.player_id]
+			players_to_select_targets_from = [GameManager.lobby.player_id]
 		target_restrictions.OPPONENT_UNITS:
 			players_to_select_targets_from = [
-				GameManager.opposing_player_id(GameManager.player_id)
+				GameManager.lobby.opposing_player_id(GameManager.lobby.player_id)
 			]
 	
 	if range_from_unit == -1:
-		target_play_space_options = GameManager.play_spaces
+		target_play_space_options = GameManager.lobby.play_spaces
 	else:
 		target_play_space_options = selecting_unit.spaces_in_range(
 			range_from_unit, ignore_obstacles
@@ -76,7 +76,7 @@ func select_targets(
 func select_play_spaces(number_of_spaces: int, play_space_options: Array) -> void:
 	#NOTE: We disable turn actions here but don't enable them in the same function. That means
 	# that any function that will call this function will have to enable turn actions again
-	GameManager.turn_manager.set_turn_actions_enabled(false)
+	GameManager.lobby.turn_manager.set_turn_actions_enabled(false)
 	
 	making_selection = true
 	number_of_spaces_to_select = number_of_spaces
@@ -86,10 +86,10 @@ func select_play_spaces(number_of_spaces: int, play_space_options: Array) -> voi
 
 @rpc("any_peer", "call_local")
 func select_card_to_discard() -> void:
-	if len(GameManager.cards_in_hand[GameManager.player_id]) == 0:
+	if len(GameManager.lobby.cards_in_hand[GameManager.lobby.player_id]) == 0:
 		return
 	
-	GameManager.turn_manager.set_turn_actions_enabled(false)
+	GameManager.lobby.turn_manager.set_turn_actions_enabled(false)
 	
 	making_selection = true
 	discarding = true
@@ -100,7 +100,7 @@ func select_card_to_discard() -> void:
 
 @rpc("any_peer", "call_local")
 func end_selecting() -> void:
-	GameManager.zoom_preview.reset_zoom_preview()
+	GameManager.lobby.zoom_preview.reset_zoom_preview()
 	
 	if making_selection:
 		target_selection_finished.emit()
@@ -131,12 +131,12 @@ func clear_selections() -> void:
 	selected_spaces = []
 	selecting_spaces = false
 	number_of_spaces_to_select = 0
-	if GameManager.is_single_player:
+	if GameManager.lobby.is_single_player:
 		CardManipulation.set_all_borders_to_faction()
 		BattleAnimation.unhighlight_all_spaces()
 	
-	if !GameManager.is_single_player:
-		for p_id in GameManager.players:
+	if !GameManager.lobby.is_single_player:
+		for p_id in GameManager.lobby.players:
 			CardManipulation.set_all_borders_to_faction.rpc_id(p_id)
 			BattleAnimation.unhighlight_all_spaces.rpc_id(p_id)
 

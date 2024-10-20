@@ -56,7 +56,7 @@ func cards_to_swap_with(card) -> Array:
 	# Return the cards with the highest cost and a beneficial swap
 	var highest_cost_swap: int = -1
 	var swap_cards := []
-	for c in GameManager.cards_in_play[card.card_owner_id]:
+	for c in GameManager.lobby.cards_in_play[card.card_owner_id]:
 		var beneficial_swap := false
 		var card_costs_minus_c_costs: int = card.costs.total() - c.costs.total()
 		if is_wanting_to_swap_with_card(card, c) and is_wanting_to_swap_with_card(c, card):
@@ -126,14 +126,14 @@ func is_wanting_to_swap_with_card(card: CardInPlay, card_swap: CardInPlay) -> bo
 
 func conquer_space(card: CardInPlay) -> bool:
 	var n_conquered_victory_spaces := 0
-	for s in GameManager.victory_spaces:
+	for s in GameManager.lobby.victory_spaces:
 		if !s.conquered_by:
 			continue
 		
-		if s.conquered_by == GameManager.ai_player_id:
+		if s.conquered_by == GameManager.lobby.ai_player_id:
 			n_conquered_victory_spaces += 1
 	if n_conquered_victory_spaces >= MapSettings.n_progress_bars:
-		GameManager.ai_player.game_over = true
+		GameManager.lobby.ai_player.game_over = true
 	
 	card.conquer_space()
 	
