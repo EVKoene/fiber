@@ -6,7 +6,7 @@ class_name MorningLight
 
 func resolve_spell(selected_column: int, selected_row: int) -> bool:
 	var selected_card: CardInPlay = (
-		GameManager.lobby.ps_column_row[selected_column][selected_row].card_in_this_play_space
+		GameManager.ps_column_row[selected_column][selected_row].card_in_this_play_space
 	)
 	selected_card.highlight_card(true)
 	CardManipulation.change_battle_stat(
@@ -21,7 +21,7 @@ func resolve_spell(selected_column: int, selected_row: int) -> bool:
 
 
 func is_spell_to_play_now() -> bool:
-	for c in GameManager.lobby.cards_in_play[GameManager.lobby.ai_player_id]:
+	for c in GameManager.cards_in_play[GameManager.ai_player_id]:
 		if c.costs.total() >= 3:
 			return true
 	
@@ -30,7 +30,7 @@ func is_spell_to_play_now() -> bool:
 
 func resolve_spell_for_ai() -> void:
 	var potential_targets: Array = AIHelper.find_cards_with_stat_from_options(
-		GameManager.lobby.cards_in_play[card_owner_id], Collections.stats.TOTAL_COST, 
+		GameManager.cards_in_play[card_owner_id], Collections.stats.TOTAL_COST, 
 		Collections.stat_params.HIGHEST, -1
 	)
 	

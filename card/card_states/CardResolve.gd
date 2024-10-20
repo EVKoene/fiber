@@ -26,21 +26,21 @@ func continue_resolve() -> void:
 		_resolve_spell_for_ai()
 		return
 	
-	if GameManager.lobby.is_single_player:
+	if GameManager.is_single_player:
 		BattleManager.resolve_spell(card_owner_id, card_in_hand_index, column, row)
 		queue_free()
 		return
 	
-	var opposing_player_id: int = GameManager.lobby.opposing_player_id(GameManager.lobby.player_id)
-	if card_owner_id != GameManager.lobby.player_id:
+	var opposing_player_id: int = GameManager.opposing_player_id(GameManager.player_id)
+	if card_owner_id != GameManager.player_id:
 		BattleManager.resolve_spell.rpc_id(
 			opposing_player_id, card_owner_id, card_in_hand_index, column, row
 		)
 		queue_free()
 		return
 	
-	GameManager.lobby.battle_map.show_text("Wait for other player to resolve spell")
-	GameManager.lobby.battle_map.create_card_resolve.rpc_id(
+	GameManager.battle_map.show_text("Wait for other player to resolve spell")
+	GameManager.battle_map.create_card_resolve.rpc_id(
 		opposing_player_id, card_owner_id, card_in_hand_index, column, row
 	)
 	queue_free()

@@ -13,18 +13,18 @@ var game_over := false
 
 func play_turn() -> void:
 	await play_playable_cards()
-	await GameManager.lobby.battle_map.get_tree().create_timer(0.5).timeout
+	await GameManager.battle_map.get_tree().create_timer(0.5).timeout
 	await use_cards_in_play()
-	await GameManager.lobby.battle_map.get_tree().create_timer(0.5).timeout
+	await GameManager.battle_map.get_tree().create_timer(0.5).timeout
 	# If the AI wins by conquering victory spaces, the battle map will be removed and they won't
 	# be able to end the turn anymore
-	if is_instance_valid(GameManager.lobby.battle_map) and !game_over:
+	if is_instance_valid(GameManager.battle_map) and !game_over:
 		ai_turn_manager.end_turn()
 
 
 func discard_card() -> void:
 	var card: CardInHand
-	card = GameManager.lobby.cards_in_hand[player_id].pick_random()
+	card = GameManager.cards_in_hand[player_id].pick_random()
 	card.discard()
 
 
@@ -32,13 +32,13 @@ func play_playable_cards() -> void:
 	var playing_cards := true
 	while playing_cards:
 		playing_cards = false
-		for c in GameManager.lobby.cards_in_hand[player_id]:
-			if !GameManager.lobby.resources[player_id].can_pay_costs(c.costs):
+		for c in GameManager.cards_in_hand[player_id]:
+			if !GameManager.resources[player_id].can_pay_costs(c.costs):
 				continue
 			if c.card_type == Collections.card_types.UNIT:
 				playing_cards = await play_card(c)
 				if playing_cards:
-					await GameManager.lobby.battle_map.get_tree().create_timer(0.25).timeout
+					await GameManager.battle_map.get_tree().create_timer(0.25).timeout
 			elif c.card_type == Collections.card_types.SPELL:
 				var spell: CardInPlay = CardDatabase.get_card_class(c.card_index).new()
 				if spell.is_spell_to_play_now():
@@ -48,9 +48,9 @@ func play_playable_cards() -> void:
 
 
 func play_card(card: CardInHand) -> bool:
-	await GameManager.lobby.battle_map.get_tree().create_timer(0.5).timeout
+	await GameManager.battle_map.get_tree().create_timer(0.5).timeout
 	var ps_options := []
-	for ps in GameManager.lobby.play_spaces:
+	for ps in GameManager.play_spaces:
 		if !ps.territory:
 			continue
 		if !ps.card_in_this_play_space and ps.territory.owner_id == player_id:
@@ -67,8 +67,8 @@ func play_card(card: CardInHand) -> bool:
 		play_space = ps_options.pick_random()
 	BattleManager.play_unit(card.card_index, player_id, play_space.column, play_space.row)
 	if len(card.factions) == 1:
-		GameManager.lobby.resources[player_id].add_resource(card.factions[0], 1)
-	GameManager.lobby.resources[player_id].pay_costs(card.costs)
+		GameManager.resources[player_id].add_resource(card.factions[0], 1)
+	GameManager.resources[player_id].pay_costs(card.costs)
 	BattleManager.remove_card_from_hand(player_id, card.hand_index)
 	return true
 
@@ -77,12 +77,12 @@ func use_cards_in_play() -> void:
 	var using_actions := true
 	while using_actions:
 		using_actions = false
-		for c in GameManager.lobby.cards_in_play[player_id]:
+		for c in GameManager.cards_in_play[player_id]:
 			if !c.exhausted and !game_over:
 				using_actions = await use_card_action(c)
 				if using_actions and !game_over:
-					await GameManager.lobby.battle_map.get_tree().create_timer(0.25).timeout
-					await GameManager.lobby.battle_map.get_tree().process_frame
+					await GameManager.battle_map.get_tree().create_timer(0.25).timeout
+					await GameManager.battle_map.get_tree().process_frame
 
 
 func use_card_action(card: CardInPlay) -> bool:
@@ -101,7 +101,7 @@ func use_card_action(card: CardInPlay) -> bool:
 			return true
 	
 	# Finding the first card to attack
-	for c in GameManager.lobby.cards_in_play[GameManager.lobby.p1_id]:
+	for c in GameManager.cards_in_play[GameManager.p1_id]:
 		if !is_instance_valid(c):
 			continue
 		
@@ -141,15 +141,15 @@ func move_to_conquer_space(card: CardInPlay) -> bool:
 
 func discard_cards(n: int) -> void:
 	var discarded_cards: int = 0
-	while discarded_cards < n and len(GameManager.lobby.cards_in_hand[player_id]) > 0:
+	while discarded_cards < n and len(GameManager.cards_in_hand[player_id]) > 0:
 		AIHelper.find_cards_with_stat_from_options(
-			GameManager.lobby.cards_in_hand[player_id], Collections.stats.TOTAL_COST, 
+			GameManager.cards_in_hand[player_id], Collections.stats.TOTAL_COST, 
 			Collections.stat_params.LOWEST, -1
 		).pick_random().discard_card()
 
 
 func resolve_spell_for_ai(spell: CardInHand) -> void:
-	var card_resolve = GameManager.lobby.battle_map.card_resolve_scene.instantiate()
+	var card_resolve = GameManager.battle_map.card_resolve_scene.instantiate()
 	card_resolve.ai_player = true
 	card_resolve.card_index = spell.card_index
 	card_resolve.column = -1
@@ -157,5 +157,5 @@ func resolve_spell_for_ai(spell: CardInHand) -> void:
 	card_resolve.card_owner_id = player_id
 	card_resolve.card_in_hand_index = spell.hand_index
 	card_resolve.size = MapSettings.total_screen
-	GameManager.lobby.battle_map.add_child(card_resolve)
+	GameManager.battle_map.add_child(card_resolve)
 	BattleManager.remove_card_from_hand(player_id, spell.hand_index)

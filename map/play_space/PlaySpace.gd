@@ -5,13 +5,13 @@ class_name PlaySpace
 var column: int
 var row: int
 var stat_modifier := {
-	GameManager.lobby.p1_id: {
+	GameManager.p1_id: {
 		Collections.stats.MAX_ATTACK: 0,
 		Collections.stats.MIN_ATTACK: 0,
 		Collections.stats.HEALTH: 0,
 		Collections.stats.MOVEMENT: 0,
 	},
-	GameManager.lobby.p2_id: {
+	GameManager.p2_id: {
 		Collections.stats.MAX_ATTACK: 0,
 		Collections.stats.MIN_ATTACK: 0,
 		Collections.stats.HEALTH: 0,
@@ -32,19 +32,19 @@ func _ready():
 	position = _calc_position()
 	_set_play_space_attributes()
 	_add_border()
-	GameManager.lobby.ps_column_row[column][row] = self
+	GameManager.ps_column_row[column][row] = self
 
 
 func add_to_territory(p_id: int) -> void:
 	territory = Territory.new(p_id, self)
-	GameManager.lobby.battle_map.add_child(territory)
+	GameManager.battle_map.add_child(territory)
 
 
 func update_stat_modifier(card_owner_id: int, stat: int, value: int) -> void:
-	if GameManager.lobby.is_single_player:
+	if GameManager.is_single_player:
 		BattleManager.update_play_space_stat_modifier(card_owner_id, column, row, stat, value)
-	if !GameManager.lobby.is_single_player:
-		for p_id in GameManager.lobby.players:
+	if !GameManager.is_single_player:
+		for p_id in GameManager.players:
 			BattleManager.update_play_space_stat_modifier.rpc_id(
 				p_id, card_owner_id, column, row, stat, value
 			)
@@ -52,7 +52,7 @@ func update_stat_modifier(card_owner_id: int, stat: int, value: int) -> void:
 
 func find_play_space_path(goal_space: PlaySpace, ignore_obstacles: bool) -> PlaySpacePath:
 	var ps_path: PlaySpacePath = PlaySpacePath.new(goal_space, self, ignore_obstacles)
-	GameManager.lobby.battle_map.add_child(ps_path)
+	GameManager.battle_map.add_child(ps_path)
 	return ps_path
 
 
@@ -66,7 +66,7 @@ func select_path_to_play_space(play_space_path: PlaySpacePath) -> void:
 
 func adjacent_play_spaces() -> Array:
 	var a_spaces: Array = []
-	for ps in GameManager.lobby.play_spaces:
+	for ps in GameManager.play_spaces:
 		match [abs(column - ps.column), abs(row - ps.row)]:
 			[1, 0]:
 				a_spaces.append(ps)
@@ -104,7 +104,7 @@ func distance_to_play_space(goal_space: PlaySpace, ignore_obstacles: bool) -> in
 
 
 func in_play_range(play_range: int, card_owner_id: int) -> bool:
-	for c in GameManager.lobby.cards_in_play[card_owner_id]:
+	for c in GameManager.cards_in_play[card_owner_id]:
 		if distance_to_play_space(c.current_play_space, true) <= play_range:
 			return true
 	
@@ -113,7 +113,7 @@ func in_play_range(play_range: int, card_owner_id: int) -> bool:
 
 func direction_from_play_space(play_space: PlaySpace) -> int:
 	var direction: int
-	if GameManager.lobby.is_player_1:
+	if GameManager.is_player_1:
 		if play_space.column > column:
 			direction = Collections.directions.LEFT
 		elif play_space.column < column:
@@ -179,11 +179,11 @@ func path_to_closest_movable_space(
 
 
 func set_conquered_by(player_id: int) -> void:
-	if GameManager.lobby.is_single_player:
+	if GameManager.is_single_player:
 		BattleManager.set_conquered_by(player_id, column, row)
 		
-	if !GameManager.lobby.is_single_player:
-		for p_id in GameManager.lobby.players:
+	if !GameManager.is_single_player:
+		for p_id in GameManager.players:
 			BattleManager.set_conquered_by.rpc_id(
 				p_id, player_id, column, row
 			)
@@ -193,9 +193,9 @@ func set_conquered_by(player_id: int) -> void:
 func set_border() -> void:
 	if conquered_by:
 		match conquered_by:
-			GameManager.lobby.p1_id:
+			GameManager.p1_id:
 				get_theme_stylebox("panel").border_color = Styling.p1_conquered_color
-			GameManager.lobby.p2_id:
+			GameManager.p2_id:
 				get_theme_stylebox("panel").border_color = Styling.p2_conquered_color
 		return
 		
@@ -219,12 +219,12 @@ func _add_border() -> void:
 
 func is_in_starting_area(player_id: int) -> bool:
 	if (
-		player_id == GameManager.lobby.p1_id 
+		player_id == GameManager.p1_id 
 		and Collections.play_space_attributes.P1_START_SPACE in attributes
 	):
 		return true
 	if (
-		player_id == GameManager.lobby.p2_id 
+		player_id == GameManager.p2_id 
 		and Collections.play_space_attributes.P2_START_SPACE in attributes
 	):
 		return true
@@ -252,12 +252,12 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 	match data.card_type:
 		Collections.card_types.UNIT:
 			if !GameManager.testing:
-				GameManager.lobby.resources[data.card_owner_id].pay_costs(data.costs)
-			if GameManager.lobby.is_single_player:
+				GameManager.resources[data.card_owner_id].pay_costs(data.costs)
+			if GameManager.is_single_player:
 				BattleManager.play_unit(data.card_index, data.card_owner_id, column, row)
 				BattleManager.remove_card_from_hand(c_owner_id, h_index)
-			if !GameManager.lobby.is_single_player:
-				for p_id in [GameManager.lobby.p1_id, GameManager.lobby.p2_id]:
+			if !GameManager.is_single_player:
+				for p_id in [GameManager.p1_id, GameManager.p2_id]:
 					BattleManager.play_unit.rpc_id(
 						p_id, data.card_index, data.card_owner_id, column, row
 					)
@@ -265,7 +265,7 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 						p_id, c_owner_id, h_index
 					)
 			if len(data.factions) == 1:
-				GameManager.lobby.resources[data.card_owner_id].add_resource(data.factions[0], 1)
+				GameManager.resources[data.card_owner_id].add_resource(data.factions[0], 1)
 		Collections.card_types.SPELL:
 			data.play_spell(column, row)
 
@@ -274,7 +274,7 @@ func _set_play_space_attributes() -> void:
 	# If we want to enable multiple maps, we should load id it as an export var in this script
 	attributes = MapDatabase.get_play_space_attributes(MapDatabase.maps.BASE_MAP, self)
 	if Collections.play_space_attributes.VICTORY_SPACE in attributes:
-		GameManager.lobby.victory_spaces.append(self) 
+		GameManager.victory_spaces.append(self) 
 
 
 func _calc_position() -> Vector2:
@@ -311,7 +311,7 @@ func _on_gui_input(event):
 	
 	if (
 		right_mouse_button_pressed
-		and GameManager.lobby.turn_manager.turn_actions_enabled
+		and GameManager.turn_manager.turn_actions_enabled
 		and TargetSelection.card_selected_for_movement
 		and !card_in_this_play_space
 		and !TargetSelection.current_path
@@ -324,7 +324,7 @@ func _on_gui_input(event):
 
 	elif (
 		right_mouse_button_pressed
-		and GameManager.lobby.turn_manager.turn_actions_enabled
+		and GameManager.turn_manager.turn_actions_enabled
 		and TargetSelection.card_selected_for_movement
 		and !card_in_this_play_space
 		and TargetSelection.play_space_selected_for_movement != self
@@ -355,13 +355,13 @@ func _on_gui_input(event):
 
 	elif (
 		right_mouse_button_pressed
-		and GameManager.lobby.turn_manager.turn_actions_enabled
+		and GameManager.turn_manager.turn_actions_enabled
 		and TargetSelection.card_selected_for_movement
 		and !card_in_this_play_space
 		and selected_for_movement
 	):
-		GameManager.lobby.turn_manager.set_turn_actions_enabled(false)
+		GameManager.turn_manager.set_turn_actions_enabled(false)
 		TargetSelection.card_selected_for_movement.move_over_path(TargetSelection.current_path)
 		TargetSelection.card_selected_for_movement.exhaust()
 		TargetSelection.end_selecting()
-		GameManager.lobby.turn_manager.set_turn_actions_enabled(true)
+		GameManager.turn_manager.set_turn_actions_enabled(true)

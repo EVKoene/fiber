@@ -1,13 +1,12 @@
 extends Node
 
 
-var lobby_scene := load("res://multiplayer/Lobby.tscn")
-@onready var server_manager := ServerManager.new()
-var peer
-var dedicated_server := false
 @export var address := "127.0.0.1"
 @export var port = 8910
 @export var server_addres = "188.245.54.189"
+var peer
+var dedicated_server := false
+var n_connected_players := 0
 
 
 func _ready() -> void:
@@ -29,8 +28,10 @@ func peer_disconnected(id: int) -> void:
 
 func connected_to_server() -> void:
 	print("Connected to server!")
-	# This will only work as long as we have max 2 players
-	add_player.rpc_id(1, multiplayer.get_unique_id(), str(multiplayer.get_unique_id()), GameManager.deck)
+	GameManager.player_id = multiplayer.get_unique_id()
+	add_player.rpc_id(
+		1, multiplayer.get_unique_id(), str(multiplayer.get_unique_id()), GameManager.deck
+	)
 
 
 func connection_failed() -> void:
@@ -63,6 +64,7 @@ func become_dedicated_server_host() -> void:
 
 func become_lan_host() -> void:
 	GameManager.is_server = true
+	GameManager.is_player_1 = true
 	peer = ENetMultiplayerPeer.new()
 	var error = peer.create_server(port, 2)
 	if error != OK:
@@ -84,29 +86,6 @@ func join_lan_game() -> void:
 
 
 @rpc("any_peer")
-func add_player(player_id: int, player_name: String, deck: Dictionary) -> void:
-	if dedicated_server:
-		add_player_to_server_lobby(player_id, player_name, deck)
-	if !dedicated_server:
-		create_lan_lobby.rpc()
-		var own_id := multiplayer.get_unique_id()
-		for p_id in [player_id, own_id]:
-			GameManager.lobby.add_player.rpc_id(
-				p_id, own_id, str(own_id), GameManager.deck
-			)
-			GameManager.lobby.add_player.rpc_id(
-				p_id, player_id, player_name, deck
-			)
-
-
-@rpc("any_peer", "call_local")
-func create_lan_lobby() -> void:
-	var lobby = lobby_scene.instantiate()
-	GameManager.main_menu.add_child(lobby)
-
-
-@rpc("any_peer", "call_local")
-func add_player_to_server_lobby(
-	p_id: int, player_name: String, p_deck: Dictionary
-) -> void:
-	server_manager.add_player_to_lobby(p_id, player_name, p_deck)
+func add_player(p_id: int, player_name: String, p_deck: Dictionary) -> void:
+	n_connected_players += 1
+	GameManager.add_player(n_connected_players, p_id, player_name, p_deck)

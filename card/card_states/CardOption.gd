@@ -33,13 +33,13 @@ func _ready():
 
 
 func pick() -> void:
-	if GameManager.lobby.is_single_player:
+	if GameManager.is_single_player:
 		BattleManager.pick_card(card_owner_id, option_index, card_pick_screen.card_indices)
-	if !GameManager.lobby.is_single_player:
+	if !GameManager.is_single_player:
 		BattleManager.pick_card.rpc_id(
-			GameManager.lobby.p1_id, card_owner_id, option_index, card_pick_screen.card_indices
+			GameManager.p1_id, card_owner_id, option_index, card_pick_screen.card_indices
 		)
-	GameManager.lobby.turn_manager.set_turn_actions_enabled(true)
+	GameManager.turn_manager.set_turn_actions_enabled(true)
 	card_pick_screen.queue_free()
 
 

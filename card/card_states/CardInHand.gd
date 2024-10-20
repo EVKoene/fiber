@@ -23,7 +23,7 @@ var hand_index: int: get = _get_hand_index
 
 
 func _ready():
-	GameManager.lobby.cards_in_hand[card_owner_id].append(self)
+	GameManager.cards_in_hand[card_owner_id].append(self)
 	_load_card_properties()
 	set_card_position()
 	_add_border()
@@ -39,22 +39,22 @@ func highlight_card():
 func discard() -> void:
 	var h_index := hand_index
 	BattleManager.call_triggered_funcs(Collections.triggers.CARD_DISCARDED, null)
-	if GameManager.lobby.is_single_player:
+	if GameManager.is_single_player:
 		BattleManager.remove_card_from_hand(card_owner_id, h_index)
 	else:
-		for p_id in GameManager.lobby.players:
+		for p_id in GameManager.players:
 			BattleManager.remove_card_from_hand.rpc_id(p_id, card_owner_id, h_index)
 	Events.card_discarded.emit()
 
 
 func play_spell(column: int, row: int) -> void:
-	if GameManager.lobby.is_single_player:
+	if GameManager.is_single_player:
 		BattleManager.lock_zoom_preview_hand(card_owner_id, hand_index)
-	if !GameManager.lobby.is_single_player:
-		for p_id in GameManager.lobby.players:
+	if !GameManager.is_single_player:
+		for p_id in GameManager.players:
 			BattleManager.lock_zoom_preview_hand.rpc_id(p_id, card_owner_id, hand_index)
 	
-	GameManager.lobby.battle_map.create_card_resolve(card_owner_id, hand_index, column, row)
+	GameManager.battle_map.create_card_resolve(card_owner_id, hand_index, column, row)
 
 
 func can_target_unit(unit: CardInPlay) -> bool:
@@ -87,24 +87,24 @@ func can_target_unit(unit: CardInPlay) -> bool:
 
 
 func set_card_position() -> void:
-	position.x = GameManager.lobby.cards_in_hand[card_owner_id].find(self) * (
+	position.x = GameManager.cards_in_hand[card_owner_id].find(self) * (
 		((MapSettings.own_area_end.x - MapSettings.own_area_start.x) / 7)
 	)
 	
-	match [GameManager.lobby.is_player_1, card_owner_id]:
-		[true, GameManager.lobby.p1_id]:
+	match [GameManager.is_player_1, card_owner_id]:
+		[true, GameManager.p1_id]:
 			position.y = MapSettings.own_area_start.y
-		[true, GameManager.lobby.p2_id]:
+		[true, GameManager.p2_id]:
 			position.y = MapSettings.opponent_area_start.y
-		[false, GameManager.lobby.p2_id]:
+		[false, GameManager.p2_id]:
 			position.y = MapSettings.own_area_start.y
-		[false, GameManager.lobby.p1_id]:
+		[false, GameManager.p1_id]:
 			position.y = MapSettings.opponent_area_start.y
 		_:
 			assert(
 				false, str(
 					"Unable to assert is_player_1 - card_owner_id combination. is_player_1: ",
-					GameManager.lobby.battle_map.is_player_1(), 
+					GameManager.battle_map.is_player_1(), 
 					", card_owner_id: ", card_owner_id
 					)
 				)
@@ -227,7 +227,7 @@ func _set_drag_node_properties() -> void:
 
 
 func _on_mouse_entered():
-	GameManager.lobby.zoom_preview.hover_zoom_preview_hand(self)
+	GameManager.zoom_preview.hover_zoom_preview_hand(self)
 	highlight_card()
 
 
@@ -246,4 +246,4 @@ func _gui_input(event):
 
 
 func _get_hand_index() -> int:
-	return GameManager.lobby.cards_in_hand[card_owner_id].find(self)
+	return GameManager.cards_in_hand[card_owner_id].find(self)

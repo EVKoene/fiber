@@ -81,7 +81,7 @@ func show_path() -> void:
 		arrow.position.x = path_spaces[index].position.x + MapSettings.play_space_size.x / 2
 		arrow.position.y = path_spaces[index].position.y
 		arrow.scale *= MapSettings.play_space_size / arrow.size
-		GameManager.lobby.battle_map.add_child(arrow)
+		GameManager.battle_map.add_child(arrow)
 		
 		var next_column_higher: bool = path_spaces[index + 1].column > path_spaces[index].column
 		var next_column_lower: bool = path_spaces[index + 1].column < path_spaces[index].column
@@ -91,26 +91,26 @@ func show_path() -> void:
 		# TODO: Setting the position after rotating should be done with pivot_offset, but I
 		# can't figure it out so I'm leaving it for later
 		if (
-			(GameManager.lobby.is_player_1 and next_column_higher)
-			or (!GameManager.lobby.is_player_1 and next_column_lower)
+			(GameManager.is_player_1 and next_column_higher)
+			or (!GameManager.is_player_1 and next_column_lower)
 		):
 			arrow.rotation_degrees = 0
 		elif (
-			(GameManager.lobby.is_player_1 and next_column_lower)
-			or (!GameManager.lobby.is_player_1 and next_column_higher)
+			(GameManager.is_player_1 and next_column_lower)
+			or (!GameManager.is_player_1 and next_column_higher)
 		):
 			arrow.rotation_degrees = 180
 			arrow.position.y += MapSettings.play_space_size.y
 		elif (
-			(GameManager.lobby.is_player_1 and next_row_higher)
-			or (!GameManager.lobby.is_player_1 and next_row_lower)
+			(GameManager.is_player_1 and next_row_higher)
+			or (!GameManager.is_player_1 and next_row_lower)
 		):
 			arrow.rotation_degrees = 90
 			arrow.position.x += MapSettings.play_space_size.x / 2
 			arrow.position.y += MapSettings.play_space_size.y / 2
 		elif (
-			(GameManager.lobby.is_player_1 and next_row_lower)
-			or (!GameManager.lobby.is_player_1 and next_row_higher)
+			(GameManager.is_player_1 and next_row_lower)
+			or (!GameManager.is_player_1 and next_row_higher)
 		):
 			arrow.rotation_degrees = 270
 			arrow.position.x -= MapSettings.play_space_size.x / 2

@@ -19,7 +19,7 @@ func _ready():
 	position.x = MapSettings.get_column_start_x(play_space.column)
 	position.y = MapSettings.get_row_start_y(play_space.row)
 	_set_territory_borders(false)
-	GameManager.lobby.territories.append(self)
+	GameManager.territories.append(self)
 
 
 func _set_border():
@@ -32,9 +32,9 @@ func _set_border():
 	)
 	
 	match owner_id:
-		GameManager.lobby.p1_id:
+		GameManager.p1_id:
 			get_theme_stylebox("panel").border_color = Styling.p1_color
-		GameManager.lobby.p2_id:
+		GameManager.p2_id:
 			get_theme_stylebox("panel").border_color = Styling.p2_color
 			
 
@@ -46,29 +46,29 @@ func change_territory_border(direction: int, border_visible: bool) -> void:
 	else:
 		border_width = 0
 	
-	match [GameManager.lobby.player_id, direction]:
-		[GameManager.lobby.p1_id, Collections.directions.UP]:
+	match [GameManager.player_id, direction]:
+		[GameManager.p1_id, Collections.directions.UP]:
 			get_theme_stylebox("panel").border_width_top = border_width
-		[GameManager.lobby.p1_id, Collections.directions.RIGHT]:
+		[GameManager.p1_id, Collections.directions.RIGHT]:
 			get_theme_stylebox("panel").border_width_right = border_width
-		[GameManager.lobby.p1_id, Collections.directions.DOWN]:
+		[GameManager.p1_id, Collections.directions.DOWN]:
 			get_theme_stylebox("panel").border_width_bottom = border_width
-		[GameManager.lobby.p1_id, Collections.directions.LEFT]:
+		[GameManager.p1_id, Collections.directions.LEFT]:
 			get_theme_stylebox("panel").border_width_left = border_width
-		[GameManager.lobby.p2_id, Collections.directions.UP]:
+		[GameManager.p2_id, Collections.directions.UP]:
 			get_theme_stylebox("panel").border_width_bottom = border_width
-		[GameManager.lobby.p2_id, Collections.directions.RIGHT]:
+		[GameManager.p2_id, Collections.directions.RIGHT]:
 			get_theme_stylebox("panel").border_width_left = border_width
-		[GameManager.lobby.p2_id, Collections.directions.DOWN]:
+		[GameManager.p2_id, Collections.directions.DOWN]:
 			get_theme_stylebox("panel").border_width_top = border_width
-		[GameManager.lobby.p2_id, Collections.directions.LEFT]:
+		[GameManager.p2_id, Collections.directions.LEFT]:
 			get_theme_stylebox("panel").border_width_right = border_width
 	
 func _set_territory_borders(borders_visible: bool) -> void:
 	for ps in play_space.adjacent_play_spaces():
 		if !ps.territory:
 			continue
-		if ps.territory.owner_id != GameManager.lobby.player_id:
+		if ps.territory.owner_id != GameManager.player_id:
 			continue
 		
 		if ps.column > play_space.column:

@@ -16,7 +16,7 @@ func _add_card_options() -> void:
 		card_option.card_index = card_indices[c]
 		card_option.option_index = c
 		card_option.card_pick_screen = self
-		card_option.card_owner_id = GameManager.lobby.player_id
+		card_option.card_owner_id = GameManager.player_id
 		$HBox.call_deferred("add_child", card_option)
 		if c != len(card_indices):
 			var margin_container := MarginContainer.new()

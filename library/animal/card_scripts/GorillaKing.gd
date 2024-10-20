@@ -26,7 +26,7 @@ func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:
 		if !is_instance_valid(c):
 			n_adj_units.erase(c)
 	
-	for c in GameManager.lobby.cards_in_play[card_owner_id]:
+	for c in GameManager.cards_in_play[card_owner_id]:
 		if !n_adj_units.has(c):
 			n_adj_units[c] = 0
 	

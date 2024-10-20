@@ -23,11 +23,11 @@ func consume_for_cards() -> bool:
 		TargetSelection.selected_targets[0].destroy()
 		await TargetSelection.select_card_to_discard()
 		for i in range(3):
-			if GameManager.lobby.is_single_player:
+			if GameManager.is_single_player:
 				BattleManager.draw_card(card_owner_id)
 			
-			if !GameManager.lobby.is_single_player:
-				BattleManager.draw_card.rpc_id(GameManager.lobby.p1_id, card_owner_id)
+			if !GameManager.is_single_player:
+				BattleManager.draw_card.rpc_id(GameManager.p1_id, card_owner_id)
 		
 		exhaust()
 		BattleManager.finish_resolve()
@@ -47,10 +47,10 @@ func resolve_ability_for_ai() -> void:
 	)
 	
 	consume_options.pick_random().destroy_card()
-	GameManager.lobby.ai_player.discard_cards(1)
+	GameManager.ai_player.discard_cards(1)
 	
 	for i in range(3):
-		GameManager.lobby.decks[card_owner_id].draw_card()
+		GameManager.decks[card_owner_id].draw_card()
 	Events.card_ability_resolved_for_ai.emit()
 	
 

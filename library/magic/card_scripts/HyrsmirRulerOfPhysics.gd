@@ -8,13 +8,13 @@ var swapping_cards: bool = false
 func call_triggered_funcs(trigger: int, _triggering_card: CardInPlay) -> void:
 	if (
 		trigger == Collections.triggers.TURN_STARTED 
-		and GameManager.lobby.turn_manager.turn_owner_id == card_owner_id
-		and len(GameManager.lobby.cards_in_play[card_owner_id]) > 1
+		and GameManager.turn_manager.turn_owner_id == card_owner_id
+		and len(GameManager.cards_in_play[card_owner_id]) > 1
 	):
-		GameManager.lobby.turn_manager.set_turn_actions_enabled(false)
+		GameManager.turn_manager.set_turn_actions_enabled(false)
 		Events.show_instructions.emit("Swap any number of cards and press finish")
 		swapping_cards = true
-		GameManager.lobby.battle_map.show_finish_button()
+		GameManager.battle_map.show_finish_button()
 		while swapping_cards:
 			TargetSelection.select_targets(
 				2, TargetSelection.target_restrictions.OWN_UNITS, self, true, -1, true

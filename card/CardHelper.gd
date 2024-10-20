@@ -12,7 +12,7 @@ func cards_in_range(
 	player_id: int, card_range: int, target_restrictions: int, ignore_obstacles := true, 
 ) -> Array:
 	var cards := []
-	for card in GameManager.lobby.cards_in_play[player_id]:
+	for card in GameManager.cards_in_play[player_id]:
 		for c in cards_in_range_of_card(
 			card, card_range, target_restrictions, ignore_obstacles, false
 		):
@@ -26,8 +26,8 @@ func cards_in_range_of_card(
 	include_self := false
 ) -> Array:
 	var cards := []
-	for p_id in GameManager.lobby.players:
-		for c in GameManager.lobby.cards_in_play[p_id]:
+	for p_id in GameManager.players:
+		for c in GameManager.cards_in_play[p_id]:
 			if c == card and !include_self:
 				continue
 			match target_restrictions:
@@ -65,7 +65,7 @@ func on_victory_space(card: CardInPlay) -> bool:
 
 func distance_to_closest_enemy_unit(card: CardInPlay) -> int:
 	var shortest_distance: int = -1
-	for c in GameManager.lobby.cards_in_play[GameManager.lobby.opposing_player_id(card.card_owner_id)]:
+	for c in GameManager.cards_in_play[GameManager.opposing_player_id(card.card_owner_id)]:
 		var distance_to_unit = card.current_play_space.distance_to_play_space(
 			c.current_play_space, false
 		)
@@ -80,7 +80,7 @@ func distance_to_closest_enemy_unit(card: CardInPlay) -> int:
 func closest_enemy_units(card: CardInPlay) -> Array:
 	var shortest_distance: int = -1
 	var closest_cards: Array
-	for c in GameManager.lobby.cards_in_play[GameManager.lobby.opposing_player_id(card.card_owner_id)]:
+	for c in GameManager.cards_in_play[GameManager.opposing_player_id(card.card_owner_id)]:
 		var distance_to_unit = card.current_play_space.distance_to_play_space(
 			c.current_play_space, false
 		)
@@ -99,7 +99,7 @@ func closest_enemy_units(card: CardInPlay) -> Array:
 func closest_conquerable_space(player_id: int, card: CardInPlay) -> Array:
 	var shortest_distance: int = -1
 	var closest_spaces: Array
-	for ps in GameManager.lobby.play_spaces:
+	for ps in GameManager.play_spaces:
 		if !ps.territory:
 			continue
 		if ps.territory.owner_id == player_id:

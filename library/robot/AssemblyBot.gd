@@ -5,9 +5,9 @@ class_name AssemblyBot
 
 
 func enter_battle() -> void:
-	if card_owner_id == GameManager.lobby.player_id and card_owner_id != GameManager.lobby.ai_player_id:
+	if card_owner_id == GameManager.player_id and card_owner_id != GameManager.ai_player_id:
 		Events.show_instructions.emit("Choose a space to place the robot fabrication")
-		GameManager.lobby.battle_map.show_finish_button()
+		GameManager.battle_map.show_finish_button()
 		for ps in current_play_space.adjacent_play_spaces():
 			ps.highlight_space()
 		TargetSelection.select_play_spaces(1, current_play_space.adjacent_play_spaces())
@@ -24,7 +24,7 @@ func enter_battle() -> void:
 		BattleManager.finish_resolve()
 	
 	
-	if card_owner_id == GameManager.lobby.ai_player_id:
+	if card_owner_id == GameManager.ai_player_id:
 		await get_tree().create_timer(0.25).timeout
 		for ps in current_play_space.adjacent_play_spaces():
 			if !ps.card_in_this_play_space:
@@ -33,7 +33,7 @@ func enter_battle() -> void:
 
 
 func _assemble_robot(fab_column: int, fab_row: int) -> void:
-	if GameManager.lobby.is_single_player:
+	if GameManager.is_single_player:
 		BattleManager.create_fabrication(
 			card_owner_id, fab_column, fab_row, "Robot", 1, 0, 1, 1, [], 
 			"res://library/robot/images/Robot.png", [Collections.factions.ROBOT], {
@@ -43,8 +43,8 @@ func _assemble_robot(fab_column: int, fab_row: int) -> void:
 						Collections.factions.ROBOT: 1,
 					}
 		)
-	if !GameManager.lobby.is_single_player:
-		for p_id in GameManager.lobby.players:
+	if !GameManager.is_single_player:
+		for p_id in GameManager.players:
 			BattleManager.create_fabrication.rpc_id(
 				p_id, card_owner_id, fab_column, fab_row, "Robot", 1, 0, 1, 1, [], 
 				"res://library/robot/images/Robot.png", [Collections.factions.ROBOT], {

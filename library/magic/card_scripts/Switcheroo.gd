@@ -6,7 +6,7 @@ class_name Switcheroo
 
 func resolve_spell(selected_column: int, selected_row: int) -> bool:
 	var selected_card: CardInPlay = (
-		GameManager.lobby.ps_column_row[selected_column][selected_row].card_in_this_play_space
+		GameManager.ps_column_row[selected_column][selected_row].card_in_this_play_space
 	)
 	TargetSelection.select_targets(
 		1, TargetSelection.target_restrictions.OWN_UNITS, selected_card, false, -1, true

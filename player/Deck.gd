@@ -21,7 +21,7 @@ func _init(_deck_owner_id: int, _cards: Dictionary, _starting_cards: Dictionary)
 func _ready():
 	assert(
 		GameManager.is_server, str("Decks should only be created by server. Was instead created
-		by player with player_id ", GameManager.lobby.player_id)
+		by player with player_id ", GameManager.player_id)
 	)
 	draw_starting_cards()
 	shuffle()
@@ -48,18 +48,18 @@ func shuffle() -> void:
 
 
 func draw_card() -> void:
-	GameManager.lobby.turn_manager.set_turn_actions_enabled(false)
+	GameManager.turn_manager.set_turn_actions_enabled(false)
 	create_hand_card(deck_order[0])
 	deck_order.remove_at(0)
-	GameManager.lobby.turn_manager.set_turn_actions_enabled(true)
+	GameManager.turn_manager.set_turn_actions_enabled(true)
 
 
 func pick_card_option() -> void:
-	GameManager.lobby.turn_manager.set_turn_actions_enabled(false)
-	if GameManager.lobby.is_single_player:
-		GameManager.lobby.battle_map.pick_card_option(deck_order.slice(0, n_cards_to_pick_from))
-	if !GameManager.lobby.is_single_player:
-		GameManager.lobby.battle_map.pick_card_option.rpc_id(deck_owner_id, deck_order.slice(0, n_cards_to_pick_from))
+	GameManager.turn_manager.set_turn_actions_enabled(false)
+	if GameManager.is_single_player:
+		GameManager.battle_map.pick_card_option(deck_order.slice(0, n_cards_to_pick_from))
+	if !GameManager.is_single_player:
+		GameManager.battle_map.pick_card_option.rpc_id(deck_owner_id, deck_order.slice(0, n_cards_to_pick_from))
 	for c in range(n_cards_to_pick_from):
 		# We return the cards to the back of the deck
 		deck_order.append(c)
@@ -97,15 +97,16 @@ func draw_starting_cards() -> void:
 
 
 func create_hand_card(card_index: int) -> void:
-	if len(GameManager.lobby.cards_in_hand[deck_owner_id]) >= 7:
-		if GameManager.lobby.is_single_player:
+	if len(GameManager.cards_in_hand[deck_owner_id]) >= 7:
+		if GameManager.is_single_player:
 			TargetSelection.select_card_to_discard()
-		TargetSelection.select_card_to_discard.rpc_id(deck_owner_id)
+		if !GameManager.is_single_player:
+			TargetSelection.select_card_to_discard.rpc_id(deck_owner_id)
 	
-	if GameManager.lobby.is_single_player:
+	if GameManager.is_single_player:
 		BattleManager.create_hand_card(deck_owner_id, card_index)
-	if !GameManager.lobby.is_single_player:
-		for p_id in [GameManager.lobby.p1_id, GameManager.lobby.p2_id]:
+	if !GameManager.is_single_player:
+		for p_id in GameManager.players:
 			BattleManager.create_hand_card.rpc_id(p_id, deck_owner_id, card_index)
 
 

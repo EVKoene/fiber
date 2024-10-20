@@ -4,7 +4,7 @@ class_name Stampede
 
 
 func resolve_spell(_c_column: int, _c_row: int) -> bool:
-	for c in GameManager.lobby.cards_in_play[card_owner_id]:
+	for c in GameManager.cards_in_play[card_owner_id]:
 		for stat in [
 			Collections.stats.MAX_ATTACK, Collections.stats.MIN_ATTACK, 
 			Collections.stats.HEALTH
