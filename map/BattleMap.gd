@@ -316,7 +316,7 @@ func _on_end_turn_button_pressed():
 	if !GameManager.turn_manager.turn_actions_enabled:
 		return
 	
-	GameManager.turn_manager.end_turn.rpc_id(GameManager.p1_id, GameManager.player_id)
+	GameManager.turn_manager.end_turn.rpc_id(1, GameManager.player_id)
 
 
 func _on_finish_button_pressed():

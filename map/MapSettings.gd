@@ -34,7 +34,7 @@ func get_column_start_x(column) -> float:
 
 
 func get_row_start_y(row) -> float:
-	if multiplayer.is_server():
+	if GameManager.is_player_1:
 		return MapSettings.play_area_start.y + MapSettings.play_space_size.y * row
 	else:
 		return (

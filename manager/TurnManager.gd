@@ -15,7 +15,7 @@ var turn_count := 0
 # Turn actions should be disabled whenever we don't want te player to be able to make a move,
 # basically whenever we're handling consequences of actions such as playing a card or starting the
 # turn
-@export var turn_actions_enabled := false
+var turn_actions_enabled := false
 
 var can_start_turn := false
 var gold_gained := 0
