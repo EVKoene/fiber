@@ -73,12 +73,13 @@ func start_turn(player_id: int) -> void:
 			# interactions
 			update_modifiers.rpc_id(p_id)
 	
-	for c in GameManager.cards_in_play[player_id]:
-		c.refresh()
+	if GameManager.is_single_player:
+		BattleManager.refresh_all_units(player_id)
+		call_start_turn_triggered_funcs()
+	if !GameManager.is_single_player:
+		BattleManager.refresh_all_units.rpc_id(GameManager.p1_id, player_id)
+		call_start_turn_triggered_funcs.rpc_id(GameManager.p1_id)
 	
-	for p in GameManager.players:
-		for c in GameManager.cards_in_play[p]:
-			c.call_triggered_funcs(Collections.triggers.TURN_STARTED, c)
 	if turn_count >= 2:
 		if player_id == GameManager.ai_player_id:
 			GameManager.decks[player_id].draw_card()
@@ -143,3 +144,10 @@ func set_turn_actions_enabled(is_enabled: bool) -> void:
 @rpc("any_peer", "call_local")
 func set_turn_actions_enabled_mp(is_enabled: bool) -> void:
 	turn_actions_enabled = is_enabled
+
+
+@rpc("any_peer", "call_local")
+func call_start_turn_triggered_funcs() -> void:
+	for p_id in GameManager.players:
+		for c in GameManager.cards_in_play[p_id]:
+			c.call_triggered_funcs(Collections.triggers.TURN_STARTED, c)

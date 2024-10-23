@@ -17,7 +17,7 @@ func attack_card(target_card: CardInPlay) -> void:
 				p_id, card_owner_id, card_in_play_index, 
 				target_card.current_play_space.direction_from_play_space(current_play_space)
 			)
-		BattleManager.draw_card.rpc_id(GameManager.p1_id, card_owner_id)
+		BattleManager.draw_card.rpc_id(1, card_owner_id)
 	
 	deal_damage_to_card(target_card, int(randf_range(min_attack, max_attack)))
 	

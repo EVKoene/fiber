@@ -45,6 +45,7 @@ func join_random_game() -> void:
 	
 	multiplayer.set_multiplayer_peer(peer)
 	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
+	GameManager.testing = false
 
 
 func become_dedicated_server_host() -> void:
@@ -55,11 +56,11 @@ func become_dedicated_server_host() -> void:
 		print("Cannot host: " + str(error))
 		return
 	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
-	
 	multiplayer.set_multiplayer_peer(peer)
 	print("Waiting for players")
 	
 	GameManager.is_server = true
+	GameManager.testing = false
 
 
 func become_lan_host() -> void:
@@ -75,6 +76,7 @@ func become_lan_host() -> void:
 	print("Waiting for players")
 	add_player(multiplayer.get_unique_id(), str(multiplayer.get_unique_id()), GameManager.deck)
 	GameManager.player_id = multiplayer.get_unique_id()
+	GameManager.testing = false
 
 
 func join_lan_game() -> void:
@@ -83,6 +85,7 @@ func join_lan_game() -> void:
 	
 	multiplayer.set_multiplayer_peer(peer)
 	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
+	GameManager.testing = false
 
 
 @rpc("any_peer")
