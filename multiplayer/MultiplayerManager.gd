@@ -42,14 +42,14 @@ func connection_failed() -> void:
 
 func join_random_game() -> void:
 	peer = ENetMultiplayerPeer.new()
-	#peer.create_client(server_addres, port)
-	peer.create_client(address, port)
+	peer.create_client(server_addres, port)
 	
 	multiplayer.set_multiplayer_peer(peer)
 	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
 
 
 func become_dedicated_server_host() -> void:
+	print("Became dedicated server...")
 	dedicated_server = true
 	peer = ENetMultiplayerPeer.new()
 	var error = peer.create_server(port, 2)

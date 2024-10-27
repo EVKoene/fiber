@@ -102,17 +102,18 @@ func start_game() -> void:
 
 
 func start_single_player_battle(npc_id: int) -> void:
+	ai_player = null
+	ai_player_id = -1
 	var npc_data: Dictionary = NPCDatabase.npc_data[npc_id]
 	if !GameManager.players.has(1):
 		GameManager.add_player(
 			1, 1, "Player1", GameManager.deck
 		)
+	GameManager.player_id = 1
 
 	GameManager.add_player(2, 2, npc_data["Name"], npc_data["Deck"])
 	start_game()
 
-	ai_player = null
-	ai_player_id = -1
 
 
 func opposing_player_id(p_id: int) -> int:
