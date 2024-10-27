@@ -47,7 +47,7 @@ func start_turn(player_id: int) -> void:
 						GameManager.battle_map.update_gold_container_text.rpc_id(
 							p_id, gold_gained, t - turn_count
 						)
-				if !GameManager.is_single_player:
+				if GameManager.is_single_player:
 					GameManager.battle_map.update_gold_container_text(gold_gained, t - turn_count)
 				break
 	else:
@@ -56,7 +56,7 @@ func start_turn(player_id: int) -> void:
 				GameManager.battle_map.update_gold_container_text.rpc_id(
 					p_id, gold_gained, -1
 				)
-		if !GameManager.is_single_player:
+		if GameManager.is_single_player:
 			GameManager.battle_map.update_gold_container_text(gold_gained, -1)
 	
 	turn_stage = turn_stages.START_TURN
@@ -65,7 +65,7 @@ func start_turn(player_id: int) -> void:
 		GameManager.resources[player_id].refresh(gold_gained)
 		update_modifiers()
 	
-	else:
+	elif !GameManager.is_single_player:
 		GameManager.resources[player_id].refresh.rpc_id(player_id, gold_gained)
 		for p_id in [GameManager.p1_id, GameManager.p2_id]:
 			# NOTE that we update modifiers before calling triggered funcs. This choice has been

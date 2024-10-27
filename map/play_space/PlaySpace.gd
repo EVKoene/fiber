@@ -288,6 +288,9 @@ func _calc_position() -> Vector2:
 
 
 func _on_gui_input(event):
+	if !GameManager.is_ready_to_play:
+		return
+	
 	var left_mouse_button_pressed = (
 		event is InputEventMouseButton 
 		and event.button_index == MOUSE_BUTTON_LEFT 

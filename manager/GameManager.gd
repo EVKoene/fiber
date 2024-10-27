@@ -21,12 +21,13 @@ var is_player_1 := false
 var p1_id: int
 var p2_id: int
 var players := {}
-var is_single_player := false
+var is_single_player := true
 var player_id: int  # The player's own id
 @onready var deck := DeckCollection.player_testing
 
 
 #### BATTLE ###
+var is_ready_to_play := false
 var battle_map
 var victory_spaces := []
 var turn_manager: TurnManager
@@ -72,7 +73,7 @@ func add_player(
 		if player_number == 2:
 			p2_id = p_id
 	
-	if is_server and player_number == 2:
+	if is_server and player_number == 2 and !is_single_player:
 		for i in players:
 			add_player.rpc_id(
 				p2_id,
@@ -125,8 +126,7 @@ func go_to_overworld() -> void:
 	GameManager.testing = false
 	OverworldManager.can_move = true
 	var overworld: Node = overworld_scene.instantiate()
-	$CenterContainer.hide()
-	$DeckButtons.hide()
+	main_menu.hide_main_menu()
 	add_child(overworld)
 
 
@@ -155,7 +155,11 @@ func set_current_deck(deck_to_set: Dictionary) -> void:
 @rpc("any_peer")
 func setup_game() -> void:
 	_set_cards_in_hand_and_play.rpc()
-	_create_resources.rpc()
+	if GameManager.is_single_player:
+		_create_resources()
+	elif !GameManager.is_single_player:
+		for i in [1, p1_id, p2_id]:
+			_create_resources.rpc_id(i)
 	_add_turn_managers()
 	_add_decks()
 	_start_first_turn()
@@ -176,6 +180,7 @@ func _add_decks() -> void:
 func _start_first_turn() -> void:
 	var first_player_id = [GameManager.p1_id, GameManager.p2_id].pick_random()
 	if is_single_player:
+		set_ready_to_play(true)
 		if first_player_id == p1_id:
 			turn_manager.show_start_turn_text()
 		else:
@@ -183,6 +188,8 @@ func _start_first_turn() -> void:
 			ai_player.ai_turn_manager.start_turn()
 	
 	else:
+		for p_id in players:
+			set_ready_to_play.rpc_id(p_id, true)
 		turn_manager.hide_end_turn_button.rpc_id(
 			opposing_player_id(first_player_id)
 		)
@@ -191,15 +198,20 @@ func _start_first_turn() -> void:
 
 @rpc("call_local")
 func _set_cards_in_hand_and_play() -> void:
-	GameManager.cards_in_hand[GameManager.p1_id] = []
-	GameManager.cards_in_play[GameManager.p1_id] = []
-	GameManager.cards_in_hand[GameManager.p2_id] = []
-	GameManager.cards_in_play[GameManager.p2_id] = []
+	cards_in_hand[p1_id] = []
+	cards_in_play[p1_id] = []
+	cards_in_hand[p2_id] = []
+	cards_in_play[p2_id] = []
 
 
 @rpc("call_local")
 func _create_resources():
-	for p_id in players:
+	for p_id in GameManager.players:
 		var res := Resources.new(p_id)
-		resources[p_id] = res
-		main_menu.add_child(res)
+		GameManager.resources[p_id] = res
+		battle_map.add_child(res, true)
+
+
+@rpc("call_local")
+func set_ready_to_play(is_ready: bool) -> void:
+	is_ready_to_play = is_ready

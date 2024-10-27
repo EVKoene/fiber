@@ -129,7 +129,7 @@ func create_hand_card(card_owner_id: int, card_index: int) -> void:
 func add_to_territory(p_id: int, column: int, row: int) -> void:
 	var play_space: PlaySpace = GameManager.ps_column_row[column][row]
 	play_space.territory = Territory.new(p_id, play_space)
-	GameManager.main_menu.add_child(play_space.territory)
+	GameManager.battle_map.add_child(play_space.territory)
 
 
 @rpc("any_peer", "call_local")

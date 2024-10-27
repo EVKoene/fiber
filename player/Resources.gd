@@ -92,7 +92,7 @@ func spend_resource(faction: Collections.factions, value: int) -> void:
 	_update_resources()
 
 
-@rpc("call_local", "any_peer")
+@rpc("call_remote")
 func refresh(gold_gained: int) -> void:
 	gold = gold_gained
 	

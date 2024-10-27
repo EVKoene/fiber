@@ -30,7 +30,9 @@ func _ready():
 	await get_tree().create_timer(1).timeout
 	_create_starting_territory()
 	
-	if GameManager.is_player_1:
+	if GameManager.is_single_player:
+		GameManager.setup_game()
+	elif GameManager.is_player_1:
 		# To make sure the cards and card orders are always the same for both players, we only create
 		# the decks on the server
 		GameManager.setup_game.rpc_id(1)
@@ -356,6 +358,9 @@ func _input(_event):
 
 
 func _unhandled_input(event):
+	if !GameManager.is_ready_to_play:
+		return
+	
 	if (
 		event is InputEventMouseButton 
 		and event.button_index == MOUSE_BUTTON_LEFT

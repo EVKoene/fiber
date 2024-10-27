@@ -89,6 +89,7 @@ func _on_exit_pressed() -> void:
 
 
 func _on_single_player_pressed() -> void:
+	GameManager.is_server = true
 	GameManager.go_to_overworld()
 
 
