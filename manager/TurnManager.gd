@@ -15,7 +15,7 @@ var turn_count := 0
 # Turn actions should be disabled whenever we don't want te player to be able to make a move,
 # basically whenever we're handling consequences of actions such as playing a card or starting the
 # turn
-@export var turn_actions_enabled := false
+var turn_actions_enabled := false
 
 var can_start_turn := false
 var gold_gained := 0
@@ -39,12 +39,24 @@ func start_turn(player_id: int) -> void:
 	if turn_count in resource_increases_turns:
 		gold_gained += 1
 	
-		if resource_increases_turns.max() > turn_count:
-			for t in resource_increases_turns:
-				if t > turn_count:
+	if resource_increases_turns.max() > turn_count:
+		for t in resource_increases_turns:
+			if t > turn_count:
+				if !GameManager.is_single_player:
+					for p_id in GameManager.players:
+						GameManager.battle_map.update_gold_container_text.rpc_id(
+							p_id, gold_gained, t - turn_count
+						)
+				if GameManager.is_single_player:
 					GameManager.battle_map.update_gold_container_text(gold_gained, t - turn_count)
-					break
-		else:
+				break
+	else:
+		if !GameManager.is_single_player:
+			for p_id in GameManager.players:
+				GameManager.battle_map.update_gold_container_text.rpc_id(
+					p_id, gold_gained, -1
+				)
+		if GameManager.is_single_player:
 			GameManager.battle_map.update_gold_container_text(gold_gained, -1)
 	
 	turn_stage = turn_stages.START_TURN
@@ -53,7 +65,7 @@ func start_turn(player_id: int) -> void:
 		GameManager.resources[player_id].refresh(gold_gained)
 		update_modifiers()
 	
-	else:
+	elif !GameManager.is_single_player:
 		GameManager.resources[player_id].refresh.rpc_id(player_id, gold_gained)
 		for p_id in [GameManager.p1_id, GameManager.p2_id]:
 			# NOTE that we update modifiers before calling triggered funcs. This choice has been
@@ -61,12 +73,13 @@ func start_turn(player_id: int) -> void:
 			# interactions
 			update_modifiers.rpc_id(p_id)
 	
-	for c in GameManager.cards_in_play[player_id]:
-		c.refresh()
+	if GameManager.is_single_player:
+		BattleManager.refresh_all_units(player_id)
+		call_start_turn_triggered_funcs()
+	if !GameManager.is_single_player:
+		BattleManager.refresh_all_units.rpc_id(GameManager.p1_id, player_id)
+		call_start_turn_triggered_funcs.rpc_id(GameManager.p1_id)
 	
-	for p in GameManager.players:
-		for c in GameManager.cards_in_play[p]:
-			c.call_triggered_funcs(Collections.triggers.TURN_STARTED, c)
 	if turn_count >= 2:
 		if player_id == GameManager.ai_player_id:
 			GameManager.decks[player_id].draw_card()
@@ -131,3 +144,10 @@ func set_turn_actions_enabled(is_enabled: bool) -> void:
 @rpc("any_peer", "call_local")
 func set_turn_actions_enabled_mp(is_enabled: bool) -> void:
 	turn_actions_enabled = is_enabled
+
+
+@rpc("any_peer", "call_local")
+func call_start_turn_triggered_funcs() -> void:
+	for p_id in GameManager.players:
+		for c in GameManager.cards_in_play[p_id]:
+			c.call_triggered_funcs(Collections.triggers.TURN_STARTED, c)

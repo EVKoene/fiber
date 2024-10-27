@@ -164,10 +164,6 @@ var opponent_testing: Dictionary = {
 	}
 }
 
-var random_deck: Dictionary = [
-	animal, magic, nature, robot
-].pick_random()
-
 var player_testing: Dictionary = {
 	"Cards": {
 		cards.GORILLA: 10,
@@ -175,3 +171,10 @@ var player_testing: Dictionary = {
 	"StartingCards": {
 		cards.GORILLA_KING: 3
 	}}
+
+
+func random_deck() -> Dictionary:
+	var rand_deck: Dictionary = [
+		animal, magic, nature, robot
+	].pick_random()
+	return rand_deck

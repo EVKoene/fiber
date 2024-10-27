@@ -3,7 +3,6 @@ extends Node2D
 @onready var play_space_scene: PackedScene = preload("res://map/play_space/PlaySpace.tscn")
 @onready var card_scene: PackedScene = preload("res://card/card_states/CardInPlay.tscn")
 @onready var resource_bar_scene: PackedScene = preload("res://player/ResourceBar.tscn")
-@onready var turn_manager_scene: PackedScene = preload("res://manager/TurnManager.tscn")
 @onready var card_pick_scene: PackedScene = preload("res://card/CardPickScreen.tscn")
 @onready var card_resolve_scene := preload("res://card/card_states/CardResolve.tscn")
 
@@ -19,7 +18,6 @@ func _ready():
 		_create_ai_player()
 	
 	GameManager.battle_map = self
-	$MultiplayerSpawner.add_spawnable_scene("res://manager/TurnManager.tscn")
 	_create_battle_map()
 	_set_zoom_preview_position_and_size()
 	_set_end_turn_button()
@@ -27,17 +25,17 @@ func _ready():
 	_set_resolve_spell_button()
 	_set_resource_bars_position_and_size()
 	_set_text_containers()
-	_set_cards_in_play_and_hand_dicts()
 	_create_progress_bars()
-	_create_resources()
+	# Because create_starting_territory() calls rpc funcs we wait a second for both players to setup
+	await get_tree().create_timer(1).timeout
 	_create_starting_territory()
-	if multiplayer.is_server():
-		GameManager.is_server = true
-		_add_turn_managers()
+	
+	if GameManager.is_single_player:
+		GameManager.setup_game()
+	elif GameManager.is_player_1:
 		# To make sure the cards and card orders are always the same for both players, we only create
 		# the decks on the server
-		_add_decks()
-		_start_first_turn()
+		GameManager.setup_game.rpc_id(1)
 	
 	Events.show_instructions.connect(show_instructions)
 	Events.hide_instructions.connect(hide_instructions)
@@ -82,34 +80,6 @@ func show_text(text_to_show: String) -> void:
 
 func hide_text() -> void:
 	$TextBox.hide()
-
-
-func _start_first_turn() -> void:
-	var first_player_id = [GameManager.p1_id, GameManager.p2_id].pick_random()
-	if GameManager.is_single_player:
-		if first_player_id == GameManager.p1_id:
-			GameManager.turn_manager.show_start_turn_text()
-		else:
-			GameManager.turn_manager.hide_end_turn_button()
-			GameManager.ai_player.ai_turn_manager.start_turn()
-	
-	else:
-		GameManager.turn_manager.hide_end_turn_button.rpc_id(
-			GameManager.opposing_player_id(first_player_id)
-		)
-		GameManager.turn_manager.show_start_turn_text.rpc_id(first_player_id)
-
-
-func _add_decks() -> void:
-	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		var deck_data: Dictionary = GameManager.players[p_id]["Deck"]
-		GameManager.decks[p_id] = Deck.new(p_id, deck_data["Cards"], deck_data["StartingCards"])
-		add_child(GameManager.decks[p_id])
-
-
-func _add_turn_managers() -> void:
-	var turn_manager = turn_manager_scene.instantiate()
-	add_child(turn_manager, true)
 
 
 func _create_battle_map() -> void:
@@ -334,7 +304,7 @@ func _set_gold_gained_container() -> void:
 	update_gold_container_text(0, 1)
 
 
-
+@rpc("call_local")
 func update_gold_container_text(gold_gained: int, turns_until_increase: int) -> void:
 	if turns_until_increase == -1:
 		$GoldGainedContainer/GoldGained.text = str("Gold gained: ", gold_gained)
@@ -344,18 +314,11 @@ func update_gold_container_text(gold_gained: int, turns_until_increase: int) -> 
 		)
 
 
-func _set_cards_in_play_and_hand_dicts() -> void:
-	GameManager.cards_in_hand[GameManager.p1_id] = []
-	GameManager.cards_in_play[GameManager.p1_id] = []
-	GameManager.cards_in_hand[GameManager.p2_id] = []
-	GameManager.cards_in_play[GameManager.p2_id] = []
-
-
 func _on_end_turn_button_pressed():
 	if !GameManager.turn_manager.turn_actions_enabled:
 		return
 	
-	GameManager.turn_manager.end_turn.rpc_id(GameManager.p1_id, GameManager.player_id)
+	GameManager.turn_manager.end_turn.rpc_id(1, GameManager.player_id)
 
 
 func _on_finish_button_pressed():
@@ -375,13 +338,6 @@ func _on_resolve_spell_button_pressed():
 	$ResolveSpellButton.hide()
 
 
-func _create_resources():
-	for p_id in [GameManager.p1_id, GameManager.p2_id]:
-		var resources := Resources.new(p_id)
-		GameManager.resources[p_id] = resources
-		add_child(resources)
-
-
 func _input(_event):
 	# If the game has ended we don't want to do anything with input
 	if !GameManager.turn_manager:
@@ -398,10 +354,13 @@ func _input(_event):
 	if GameManager.is_single_player:
 		GameManager.turn_manager.start_turn(GameManager.p1_id)
 	if !GameManager.is_single_player:
-		GameManager.turn_manager.start_turn.rpc_id(GameManager.p1_id, GameManager.player_id)
+		GameManager.turn_manager.start_turn.rpc_id(1, GameManager.player_id)
 
 
 func _unhandled_input(event):
+	if !GameManager.is_ready_to_play:
+		return
+	
 	if (
 		event is InputEventMouseButton 
 		and event.button_index == MOUSE_BUTTON_LEFT

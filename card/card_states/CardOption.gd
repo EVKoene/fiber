@@ -37,7 +37,7 @@ func pick() -> void:
 		BattleManager.pick_card(card_owner_id, option_index, card_pick_screen.card_indices)
 	if !GameManager.is_single_player:
 		BattleManager.pick_card.rpc_id(
-			GameManager.p1_id, card_owner_id, option_index, card_pick_screen.card_indices
+			1, card_owner_id, option_index, card_pick_screen.card_indices
 		)
 	GameManager.turn_manager.set_turn_actions_enabled(true)
 	card_pick_screen.queue_free()

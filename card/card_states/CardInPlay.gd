@@ -54,7 +54,7 @@ func _ready():
 		flip_card()
 	GameManager.ps_column_row[column][row].card_in_this_play_space = self
 	if GameManager.is_server:
-		GameManager.call_deferred("call_triggered_funcs", Collections.triggers.CARD_CREATED, self)
+		BattleManager.call_deferred("call_triggered_funcs", Collections.triggers.CARD_CREATED, self)
 	_connect_signals()
 	enter_battle.call_deferred()
 
@@ -80,7 +80,7 @@ func resolve_ability_for_ai() -> void:
 
 
 func attack_card(target_card: CardInPlay) -> void:
-	GameManager.call_triggered_funcs(Collections.triggers.ATTACK, self)
+	BattleManager.call_triggered_funcs(Collections.triggers.ATTACK, self)
 	if GameManager.is_single_player:
 		BattleAnimation.animate_attack(
 			card_owner_id, card_in_play_index, 
@@ -94,7 +94,7 @@ func attack_card(target_card: CardInPlay) -> void:
 			)
 	
 	await deal_damage_to_card(target_card, int(randi_range(min_attack, max_attack)))
-	await GameManager.call_triggered_funcs(Collections.triggers.ATTACK_FINISHED, self)
+	await BattleManager.call_triggered_funcs(Collections.triggers.ATTACK_FINISHED, self)
 
 
 func deal_damage_to_card(card: CardInPlay, value: int) -> void:
@@ -109,8 +109,8 @@ func select_card(show_select: bool) -> void:
 
 func swap_with_card(swap_card_owner_id: int, swap_cip_index: int) -> void:
 	var swap_card: CardInPlay = GameManager.cards_in_play[swap_card_owner_id][swap_cip_index]
-	GameManager.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, self)
-	GameManager.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, swap_card)
+	BattleManager.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, self)
+	BattleManager.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, swap_card)
 	if GameManager.is_single_player:
 		BattleManager.swap_cards(
 			card_owner_id, card_in_play_index, swap_card_owner_id, swap_cip_index
@@ -120,12 +120,12 @@ func swap_with_card(swap_card_owner_id: int, swap_cip_index: int) -> void:
 			BattleManager.swap_cards.rpc_id(
 				p_id, card_owner_id, card_in_play_index, swap_card_owner_id, swap_cip_index
 			)
-	GameManager.call_triggered_funcs(Collections.triggers.CARD_MOVED, self)
-	GameManager.call_triggered_funcs(Collections.triggers.CARD_MOVED, swap_card)
+	BattleManager.call_triggered_funcs(Collections.triggers.CARD_MOVED, self)
+	BattleManager.call_triggered_funcs(Collections.triggers.CARD_MOVED, swap_card)
 
 
 func move_to_play_space(new_column: int, new_row: int) -> void:
-	GameManager.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, self)	
+	BattleManager.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, self)	
 	
 	if GameManager.is_single_player:
 		BattleManager.move_to_play_space(card_owner_id, card_in_play_index, new_column, new_row)
@@ -136,7 +136,7 @@ func move_to_play_space(new_column: int, new_row: int) -> void:
 				new_column, new_row
 			)
 			
-	GameManager.call_triggered_funcs(Collections.triggers.CARD_MOVED, self)
+	BattleManager.call_triggered_funcs(Collections.triggers.CARD_MOVED, self)
 	return
 
 

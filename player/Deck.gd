@@ -100,12 +100,13 @@ func create_hand_card(card_index: int) -> void:
 	if len(GameManager.cards_in_hand[deck_owner_id]) >= 7:
 		if GameManager.is_single_player:
 			TargetSelection.select_card_to_discard()
-		TargetSelection.select_card_to_discard.rpc_id(deck_owner_id)
+		if !GameManager.is_single_player:
+			TargetSelection.select_card_to_discard.rpc_id(deck_owner_id)
 	
 	if GameManager.is_single_player:
 		BattleManager.create_hand_card(deck_owner_id, card_index)
 	if !GameManager.is_single_player:
-		for p_id in [GameManager.p1_id, GameManager.p2_id]:
+		for p_id in GameManager.players:
 			BattleManager.create_hand_card.rpc_id(p_id, deck_owner_id, card_index)
 
 

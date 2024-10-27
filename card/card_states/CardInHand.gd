@@ -38,7 +38,7 @@ func highlight_card():
 
 func discard() -> void:
 	var h_index := hand_index
-	GameManager.call_triggered_funcs(Collections.triggers.CARD_DISCARDED, null)
+	BattleManager.call_triggered_funcs(Collections.triggers.CARD_DISCARDED, null)
 	if GameManager.is_single_player:
 		BattleManager.remove_card_from_hand(card_owner_id, h_index)
 	else:

@@ -36,8 +36,11 @@ func _ready():
 
 
 func add_to_territory(p_id: int) -> void:
-	territory = Territory.new(p_id, self)
-	GameManager.battle_map.add_child(territory)
+	if GameManager.is_single_player:
+		BattleManager.add_to_territory(p_id, column, row)
+	if !GameManager.is_single_player:
+		for p in GameManager.players:
+			BattleManager.add_to_territory.rpc_id(p, p_id, column, row)
 
 
 func update_stat_modifier(card_owner_id: int, stat: int, value: int) -> void:
@@ -285,6 +288,9 @@ func _calc_position() -> Vector2:
 
 
 func _on_gui_input(event):
+	if !GameManager.is_ready_to_play:
+		return
+	
 	var left_mouse_button_pressed = (
 		event is InputEventMouseButton 
 		and event.button_index == MOUSE_BUTTON_LEFT 

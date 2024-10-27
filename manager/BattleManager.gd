@@ -42,11 +42,11 @@ func resolve_damage(card_owner_id, cip_index, value):
 	if min_value > 0:
 		card.shake()
 	
-	CardManipulation.change_battle_stat(
-		Collections.stats.HEALTH, card_owner_id, cip_index,-min_value, -1
-	)
-	
-	if card.health <= 0:
+	if card.health - value > 0:
+		CardManipulation.change_battle_stat(
+			Collections.stats.HEALTH, card_owner_id, cip_index,-min_value, -1
+		)
+	elif card.health - value <= 0:
 		if GameManager.is_single_player:
 			CardManipulation.destroy(card.card_owner_id, card.card_in_play_index)
 		if !GameManager.is_single_player:
@@ -126,6 +126,13 @@ func create_hand_card(card_owner_id: int, card_index: int) -> void:
 
 
 @rpc("any_peer", "call_local")
+func add_to_territory(p_id: int, column: int, row: int) -> void:
+	var play_space: PlaySpace = GameManager.ps_column_row[column][row]
+	play_space.territory = Territory.new(p_id, play_space)
+	GameManager.battle_map.add_child(play_space.territory)
+
+
+@rpc("any_peer", "call_local")
 func set_conquered_by(player_id: int, column: int, row: int) -> void:
 	var play_space = GameManager.ps_column_row[column][row]
 	play_space.conquered_by = player_id
@@ -174,7 +181,9 @@ func set_progress_bars() -> void:
 			conquered_victory_spaces >= MapSettings.n_progress_bars 
 			and GameManager.player_id != p_id
 		):
-			GameManager.ai_player.game_over = true
+			if GameManager.is_single_player:
+				GameManager.ai_player.game_over = true
+			
 			GameManager.battle_map.show_text("You lose!")
 			TransitionScene.transition_to_overworld()
 			return
@@ -286,7 +295,7 @@ func pick_card(player_id: int, option_index: int, card_indices: Array) -> void:
 	GameManager.decks[player_id].create_hand_card(card_indices[option_index])
 	for c in len(card_indices):
 		if c != option_index:
-			GameManager.decks[GameManager.player_id].send_to_discard(card_indices[c])
+			GameManager.decks[player_id].send_to_discard(card_indices[c])
 
 
 @rpc("any_peer", "call_local")
@@ -318,3 +327,15 @@ func finish_resolve() -> void:
 	GameManager.battle_map.hide_finish_button()
 	GameManager.turn_manager.set_turn_actions_enabled(true)
 	TargetSelection.end_selecting()
+
+
+func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:
+	for p_id in GameManager.players:
+		for card in GameManager.cards_in_play[p_id]:
+			await card.call_triggered_funcs(trigger, triggering_card)
+
+
+@rpc("any_peer", "call_local")
+func refresh_all_units(card_owner_id: int) -> void:
+	for c in GameManager.cards_in_play[card_owner_id]:
+		c.refresh()
