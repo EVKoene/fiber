@@ -24,3 +24,7 @@ mono_crash.*.json
 
 # Music
 fuse/music/
+
+# Executables
+*.X86_46
+*.exe
