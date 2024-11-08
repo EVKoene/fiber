@@ -1,5 +1,5 @@
-name: deploy-on-server
-run-name: Deploying fiber on gameserver
+name: patch-to-live
+run-name: Pulling latest patch and restarting server
 on:
   push:
     branches:
@@ -20,6 +20,12 @@ jobs:
       run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull && exit"
     - name: Cleanup
       run: rm -rf ~/.ssh
+
+  recreate-executable:
+    name: Recreate fiber executable
+    runs-on: ubuntu-latest
+    run:
+      deploy_executable.sh
 
   restart-fiber-on-gameserver:
     name: restart fiber on gameserver
