@@ -1,0 +1,32 @@
+name: deploy-on-server
+run-name: Deploying fiber on gameserver
+on:
+  push:
+    branches:
+      main
+
+jobs:
+  pull-newest-version:
+    name: Pull newest version
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install ssh keys
+        run: |
+        install -m 600 -D /dev/null ~/.ssh/id_rsa
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+    - name: Connect and pull
+      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull && exit"
+    - name: Cleanup
+      run: rm -rf ~/.ssh
+
+  restart-fiber-on-gameserver:
+    name: restart fiber on gameserver
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Kill running processes
+        run: killall5 -9
+      - name: Start server
+        run: Fiber_server.x86_64
