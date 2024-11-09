@@ -6,8 +6,8 @@ on:
       main
 
 jobs:
-  pull-newest-version:
-    name: Pull newest version
+  pull-latest-restart:
+    name: Pull latest version and restart
     runs-on: ubuntu-latest
 
     steps:
@@ -18,21 +18,11 @@ jobs:
         ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
     - name: Connect and pull
       run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ~/fiber && git checkout main && git pull && exit"
+    - name: restart fiber on gameserver
+      run: deploy_executable.sh
+    - name: Kill running processes
+      run: killall5 -9
+    - name: Start server
+      run: Fiber_server.x86_64
     - name: Cleanup
       run: rm -rf ~/.ssh
-
-  recreate-executable:
-    name: Recreate fiber executable
-    runs-on: ubuntu-latest
-    run:
-      deploy_executable.sh
-
-  restart-fiber-on-gameserver:
-    name: restart fiber on gameserver
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Kill running processes
-        run: killall5 -9
-      - name: Start server
-        run: Fiber_server.x86_64
