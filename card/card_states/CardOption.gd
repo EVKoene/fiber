@@ -3,7 +3,7 @@ extends PanelContainer
 class_name CardOption
 
 
-var card_index := 1
+@export var card_index := 1
 var max_attack: int
 var min_attack: int
 var health: int

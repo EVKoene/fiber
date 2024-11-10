@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=3 uid="uid://dn5qmomg70bsw"]
+
+[ext_resource type="Script" path="res://overworld/Deckbuilder.gd" id="1_ny61o"]
+[ext_resource type="Script" path="res://card/card_states/CardOption.gd" id="2_yereg"]
+
+[node name="Deckbuilder" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ny61o")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FilteredCardsScroller" type="ScrollContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FilteredCards" type="VBoxContainer" parent="HBoxContainer/FilteredCardsScroller"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="CardsInDeckScroller" type="ScrollContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CardsInDeck" type="VBoxContainer" parent="HBoxContainer/CardsInDeckScroller"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CardOption" type="PanelContainer" parent="HBoxContainer/PanelContainer"]
+layout_mode = 2
+script = ExtResource("2_yereg")
