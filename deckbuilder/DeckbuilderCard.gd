@@ -1,6 +1,6 @@
 extends PanelContainer
 
-class_name CardInHand
+class_name DeckBuilderCard
 
 
 @onready var border := StyleBoxFlat.new()
@@ -19,96 +19,28 @@ var movement: int
 var border_style: StyleBox
 var img_path: String
 var card_text: String
-var hand_index: int: get = _get_hand_index
+
+var is_added_to_deck := false
 
 
 func _ready():
-	GameManager.cards_in_hand[card_owner_id].append(self)
 	_load_card_properties()
-	set_card_position()
 	_add_border()
 	set_card_properties()
-	set_card_size()
-	_set_drag_node_properties()
+
+
+func add_to_deck() -> void:
+	GameManager.deck_builder.add_to_deck(card_index)
+	is_added_to_deck = true
+
+
+func remove_from_deck() -> void:
+	GameManager.deck_builder.remove_from_deck(card_index)
+	is_added_to_deck = false
 
 
 func highlight_card():
 	get_theme_stylebox("panel").border_color = Styling.gold_color
-
-
-func discard() -> void:
-	var h_index := hand_index
-	BattleManager.call_triggered_funcs(Collections.triggers.CARD_DISCARDED, null)
-	if GameManager.is_single_player:
-		BattleManager.remove_card_from_hand(card_owner_id, h_index)
-	else:
-		for p_id in GameManager.players:
-			BattleManager.remove_card_from_hand.rpc_id(p_id, card_owner_id, h_index)
-	Events.card_discarded.emit()
-
-
-func play_spell(column: int, row: int) -> void:
-	if GameManager.is_single_player:
-		BattleManager.lock_zoom_preview_hand(card_owner_id, hand_index)
-	if !GameManager.is_single_player:
-		for p_id in GameManager.players:
-			BattleManager.lock_zoom_preview_hand.rpc_id(p_id, card_owner_id, hand_index)
-	
-	GameManager.battle_map.create_card_resolve(card_owner_id, hand_index, column, row)
-
-
-func can_target_unit(unit: CardInPlay) -> bool:
-	if card_type == Collections.card_types.UNIT:
-		return false
-
-	if unit:
-		if card_range >= 0 and !unit.current_play_space.in_play_range(card_range, card_owner_id):
-			return false
-
-	var can_target := false
-	var target_restrictions = CardDatabase.cards_info[card_index]["TargetRestrictions"]
-
-	if target_restrictions == TargetSelection.target_restrictions.ANY_SPACE:
-		return true
-	elif !unit:
-		return false
-
-	match target_restrictions:
-		TargetSelection.target_restrictions.ANY_UNITS:
-			can_target = true
-		TargetSelection.target_restrictions.OWN_UNITS:
-			if unit.card_owner_id == card_owner_id:
-				can_target = true
-		TargetSelection.target_restrictions.OPPONENT_UNITS:
-			if unit.card_owner_id != card_owner_id:
-				can_target = true
-
-	return can_target
-
-
-func set_card_position() -> void:
-	position.x = GameManager.cards_in_hand[card_owner_id].find(self) * (
-		((MapSettings.own_area_end.x - MapSettings.own_area_start.x) / 7)
-	)
-	
-	match [GameManager.is_player_1, card_owner_id]:
-		[true, GameManager.p1_id]:
-			position.y = MapSettings.own_area_start.y
-		[true, GameManager.p2_id]:
-			position.y = MapSettings.opponent_area_start.y
-		[false, GameManager.p2_id]:
-			position.y = MapSettings.own_area_start.y
-		[false, GameManager.p1_id]:
-			position.y = MapSettings.opponent_area_start.y
-		_:
-			assert(
-				false, str(
-					"Unable to assert is_player_1 - card_owner_id combination. is_player_1: ",
-					GameManager.battle_map.is_player_1(), 
-					", card_owner_id: ", card_owner_id
-					)
-				)
-		
 
 
 func set_card_properties():
@@ -166,11 +98,6 @@ func _set_card_cost_visuals() -> void:
 			$Vbox/TopInfo/Costs/CostLabels/Robot.text = "0"
 
 
-func set_card_size() -> void:
-	scale.x *= ((MapSettings.own_area_end.x - MapSettings.own_area_start.x) / 7) / size.x
-	scale.y *= (MapSettings.own_area_end.y - MapSettings.own_area_start.y) / size.y
-
-
 func _load_card_properties() -> void:
 	var card_info: Dictionary = CardDatabase.cards_info[card_index]
 	
@@ -219,15 +146,8 @@ func _add_border() -> void:
 	border.set_border_width_all(int(size.y / 10))
 
 
-func _set_drag_node_properties() -> void:
-	$DragNode.img_path = img_path
-	$DragNode.card_index = card_index
-	$DragNode.card_in_hand = self
-	$DragNode.card_owner_id = card_owner_id
-
-
 func _on_mouse_entered():
-	GameManager.zoom_preview.preview_hand_card(self, false)
+	GameManager.deck_builder.zoom_preview.preview_card_index(card_index, false)
 	highlight_card()
 
 
@@ -242,8 +162,7 @@ func _gui_input(event):
 		and event.pressed
 		and TargetSelection.discarding
 	):
-		discard()
-
-
-func _get_hand_index() -> int:
-	return GameManager.cards_in_hand[card_owner_id].find(self)
+		if is_added_to_deck:
+			remove_from_deck()
+		elif !is_added_to_deck:
+			add_to_deck()

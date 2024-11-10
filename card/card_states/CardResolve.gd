@@ -18,7 +18,7 @@ func _ready():
 	var preview = zoom_preview_scene.instantiate()
 	$CenterContainer.add_child(preview)
 	preview.custom_minimum_size = MapSettings.card_in_play_size * 3 
-	preview.lock_from_card_index(card_index)
+	preview.preview_card_index(card_index, true)
 
 
 func continue_resolve() -> void:

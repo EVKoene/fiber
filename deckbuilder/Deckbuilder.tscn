@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dn5qmomg70bsw"]
 
-[ext_resource type="Script" path="res://overworld/Deckbuilder.gd" id="1_ny61o"]
-[ext_resource type="Script" path="res://card/card_states/CardOption.gd" id="2_yereg"]
+[ext_resource type="Script" path="res://deckbuilder/Deckbuilder.gd" id="1_ny61o"]
+[ext_resource type="PackedScene" uid="uid://c6a7g6p6nipw5" path="res://player/ZoomPreview.tscn" id="2_cwaqj"]
 
 [node name="Deckbuilder" type="Control"]
 layout_mode = 3
@@ -29,6 +29,11 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="CardCollectionLabel" type="Label" parent="HBoxContainer/FilteredCardsScroller/FilteredCards"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Card collection"
+
 [node name="CardsInDeckScroller" type="ScrollContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -38,10 +43,15 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="DeckLabel" type="Label" parent="HBoxContainer/CardsInDeckScroller/CardsInDeck"]
+layout_mode = 2
+text = "Deck"
+
 [node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CardOption" type="PanelContainer" parent="HBoxContainer/PanelContainer"]
+[node name="ZoomPreview" parent="HBoxContainer/PanelContainer" instance=ExtResource("2_cwaqj")]
 layout_mode = 2
-script = ExtResource("2_yereg")
+size_flags_horizontal = 4
+size_flags_vertical = 0

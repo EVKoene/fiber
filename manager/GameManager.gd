@@ -54,6 +54,8 @@ var ai_player_id: int
 ### OVERWORLD ###
 var current_area: OverworldArea
 
+### DECKBUILDER ###
+var deck_builder: DeckBuilder
 
 @rpc("any_peer", "call_local")
 func add_player(

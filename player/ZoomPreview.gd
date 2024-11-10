@@ -26,11 +26,14 @@ func _ready():
 	_set_container_sizes()
 
 
-func hover_zoom_preview_hand(
-	card: CardInHand
+func preview_hand_card(
+	card: CardInHand, lock_card: bool
 ) -> void:
-	if locked:
+	if locked and !lock_card:
 		return
+	
+	locked = lock_card
+	
 	animal_cost = card.costs.animal
 	magic_cost = card.costs.magic
 	nature_cost = card.costs.nature
@@ -66,11 +69,14 @@ func hover_zoom_preview_hand(
 	$CardImage.texture = load(img_path)
 
 
-func hover_zoom_preview_play(
-	card: CardInPlay
+func preview_card_in_play(
+	card: CardInPlay, lock_card: bool
 ) -> void:
-	if locked:
+	if locked and !lock_card:
 		return
+	
+	locked = lock_card
+	
 	animal_cost = card.costs.animal
 	magic_cost = card.costs.magic
 	nature_cost = card.costs.nature
@@ -106,87 +112,13 @@ func hover_zoom_preview_play(
 	$CardImage.texture = load(img_path)
 
 
-func lock_zoom_preview_hand(
-	card: CardInHand
-) -> void:
-	locked = true
-	animal_cost = card.costs.animal
-	magic_cost = card.costs.magic
-	nature_cost = card.costs.nature
-	robot_cost = card.costs.robot
-	ingame_name = card.ingame_name
-	card_type = card.card_type
-	factions = card.factions
-	card_text = card.card_text
-	img_path = card.img_path
+func preview_card_index(card_index, lock_card: bool) -> void:
+	if locked and !lock_card:
+		return
 	
-	if card_type == Collections.card_types.UNIT:
-		max_attack = card.max_attack
-		min_attack = card.min_attack
-		health = card.health
-		movement = card.movement
-		card_range = 0
-	else:
-		card_range = card.card_range
-		max_attack = 0
-		min_attack = 0
-		health = 0
-		movement = 0
+	locked = lock_card
 	
-	if len(card_text) == 0:
-		$VBox/BotInfo/CardText.hide()
-	else:
-		$VBox/BotInfo/CardText.show()
-	$CardImage.show()
-	$VBox.show()
-	_set_labels()
-	_set_border_to_faction()
-	_set_card_text_visuals()
-	$CardImage.texture = load(img_path)
-
-
-func lock_zoom_preview_play(
-	card: CardInPlay
-) -> void:
-	locked = true
-	animal_cost = card.costs.animal
-	magic_cost = card.costs.magic
-	nature_cost = card.costs.nature
-	robot_cost = card.costs.robot
-	ingame_name = card.ingame_name
-	card_type = card.card_type
-	factions = card.factions
-	card_text = card.card_text
-	img_path = card.img_path
-	
-	if card_type == Collections.card_types.UNIT:
-		max_attack = card.max_attack
-		min_attack = card.min_attack
-		health = card.health
-		movement = card.movement
-		card_range = 0
-	else:
-		card_range = card.card_range
-		max_attack = 0
-		min_attack = 0
-		health = 0
-		movement = 0
-	
-	if len(card_text) == 0:
-		$VBox/BotInfo/CardText.hide()
-	else:
-		$VBox/BotInfo/CardText.show()
-	$CardImage.show()
-	$VBox.show()
-	_set_labels()
-	_set_border_to_faction()
-	_set_card_text_visuals()
-	$CardImage.texture = load(img_path)
-
-
-func lock_from_card_index(card_index) -> void:
 	var card_data: Dictionary = CardDatabase.cards_info[card_index]
-	locked = true
 	animal_cost = card_data["Costs"][Collections.factions.ANIMAL]
 	magic_cost = card_data["Costs"][Collections.factions.MAGIC]
 	nature_cost = card_data["Costs"][Collections.factions.NATURE]
@@ -220,6 +152,7 @@ func lock_from_card_index(card_index) -> void:
 	_set_border_to_faction()
 	_set_card_text_visuals()
 	$CardImage.texture = load(img_path)
+
 
 func reset_zoom_preview() -> void:
 	max_attack = 0

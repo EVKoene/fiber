@@ -38,6 +38,7 @@ OverworldManager="*res://overworld/OverworldManager.gd"
 AIHelper="*res://singleplayer/ai/AIHelper.gd"
 MPCardManipulation="*res://manager/MPCardManipulation.gd"
 MultiplayerManager="*res://multiplayer/MultiplayerManager.gd"
+CardCollection="*res://deckbuilder/CardCollection.gd"
 
 [display]
 

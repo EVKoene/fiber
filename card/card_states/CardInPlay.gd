@@ -193,7 +193,7 @@ func select_for_movement() -> void:
 	TargetSelection.card_selected_for_movement = self
 	TargetSelection.making_selection = true
 	highlight_card(false)
-	GameManager.zoom_preview.lock_zoom_preview_play(self)
+	GameManager.zoom_preview.preview_card_in_play(self, true)
 
 
 func refresh():
@@ -517,7 +517,7 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 
 
 func _on_mouse_entered():
-	GameManager.zoom_preview.hover_zoom_preview_play(self)
+	GameManager.zoom_preview.preview_card_in_play(self, false)
 	
 	if !TargetSelection.card_selected_for_movement:
 		return
