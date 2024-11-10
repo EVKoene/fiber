@@ -21,7 +21,7 @@ jobs:
     - name: restart fiber on gameserver
       run: deploy_executable.sh
     - name: Kill running processes
-      run: killall5 -9
+      run: ps aux | grep -i Fiber | head -n 1 | tr -s " " | cut -d ' ' -f2 | xargs kill
     - name: Start server
       run: Fiber_server.x86_64
     - name: Cleanup
