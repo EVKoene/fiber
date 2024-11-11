@@ -1,0 +1,28 @@
+name: patch-to-live
+run-name: Pulling latest patch and restarting server
+on:
+  push:
+    branches:
+      main
+
+jobs:
+  pull-latest-restart:
+    name: Pull latest version and restart
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install ssh keys
+        run: |
+          install -m 600 -D /dev/null ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+      - name: Connect and pull
+        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ~/fiber && git checkout main && git pull"
+      - name: restart fiber on gameserver
+        run: ./deploy_executable.sh
+      - name: Kill running processes
+        run: ps aux | grep -i Fiber | head -n 1 | tr -s " " | cut -d ' ' -f2 | xargs kill
+      - name: Start server
+        run: ./Fiber_server.x86_64
+      - name: Cleanup
+        run: rm -rf ~/.ssh
