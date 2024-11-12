@@ -81,7 +81,7 @@ var cards_info = {
 	},
 	
 	cards.WARTHOG_BERSERKER: {
-		"InGameName": "WarthogBerserker",
+		"InGameName": "Warthog Berserker",
 		"CardType": Collections.card_types.UNIT,
 		"Factions": [Collections.factions.ANIMAL],
 		"Costs": {

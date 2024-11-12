@@ -13,7 +13,7 @@ bg_color = Color(0.295793, 0.152218, 0.0434451, 1)
 bg_color = Color(0.741385, 0.741385, 0.741384, 1)
 
 [node name="DeckbuilderCard" type="PanelContainer"]
-custom_minimum_size = Vector2(150, 40)
+custom_minimum_size = Vector2(250, 40)
 mouse_filter = 1
 script = ExtResource("1_m22rs")
 
@@ -33,7 +33,7 @@ mouse_filter = 2
 
 [node name="CardNameBG" type="Panel" parent="Vbox/TopInfo"]
 show_behind_parent = true
-custom_minimum_size = Vector2(80, 30)
+custom_minimum_size = Vector2(160, 30)
 layout_mode = 2
 mouse_filter = 2
 

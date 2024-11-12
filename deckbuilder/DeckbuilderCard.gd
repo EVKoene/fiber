@@ -20,23 +20,13 @@ var border_style: StyleBox
 var img_path: String
 var card_text: String
 
-var is_added_to_deck := false
+var is_in_deck := false
 
 
 func _ready():
 	_load_card_properties()
 	_add_border()
 	set_card_properties()
-
-
-func add_to_deck() -> void:
-	GameManager.deck_builder.add_to_deck(card_index)
-	is_added_to_deck = true
-
-
-func remove_from_deck() -> void:
-	GameManager.deck_builder.remove_from_deck(card_index)
-	is_added_to_deck = false
 
 
 func highlight_card():
@@ -127,8 +117,8 @@ func _load_card_properties() -> void:
 func _set_card_text_font_size() -> void:
 	if !$Vbox/TopInfo/CardNameBG/CardName.label_settings:
 		$Vbox/TopInfo/CardNameBG/CardName.label_settings = LabelSettings.new()
-	var min_font: float = round(MapSettings.play_space_size.x)/22
-	var max_font: float = round(MapSettings.play_space_size.x)/13
+	var min_font: float = round(size.x)/20
+	var max_font: float = round(size.x)/10
 	var max_chars := 30
 	var font_range_diff: float = max_font - min_font
 	var font_change_per_char: float = font_range_diff/(max_chars)
@@ -160,9 +150,8 @@ func _gui_input(event):
 		event is InputEventMouseButton 
 		and event.button_index == MOUSE_BUTTON_LEFT 
 		and event.pressed
-		and TargetSelection.discarding
 	):
-		if is_added_to_deck:
-			remove_from_deck()
-		elif !is_added_to_deck:
-			add_to_deck()
+		if !is_in_deck:
+			GameManager.deck_builder.add_to_deck(card_index)
+		elif is_in_deck:
+			GameManager.deck_builder.remove_from_deck(card_index)
