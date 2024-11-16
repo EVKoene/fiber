@@ -11,6 +11,7 @@ var card_collection_options := {}
 var cards_in_deck := {}
 var starting_cards := {}
 var n_selected_starting_cards := 0
+var save_path := "://user//decks/"
 
 
 func _ready():
@@ -24,13 +25,23 @@ func _save_deck() -> void:
 	if !deck_name:
 		deck_name = "Custom deck" + str(len(DeckCollection.custom_decks))
 	var cards := {}
+	for card_index in cards_in_deck:
+		cards[card_index] = cards_in_deck[card_index]["NCards"]
 	
 	var deck := {
 		"DeckName": deck_name,
 		"Cards": cards,
 		"StartingCards": starting_cards,
 	}
-	DeckCollection.custom_decks.append(deck)
+	var file_name := save_path + deck_name
+	var json_string_deck := JSON.stringify(deck)
+	
+	var file_access := FileAccess.open(save_path, FileAccess.WRITE)
+	assert(file_access, str("An error happened while saving data: ", FileAccess.get_open_error()))
+	return
+	
+	file_access.store_line(json_string_deck)
+	file_access.close()
 
 
 func add_new_card_to_deck(card_index: int) -> void:
