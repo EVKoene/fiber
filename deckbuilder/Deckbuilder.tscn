@@ -47,7 +47,8 @@ size_flags_vertical = 3
 layout_mode = 2
 text = "Deck"
 
-[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
+[node name="PanelContainer" type="VBoxContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(300, 200)
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -55,3 +56,20 @@ size_flags_horizontal = 3
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
+
+[node name="DeckNameInput" type="TextEdit" parent="HBoxContainer/PanelContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
+theme_override_font_sizes/font_size = 19
+placeholder_text = "Insert Deckname"
+
+[node name="FinishButton" type="Button" parent="HBoxContainer/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+text = "Finish
+"
+
+[connection signal="gui_input" from="HBoxContainer/PanelContainer/DeckNameInput" to="." method="_on_deck_name_input_gui_input"]
+[connection signal="pressed" from="HBoxContainer/PanelContainer/FinishButton" to="." method="_on_finish_button_pressed"]

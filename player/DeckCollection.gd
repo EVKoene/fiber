@@ -2,6 +2,8 @@ extends Node
 
 var cards = load("res://card/CardDatabase.gd").cards
 
+var custom_decks := []
+
 var gorilla: Dictionary = {
 	"Cards": {
 		cards.GORILLA: 20,

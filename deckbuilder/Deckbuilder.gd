@@ -9,6 +9,8 @@ var current_deck: BuildDeck
 var deck_name: String
 var card_collection_options := {}
 var cards_in_deck := {}
+var starting_cards := {}
+var n_selected_starting_cards := 0
 
 
 func _ready():
@@ -18,91 +20,79 @@ func _ready():
 	_setup_cards_from_card_collection()
 
 
-func add_to_deck(card_index: int) -> void:
-	if card_index in cards_in_deck.keys():
-		cards_in_deck[card_index]["NCards"] += 1
-		cards_in_deck[card_index]["Label"].text = str(cards_in_deck[card_index]["NCards"])
-	else:
-		_add_new_card_to_deck(card_index)
+func _save_deck() -> void:
+	if !deck_name:
+		deck_name = "Custom deck" + str(len(DeckCollection.custom_decks))
+	var cards := {}
 	
-	remove_from_collection_options(card_index)
-	
-
-
-func _add_new_card_to_deck(card_index: int) -> void:
-	var hbox_container := HBoxContainer.new()
-	var n_label := Label.new()
-	var card := deck_builder_card_scene.instantiate()
-	
-	n_label.text = "1"
-	card.card_index = card_index
-	card.is_in_deck = true
-	hbox_container.size_flags_horizontal = 4
-	$HBoxContainer/CardsInDeckScroller/CardsInDeck.add_child(hbox_container)
-	hbox_container.add_child(n_label)
-	hbox_container.add_child(card)
-	cards_in_deck[card_index] = {
-		"NCards": 1,
-		"Card": card,
-		"Label": n_label,
+	var deck := {
+		"DeckName": deck_name,
+		"Cards": cards,
+		"StartingCards": starting_cards,
 	}
+	DeckCollection.custom_decks.append(deck)
 
 
-func remove_from_deck(card_index: int) -> void:
-	cards_in_deck[card_index]["NCards"] -= 1
-	if cards_in_deck[card_index]["NCards"] == 0:
-		cards_in_deck[card_index]["Card"].queue_free()
-		cards_in_deck.erase(card_index)
-	else:
-		cards_in_deck[card_index]["Label"] = cards_in_deck[card_index]["NCards"]
+func add_new_card_to_deck(card_index: int) -> void:
+	var db_card := deck_builder_card_scene.instantiate()
 	
-	_add_to_collection_options(card_index)
+	cards_in_deck[card_index] = {}
+	cards_in_deck[card_index]["NCards"] = 1
+	cards_in_deck[card_index]["Card"] = db_card
+	db_card.card_index = card_index
+	db_card.is_in_deck = true
+	$HBoxContainer/CardsInDeckScroller/CardsInDeck.add_child(db_card)
 
 
-func _add_to_collection_options(card_index: int) -> void:
-	if card_index in card_collection_options.keys():
-		card_collection_options[card_index]["NCards"] += 1
-		card_collection_options[card_index]["Label"].text = str(card_collection_options[card_index][
-			"NCards"
-		])
-	else:
-		_add_new_card_to_collection_options(card_index)
-
-
-func _add_new_card_to_collection_options(card_index: int) -> void:
-	var hbox_container := HBoxContainer.new()
-	var n_label := Label.new()
-	var card := deck_builder_card_scene.instantiate()
+func add_new_card_to_collection_options(card_index: int) -> void:
+	var db_card := deck_builder_card_scene.instantiate()
 	
-	n_label.text = "1"
-	card.card_index = card_index
-	card.is_in_deck = false
-	$HBoxContainer/FilteredCardsScroller/FilteredCards.add_child(hbox_container)
-	hbox_container.size_flags_horizontal = 4
-	hbox_container.add_child(n_label)
-	hbox_container.add_child(card)
-	card_collection_options[card_index] = {
-		"NCards": 1,
-		"Card": hbox_container,
-		"Label": n_label,
-	}
+	card_collection_options[card_index] = {}
+	card_collection_options[card_index]["NCards"] = 1
+	card_collection_options[card_index]["Card"] = db_card
+	db_card.card_index = card_index
+	db_card.is_in_deck = false
+	$HBoxContainer/FilteredCardsScroller/FilteredCards.add_child(db_card)
 
 
-func remove_from_collection_options(card_index: int) -> void:
-	card_collection_options[card_index]["NCards"] -= 1
-	if card_collection_options[card_index]["NCards"] == 0:
-		card_collection_options[card_index]["Card"].queue_free()
-		card_collection_options.erase(card_index)
+func add_to_starting_cards(card_index: int) -> void:
+	if n_selected_starting_cards >= 3:
+		return
+	
+	if card_index in starting_cards.keys():
+		# We don't want the user to add more of a card as starting card than they have the card
+		# currently in the deck, so we return if the number is equal
+		if cards_in_deck[card_index]["NCards"] == starting_cards[card_index]:
+			return
+		starting_cards[card_index] += 1
 	else:
-		card_collection_options[card_index]["Label"].text = str(
-			card_collection_options[card_index]["NCards"]
-		)
+		
+		starting_cards[card_index] = 1
+	
+	n_selected_starting_cards += 1
+	cards_in_deck[card_index]["Card"].starting_cards_label.text = str(starting_cards[card_index])
+
+
+func remove_from_starting_cards(card_index: int) -> void:
+	if card_index not in starting_cards.keys():
+		return
+	
+	starting_cards[card_index] -= 1
+	
+	if starting_cards[card_index] == 0:
+		cards_in_deck[card_index]["Card"].starting_cards_label.text = "0"
+		starting_cards.erase(card_index)
+	else:
+		cards_in_deck[card_index]["Card"].starting_cards_label.text = str(starting_cards[card_index])
+	
+	n_selected_starting_cards -= 1
 
 
 func _setup_cards_from_card_collection() -> void:
 	for c in CardCollection.collection:
-		for i in CardCollection.collection[c]:
-			_add_to_collection_options(c)
+		add_new_card_to_collection_options(c)
+		for i in CardCollection.collection[c] -1:
+			card_collection_options[c]["Card"].add_to_card_collection_options()
 
 
 func _set_zoom_preview_position_and_size() -> void:
@@ -114,3 +104,7 @@ func _set_zoom_preview_position_and_size() -> void:
 	zoom_preview.position.y = MapSettings.play_area_start.y
 	zoom_preview.custom_minimum_size.x = zoom_preview_size.x
 	zoom_preview.custom_minimum_size.y = zoom_preview_size.y
+
+
+func _on_finish_button_pressed():
+	_save_deck()
