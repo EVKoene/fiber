@@ -5,26 +5,38 @@ class_name DeckBuilder
 
 @onready var zoom_preview = $HBoxContainer/PanelContainer/ZoomPreview
 @onready var deck_builder_card_scene := preload("res://deckbuilder/DeckbuilderCard.tscn")
+@onready var save_path := "user://decks/"
+@onready var decks_path := str(save_path, "decks.ini")
+
 var current_deck: BuildDeck
 var deck_name: String
 var card_collection_options := {}
 var cards_in_deck := {}
 var starting_cards := {}
 var n_selected_starting_cards := 0
-var save_path := "://user//decks/"
+var deck_id := 0
 
 
 func _ready():
+	_setup_decks()
 	GameManager.deck_builder = self
 	zoom_preview.preview_card_index(1, false)
 	_set_zoom_preview_position_and_size()
 	_setup_cards_from_card_collection()
+	if deck_id != 0:
+		_setup_existing_deck()
 
 
 func _save_deck() -> void:
+	var config := ConfigFile.new()
+	config.load(decks_path)
+	var decks: Dictionary = config.get_value("deck_data", "decks")
+	if deck_id == 0:
+		_set_deck_id(decks)
 	if !deck_name:
-		deck_name = "Custom deck" + str(len(DeckCollection.custom_decks))
+		deck_name = "Custom deck " + str(deck_id)
 	var cards := {}
+	
 	for card_index in cards_in_deck:
 		cards[card_index] = cards_in_deck[card_index]["NCards"]
 	
@@ -32,16 +44,11 @@ func _save_deck() -> void:
 		"DeckName": deck_name,
 		"Cards": cards,
 		"StartingCards": starting_cards,
+		"ID": deck_id,
 	}
-	var file_name := save_path + deck_name
-	var json_string_deck := JSON.stringify(deck)
 	
-	var file_access := FileAccess.open(save_path, FileAccess.WRITE)
-	assert(file_access, str("An error happened while saving data: ", FileAccess.get_open_error()))
-	return
-	
-	file_access.store_line(json_string_deck)
-	file_access.close()
+	decks[deck_id] = deck
+	config.save(decks_path)
 
 
 func add_new_card_to_deck(card_index: int) -> void:
@@ -104,6 +111,40 @@ func _setup_cards_from_card_collection() -> void:
 		add_new_card_to_collection_options(c)
 		for i in CardCollection.collection[c] -1:
 			card_collection_options[c]["Card"].add_to_card_collection_options()
+
+
+func _setup_existing_deck() -> void:
+	var config := ConfigFile.new()
+	config.load(decks_path)
+	var existing_deck: Dictionary = config.get_value("deck_data", "decks")[deck_id]
+	for c in existing_deck["Cards"]:
+		for i in existing_deck["Cards"][c]:
+			card_collection_options[c]["Card"].add_to_deck()
+
+
+func _setup_decks() -> void:
+	if !FileAccess.file_exists(decks_path):
+		var config_file := ConfigFile.new()
+		var create_dir_error := DirAccess.make_dir_recursive_absolute(save_path)
+		if create_dir_error:
+			print("Error creating directory: ", error_string(create_dir_error))
+		config_file.set_value("deck_data", "decks", {})
+		var save_error := config_file.save(decks_path)
+		if save_error:
+			print("Error creating decks file: ", error_string(save_error))
+
+
+func _set_deck_id(decks: Dictionary) -> void:
+	#TODO: This is a "temporary" solution to create a new unique ID for each deck, but seems like
+	# it would break quickly
+	if decks == {}:
+		deck_id = 1
+	else:
+		var highest_deck_id := 0
+		for d in decks:
+			if d["ID"] > highest_deck_id:
+				highest_deck_id = d["ID"]
+		deck_id = highest_deck_id + 1
 
 
 func _set_zoom_preview_position_and_size() -> void:

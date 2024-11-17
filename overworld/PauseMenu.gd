@@ -39,5 +39,5 @@ func _on_quit_button_pressed():
 	get_tree().quit()
 
 
-func _on_new_deck_pressed():
-	TransitionScene.transition_to_deck_builder(0)
+func _on_pick_deck_pressed():
+	TransitionScene.transition_to_deck_picker()

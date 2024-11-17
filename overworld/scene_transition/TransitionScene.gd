@@ -3,6 +3,7 @@ extends Node
 @onready var color_rect = $ColorRect
 @onready var animation_player = $AnimationPlayer
 @onready var deck_builder_scene := load("res://deckbuilder/Deckbuilder.tscn")
+@onready var deck_picker_scene := load("res://deckbuilder/DeckPicker.tscn")
 
 func _ready():
 	color_rect.visible = false
@@ -23,6 +24,13 @@ func transition_to_overworld() -> void:
 	GameManager.main_menu.call_deferred("go_to_overworld")
 	
 	animation_player.play_backwards("fade_scene")
+
+
+func transition_to_deck_picker() -> void:
+	GameManager.current_area.queue_free()
+	GameManager.current_area = null
+	var deck_picker = deck_picker_scene.instantiate()
+	GameManager.main_menu.add_child(deck_picker, true)
 
 
 func transition_to_deck_builder(deck_id: int) -> void:

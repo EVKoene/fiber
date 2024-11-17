@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://b1p3drjd83db6"]
+[gd_scene load_steps=3 format=3 uid="uid://dk3cdkfpry0v0"]
 
-[ext_resource type="Script" path="res://player/PauseMenu.gd" id="1_xjw88"]
+[ext_resource type="Script" path="res://overworld/PauseMenu.gd" id="1_5ms6b"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_iqpr4"]
 font_size = 30
@@ -13,7 +13,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_xjw88")
+script = ExtResource("1_5ms6b")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -52,12 +52,7 @@ text = "Resume"
 [node name="PickDeck" type="Button" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "Resume"
-
-[node name="NewDeck" type="Button" parent="CenterContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "Resume"
+text = "Deck"
 
 [node name="QuitButton" type="Button" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
@@ -65,5 +60,5 @@ theme_override_font_sizes/font_size = 24
 text = "Quit"
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Resume" to="." method="_on_resume_button_pressed"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/NewDeck" to="." method="_on_new_deck_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/PickDeck" to="." method="_on_pick_deck_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
