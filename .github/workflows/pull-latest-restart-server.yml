@@ -21,8 +21,6 @@ jobs:
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ~/fiber && \
           git checkout main && git pull && \
           /root/fiber/deploy_executable.sh && \
-          ps aux | grep -i Fiber | head -n 1 | tr -s " " | cut -d ' ' -f2 | xargs kill && \
+          pkill -i -f "Fiber" && \
           ./Fiber_server.x86_64"
 
-      - name: Cleanup
-        run: rm -rf ~/.ssh
