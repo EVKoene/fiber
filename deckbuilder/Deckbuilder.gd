@@ -5,8 +5,8 @@ class_name DeckBuilder
 
 @onready var zoom_preview = $HBoxContainer/PanelContainer/ZoomPreview
 @onready var deck_builder_card_scene := preload("res://deckbuilder/DeckbuilderCard.tscn")
-@onready var save_path := "user://decks/"
-@onready var decks_path := str(save_path, "decks.ini")
+@onready var save_path := "user://savedata/"
+@onready var collections_path := str(save_path, "collections.ini")
 
 var current_deck: BuildDeck
 var deck_name: String
@@ -18,7 +18,6 @@ var deck_id := 0
 
 
 func _ready():
-	_setup_decks()
 	GameManager.deck_builder = self
 	zoom_preview.preview_card_index(1, false)
 	_set_zoom_preview_position_and_size()
@@ -29,7 +28,7 @@ func _ready():
 
 func _save_deck() -> void:
 	var config := ConfigFile.new()
-	config.load(decks_path)
+	config.load(collections_path)
 	var decks: Dictionary = config.get_value("deck_data", "decks")
 	if deck_id == 0:
 		_set_deck_id(decks)
@@ -48,7 +47,7 @@ func _save_deck() -> void:
 	}
 	
 	decks[deck_id] = deck
-	config.save(decks_path)
+	config.save(collections_path)
 
 
 func add_new_card_to_deck(card_index: int) -> void:
@@ -107,31 +106,22 @@ func remove_from_starting_cards(card_index: int) -> void:
 
 
 func _setup_cards_from_card_collection() -> void:
-	for c in CardCollection.collection:
+	var config := ConfigFile.new()
+	config.load(collections_path)
+	var card_collection: Dictionary = config.get_value("card_collection", "cards")
+	for c in card_collection:
 		add_new_card_to_collection_options(c)
-		for i in CardCollection.collection[c] -1:
+		for i in card_collection[c] -1:
 			card_collection_options[c]["Card"].add_to_card_collection_options()
 
 
 func _setup_existing_deck() -> void:
 	var config := ConfigFile.new()
-	config.load(decks_path)
+	config.load(collections_path)
 	var existing_deck: Dictionary = config.get_value("deck_data", "decks")[deck_id]
 	for c in existing_deck["Cards"]:
 		for i in existing_deck["Cards"][c]:
 			card_collection_options[c]["Card"].add_to_deck()
-
-
-func _setup_decks() -> void:
-	if !FileAccess.file_exists(decks_path):
-		var config_file := ConfigFile.new()
-		var create_dir_error := DirAccess.make_dir_recursive_absolute(save_path)
-		if create_dir_error:
-			print("Error creating directory: ", error_string(create_dir_error))
-		config_file.set_value("deck_data", "decks", {})
-		var save_error := config_file.save(decks_path)
-		if save_error:
-			print("Error creating decks file: ", error_string(save_error))
 
 
 func _set_deck_id(decks: Dictionary) -> void:

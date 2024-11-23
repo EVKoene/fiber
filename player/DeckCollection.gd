@@ -2,58 +2,9 @@ extends Node
 
 var cards = load("res://card/CardDatabase.gd").cards
 
-var custom_decks := []
 
-var gorilla: Dictionary = {
-	"Cards": {
-		cards.GORILLA: 20,
-		cards.GORILLA_BATTLECALLER: 10,
-		cards.GORILLA_KING: 20,
-	},
-	"StartingCards": {
-		cards.GORILLA: 3,
-	}
-}
-
-var magic_missiles: Dictionary = {
-	"Cards": {
-		cards.WIZARD_SCOUT: 15,
-		cards.ARCANE_ARROW: 10,
-		cards.FIREBALL_SHOOTER: 15,
-		cards.JELLYFISH_EXTRAORDINAIRE: 5,
-	},
-	"StartingCards": {
-		cards.WIZARD_SCOUT: 2,
-		cards.ARCANE_ARROW: 1,
-	}
-}
-
-var robot_factory: Dictionary = {
-	"Cards": {
-		cards.ASSEMBLY_BOT: 15, 
-		cards.NETWORK_FEEDER: 15, 
-		cards.FURNACE_BOT: 5,
-		cards.COMPUTING_BOT: 5 
-	},
-	"StartingCards": {
-		cards.ASSEMBLY_BOT: 3,
-	}
-}
-
-var beefy_boys: Dictionary = {"Cards": {
-		cards.GNOME_PROTECTOR: 10,  
-		cards.MORNING_LIGHT: 15, 
-		cards.EARTH_GOLEM: 15, 
-		cards.HEART_OF_THE_FOREST: 5, 
-	},
-	"StartingCards": {
-		cards.GNOME_PROTECTOR: 2,
-		cards.MORNING_LIGHT: 1,
-	},
-}
-
-
-var animal: Dictionary = {
+var animal_starter: Dictionary = {
+	"DeckName": "AnimalStarter",
 	"Cards": {
 		cards.GORILLA: 4, 
 		cards.ATTACK_COMMAND: 2, 
@@ -69,11 +20,13 @@ var animal: Dictionary = {
 	"StartingCards": {
 		cards.GORILLA: 2,
 		cards.GOOSE: 1,
-	}
+	},
+	"ID": 1,
 }
 
 
-var magic: Dictionary = {
+var magic_starter: Dictionary = {
+	"DeckName": "MagicStarter",
 	"Cards": {
 		cards.WIZARD_SCOUT: 2,
 		cards.SWITCHEROO: 2, 
@@ -91,10 +44,12 @@ var magic: Dictionary = {
 	"StartingCards": {
 		cards.WIZARD_SCOUT: 2,
 		cards.ARCANE_ARROW: 1,
-	}
+	},
+	"ID": 2,
 }
 
-var nature: Dictionary = {
+var nature_starter: Dictionary = {
+	"DeckName": "NatureStarter",
 	"Cards": {
 		cards.GNOME_PROTECTOR: 2,  
 		cards.BOTANO_GARDENER: 2, 
@@ -112,10 +67,12 @@ var nature: Dictionary = {
 	"StartingCards": {
 		cards.GNOME_PROTECTOR: 2,
 		cards.BOTANO_GARDENER: 1,
-	}
+	},
+	"ID": 3,
 }
 
-var robot: Dictionary = {
+var robot_starter: Dictionary = {
+	"DeckName": "RobotStarter",
 	"Cards": {
 		cards.ASSEMBLY_BOT: 1, 
 		cards.OBSTRUCTION_CONSTRUCTION: 2, 
@@ -134,21 +91,64 @@ var robot: Dictionary = {
 		cards.ASSEMBLY_BOT: 2,
 		cards.FACTORY_WORKER: 1,
 	},
+	"ID": 4,
 }
 
+var gorilla: Dictionary = {
+	"DeckName": "Gorilla",
+	"Cards": {
+		cards.GORILLA: 20,
+		cards.GORILLA_BATTLECALLER: 10,
+		cards.GORILLA_KING: 20,
+	},
+	"StartingCards": {
+		cards.GORILLA: 3,
+	},
+	"ID": 5,
+}
 
+var magic_missiles: Dictionary = {
+	"DeckName": "MagicMissiles",
+	"Cards": {
+		cards.WIZARD_SCOUT: 15,
+		cards.ARCANE_ARROW: 10,
+		cards.FIREBALL_SHOOTER: 15,
+		cards.JELLYFISH_EXTRAORDINAIRE: 5,
+	},
+	"StartingCards": {
+		cards.WIZARD_SCOUT: 2,
+		cards.ARCANE_ARROW: 1,
+	},
+	"ID": 6,
+}
 
+var robot_factory: Dictionary = {
+	"DeckName": "Robot Factory",
+	"Cards": {
+		cards.ASSEMBLY_BOT: 15, 
+		cards.NETWORK_FEEDER: 15, 
+		cards.FURNACE_BOT: 5,
+		cards.COMPUTING_BOT: 5 
+	},
+	"StartingCards": {
+		cards.ASSEMBLY_BOT: 3,
+	},
+	"ID": 7,
+}
 
-var nature_robot: Dictionary = {
-	cards.FACTORY_WORKER: 10,
-	cards.ASSEMBLY_BOT: 7,
-	cards.ZOLOI_CHARGER: 5,
-	cards.ZALOGI_MIND_OF_MACHINES: 2,
-	cards.SPOTOS_RECYCLER: 8,
-	cards.BOTANO_GARDENER: 10,
-	cards.EARTH_GOLEM: 7,
-	cards.GNOME_PROTECTOR: 9,
-	cards.MARCELLA_WHO_NURTURES_GROWTH: 2,
+var beefy_boys: Dictionary = {
+	"DeckName": "Beefy Boys",
+	"Cards": {
+		cards.GNOME_PROTECTOR: 10,  
+		cards.MORNING_LIGHT: 15, 
+		cards.EARTH_GOLEM: 15, 
+		cards.HEART_OF_THE_FOREST: 5, 
+	},
+	"StartingCards": {
+		cards.GNOME_PROTECTOR: 2,
+		cards.MORNING_LIGHT: 1,
+	},
+	"ID": 8,
 }
 
 
@@ -172,11 +172,23 @@ var player_testing: Dictionary = {
 	},
 	"StartingCards": {
 		cards.GORILLA_KING: 3
-	}}
+	},
+	"ID": 0,
+	"DeckName": "Player testing",
+}
 
 
-func random_deck() -> Dictionary:
-	var rand_deck: Dictionary = [
-		animal, magic, nature, robot
-	].pick_random()
+func random_deck() -> int:
+	var rand_deck: int = decks.keys().pick_random()
 	return rand_deck
+
+var decks := {
+	1: animal_starter, 
+	2: magic_starter, 
+	3: nature_starter, 
+	4: robot_starter,
+	5: gorilla, 
+	6: magic_missiles, 
+	7: beefy_boys, 
+	8: robot_factory, 
+}

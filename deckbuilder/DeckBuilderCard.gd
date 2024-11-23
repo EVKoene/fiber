@@ -213,10 +213,10 @@ func _on_card_container_mouse_exited():
 
 func _on_card_container_gui_input(event):
 	if (
-		event is InputEventMouseButton 
-		and event.button_index == MOUSE_BUTTON_LEFT 
-		and event.pressed
-	):
+	event is InputEventMouseButton 
+	and event.button_index == MOUSE_BUTTON_LEFT 
+	and event.pressed
+):
 		if !is_in_deck:
 			add_to_deck()
 			remove_from_card_collection_options()

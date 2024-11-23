@@ -4,24 +4,15 @@ extends Control
 var is_paused: bool = false: set = _set_is_paused
 
 
-func _unhandled_input(event):
-	if !GameManager.is_ready_to_play:
-		return
-	
-	if (
-		event is InputEventMouseButton 
-		and event.button_index == MOUSE_BUTTON_LEFT 
-		and event.pressed
-	):
-		TargetSelection.end_selecting()
-
-
 func _input(event):
-	if Input.is_action_just_pressed("ui_cancel") and TargetSelection.making_selection:
+	if (
+		(Input.is_action_just_pressed("ui_cancel")) 
+		and TargetSelection.making_selection
+	):
 		TargetSelection.end_selecting()
 		Events.clear_paths.emit()
 
-	elif event.is_action_pressed("pause"):
+	elif event.is_action_pressed("pause_menu"):
 		is_paused = !is_paused
 
 
@@ -40,4 +31,6 @@ func _on_quit_button_pressed():
 
 
 func _on_pick_deck_pressed():
-	TransitionScene.transition_to_deck_picker()
+	$CenterContainer/PauseButtons.hide()
+	$CenterContainer/DeckPicker.show()
+	$CenterContainer/DeckPicker.set_current_decks()

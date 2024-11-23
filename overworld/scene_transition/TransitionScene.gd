@@ -26,17 +26,11 @@ func transition_to_overworld() -> void:
 	animation_player.play_backwards("fade_scene")
 
 
-func transition_to_deck_picker() -> void:
-	GameManager.current_area.queue_free()
-	GameManager.current_area = null
-	var deck_picker = deck_picker_scene.instantiate()
-	GameManager.main_menu.add_child(deck_picker, true)
-
-
 func transition_to_deck_builder(deck_id: int) -> void:
 	GameManager.current_area.queue_free()
 	GameManager.current_area = null
 	var deck_builder = deck_builder_scene.instantiate()
+	deck_builder.deck_id = deck_id
 	GameManager.main_menu.add_child(deck_builder, true)
 
 
