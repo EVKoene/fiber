@@ -18,7 +18,7 @@ func _ready():
 	var preview = zoom_preview_scene.instantiate()
 	$CenterContainer.add_child(preview)
 	preview.custom_minimum_size = MapSettings.card_in_play_size * 3 
-	preview.lock_from_card_index(card_index)
+	preview.preview_card_index(card_index, true)
 
 
 func continue_resolve() -> void:
@@ -27,13 +27,13 @@ func continue_resolve() -> void:
 		return
 	
 	if GameManager.is_single_player:
-		BattleManager.resolve_spell(card_owner_id, card_in_hand_index, column, row)
+		BattleSynchronizer.resolve_spell(card_owner_id, card_in_hand_index, column, row)
 		queue_free()
 		return
 	
 	var opposing_player_id: int = GameManager.opposing_player_id(GameManager.player_id)
 	if card_owner_id != GameManager.player_id:
-		BattleManager.resolve_spell.rpc_id(
+		BattleSynchronizer.resolve_spell.rpc_id(
 			opposing_player_id, card_owner_id, card_in_hand_index, column, row
 		)
 		queue_free()

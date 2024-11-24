@@ -19,9 +19,9 @@ func resolve_spell(_c_column: int, _c_row) -> bool:
 		for c in TargetSelection.selected_targets:
 			c.refresh()
 		
-		BattleManager.finish_resolve()
+		BattleSynchronizer.finish_resolve()
 		return true
 	
 	else:
-		BattleManager.finish_resolve()
+		BattleSynchronizer.finish_resolve()
 		return false

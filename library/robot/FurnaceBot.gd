@@ -27,11 +27,11 @@ func consume_for_fuel() -> bool:
 		]:
 			CardManipulation.change_battle_stat(stat, card_owner_id, card_in_play_index, 2, -1)
 		
-		BattleManager.finish_resolve()
+		BattleSynchronizer.finish_resolve()
 		return true
 	
 	else:
-		BattleManager.finish_resolve()
+		BattleSynchronizer.finish_resolve()
 		return false
 
 

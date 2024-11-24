@@ -8,6 +8,7 @@ signal resolve_spell_button_pressed
 ### INSTRUCTIONS
 signal show_instructions(instruction_text: String)
 signal hide_instructions
+signal prompt_answer_positive(positive: bool)
 
 ### CARD ACTIONS
 signal clear_paths
@@ -16,6 +17,7 @@ signal card_discarded
 ### AI ###
 signal spell_resolved_for_ai
 signal card_ability_resolved_for_ai
+
 ### OVERWORLD ###
 signal pause_player_movement
 signal resume_player_movement

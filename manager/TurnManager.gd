@@ -74,10 +74,10 @@ func start_turn(player_id: int) -> void:
 			update_modifiers.rpc_id(p_id)
 	
 	if GameManager.is_single_player:
-		BattleManager.refresh_all_units(player_id)
+		BattleSynchronizer.refresh_all_units(player_id)
 		call_start_turn_triggered_funcs()
 	if !GameManager.is_single_player:
-		BattleManager.refresh_all_units.rpc_id(GameManager.p1_id, player_id)
+		BattleSynchronizer.refresh_all_units.rpc_id(GameManager.p1_id, player_id)
 		call_start_turn_triggered_funcs.rpc_id(GameManager.p1_id)
 	
 	if turn_count >= 2:

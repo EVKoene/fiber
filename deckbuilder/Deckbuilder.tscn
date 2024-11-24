@@ -1,0 +1,88 @@
+[gd_scene load_steps=3 format=3 uid="uid://dn5qmomg70bsw"]
+
+[ext_resource type="Script" path="res://deckbuilder/Deckbuilder.gd" id="1_ny61o"]
+[ext_resource type="PackedScene" uid="uid://c6a7g6p6nipw5" path="res://player/ZoomPreview.tscn" id="2_cwaqj"]
+
+[node name="Deckbuilder" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_ny61o")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FilteredCardsScroller" type="ScrollContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FilteredCards" type="VBoxContainer" parent="HBoxContainer/FilteredCardsScroller"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="CardCollectionLabel" type="Label" parent="HBoxContainer/FilteredCardsScroller/FilteredCards"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Card collection"
+
+[node name="CardsInDeckScroller" type="ScrollContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CardsInDeck" type="VBoxContainer" parent="HBoxContainer/CardsInDeckScroller"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="DeckLabel" type="Label" parent="HBoxContainer/CardsInDeckScroller/CardsInDeck"]
+layout_mode = 2
+text = "Deck"
+
+[node name="PanelContainer" type="VBoxContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(300, 200)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ZoomPreview" parent="HBoxContainer/PanelContainer" instance=ExtResource("2_cwaqj")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="DeckNameInput" type="TextEdit" parent="HBoxContainer/PanelContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
+theme_override_font_sizes/font_size = 19
+placeholder_text = "Insert Deckname"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="SaveButton" type="Button" parent="HBoxContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Save"
+
+[node name="FinishButton" type="Button" parent="HBoxContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 10
+text = "Finish
+"
+
+[connection signal="text_changed" from="HBoxContainer/PanelContainer/DeckNameInput" to="." method="_on_deck_name_input_text_changed"]
+[connection signal="pressed" from="HBoxContainer/PanelContainer/HBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/PanelContainer/HBoxContainer/FinishButton" to="." method="_on_finish_button_pressed"]

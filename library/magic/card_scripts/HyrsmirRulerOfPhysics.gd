@@ -35,7 +35,7 @@ func call_triggered_funcs(trigger: int, _triggering_card: CardInPlay) -> void:
 func finish_swapping() -> void:
 	swapping_cards = false
 	TargetSelection.target_selection_finished.emit()
-	BattleManager.finish_resolve()
+	BattleSynchronizer.finish_resolve()
 
 
 func _connect_signals() -> void:

@@ -1,0 +1,70 @@
+[gd_scene load_steps=4 format=3 uid="uid://dk3cdkfpry0v0"]
+
+[ext_resource type="Script" path="res://overworld/PauseMenu.gd" id="1_5ms6b"]
+[ext_resource type="PackedScene" uid="uid://bwvclmkccbdtc" path="res://deckbuilder/DeckPicker.tscn" id="2_46goj"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_iqpr4"]
+font_size = 30
+
+[node name="PauseMenu" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5ms6b")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.247059, 0.180392, 0.0823529, 0.270588)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PauseButtons" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="PausedLabel" type="Label" parent="CenterContainer/PauseButtons"]
+layout_mode = 2
+text = "Paused"
+label_settings = SubResource("LabelSettings_iqpr4")
+
+[node name="Control" type="Control" parent="CenterContainer/PauseButtons"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Resume" type="Button" parent="CenterContainer/PauseButtons"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Resume"
+
+[node name="PickDeck" type="Button" parent="CenterContainer/PauseButtons"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Deck"
+
+[node name="QuitButton" type="Button" parent="CenterContainer/PauseButtons"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Quit"
+
+[node name="DeckPicker" parent="CenterContainer" instance=ExtResource("2_46goj")]
+visible = false
+custom_minimum_size = Vector2(300, 200)
+layout_mode = 2
+
+[connection signal="pressed" from="CenterContainer/PauseButtons/Resume" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="CenterContainer/PauseButtons/PickDeck" to="." method="_on_pick_deck_pressed"]
+[connection signal="pressed" from="CenterContainer/PauseButtons/QuitButton" to="." method="_on_quit_button_pressed"]

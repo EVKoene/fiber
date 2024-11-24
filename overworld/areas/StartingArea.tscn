@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://dnb1nb720ibew"]
+[gd_scene load_steps=9 format=3 uid="uid://dnb1nb720ibew"]
 
 [ext_resource type="Script" path="res://overworld/areas/OverworldArea.gd" id="1_y71oj"]
 [ext_resource type="PackedScene" uid="uid://cy4ivfje2oj4c" path="res://overworld/player/PlayerBody.tscn" id="2_77obs"]
+[ext_resource type="PackedScene" uid="uid://dk3cdkfpry0v0" path="res://overworld/PauseMenu.tscn" id="2_531po"]
 [ext_resource type="Texture2D" uid="uid://du88phcf3x223" path="res://assets/tilesets/A2_Floors_MV_TILESET_2.png" id="2_jemyf"]
 [ext_resource type="PackedScene" uid="uid://c741sshssnf7x" path="res://overworld/textbox/OverworldTextbox.tscn" id="3_eqw5r"]
 [ext_resource type="PackedScene" uid="uid://bhwnc325j70sr" path="res://overworld/npc/NPCBody.tscn" id="4_oo6n3"]
@@ -1493,6 +1494,11 @@ sources/0 = SubResource("TileSetAtlasSource_rtoeq")
 
 [node name="StartingArea" type="Node2D"]
 script = ExtResource("1_y71oj")
+
+[node name="GUI" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" parent="GUI" instance=ExtResource("2_531po")]
+visible = false
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_hll53")

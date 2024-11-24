@@ -1,6 +1,8 @@
 extends Node
 
 
+#TODO: This file desperately needs to be split into several smaller files, but I can't find a
+# setup that makes sense.
 ### SCENES ###
 var battle_map_scene: PackedScene = load("res://map/BattleMap.tscn")
 var overworld_scene: PackedScene = load("res://overworld/areas/StartingArea.tscn")
@@ -52,7 +54,13 @@ var ai_player: AIPlayer
 var ai_player_id: int
 
 ### OVERWORLD ###
-var current_area: OverworldArea
+var current_scene: Variant
+
+
+### DECKBUILDER ###
+@onready var save_path := "user://savedata/"
+@onready var collections_path := str(save_path, "collections.ini")
+var deck_builder: DeckBuilder
 
 
 @rpc("any_peer", "call_local")
@@ -94,6 +102,35 @@ func add_player(
 		main_menu.show_start_game_button.rpc()
 
 
+func setup_savefile() -> void:
+	if !FileAccess.file_exists(collections_path):
+		var config := ConfigFile.new()
+		var create_dir_error := DirAccess.make_dir_recursive_absolute(save_path)
+		if create_dir_error:
+			print("Error creating directory: ", error_string(create_dir_error))
+		config.set_value("deck_data", "decks", DeckCollection.decks)
+		var save_error := config.save(collections_path)
+		if save_error:
+			print("Error creating collections file: ", error_string(save_error))
+		_setup_card_collection(config)
+
+
+func _setup_card_collection(config: ConfigFile) -> void:
+	var cards := {}
+	for starter_deck in [
+		DeckCollection.animal_starter, DeckCollection.magic_starter, DeckCollection.nature_starter,
+		DeckCollection.robot_starter
+	]:
+		for c in starter_deck["Cards"].keys():
+			cards[c] = starter_deck["Cards"][c]
+	
+	config.set_value("card_collection", "cards", cards)
+	print(config.get_value("card_collection", "cards"))
+	var save_error := config.save(collections_path)
+	if save_error:
+		print("Error creating card collection: ", error_string(save_error))
+
+
 @rpc("any_peer", "call_local")
 func start_game() -> void:
 	GameManager.main_menu.hide_main_menu()
@@ -131,25 +168,13 @@ func go_to_overworld() -> void:
 	add_child(overworld)
 
 
-func set_current_deck(deck_to_set: Dictionary) -> void:
-	deck = deck_to_set
-	var deckname: String
-	match deck:
-		DeckCollection.animal:
-			deckname = "Animal"
-		DeckCollection.magic:
-			deckname = "Magic"
-		DeckCollection.nature:
-			deckname = "Nature"
-		DeckCollection.robot:
-			deckname = "Robot"
-		DeckCollection.random_deck:
-			deckname = "Random"
-		DeckCollection.player_testing:
-			deckname = "Testing"
+func set_current_deck(deck_id: int) -> void:
+	var config := ConfigFile.new()
+	config.load(collections_path)
+	deck = config.get_value("deck_data", "decks")[deck_id]
 
 	main_menu.current_deck_label.text = str(
-		"Currently: ", deckname, "\nIP Address: ", IP.get_local_addresses()[3]
+		"Currently: ", deck["DeckName"], "\nIP Address: ", IP.get_local_addresses()[3]
 	)
 
 

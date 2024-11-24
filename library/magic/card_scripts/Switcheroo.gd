@@ -20,8 +20,8 @@ func resolve_spell(selected_column: int, selected_row: int) -> bool:
 		selected_card.swap_with_card(
 			target_card.card_owner_id, target_card.card_in_play_index
 		)
-		BattleManager.finish_resolve()
+		BattleSynchronizer.finish_resolve()
 		return true
 	else:
-		BattleManager.finish_resolve()
+		BattleSynchronizer.finish_resolve()
 		return false

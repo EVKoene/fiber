@@ -30,7 +30,7 @@ func shoot_fireballs() -> bool:
 	
 	await TargetSelection.space_selection_finished
 	if len(TargetSelection.selected_spaces) == 0:
-		BattleManager.finish_resolve()
+		BattleSynchronizer.finish_resolve()
 		return false
 	
 	elif len(TargetSelection.selected_spaces) == 1:
@@ -63,7 +63,7 @@ func shoot_fireballs() -> bool:
 						current_play_space.row
 					)
 		exhaust()
-		BattleManager.finish_resolve()
+		BattleSynchronizer.finish_resolve()
 		return true
 	
 	else:

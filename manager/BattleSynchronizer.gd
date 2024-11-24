@@ -268,7 +268,7 @@ func draw_type_put_rest_bottom(card_owner_id: int, card_type: int) -> void:
 @rpc("any_peer", "call_local")
 func lock_zoom_preview_hand(card_owner_id: int, hand_index: int) -> void:
 	var hand_card: CardInHand = GameManager.cards_in_hand[card_owner_id][hand_index]
-	GameManager.zoom_preview.lock_zoom_preview_hand(hand_card)
+	GameManager.zoom_preview.preview_hand_card(hand_card, true)
 
 
 func ask_resolve_spell_agreement() -> void:
@@ -312,12 +312,12 @@ func resolve_spell(card_owner_id: int, hand_index: int, column: int, row: int) -
 		GameManager.resources[card_in_hand.card_owner_id].pay_costs(card_in_hand.costs)
 	
 	if GameManager.is_single_player:
-		BattleManager.reset_zoom_preview()
-		BattleManager.remove_card_from_hand(card_owner_id, h_index)
+		BattleSynchronizer.reset_zoom_preview()
+		BattleSynchronizer.remove_card_from_hand(card_owner_id, h_index)
 	if !GameManager.is_single_player:
 		for p_id in GameManager.players:
-			BattleManager.reset_zoom_preview.rpc_id(p_id)
-			BattleManager.remove_card_from_hand.rpc_id(p_id, card_owner_id, h_index)
+			BattleSynchronizer.reset_zoom_preview.rpc_id(p_id)
+			BattleSynchronizer.remove_card_from_hand.rpc_id(p_id, card_owner_id, h_index)
 	
 	GameManager.turn_manager.set_turn_actions_enabled(true)
 	

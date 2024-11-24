@@ -6,7 +6,7 @@ class_name OverworldArea
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Events.npc_interaction_started.connect(start_npc_interaction)
-	GameManager.current_area = self
+	GameManager.current_scene = self
 
 
 func start_npc_interaction(npc_id: int) -> void:

@@ -35,9 +35,9 @@ func grow_unit() -> bool:
 		exhaust()
 		TargetSelection.making_selection = false
 		
-		BattleManager.finish_resolve()
+		BattleSynchronizer.finish_resolve()
 		return true
 
 	else:
-		BattleManager.finish_resolve()
+		BattleSynchronizer.finish_resolve()
 		return false

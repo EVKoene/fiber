@@ -12,11 +12,11 @@ func _init(_player_deck: Dictionary, _npc: int):
 
 func start_battle() -> void:
 	GameManager.testing = false
-	GameManager.add_player_to_gamemanager(
+	GameManager.add_player_to_GameManager(
 		1, "Player1", player_deck
 	)
 	
-	GameManager.add_player_to_gamemanager(
+	GameManager.add_player_to_GameManager(
 			2, "AIOpponent", npc_data["Deck"]
 		)
 	GameManager.is_single_player = true
