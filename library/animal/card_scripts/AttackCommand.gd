@@ -19,9 +19,9 @@ func resolve_spell(c_column: int, c_row: int) -> bool:
 		var card_to_attack: CardInPlay = TargetSelection.selected_targets[0]
 		selected_card.attack_card(card_to_attack)
 		
-		BattleManager.finish_resolve()
+		BattleSynchronizer.finish_resolve()
 		return true
 	
 	else:
-		BattleManager.finish_resolve()
+		BattleSynchronizer.finish_resolve()
 		return false

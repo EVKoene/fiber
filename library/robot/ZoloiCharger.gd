@@ -35,7 +35,7 @@ func call_triggered_funcs(trigger: int, _triggering_card: CardInPlay) -> void:
 
 
 func attack_card(target_card: CardInPlay) -> void:
-	BattleManager.call_triggered_funcs(Collections.triggers.ATTACK, self)
+	BattleSynchronizer.call_triggered_funcs(Collections.triggers.ATTACK, self)
 	if GameManager.is_single_player:
 		BattleAnimation.animate_attack(
 			card_owner_id, card_in_play_index, 
@@ -56,4 +56,4 @@ func attack_card(target_card: CardInPlay) -> void:
 	if charged:
 		for c in adjacent_cards:
 			c.resolve_damage(1)
-	BattleManager.call_triggered_funcs(Collections.triggers.ATTACK_FINISHED, self)
+	BattleSynchronizer.call_triggered_funcs(Collections.triggers.ATTACK_FINISHED, self)

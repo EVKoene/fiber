@@ -10,7 +10,7 @@ func resolve_spell(selected_column: int, selected_row: int) -> bool:
 	)
 	selected_card.highlight_card(true)
 	selected_card.resolve_damage(3)
-	BattleManager.finish_resolve()
+	BattleSynchronizer.finish_resolve()
 	return true
 
 
@@ -40,4 +40,4 @@ func resolve_spell_for_ai() -> void:
 	target.highlight_card(true)
 	await target.resolve_damage(3)
 	Events.spell_resolved_for_ai.emit()
-	BattleManager.finish_resolve()
+	BattleSynchronizer.finish_resolve()

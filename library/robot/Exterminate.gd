@@ -19,9 +19,9 @@ func resolve_spell(c_column: int, c_row: int) -> bool:
 		var card_to_destroy: CardInPlay = TargetSelection.selected_targets[0]
 		selected_card.destroy()
 		card_to_destroy.destroy()
-		BattleManager.finish_resolve()
+		BattleSynchronizer.finish_resolve()
 		return true
 	
 	else:
-		BattleManager.finish_resolve()
+		BattleSynchronizer.finish_resolve()
 		return false

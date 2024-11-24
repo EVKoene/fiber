@@ -54,7 +54,7 @@ func _ready():
 		flip_card()
 	GameManager.ps_column_row[column][row].card_in_this_play_space = self
 	if GameManager.is_server:
-		BattleManager.call_deferred("call_triggered_funcs", Collections.triggers.CARD_CREATED, self)
+		BattleSynchronizer.call_deferred("call_triggered_funcs", Collections.triggers.CARD_CREATED, self)
 	_connect_signals()
 	enter_battle.call_deferred()
 
@@ -80,7 +80,7 @@ func resolve_ability_for_ai() -> void:
 
 
 func attack_card(target_card: CardInPlay) -> void:
-	BattleManager.call_triggered_funcs(Collections.triggers.ATTACK, self)
+	BattleSynchronizer.call_triggered_funcs(Collections.triggers.ATTACK, self)
 	if GameManager.is_single_player:
 		BattleAnimation.animate_attack(
 			card_owner_id, card_in_play_index, 
@@ -94,7 +94,7 @@ func attack_card(target_card: CardInPlay) -> void:
 			)
 	
 	await deal_damage_to_card(target_card, int(randi_range(min_attack, max_attack)))
-	await BattleManager.call_triggered_funcs(Collections.triggers.ATTACK_FINISHED, self)
+	await BattleSynchronizer.call_triggered_funcs(Collections.triggers.ATTACK_FINISHED, self)
 
 
 func deal_damage_to_card(card: CardInPlay, value: int) -> void:
@@ -109,34 +109,34 @@ func select_card(show_select: bool) -> void:
 
 func swap_with_card(swap_card_owner_id: int, swap_cip_index: int) -> void:
 	var swap_card: CardInPlay = GameManager.cards_in_play[swap_card_owner_id][swap_cip_index]
-	BattleManager.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, self)
-	BattleManager.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, swap_card)
+	BattleSynchronizer.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, self)
+	BattleSynchronizer.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, swap_card)
 	if GameManager.is_single_player:
-		BattleManager.swap_cards(
+		BattleSynchronizer.swap_cards(
 			card_owner_id, card_in_play_index, swap_card_owner_id, swap_cip_index
 		)
 	if !GameManager.is_single_player:
 		for p_id in GameManager.players:
-			BattleManager.swap_cards.rpc_id(
+			BattleSynchronizer.swap_cards.rpc_id(
 				p_id, card_owner_id, card_in_play_index, swap_card_owner_id, swap_cip_index
 			)
-	BattleManager.call_triggered_funcs(Collections.triggers.CARD_MOVED, self)
-	BattleManager.call_triggered_funcs(Collections.triggers.CARD_MOVED, swap_card)
+	BattleSynchronizer.call_triggered_funcs(Collections.triggers.CARD_MOVED, self)
+	BattleSynchronizer.call_triggered_funcs(Collections.triggers.CARD_MOVED, swap_card)
 
 
 func move_to_play_space(new_column: int, new_row: int) -> void:
-	BattleManager.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, self)	
+	BattleSynchronizer.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, self)	
 	
 	if GameManager.is_single_player:
-		BattleManager.move_to_play_space(card_owner_id, card_in_play_index, new_column, new_row)
+		BattleSynchronizer.move_to_play_space(card_owner_id, card_in_play_index, new_column, new_row)
 	if !GameManager.is_single_player:
 		for p_id in GameManager.players:
-			BattleManager.move_to_play_space.rpc_id(
+			BattleSynchronizer.move_to_play_space.rpc_id(
 				p_id, card_owner_id, card_in_play_index, 
 				new_column, new_row
 			)
 			
-	BattleManager.call_triggered_funcs(Collections.triggers.CARD_MOVED, self)
+	BattleSynchronizer.call_triggered_funcs(Collections.triggers.CARD_MOVED, self)
 	return
 
 
@@ -198,18 +198,18 @@ func select_for_movement() -> void:
 
 func refresh():
 	if GameManager.is_single_player:
-		BattleManager.refresh_unit(card_owner_id, card_in_play_index)
+		BattleSynchronizer.refresh_unit(card_owner_id, card_in_play_index)
 	if !GameManager.is_single_player:
 		for p_id in [GameManager.p1_id, GameManager.p2_id]:
-			BattleManager.refresh_unit.rpc_id(p_id, card_owner_id, card_in_play_index)
+			BattleSynchronizer.refresh_unit.rpc_id(p_id, card_owner_id, card_in_play_index)
 
 
 func exhaust():
 	if GameManager.is_single_player:
-		BattleManager.exhaust_unit(card_owner_id, card_in_play_index)
+		BattleSynchronizer.exhaust_unit(card_owner_id, card_in_play_index)
 	if !GameManager.is_single_player:
 		for p_id in GameManager.players:
-			BattleManager.exhaust_unit.rpc_id(p_id, card_owner_id, card_in_play_index)
+			BattleSynchronizer.exhaust_unit.rpc_id(p_id, card_owner_id, card_in_play_index)
 
 
 func use_ability(func_index: int) -> void:
@@ -246,10 +246,10 @@ func resolve_damage(value: int) -> void:
 	var c_id := card_owner_id
 	var cip_index := card_in_play_index
 	if GameManager.is_single_player:
-		await BattleManager.resolve_damage(c_id, cip_index, value)
+		await BattleSynchronizer.resolve_damage(c_id, cip_index, value)
 	if !GameManager.is_single_player:
 		for p_id in [GameManager.p1_id, GameManager.p2_id]:
-			BattleManager.resolve_damage.rpc_id(p_id, c_id, cip_index, value)
+			BattleSynchronizer.resolve_damage.rpc_id(p_id, c_id, cip_index, value)
 
 
 func destroy() -> void:

@@ -24,17 +24,17 @@ func consume_for_cards() -> bool:
 		await TargetSelection.select_card_to_discard()
 		for i in range(3):
 			if GameManager.is_single_player:
-				BattleManager.draw_card(card_owner_id)
+				BattleSynchronizer.draw_card(card_owner_id)
 			
 			if !GameManager.is_single_player:
-				BattleManager.draw_card.rpc_id(1, card_owner_id)
+				BattleSynchronizer.draw_card.rpc_id(1, card_owner_id)
 		
 		exhaust()
-		BattleManager.finish_resolve()
+		BattleSynchronizer.finish_resolve()
 		return true
 	
 	else:
-		BattleManager.finish_resolve()
+		BattleSynchronizer.finish_resolve()
 		return false
 
 

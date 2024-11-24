@@ -38,21 +38,21 @@ func highlight_card():
 
 func discard() -> void:
 	var h_index := hand_index
-	BattleManager.call_triggered_funcs(Collections.triggers.CARD_DISCARDED, null)
+	BattleSynchronizer.call_triggered_funcs(Collections.triggers.CARD_DISCARDED, null)
 	if GameManager.is_single_player:
-		BattleManager.remove_card_from_hand(card_owner_id, h_index)
+		BattleSynchronizer.remove_card_from_hand(card_owner_id, h_index)
 	else:
 		for p_id in GameManager.players:
-			BattleManager.remove_card_from_hand.rpc_id(p_id, card_owner_id, h_index)
+			BattleSynchronizer.remove_card_from_hand.rpc_id(p_id, card_owner_id, h_index)
 	Events.card_discarded.emit()
 
 
 func play_spell(column: int, row: int) -> void:
 	if GameManager.is_single_player:
-		BattleManager.lock_zoom_preview_hand(card_owner_id, hand_index)
+		BattleSynchronizer.lock_zoom_preview_hand(card_owner_id, hand_index)
 	if !GameManager.is_single_player:
 		for p_id in GameManager.players:
-			BattleManager.lock_zoom_preview_hand.rpc_id(p_id, card_owner_id, hand_index)
+			BattleSynchronizer.lock_zoom_preview_hand.rpc_id(p_id, card_owner_id, hand_index)
 	
 	GameManager.battle_map.create_card_resolve(card_owner_id, hand_index, column, row)
 

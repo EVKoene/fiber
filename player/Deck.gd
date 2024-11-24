@@ -104,10 +104,10 @@ func create_hand_card(card_index: int) -> void:
 			TargetSelection.select_card_to_discard.rpc_id(deck_owner_id)
 	
 	if GameManager.is_single_player:
-		BattleManager.create_hand_card(deck_owner_id, card_index)
+		BattleSynchronizer.create_hand_card(deck_owner_id, card_index)
 	if !GameManager.is_single_player:
 		for p_id in GameManager.players:
-			BattleManager.create_hand_card.rpc_id(p_id, deck_owner_id, card_index)
+			BattleSynchronizer.create_hand_card.rpc_id(p_id, deck_owner_id, card_index)
 
 
 func put_card_bottom(deck_index) -> void:

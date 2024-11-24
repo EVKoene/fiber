@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Fiber"
-run/main_scene="res://MainMenu.tscn"
+run/main_scene="res://manager/MainMenu.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -26,7 +26,7 @@ TargetSelection="*res://card/TargetSelection.gd"
 CardDatabase="*res://card/CardDatabase.gd"
 Events="*res://manager/Events.gd"
 DeckCollection="*res://player/DeckCollection.gd"
-BattleManager="*res://manager/BattleManager.gd"
+BattleSynchronizer="*res://manager/BattleSynchronizer.gd"
 CardHelper="*res://card/CardHelper.gd"
 TriggeredCardFuncs="*res://card/TriggeredCardFuncs.gd"
 BattleAnimation="*res://manager/BattleAnimation.gd"

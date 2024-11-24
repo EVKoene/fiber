@@ -37,18 +37,18 @@ func _ready():
 
 func add_to_territory(p_id: int) -> void:
 	if GameManager.is_single_player:
-		BattleManager.add_to_territory(p_id, column, row)
+		BattleSynchronizer.add_to_territory(p_id, column, row)
 	if !GameManager.is_single_player:
 		for p in GameManager.players:
-			BattleManager.add_to_territory.rpc_id(p, p_id, column, row)
+			BattleSynchronizer.add_to_territory.rpc_id(p, p_id, column, row)
 
 
 func update_stat_modifier(card_owner_id: int, stat: int, value: int) -> void:
 	if GameManager.is_single_player:
-		BattleManager.update_play_space_stat_modifier(card_owner_id, column, row, stat, value)
+		BattleSynchronizer.update_play_space_stat_modifier(card_owner_id, column, row, stat, value)
 	if !GameManager.is_single_player:
 		for p_id in GameManager.players:
-			BattleManager.update_play_space_stat_modifier.rpc_id(
+			BattleSynchronizer.update_play_space_stat_modifier.rpc_id(
 				p_id, card_owner_id, column, row, stat, value
 			)
 
@@ -183,11 +183,11 @@ func path_to_closest_movable_space(
 
 func set_conquered_by(player_id: int) -> void:
 	if GameManager.is_single_player:
-		BattleManager.set_conquered_by(player_id, column, row)
+		BattleSynchronizer.set_conquered_by(player_id, column, row)
 		
 	if !GameManager.is_single_player:
 		for p_id in GameManager.players:
-			BattleManager.set_conquered_by.rpc_id(
+			BattleSynchronizer.set_conquered_by.rpc_id(
 				p_id, player_id, column, row
 			)
 	
@@ -257,14 +257,14 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 			if !GameManager.testing:
 				GameManager.resources[data.card_owner_id].pay_costs(data.costs)
 			if GameManager.is_single_player:
-				BattleManager.play_unit(data.card_index, data.card_owner_id, column, row)
-				BattleManager.remove_card_from_hand(c_owner_id, h_index)
+				BattleSynchronizer.play_unit(data.card_index, data.card_owner_id, column, row)
+				BattleSynchronizer.remove_card_from_hand(c_owner_id, h_index)
 			if !GameManager.is_single_player:
 				for p_id in [GameManager.p1_id, GameManager.p2_id]:
-					BattleManager.play_unit.rpc_id(
+					BattleSynchronizer.play_unit.rpc_id(
 						p_id, data.card_index, data.card_owner_id, column, row
 					)
-					BattleManager.remove_card_from_hand.rpc_id(
+					BattleSynchronizer.remove_card_from_hand.rpc_id(
 						p_id, c_owner_id, h_index
 					)
 			if len(data.factions) == 1:

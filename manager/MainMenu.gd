@@ -3,7 +3,10 @@ extends Control
 class_name MainMenu
 
 
+@onready var prompt_container := $PromptContainer
+
 var tutorial_scene := load("res://singleplayer/Tutorial.tscn")
+var prompt_scene := load("res://manager/YesNoPrompt.tscn")
 var current_deck_label: Node
 
 
@@ -20,6 +23,15 @@ func _start_tutorial() -> void:
 	tutorial.size = MapSettings.total_screen
 	add_child(tutorial)
 	hide_main_menu()
+
+
+func show_prompt(prompt_text: String) -> void:
+	var prompt = prompt_scene.instantiate()
+	prompt.prompt_text = prompt_text
+	prompt.main_menu = self
+	$PromptContainer.show()
+	$PromptContainer.move_to_front()
+	$PromptContainer.add_child(prompt)
 
 
 func hide_main_menu() -> void:

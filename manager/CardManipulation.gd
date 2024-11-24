@@ -5,7 +5,7 @@ extends Node
 func destroy(card_owner_id: int, cip_index: int) -> void:
 	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
 	card.current_play_space.card_in_this_play_space = null
-	BattleManager.call_triggered_funcs(Collections.triggers.CARD_DESTROYED, card)
+	BattleSynchronizer.call_triggered_funcs(Collections.triggers.CARD_DESTROYED, card)
 	card.remove_from_cards_in_play()
 	card.queue_free()
 

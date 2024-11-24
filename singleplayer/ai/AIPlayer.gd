@@ -42,7 +42,7 @@ func play_playable_cards() -> void:
 			elif c.card_type == Collections.card_types.SPELL:
 				var spell: CardInPlay = CardDatabase.get_card_class(c.card_index).new()
 				if spell.is_spell_to_play_now():
-					BattleManager.lock_zoom_preview_hand(c.card_owner_id, c.hand_index)
+					BattleSynchronizer.lock_zoom_preview_hand(c.card_owner_id, c.hand_index)
 					resolve_spell_for_ai(c)
 					await Events.spell_resolved_for_ai
 
@@ -65,11 +65,11 @@ func play_card(card: CardInHand) -> bool:
 			play_space = ps
 	if !play_space:
 		play_space = ps_options.pick_random()
-	BattleManager.play_unit(card.card_index, player_id, play_space.column, play_space.row)
+	BattleSynchronizer.play_unit(card.card_index, player_id, play_space.column, play_space.row)
 	if len(card.factions) == 1:
 		GameManager.resources[player_id].add_resource(card.factions[0], 1)
 	GameManager.resources[player_id].pay_costs(card.costs)
-	BattleManager.remove_card_from_hand(player_id, card.hand_index)
+	BattleSynchronizer.remove_card_from_hand(player_id, card.hand_index)
 	return true
 
 
@@ -158,4 +158,4 @@ func resolve_spell_for_ai(spell: CardInHand) -> void:
 	card_resolve.card_in_hand_index = spell.hand_index
 	card_resolve.size = MapSettings.total_screen
 	GameManager.battle_map.add_child(card_resolve)
-	BattleManager.remove_card_from_hand(player_id, spell.hand_index)
+	BattleSynchronizer.remove_card_from_hand(player_id, spell.hand_index)

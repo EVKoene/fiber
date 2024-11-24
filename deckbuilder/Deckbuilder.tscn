@@ -66,11 +66,23 @@ size_flags_vertical = 10
 theme_override_font_sizes/font_size = 19
 placeholder_text = "Insert Deckname"
 
-[node name="FinishButton" type="Button" parent="HBoxContainer/PanelContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/PanelContainer"]
 layout_mode = 2
+
+[node name="SaveButton" type="Button" parent="HBoxContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Save"
+
+[node name="FinishButton" type="Button" parent="HBoxContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 10
 size_flags_vertical = 10
 text = "Finish
 "
 
 [connection signal="gui_input" from="HBoxContainer/PanelContainer/DeckNameInput" to="." method="_on_deck_name_input_gui_input"]
-[connection signal="pressed" from="HBoxContainer/PanelContainer/FinishButton" to="." method="_on_finish_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/PanelContainer/HBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/PanelContainer/HBoxContainer/FinishButton" to="." method="_on_finish_button_pressed"]

@@ -15,11 +15,11 @@ func resolve_spell(_c_column: int, _c_row: int) -> bool:
 			Collections.stats.MOVEMENT, card_owner_id, card_in_play_index, 1, 2
 		)
 	
-	BattleManager.finish_resolve()
+	BattleSynchronizer.finish_resolve()
 	return true
 
 
 func resolve_spell_for_ai() -> void:
 	resolve_spell(-1, -1)
 	Events.spell_resolved_for_ai.emit()
-	BattleManager.finish_resolve()
+	BattleSynchronizer.finish_resolve()

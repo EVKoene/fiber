@@ -34,9 +34,9 @@ func _ready():
 
 func pick() -> void:
 	if GameManager.is_single_player:
-		BattleManager.pick_card(card_owner_id, option_index, card_pick_screen.card_indices)
+		BattleSynchronizer.pick_card(card_owner_id, option_index, card_pick_screen.card_indices)
 	if !GameManager.is_single_player:
-		BattleManager.pick_card.rpc_id(
+		BattleSynchronizer.pick_card.rpc_id(
 			1, card_owner_id, option_index, card_pick_screen.card_indices
 		)
 	GameManager.turn_manager.set_turn_actions_enabled(true)

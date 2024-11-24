@@ -15,10 +15,12 @@ var cards_in_deck := {}
 var starting_cards := {}
 var n_selected_starting_cards := 0
 var deck_id := 0
+var is_saved := false
 
 
 func _ready():
 	GameManager.deck_builder = self
+	GameManager.current_scene = self
 	zoom_preview.preview_card_index(1, false)
 	_set_zoom_preview_position_and_size()
 	_setup_cards_from_card_collection()
@@ -48,6 +50,7 @@ func _save_deck() -> void:
 	
 	decks[deck_id] = deck
 	config.save(collections_path)
+	is_saved = true
 
 
 func add_new_card_to_deck(card_index: int) -> void:
@@ -149,4 +152,16 @@ func _set_zoom_preview_position_and_size() -> void:
 
 
 func _on_finish_button_pressed():
+	if !is_saved:
+		GameManager.main_menu.show_prompt(
+			"Your deck has not been saved yet. Are you sure you want to quit?"
+		)
+		var prompt_answer_positive = await Events.prompt_answer_positive
+		if !prompt_answer_positive:
+			return
+	
+	TransitionScene.transition_to_overworld()
+
+
+func _on_save_button_pressed():
 	_save_deck()
