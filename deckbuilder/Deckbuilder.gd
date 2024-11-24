@@ -135,8 +135,8 @@ func _set_deck_id(decks: Dictionary) -> void:
 	else:
 		var highest_deck_id := 0
 		for d in decks:
-			if d["ID"] > highest_deck_id:
-				highest_deck_id = d["ID"]
+			if decks[d]["ID"] > highest_deck_id:
+				highest_deck_id = decks[d]["ID"]
 		deck_id = highest_deck_id + 1
 
 
@@ -165,3 +165,7 @@ func _on_finish_button_pressed():
 
 func _on_save_button_pressed():
 	_save_deck()
+
+
+func _on_deck_name_input_text_changed():
+	deck_name = $HBoxContainer/PanelContainer/DeckNameInput.text

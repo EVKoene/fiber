@@ -31,3 +31,12 @@ func _find_decks() -> void:
 	var config := ConfigFile.new()
 	config.load(collections_path)
 	decks = config.get_value("deck_data", "decks")
+
+
+func _on_new_deck_pressed():
+	TransitionScene.transition_to_deck_builder(0)
+	get_tree().paused = false
+
+
+func _on_return_button_pressed():
+	get_parent().show_pause_menu()

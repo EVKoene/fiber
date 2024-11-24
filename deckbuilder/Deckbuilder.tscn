@@ -83,6 +83,6 @@ size_flags_vertical = 10
 text = "Finish
 "
 
-[connection signal="gui_input" from="HBoxContainer/PanelContainer/DeckNameInput" to="." method="_on_deck_name_input_gui_input"]
+[connection signal="text_changed" from="HBoxContainer/PanelContainer/DeckNameInput" to="." method="_on_deck_name_input_text_changed"]
 [connection signal="pressed" from="HBoxContainer/PanelContainer/HBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/PanelContainer/HBoxContainer/FinishButton" to="." method="_on_finish_button_pressed"]

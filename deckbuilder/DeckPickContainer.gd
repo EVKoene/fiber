@@ -41,4 +41,5 @@ func _on_remove_button_pressed():
 	var updated_decks: Dictionary = config.get_value("deck_data", "decks")
 	updated_decks.erase(deck_id)
 	config.set_value("deck_data", "deck", updated_decks)
-	deck_picker.set_current_decks()
+	config.save(collections_path)
+	queue_free()

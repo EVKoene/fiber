@@ -187,8 +187,4 @@ var decks := {
 	2: magic_starter, 
 	3: nature_starter, 
 	4: robot_starter,
-	5: gorilla, 
-	6: magic_missiles, 
-	7: beefy_boys, 
-	8: robot_factory, 
 }

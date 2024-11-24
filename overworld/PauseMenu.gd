@@ -4,6 +4,17 @@ extends Control
 var is_paused: bool = false: set = _set_is_paused
 
 
+func show_pick_deck() -> void:
+	$CenterContainer/PauseButtons.hide()
+	$CenterContainer/DeckPicker.show()
+	$CenterContainer/DeckPicker.set_current_decks()
+
+
+func show_pause_menu() -> void:
+	$CenterContainer/PauseButtons.show()
+	$CenterContainer/DeckPicker.hide()
+
+
 func _input(event):
 	if (
 		(Input.is_action_just_pressed("ui_cancel")) 
@@ -14,6 +25,7 @@ func _input(event):
 
 	elif event.is_action_pressed("pause_menu"):
 		is_paused = !is_paused
+		show_pause_menu()
 
 
 func _set_is_paused(value):
@@ -31,6 +43,4 @@ func _on_quit_button_pressed():
 
 
 func _on_pick_deck_pressed():
-	$CenterContainer/PauseButtons.hide()
-	$CenterContainer/DeckPicker.show()
-	$CenterContainer/DeckPicker.set_current_decks()
+	show_pick_deck()
