@@ -11,6 +11,7 @@ var map_data = MapDatabase.map_data[map]
 var end_turn_button: Button
 var instruction_container: PanelContainer
 var text_box: Panel
+var is_tutorial := false
 
 
 func _ready():
@@ -347,14 +348,14 @@ func _input(_event):
 		or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
 	):
 		$TextBox.hide()
-	if !GameManager.turn_manager.can_start_turn:
-		return
-	
-	GameManager.turn_manager.can_start_turn = false
-	if GameManager.is_single_player:
-		GameManager.turn_manager.start_turn(GameManager.p1_id)
-	if !GameManager.is_single_player:
-		GameManager.turn_manager.start_turn.rpc_id(1, GameManager.player_id)
+	if GameManager.turn_manager.can_start_turn:
+		GameManager.turn_manager.can_start_turn = false
+		if GameManager.is_single_player:
+			GameManager.turn_manager.start_turn(GameManager.p1_id)
+		if !GameManager.is_single_player:
+			GameManager.turn_manager.start_turn.rpc_id(1, GameManager.player_id)
+	elif Tutorial.awaiting_tutorial_input:
+		Tutorial.continue_tutorial_input()
 
 
 func _unhandled_input(event):
