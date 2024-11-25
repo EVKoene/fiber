@@ -11,6 +11,7 @@ var map_data = MapDatabase.map_data[map]
 var end_turn_button: Button
 var instruction_container: PanelContainer
 var text_box: Panel
+var finish_button: Button
 var is_tutorial := false
 
 
@@ -170,12 +171,12 @@ func show_finish_button() -> void:
 
 
 func _set_finish_button() -> void:
-	var button = $FinishButton
-	button.text = "Finish"
-	button.custom_minimum_size.y = MapSettings.play_space_size.y / 2
-	button.custom_minimum_size.x = MapSettings.play_space_size.x
-	button.position.x = MapSettings.total_screen.x - MapSettings.play_space_size.x
-	button.position.y = MapSettings.total_screen.y * 0.8
+	finish_button = $FinishButton
+	finish_button.text = "Finish"
+	finish_button.custom_minimum_size.y = MapSettings.play_space_size.y / 2
+	finish_button.custom_minimum_size.x = MapSettings.play_space_size.x
+	finish_button.position.x = MapSettings.total_screen.x - MapSettings.play_space_size.x
+	finish_button.position.y = MapSettings.total_screen.y * 0.8
 
 
 @rpc("any_peer", "call_local")
@@ -354,7 +355,7 @@ func _input(_event):
 			GameManager.turn_manager.start_turn(GameManager.p1_id)
 		if !GameManager.is_single_player:
 			GameManager.turn_manager.start_turn.rpc_id(1, GameManager.player_id)
-	elif Tutorial.awaiting_tutorial_input:
+	elif Tutorial.is_awaiting_tutorial_input:
 		Tutorial.continue_tutorial_input()
 
 
