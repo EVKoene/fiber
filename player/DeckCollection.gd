@@ -152,6 +152,17 @@ var beefy_boys: Dictionary = {
 }
 
 
+var tutorial_deck: Dictionary = {
+	"DeckName": "Tutorial Deck",
+	"Cards": {
+		cards.GORILLA: 30, 
+	},
+	"StartingCards": {
+		cards.GORILLA: 3,
+	},
+	"ID": 999,
+}
+
 var opponent_testing: Dictionary = {
 	"Cards": {
 		cards.GORILLA: 4, 

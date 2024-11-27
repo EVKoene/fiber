@@ -2,7 +2,10 @@ extends Node
 
 
 enum tutorial_phases {
-	INSTRUCTION_START, BATTLEMAP_EXPLANATION, BLUE_RED_SPACES, HOVER_CARD, PREVIEW_CARD}
+	INSTRUCTION_START, BATTLEMAP_EXPLANATION, BLUE_RED_SPACES, HOVER_CARD, PREVIEW_CARD, CARD_COST,
+	CARD_ATTACK, CARD_HEALTH, RESOURCES, PLAY_CARD, FACTION_RESOURCES, MOVE_CARD, ATTACK_CARD,
+	CONQUER_VICTORY_SPACES
+}
 
 @onready var play_space_arrow_scene: PackedScene = preload("res://map/play_space/PlaySpaceArrow.tscn")
 var battle_map_scene: PackedScene = load("res://map/BattleMap.tscn")
@@ -16,11 +19,11 @@ var current_arrows := []
 func setup_tutorial() -> void:
 	if !GameManager.players.has(1):
 		GameManager.add_player(
-			1, 1, "Player1", GameManager.deck
+			1, 1, "Player1", DeckCollection.tutorial_deck
 		)
 	GameManager.player_id = 1
 
-	GameManager.add_player(2, 2, "TutorialGirl", DeckCollection.animal_starter)
+	GameManager.add_player(2, 2, "Tutorial", DeckCollection.nature_starter)
 	
 	GameManager.main_menu.hide_main_menu()
 	var b_map = battle_map_scene.instantiate()
@@ -84,7 +87,6 @@ func _hover_card() -> void:
 		_create_arrow(arrow_position, 90)
 	pause_battlemap_children()
 	current_phase = tutorial_phases.PREVIEW_CARD
-	is_awaiting_tutorial_input = true
 
 
 func _preview_card() -> void:
@@ -94,12 +96,28 @@ func _preview_card() -> void:
 		right corner."
 	)
 	var arrow_position := Vector2(
-		GameManager.zoom_preview.position.x - GameManager.zoom_preview.size.x,
+		GameManager.zoom_preview.position.x - GameManager.zoom_preview.size.x / 4,
 		GameManager.zoom_preview.position.y + GameManager.zoom_preview.size.y / 2
 	)
 	_create_arrow(arrow_position, 0)
 	pause_battlemap_children()
-	current_phase = tutorial_phases.BATTLEMAP_EXPLANATION
+	current_phase = tutorial_phases.CARD_COST
+	is_awaiting_tutorial_input = true
+
+
+func _card_cost() -> void:
+	is_awaiting_tutorial_input = false
+	GameManager.battle_map.show_tutorial_text(
+		"In the upper right corner of a card you'll find it's costs. This gorilla will cost 1 
+		passion (red) resource to play."
+	)
+	var arrow_position := Vector2(
+		GameManager.zoom_preview.position.x + GameManager.zoom_preview.size.x * 1.25,
+		GameManager.zoom_preview.position.y + GameManager.zoom_preview.size.y
+	)
+	_create_arrow(arrow_position, 270)
+	pause_battlemap_children()
+	current_phase = tutorial_phases.CARD_ATTACK
 	is_awaiting_tutorial_input = true
 
 
@@ -138,3 +156,6 @@ func continue_tutorial() -> void:
 			_hover_card()
 		tutorial_phases.PREVIEW_CARD:
 			_preview_card()
+		tutorial_phases.CARD_COST:
+			_card_cost()
+		
