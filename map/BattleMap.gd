@@ -125,6 +125,10 @@ func _set_play_space_size() -> void:
 	MapSettings.play_space_size = Vector2(ps_size, ps_size)
 	# TODO: Calculate an exact size based on borderwidth of playspace and card border
 	MapSettings.card_in_play_size = Vector2(ps_size, ps_size) * 0.9
+	MapSettings.card_in_hand_size = Vector2(
+		(MapSettings.own_area_end.x - MapSettings.own_area_start.x) / 7,
+		MapSettings.own_area_end.y - MapSettings.own_area_start.y
+	)
 	MapSettings.card_option_size = MapSettings.card_in_play_size * 2
 
 
@@ -278,6 +282,21 @@ func show_instructions(instruction_text: String) -> void:
 	$InstructionContainer.show()
 
 
+func set_tutorial_container() -> void:
+	$TutorialContainer.position.x = MapSettings.total_screen.x/2 - $TutorialContainer.size.x
+	$TutorialContainer.position.y = MapSettings.total_screen.y/2 - $TutorialContainer.size.y / 2
+	$TutorialContainer.move_to_front()
+
+
+func hide_tutorial_text() -> void:
+	$TutorialContainer.hide()
+
+
+func show_tutorial_text(tutorial_text: String) -> void:
+	$TutorialContainer/TutorialText.text = tutorial_text
+	$TutorialContainer.show()
+
+
 func _set_text_containers() -> void:
 	$InstructionContainer.size.x = (MapSettings.play_space_size.x * 2)
 	$InstructionContainer.size.y = (MapSettings.total_screen.y / 5)
@@ -348,15 +367,18 @@ func _input(_event):
 		Input.is_action_just_pressed("ui_accept") 
 		or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
 	):
-		$TextBox.hide()
+		if Tutorial.is_awaiting_tutorial_input:
+			Tutorial.continue_tutorial()
+			return
+		else:
+			$TextBox.hide()
+	
 	if GameManager.turn_manager.can_start_turn:
 		GameManager.turn_manager.can_start_turn = false
 		if GameManager.is_single_player:
 			GameManager.turn_manager.start_turn(GameManager.p1_id)
 		if !GameManager.is_single_player:
 			GameManager.turn_manager.start_turn.rpc_id(1, GameManager.player_id)
-	elif Tutorial.is_awaiting_tutorial_input:
-		Tutorial.continue_tutorial_input()
 
 
 func _unhandled_input(event):

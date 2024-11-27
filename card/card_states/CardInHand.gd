@@ -167,8 +167,8 @@ func _set_card_cost_visuals() -> void:
 
 
 func set_card_size() -> void:
-	scale.x *= ((MapSettings.own_area_end.x - MapSettings.own_area_start.x) / 7) / size.x
-	scale.y *= (MapSettings.own_area_end.y - MapSettings.own_area_start.y) / size.y
+	scale.x *= MapSettings.card_in_hand_size.x / size.x
+	scale.y *= MapSettings.card_in_hand_size.y / size.y
 
 
 func _load_card_properties() -> void:
@@ -227,6 +227,13 @@ func _set_drag_node_properties() -> void:
 
 
 func _on_mouse_entered():
+	if (
+		Tutorial.current_phase == Tutorial.tutorial_phases.PREVIEW_CARD 
+		and Tutorial.is_awaiting_tutorial_input
+	):
+		GameManager.zoom_preview.preview_hand_card(self, true)
+		Tutorial.continue_tutorial()
+		return
 	GameManager.zoom_preview.preview_hand_card(self, false)
 	highlight_card()
 

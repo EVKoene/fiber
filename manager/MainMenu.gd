@@ -5,7 +5,6 @@ class_name MainMenu
 
 @onready var prompt_container := $PromptContainer
 
-var tutorial_scene := load("res://singleplayer/Tutorial.tscn")
 var prompt_scene := load("res://manager/YesNoPrompt.tscn")
 var current_deck_label: Node
 
@@ -16,13 +15,6 @@ func _ready():
 	current_deck_label = $DeckButtons/CurrentDeck
 	GameManager.main_menu = self
 	GameManager.set_current_deck(DeckCollection.random_deck())
-
-
-func _start_tutorial() -> void:
-	var tutorial = tutorial_scene.instantiate()
-	tutorial.size = MapSettings.total_screen
-	add_child(tutorial)
-	hide_main_menu()
 
 
 func show_prompt(prompt_text: String) -> void:
@@ -107,7 +99,8 @@ func _on_single_player_pressed() -> void:
 
 
 func _on_tutorial_pressed():
-	_start_tutorial()
+	GameManager.is_server = true
+	Tutorial.setup_tutorial()
 
 
 func _on_dedicated_server_pressed():

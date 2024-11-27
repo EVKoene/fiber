@@ -15,19 +15,29 @@ var deck_picker: DeckPicker
 func _ready():
 	$DeckNameContainer/DeckNameButton.text = deck_info["DeckName"]
 	_add_deckname_border()
+	if GameManager.deck["ID"] == deck_id:
+		_highlight_deckname()
 
 
 func _highlight_deckname() -> void:
 	$DeckNameContainer.get_theme_stylebox("panel").border_color = Styling.gold_color
 
 
+func _unhighlight_deckname() -> void:
+	$DeckNameContainer.get_theme_stylebox("panel").border_color = Styling.base_space_color
+
+
 func _add_deckname_border() -> void:
 	$DeckNameContainer.add_theme_stylebox_override("panel", deck_name_border)
+	$DeckNameContainer.get_theme_stylebox("panel").border_color = Styling.base_space_color
 	deck_name_border.set_border_width_all(int(size.y / 10))
 
 
 func _on_deck_name_button_pressed():
 	GameManager.set_current_deck(deck_id)
+	for d in deck_picker.deck_nodes:
+		d._unhighlight_deckname()
+	_highlight_deckname()
 
 
 func _on_edit_button_pressed():
