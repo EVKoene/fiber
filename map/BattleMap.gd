@@ -1,5 +1,7 @@
 extends Node2D
 
+class_name BattleMap
+
 @onready var play_space_scene: PackedScene = preload("res://map/play_space/PlaySpace.tscn")
 @onready var card_scene: PackedScene = preload("res://card/card_states/CardInPlay.tscn")
 @onready var resource_bar_scene: PackedScene = preload("res://player/ResourceBar.tscn")
@@ -10,6 +12,7 @@ var map = MapDatabase.maps.BASE_MAP
 var map_data = MapDatabase.map_data[map]
 var end_turn_button: Button
 var instruction_container: PanelContainer
+var tutorial_container: PanelContainer
 var text_box: Panel
 var finish_button: Button
 var is_tutorial := false
@@ -283,6 +286,7 @@ func show_instructions(instruction_text: String) -> void:
 
 
 func set_tutorial_container() -> void:
+	tutorial_container = $TutorialContainer
 	$TutorialContainer.position.x = MapSettings.total_screen.x/2 - $TutorialContainer.size.x
 	$TutorialContainer.position.y = MapSettings.total_screen.y/2 - $TutorialContainer.size.y / 2
 	$TutorialContainer.move_to_front()

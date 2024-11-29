@@ -37,6 +37,11 @@ func resolve_damage(card_owner_id, cip_index, value):
 	damage_number.label_settings.font_size = 100
 	damage_number.label_settings.font_color = Color("f41700")
 	await get_tree().create_timer(0.5).timeout
+	# Return if the instance is no longer valid is mostly for the tutorial, because we destroy
+	# cards to setup several scenarios
+	if !is_instance_valid(card):
+		return
+	
 	damage_number.queue_free()
 	
 	if min_value > 0:

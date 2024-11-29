@@ -227,7 +227,7 @@ func _set_drag_node_properties() -> void:
 
 
 func _on_mouse_entered():
-	if Tutorial.current_phase == Tutorial.tutorial_phases.PREVIEW_CARD:
+	if Tutorial.next_phase == Tutorial.tutorial_phases.PREVIEW_CARD:
 		GameManager.zoom_preview.preview_hand_card(self, true)
 		Tutorial.continue_tutorial()
 		return
