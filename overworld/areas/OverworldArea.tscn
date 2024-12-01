@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://drutvpo7uegtk"]
+
+[ext_resource type="Script" path="res://overworld/areas/OverworldArea.gd" id="1_t1xw5"]
+[ext_resource type="PackedScene" uid="uid://dk3cdkfpry0v0" path="res://overworld/PauseMenu.tscn" id="2_xdma4"]
+[ext_resource type="PackedScene" uid="uid://c741sshssnf7x" path="res://overworld/textbox/OverworldTextbox.tscn" id="4_ryuip"]
+[ext_resource type="PackedScene" uid="uid://cy4ivfje2oj4c" path="res://overworld/player/PlayerBody.tscn" id="6_mmnqy"]
+
+[node name="OverworldArea" type="Node2D"]
+script = ExtResource("1_t1xw5")
+
+[node name="GUI" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" parent="GUI" instance=ExtResource("2_xdma4")]
+visible = false
+
+[node name="OverworldTextbox" parent="." instance=ExtResource("4_ryuip")]
+
+[node name="PlayerBody" parent="." instance=ExtResource("6_mmnqy")]
+position = Vector2(287, 119)
+
+[node name="Camera2D" type="Camera2D" parent="PlayerBody"]
