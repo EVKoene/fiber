@@ -5,7 +5,7 @@ enum tutorial_phases {
 	INSTRUCTION_START, BATTLEMAP_EXPLANATION, BLUE_RED_SPACES, HOVER_CARD, PREVIEW_CARD, CARD_COST,
 	CARD_MOVEMENT, CARD_ATTACK, CARD_HEALTH, RESOURCES, RESOURCE_REFRESH, PLAY_CARD, 
 	FACTION_RESOURCES, MOVE_CARD, ATTACK_CARD, EXHAUST, ATTACK_FURTHER, CONQUER_VICTORY_SPACES, 
-	PROGRESS_BAR, USE_ABILITIES, SPELLS, END_TURN
+	PROGRESS_BAR, USE_ABILITIES, SPELLS, USE_ATTACK_COMMAND, END_TURN, FINISH_TUTORIAL
 }
 
 @onready var play_space_arrow_scene: PackedScene = preload("res://map/play_space/PlaySpaceArrow.tscn")
@@ -30,6 +30,7 @@ func setup_tutorial() -> void:
 	GameManager.main_menu.hide_main_menu()
 	GameManager.testing = false
 	var b_map = battle_map_scene.instantiate()
+	GameManager.current_scene = b_map
 	b_map.is_tutorial = true
 	GameManager.main_menu.add_child(b_map, true)
 
@@ -320,7 +321,7 @@ func _attack_further() -> void:
 
 func _conquer_victory_spaces() -> void:
 	is_awaiting_tutorial_input = false
-	await get_tree().create_timer(0.25).timeout
+	await get_tree().create_timer(1).timeout
 	if len(GameManager.cards_in_play[GameManager.p2_id]) != 0:
 		for c in GameManager.cards_in_play[GameManager.p2_id]:
 			c.call_deferred("destroy")
@@ -360,7 +361,7 @@ func _use_abilities() -> void:
 		on the unit and selecting the ability. Try swapping your Wizard Scout with your Gorilla"
 	)
 	BattleSynchronizer.play_unit(
-		CardDatabase.cards.WIZARD_SCOUT, GameManager.p1_id, 
+		CardDatabase.cards.WIZARD_SCOUT, GameManager.player_id, 
 		1, 1)
 	
 	var wizard_position: Vector2 = GameManager.ps_column_row[1][1].position
@@ -371,6 +372,75 @@ func _use_abilities() -> void:
 	_create_arrow(arrow_position, 180)
 	unpause_battlemap()
 	next_phase = tutorial_phases.SPELLS
+
+
+func _spells() -> void:
+	is_awaiting_tutorial_input = false
+	for c in GameManager.cards_in_hand[GameManager.player_id]:
+		c.discard()
+	GameManager.decks[GameManager.player_id].create_hand_card(CardDatabase.cards.ATTACK_COMMAND)
+	GameManager.zoom_preview.preview_card_index(CardDatabase.cards.ATTACK_COMMAND, true)
+	battle_map.show_tutorial_text(
+		"Some cards are spells. You play them by dragging them onto the battlefield, but after their
+		effect has been used they will disappear. If they have a range, like Attack Command, they
+		need to be used within that range of one of your units."
+	)
+	var arrow_position := Vector2(
+		GameManager.zoom_preview.position.x + GameManager.zoom_preview.size.x * 0.4,
+		GameManager.zoom_preview.position.y + GameManager.zoom_preview.size.y
+	)
+	_create_arrow(arrow_position, 0)
+	
+	pause_battlemap()
+	next_phase = tutorial_phases.USE_ATTACK_COMMAND
+	is_awaiting_tutorial_input = true
+
+
+func _use_attack_command() -> void:
+	is_awaiting_tutorial_input = false
+	for c in GameManager.cards_in_play[GameManager.player_id]:
+		c.call_deferred("destroy")
+	for c in GameManager.cards_in_play[GameManager.p2_id]:
+		c.call_deferred("destroy")
+	
+	BattleSynchronizer.play_unit(
+		CardDatabase.cards.GORILLA, GameManager.player_id, 
+		3, 3
+	)
+	BattleSynchronizer.play_unit(
+		CardDatabase.cards.WIZARD_SCOUT, GameManager.p2_id, 
+		3, 1
+	)
+	
+	battle_map.show_tutorial_text(
+		"Try dragging Attack command from your hand onto your Gorilla Unit, and target the 
+		opponent's Wizard Scout"
+	)
+	
+	unpause_battlemap()
+	next_phase = tutorial_phases.END_TURN
+
+
+func _end_turn() -> void:
+	is_awaiting_tutorial_input = false
+	GameManager.battle_map.end_turn_button.show()
+	battle_map.show_tutorial_text(
+		"You end your turn by clicking this button in the lower right corner. Click it to finish
+		this tutorial."
+	)
+	var arrow_position := Vector2(
+		GameManager.battle_map.end_turn_button.position.x - arrow_size.x * 2,
+		GameManager.battle_map.end_turn_button.position.y
+	)
+	_create_arrow(arrow_position, 0)
+	
+	pause_battlemap()
+	next_phase = tutorial_phases.FINISH_TUTORIAL
+	is_awaiting_tutorial_input = true
+
+
+func _finish_tutorial() -> void:
+	TransitionScene.transition_to_overworld()
 
 
 func pause_battlemap() -> void:
@@ -439,4 +509,12 @@ func continue_tutorial() -> void:
 			_show_progress_bar()
 		tutorial_phases.USE_ABILITIES:
 			_use_abilities()
+		tutorial_phases.SPELLS:
+			_spells()
+		tutorial_phases.USE_ATTACK_COMMAND:
+			_use_attack_command()
+		tutorial_phases.END_TURN:
+			_end_turn()
+		tutorial_phases.FINISH_TUTORIAL:
+			_finish_tutorial()
 	

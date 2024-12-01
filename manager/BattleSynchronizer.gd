@@ -328,6 +328,7 @@ func resolve_spell(card_owner_id: int, hand_index: int, column: int, row: int) -
 	
 
 func finish_resolve() -> void:
+	await get_tree().process_frame
 	Events.hide_instructions.emit()
 	GameManager.battle_map.hide_finish_button()
 	GameManager.turn_manager.set_turn_actions_enabled(true)

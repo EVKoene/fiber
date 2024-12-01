@@ -340,6 +340,8 @@ func update_gold_container_text(gold_gained: int, turns_until_increase: int) -> 
 
 
 func _on_end_turn_button_pressed():
+	if Tutorial.next_phase == Tutorial.tutorial_phases.FINISH_TUTORIAL:
+		Tutorial.continue_tutorial()
 	if !GameManager.turn_manager.turn_actions_enabled:
 		return
 	
