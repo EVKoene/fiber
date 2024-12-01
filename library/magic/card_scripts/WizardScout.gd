@@ -30,6 +30,8 @@ func swap() -> bool:
 		exhaust()
 		TargetSelection.making_selection = false
 		BattleSynchronizer.finish_resolve()
+		if Tutorial.next_phase == Tutorial.tutorial_phases.SPELLS:
+			Tutorial.continue_tutorial()
 		return true
 	else:
 		BattleSynchronizer.finish_resolve()

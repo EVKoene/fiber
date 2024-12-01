@@ -38,10 +38,15 @@ OverworldManager="*res://overworld/OverworldManager.gd"
 AIHelper="*res://singleplayer/ai/AIHelper.gd"
 MPCardManipulation="*res://manager/MPCardManipulation.gd"
 MultiplayerManager="*res://multiplayer/MultiplayerManager.gd"
+Tutorial="*res://tutorial/Tutorial.gd"
 
 [display]
 
 window/size/mode=3
+
+[editor]
+
+run/main_run_args="--verbose"
 
 [input]
 

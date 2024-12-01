@@ -182,6 +182,8 @@ func path_to_closest_movable_space(
 
 
 func set_conquered_by(player_id: int) -> void:
+	if Tutorial.next_phase == Tutorial.tutorial_phases.PROGRESS_BAR:
+		Tutorial.continue_tutorial()
 	if GameManager.is_single_player:
 		BattleSynchronizer.set_conquered_by(player_id, column, row)
 		
@@ -254,6 +256,8 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 	var h_index: int = data.hand_index
 	match data.card_type:
 		Collections.card_types.UNIT:
+			if Tutorial.next_phase == Tutorial.tutorial_phases.FACTION_RESOURCES:
+				Tutorial.continue_tutorial()
 			if !GameManager.testing:
 				GameManager.resources[data.card_owner_id].pay_costs(data.costs)
 			if GameManager.is_single_player:

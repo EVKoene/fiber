@@ -37,6 +37,11 @@ func resolve_damage(card_owner_id, cip_index, value):
 	damage_number.label_settings.font_size = 100
 	damage_number.label_settings.font_color = Color("f41700")
 	await get_tree().create_timer(0.5).timeout
+	# Return if the instance is no longer valid is mostly for the tutorial, because we destroy
+	# cards to setup several scenarios
+	if !is_instance_valid(card):
+		return
+	
 	damage_number.queue_free()
 	
 	if min_value > 0:
@@ -323,6 +328,7 @@ func resolve_spell(card_owner_id: int, hand_index: int, column: int, row: int) -
 	
 
 func finish_resolve() -> void:
+	await get_tree().process_frame
 	Events.hide_instructions.emit()
 	GameManager.battle_map.hide_finish_button()
 	GameManager.turn_manager.set_turn_actions_enabled(true)

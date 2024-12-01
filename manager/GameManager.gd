@@ -188,7 +188,10 @@ func setup_game() -> void:
 			_create_resources.rpc_id(i)
 	_add_turn_managers()
 	_add_decks()
-	_start_first_turn()
+	if !battle_map.is_tutorial:
+		_start_first_turn()
+	else:
+		Tutorial.start_tutorial()
 
 
 func _add_turn_managers() -> void:

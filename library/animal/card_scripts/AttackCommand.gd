@@ -19,7 +19,11 @@ func resolve_spell(c_column: int, c_row: int) -> bool:
 		var card_to_attack: CardInPlay = TargetSelection.selected_targets[0]
 		selected_card.attack_card(card_to_attack)
 		
+		# finish_resolve will emit target_selection_finished, and because that has already been
+		# emitted in this same function we need to wait a frame to avoid errors
 		BattleSynchronizer.finish_resolve()
+		if Tutorial.next_phase == Tutorial.tutorial_phases.END_TURN:
+			Tutorial.continue_tutorial()
 		return true
 	
 	else:

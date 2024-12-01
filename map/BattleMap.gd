@@ -1,5 +1,7 @@
 extends Node2D
 
+class_name BattleMap
+
 @onready var play_space_scene: PackedScene = preload("res://map/play_space/PlaySpace.tscn")
 @onready var card_scene: PackedScene = preload("res://card/card_states/CardInPlay.tscn")
 @onready var resource_bar_scene: PackedScene = preload("res://player/ResourceBar.tscn")
@@ -10,7 +12,10 @@ var map = MapDatabase.maps.BASE_MAP
 var map_data = MapDatabase.map_data[map]
 var end_turn_button: Button
 var instruction_container: PanelContainer
+var tutorial_container: PanelContainer
 var text_box: Panel
+var finish_button: Button
+var is_tutorial := false
 
 
 func _ready():
@@ -123,6 +128,10 @@ func _set_play_space_size() -> void:
 	MapSettings.play_space_size = Vector2(ps_size, ps_size)
 	# TODO: Calculate an exact size based on borderwidth of playspace and card border
 	MapSettings.card_in_play_size = Vector2(ps_size, ps_size) * 0.9
+	MapSettings.card_in_hand_size = Vector2(
+		(MapSettings.own_area_end.x - MapSettings.own_area_start.x) / 7,
+		MapSettings.own_area_end.y - MapSettings.own_area_start.y
+	)
 	MapSettings.card_option_size = MapSettings.card_in_play_size * 2
 
 
@@ -169,12 +178,12 @@ func show_finish_button() -> void:
 
 
 func _set_finish_button() -> void:
-	var button = $FinishButton
-	button.text = "Finish"
-	button.custom_minimum_size.y = MapSettings.play_space_size.y / 2
-	button.custom_minimum_size.x = MapSettings.play_space_size.x
-	button.position.x = MapSettings.total_screen.x - MapSettings.play_space_size.x
-	button.position.y = MapSettings.total_screen.y * 0.8
+	finish_button = $FinishButton
+	finish_button.text = "Finish"
+	finish_button.custom_minimum_size.y = MapSettings.play_space_size.y / 2
+	finish_button.custom_minimum_size.x = MapSettings.play_space_size.x
+	finish_button.position.x = MapSettings.total_screen.x - MapSettings.play_space_size.x
+	finish_button.position.y = MapSettings.total_screen.y * 0.8
 
 
 @rpc("any_peer", "call_local")
@@ -276,6 +285,22 @@ func show_instructions(instruction_text: String) -> void:
 	$InstructionContainer.show()
 
 
+func set_tutorial_container() -> void:
+	tutorial_container = $TutorialContainer
+	$TutorialContainer.position.x = MapSettings.total_screen.x/2 - $TutorialContainer.size.x
+	$TutorialContainer.position.y = MapSettings.total_screen.y/2 - $TutorialContainer.size.y / 2
+	$TutorialContainer.move_to_front()
+
+
+func hide_tutorial_text() -> void:
+	$TutorialContainer.hide()
+
+
+func show_tutorial_text(tutorial_text: String) -> void:
+	$TutorialContainer/TutorialText.text = tutorial_text
+	$TutorialContainer.show()
+
+
 func _set_text_containers() -> void:
 	$InstructionContainer.size.x = (MapSettings.play_space_size.x * 2)
 	$InstructionContainer.size.y = (MapSettings.total_screen.y / 5)
@@ -315,6 +340,8 @@ func update_gold_container_text(gold_gained: int, turns_until_increase: int) -> 
 
 
 func _on_end_turn_button_pressed():
+	if Tutorial.next_phase == Tutorial.tutorial_phases.FINISH_TUTORIAL:
+		Tutorial.continue_tutorial()
 	if !GameManager.turn_manager.turn_actions_enabled:
 		return
 	
@@ -346,15 +373,18 @@ func _input(_event):
 		Input.is_action_just_pressed("ui_accept") 
 		or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
 	):
-		$TextBox.hide()
-	if !GameManager.turn_manager.can_start_turn:
-		return
+		if Tutorial.is_awaiting_tutorial_input:
+			Tutorial.continue_tutorial()
+			return
+		else:
+			$TextBox.hide()
 	
-	GameManager.turn_manager.can_start_turn = false
-	if GameManager.is_single_player:
-		GameManager.turn_manager.start_turn(GameManager.p1_id)
-	if !GameManager.is_single_player:
-		GameManager.turn_manager.start_turn.rpc_id(1, GameManager.player_id)
+	if GameManager.turn_manager.can_start_turn:
+		GameManager.turn_manager.can_start_turn = false
+		if GameManager.is_single_player:
+			GameManager.turn_manager.start_turn(GameManager.p1_id)
+		if !GameManager.is_single_player:
+			GameManager.turn_manager.start_turn.rpc_id(1, GameManager.player_id)
 
 
 func _unhandled_input(event):

@@ -80,6 +80,10 @@ func resolve_ability_for_ai() -> void:
 
 
 func attack_card(target_card: CardInPlay) -> void:
+	if Tutorial.next_phase in [
+		Tutorial.tutorial_phases.EXHAUST, Tutorial.tutorial_phases.CONQUER_VICTORY_SPACES
+	]:
+		Tutorial.continue_tutorial()
 	BattleSynchronizer.call_triggered_funcs(Collections.triggers.ATTACK, self)
 	if GameManager.is_single_player:
 		BattleAnimation.animate_attack(
@@ -125,6 +129,8 @@ func swap_with_card(swap_card_owner_id: int, swap_cip_index: int) -> void:
 
 
 func move_to_play_space(new_column: int, new_row: int) -> void:
+	if Tutorial.next_phase == Tutorial.tutorial_phases.ATTACK_CARD:
+		Tutorial.continue_tutorial()
 	BattleSynchronizer.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, self)	
 	
 	if GameManager.is_single_player:
