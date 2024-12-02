@@ -4,10 +4,10 @@ class_name Resources
 
 
 var gold := 0
-var animal := 0
-var magic := 0
-var nature := 0
-var robot := 0
+var passion := 0
+var imagionation := 0
+var growth := 0
+var logic := 0
 var resources_owner_id: int
 
 
@@ -45,8 +45,8 @@ func pay_costs(costs: Costs) -> void:
 		return
 	
 	for f in [
-		Collections.factions.ANIMAL, Collections.factions.MAGIC, Collections.factions.NATURE, 
-		Collections.factions.ROBOT
+		Collections.factions.PASSION, Collections.factions.IMAGINATION, Collections.factions.GROWTH, 
+		Collections.factions.LOGIC
 	]:
 		var cost: int = costs.get_costs()[f]
 		if cost == 0:
@@ -61,14 +61,14 @@ func pay_costs(costs: Costs) -> void:
 
 func add_resource(faction: int, amount: int) -> void:
 	match faction:
-		Collections.factions.ANIMAL:
-			animal += amount
-		Collections.factions.MAGIC:
-			magic += amount
-		Collections.factions.NATURE:
-			nature += amount
-		Collections.factions.ROBOT:
-			robot += amount
+		Collections.factions.PASSION:
+			passion += amount
+		Collections.factions.IMAGINATION:
+			imagionation += amount
+		Collections.factions.GROWTH:
+			growth += amount
+		Collections.factions.LOGIC:
+			logic += amount
 	
 	_update_resources()
 
@@ -80,14 +80,14 @@ func add_gold(amount: int) -> void:
 
 func spend_resource(faction: Collections.factions, value: int) -> void:
 	match faction:
-		Collections.factions.ANIMAL:
-			animal -= value
-		Collections.factions.MAGIC:
-			magic -= value
-		Collections.factions.NATURE:
-			nature -= value
-		Collections.factions.ROBOT:
-			robot -= value
+		Collections.factions.PASSION:
+			passion -= value
+		Collections.factions.IMAGINATION:
+			imagionation -= value
+		Collections.factions.GROWTH:
+			growth -= value
+		Collections.factions.LOGIC:
+			logic -= value
 	
 	_update_resources()
 
@@ -101,20 +101,20 @@ func refresh(gold_gained: int) -> void:
 
 func get_resources() -> Dictionary:
 	return {
-		Collections.factions.ANIMAL: animal,
-		Collections.factions.MAGIC: magic,
-		Collections.factions.NATURE: nature,
-		Collections.factions.ROBOT: robot,
+		Collections.factions.PASSION: passion,
+		Collections.factions.IMAGINATION: imagionation,
+		Collections.factions.GROWTH: growth,
+		Collections.factions.LOGIC: logic,
 	}
 
 
 func _update_resources() -> void:
 	if GameManager.is_single_player:
 		GameManager.resource_bars[resources_owner_id].set_resources_labels(
-			gold, animal, magic, nature, robot
+			gold, passion, imagionation, growth, logic
 		)
 	else:
 		for p_id in GameManager.players:
 			BattleSynchronizer.set_resources.rpc_id(
-				p_id, resources_owner_id, gold, animal, magic, nature, robot
+				p_id, resources_owner_id, gold, passion, imagionation, growth, logic
 			)

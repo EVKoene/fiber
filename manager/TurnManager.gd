@@ -150,4 +150,4 @@ func set_turn_actions_enabled_mp(is_enabled: bool) -> void:
 func call_start_turn_triggered_funcs() -> void:
 	for p_id in GameManager.players:
 		for c in GameManager.cards_in_play[p_id]:
-			c.call_triggered_funcs(Collections.triggers.TURN_STARTED, c)
+			await c.call_triggered_funcs(Collections.triggers.TURN_STARTED, c)

@@ -108,41 +108,41 @@ func set_card_properties():
 
 
 func _set_card_cost_visuals() -> void:
-		if costs.animal > 0:
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Animal.show()
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Animal.text = str(
-				costs.animal
+		if costs.passion > 0:
+			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Passion.show()
+			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Passion.text = str(
+				costs.passion
 			)
 		else:
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Animal.hide()
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Animal.text = "0"
+			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Passion.hide()
+			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Passion.text = "0"
 			
-		if costs.magic > 0:
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Magic.show()
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Magic.text = str(
-				costs.magic
+		if costs.imagionation > 0:
+			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Imagination.show()
+			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Imagination.text = str(
+				costs.imagionation
 			)
 		else:
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Magic.hide()
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Magic.text = "0"
+			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Imagination.hide()
+			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Imagination.text = "0"
 
-		if costs.nature > 0:
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Nature.show()
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Nature.text = str(
-				costs.nature
+		if costs.growth > 0:
+			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Growth.show()
+			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Growth.text = str(
+				costs.growth
 			)
 		else:
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Nature.hide()
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Nature.text = "0"
+			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Growth.hide()
+			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Growth.text = "0"
 			
-		if costs.robot > 0:
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Robot.show()
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Robot.text = str(
-				costs.robot
+		if costs.logic > 0:
+			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Logic.show()
+			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Logic.text = str(
+				costs.logic
 			)
 		else:
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Robot.hide()
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Robot.text = "0"
+			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Logic.hide()
+			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Logic.text = "0"
 
 
 func _load_card_properties() -> void:
@@ -155,10 +155,10 @@ func _load_card_properties() -> void:
 	card_text = card_info["Text"]
 
 	costs = Costs.new(
-		card_info["Costs"][Collections.factions.ANIMAL],
-		card_info["Costs"][Collections.factions.MAGIC],
-		card_info["Costs"][Collections.factions.NATURE],
-		card_info["Costs"][Collections.factions.ROBOT]
+		card_info["Costs"][Collections.factions.PASSION],
+		card_info["Costs"][Collections.factions.IMAGINATION],
+		card_info["Costs"][Collections.factions.GROWTH],
+		card_info["Costs"][Collections.factions.LOGIC]
 	)
 
 	if card_info["CardType"] == Collections.card_types.UNIT:

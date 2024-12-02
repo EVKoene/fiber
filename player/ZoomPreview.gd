@@ -7,10 +7,10 @@ var max_attack: int
 var min_attack: int
 var health: int
 var movement: int
-var animal_cost: int
-var magic_cost: int
-var nature_cost: int
-var robot_cost: int
+var passion_cost: int
+var imagionation_cost: int
+var growth_cost: int
+var logic_cost: int
 var ingame_name: String
 var card_type: int
 var factions: Array
@@ -34,10 +34,10 @@ func preview_hand_card(
 	
 	locked = lock_card
 	
-	animal_cost = card.costs.animal
-	magic_cost = card.costs.magic
-	nature_cost = card.costs.nature
-	robot_cost = card.costs.robot
+	passion_cost = card.costs.passion
+	imagionation_cost = card.costs.imagionation
+	growth_cost = card.costs.growth
+	logic_cost = card.costs.logic
 	ingame_name = card.ingame_name
 	card_type = card.card_type
 	factions = card.factions
@@ -77,10 +77,10 @@ func preview_card_in_play(
 	
 	locked = lock_card
 	
-	animal_cost = card.costs.animal
-	magic_cost = card.costs.magic
-	nature_cost = card.costs.nature
-	robot_cost = card.costs.robot
+	passion_cost = card.costs.passion
+	imagionation_cost = card.costs.imagionation
+	growth_cost = card.costs.growth
+	logic_cost = card.costs.logic
 	ingame_name = card.ingame_name
 	card_type = card.card_type
 	factions = card.factions
@@ -119,10 +119,10 @@ func preview_card_index(card_index, lock_card: bool) -> void:
 	locked = lock_card
 	
 	var card_data: Dictionary = CardDatabase.cards_info[card_index]
-	animal_cost = card_data["Costs"][Collections.factions.ANIMAL]
-	magic_cost = card_data["Costs"][Collections.factions.MAGIC]
-	nature_cost = card_data["Costs"][Collections.factions.NATURE]
-	robot_cost = card_data["Costs"][Collections.factions.ROBOT]
+	passion_cost = card_data["Costs"][Collections.factions.PASSION]
+	imagionation_cost = card_data["Costs"][Collections.factions.IMAGINATION]
+	growth_cost = card_data["Costs"][Collections.factions.GROWTH]
+	logic_cost = card_data["Costs"][Collections.factions.LOGIC]
 	ingame_name = card_data["InGameName"]
 	card_type = card_data["CardType"]
 	factions = card_data["Factions"]
@@ -159,10 +159,10 @@ func reset_zoom_preview() -> void:
 	min_attack = 0
 	health = 0
 	movement = 0
-	animal_cost = 0
-	magic_cost = 0
-	nature_cost = 0
-	robot_cost = 0
+	passion_cost = 0
+	imagionation_cost = 0
+	growth_cost = 0
+	logic_cost = 0
 	ingame_name = ""
 	card_type = 0
 	factions = []
@@ -203,20 +203,20 @@ func _set_labels() -> void:
 		
 	for f in [
 		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Animal,
-			"Cost": animal_cost,
+			"Label": $VBox/TopInfo/Costs/CostLabels/Passion,
+			"Cost": passion_cost,
 		},
 		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Magic,
-			"Cost": magic_cost,
+			"Label": $VBox/TopInfo/Costs/CostLabels/Imagination,
+			"Cost": imagionation_cost,
 		},
 		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Nature,
-			"Cost": nature_cost,
+			"Label": $VBox/TopInfo/Costs/CostLabels/Growth,
+			"Cost": growth_cost,
 		},
 		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Robot,
-			"Cost": robot_cost,
+			"Label": $VBox/TopInfo/Costs/CostLabels/Logic,
+			"Cost": logic_cost,
 		},
 	]:
 		f["Label"].text = str(f["Cost"])
@@ -268,10 +268,10 @@ func _set_card_text_font_size() -> void:
 	$VBox/BotInfo/CardText.label_settings.font_size = card_text_font_size
 	
 	for cost_label in [
-		[$VBox/TopInfo/Costs/CostLabels/Animal, Collections.factions.ANIMAL],
-		[$VBox/TopInfo/Costs/CostLabels/Magic, Collections.factions.MAGIC],
-		[$VBox/TopInfo/Costs/CostLabels/Nature, Collections.factions.NATURE],
-		[$VBox/TopInfo/Costs/CostLabels/Robot, Collections.factions.ROBOT],
+		[$VBox/TopInfo/Costs/CostLabels/Passion, Collections.factions.PASSION],
+		[$VBox/TopInfo/Costs/CostLabels/Imagination, Collections.factions.IMAGINATION],
+		[$VBox/TopInfo/Costs/CostLabels/Growth, Collections.factions.GROWTH],
+		[$VBox/TopInfo/Costs/CostLabels/Logic, Collections.factions.LOGIC],
 	]:
 		cost_label[0].label_settings = LabelSettings.new()
 		cost_label[0].label_settings.font_color = Styling.faction_colors[[cost_label[1]]]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://cwfyh8flqa8rk"]
 
-[ext_resource type="Texture2D" uid="uid://blrmfntk4ogf0" path="res://library/animal/images/Animal.png" id="1_76bpn"]
 [ext_resource type="Script" path="res://card/card_states/CardInPlay.gd" id="1_nshbd"]
+[ext_resource type="Texture2D" uid="uid://blrmfntk4ogf0" path="res://library/passion/images/Animal.png" id="2_yqxow"]
 [ext_resource type="LabelSettings" uid="uid://dq5kctg5dkitl" path="res://styling/labels/AnimalLabel.tres" id="4_734v1"]
 [ext_resource type="LabelSettings" uid="uid://nx6f46ywtswa" path="res://styling/labels/MagicLabel.tres" id="5_k068k"]
 [ext_resource type="LabelSettings" uid="uid://ihox33scd0t8" path="res://styling/labels/NatureLabel.tres" id="6_2vrch"]
@@ -30,7 +30,7 @@ script = ExtResource("1_nshbd")
 [node name="CardImage" type="TextureRect" parent="."]
 layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("1_76bpn")
+texture = ExtResource("2_yqxow")
 expand_mode = 3
 
 [node name="VBox" type="VBoxContainer" parent="."]
@@ -70,22 +70,22 @@ offset_right = 40.0
 offset_bottom = 40.0
 mouse_filter = 2
 
-[node name="Animal" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
+[node name="Passion" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
 label_settings = ExtResource("4_734v1")
 
-[node name="Magic" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
+[node name="Imagination" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
 label_settings = ExtResource("5_k068k")
 
-[node name="Nature" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
+[node name="Growth" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
 label_settings = ExtResource("6_2vrch")
 
-[node name="Robot" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
+[node name="Logic" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
 label_settings = ExtResource("7_88nyc")

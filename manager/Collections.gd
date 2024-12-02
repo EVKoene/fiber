@@ -1,13 +1,13 @@
 extends Node
 
 ### CARD ###
-enum factions {ANIMAL, MAGIC, NATURE, ROBOT,}
-var all_factions: Array = [factions.ANIMAL, factions.MAGIC, factions.NATURE, factions.ROBOT]
+enum factions {PASSION, IMAGINATION, GROWTH, LOGIC,}
+var all_factions: Array = [factions.PASSION, factions.IMAGINATION, factions.GROWTH, factions.LOGIC]
 var faction_names: Dictionary = {
-	factions.ANIMAL: "Animal",
-	factions.MAGIC: "Magic",
-	factions.NATURE: "Nature",
-	factions.ROBOT: "Robot",
+	factions.PASSION: "Passion",
+	factions.IMAGINATION: "Imagination",
+	factions.GROWTH: "Growth",
+	factions.LOGIC: "Logic",
 	}
 enum card_types {SPELL, UNIT}
 enum stat_params { LOWEST, HIGHEST, OVER_VALUE, UNDER_VALUE }
@@ -31,7 +31,7 @@ enum play_space_attributes {
 
 ### AI HELPER ###
 enum purposes {
-	BUFF_ADJACENT, DEFEND_RESOURCE, BATTLE, REAR, DEBUFF_ADJACENT,
+	BUFF_ADJACENT, CONQUER_SPACES, DEFEND_RESOURCE, BATTLE, REAR, DEBUFF_ADJACENT,
 }
 enum hint_types {NECESSARY, SUFFICIENT}
 enum turn_stages {

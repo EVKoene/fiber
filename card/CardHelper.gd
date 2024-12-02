@@ -77,6 +77,31 @@ func distance_to_closest_enemy_unit(card: CardInPlay) -> int:
 	return shortest_distance
 
 
+func closest_spaces_within_movement(
+	card: CardInPlay, goal_space: PlaySpace
+) -> Array: 
+	var closest_spaces := []
+	var closest_distance := -1
+	var distance_to_goal_space := card.current_play_space.distance_to_play_space(
+		goal_space, card.ignore_obstacles
+	)
+	if distance_to_goal_space  -1:
+		return [goal_space]
+	for ps in GameManager.play_spaces:
+		var distance_to_ps: int = ps.distance_to_play_space(goal_space, card.ignore_obstacles)
+		if distance_to_ps == -1:
+			continue
+		elif distance_to_ps < card.movement:
+			continue
+		elif distance_to_ps == closest_distance:
+			closest_spaces.append(ps)
+		elif distance_to_ps < closest_distance:
+			closest_distance = distance_to_ps
+			closest_spaces = ps
+	
+	return closest_spaces
+
+
 func closest_enemy_units(card: CardInPlay) -> Array:
 	var shortest_distance: int = -1
 	var closest_cards: Array

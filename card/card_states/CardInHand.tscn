@@ -73,22 +73,22 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Animal" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
+[node name="Passion" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
 label_settings = ExtResource("4_clsir")
 
-[node name="Magic" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
+[node name="Imagination" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
 label_settings = ExtResource("5_ea3q3")
 
-[node name="Nature" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
+[node name="Growth" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
 label_settings = ExtResource("6_7vlm4")
 
-[node name="Robot" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
+[node name="Logic" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
 label_settings = ExtResource("7_67vjm")

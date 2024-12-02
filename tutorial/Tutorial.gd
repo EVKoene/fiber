@@ -25,7 +25,7 @@ func setup_tutorial() -> void:
 		)
 	GameManager.player_id = 1
 
-	GameManager.add_player(2, 2, "Tutorial", DeckCollection.nature_starter)
+	GameManager.add_player(2, 2, "Tutorial", DeckCollection.growth_starter)
 	
 	GameManager.main_menu.hide_main_menu()
 	GameManager.testing = false

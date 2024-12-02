@@ -129,41 +129,41 @@ func set_card_properties():
 
 
 func _set_card_cost_visuals() -> void:
-		if costs.animal > 0:
-			$Vbox/TopInfo/Costs/CostLabels/Animal.show()
-			$Vbox/TopInfo/Costs/CostLabels/Animal.text = str(
-				costs.animal
+		if costs.passion > 0:
+			$Vbox/TopInfo/Costs/CostLabels/Passion.show()
+			$Vbox/TopInfo/Costs/CostLabels/Passion.text = str(
+				costs.passion
 			)
 		else:
-			$Vbox/TopInfo/Costs/CostLabels/Animal.hide()
-			$Vbox/TopInfo/Costs/CostLabels/Animal.text = "0"
+			$Vbox/TopInfo/Costs/CostLabels/Passion.hide()
+			$Vbox/TopInfo/Costs/CostLabels/Passion.text = "0"
 			
-		if costs.magic > 0:
-			$Vbox/TopInfo/Costs/CostLabels/Magic.show()
-			$Vbox/TopInfo/Costs/CostLabels/Magic.text = str(
-				costs.magic
+		if costs.imagionation > 0:
+			$Vbox/TopInfo/Costs/CostLabels/Imagination.show()
+			$Vbox/TopInfo/Costs/CostLabels/Imagination.text = str(
+				costs.imagionation
 			)
 		else:
-			$Vbox/TopInfo/Costs/CostLabels/Magic.hide()
-			$Vbox/TopInfo/Costs/CostLabels/Magic.text = "0"
+			$Vbox/TopInfo/Costs/CostLabels/Imagination.hide()
+			$Vbox/TopInfo/Costs/CostLabels/Imagination.text = "0"
 
-		if costs.nature > 0:
-			$Vbox/TopInfo/Costs/CostLabels/Nature.show()
-			$Vbox/TopInfo/Costs/CostLabels/Nature.text = str(
-				costs.nature
+		if costs.growth > 0:
+			$Vbox/TopInfo/Costs/CostLabels/Growth.show()
+			$Vbox/TopInfo/Costs/CostLabels/Growth.text = str(
+				costs.growth
 			)
 		else:
-			$Vbox/TopInfo/Costs/CostLabels/Nature.hide()
-			$Vbox/TopInfo/Costs/CostLabels/Nature.text = "0"
+			$Vbox/TopInfo/Costs/CostLabels/Growth.hide()
+			$Vbox/TopInfo/Costs/CostLabels/Growth.text = "0"
 			
-		if costs.robot > 0:
-			$Vbox/TopInfo/Costs/CostLabels/Robot.show()
-			$Vbox/TopInfo/Costs/CostLabels/Robot.text = str(
-				costs.robot
+		if costs.logic > 0:
+			$Vbox/TopInfo/Costs/CostLabels/Logic.show()
+			$Vbox/TopInfo/Costs/CostLabels/Logic.text = str(
+				costs.logic
 			)
 		else:
-			$Vbox/TopInfo/Costs/CostLabels/Robot.hide()
-			$Vbox/TopInfo/Costs/CostLabels/Robot.text = "0"
+			$Vbox/TopInfo/Costs/CostLabels/Logic.hide()
+			$Vbox/TopInfo/Costs/CostLabels/Logic.text = "0"
 
 
 func set_card_size() -> void:
@@ -181,10 +181,10 @@ func _load_card_properties() -> void:
 	card_text = card_info["Text"]
 
 	costs = Costs.new(
-		card_info["Costs"][Collections.factions.ANIMAL],
-		card_info["Costs"][Collections.factions.MAGIC],
-		card_info["Costs"][Collections.factions.NATURE],
-		card_info["Costs"][Collections.factions.ROBOT]
+		card_info["Costs"][Collections.factions.PASSION],
+		card_info["Costs"][Collections.factions.IMAGINATION],
+		card_info["Costs"][Collections.factions.GROWTH],
+		card_info["Costs"][Collections.factions.LOGIC]
 	)
 
 	if card_info["CardType"] == Collections.card_types.UNIT:

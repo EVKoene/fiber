@@ -31,28 +31,28 @@ text = "1"
 label_settings = ExtResource("2_2lxrf")
 horizontal_alignment = 1
 
-[node name="Animal" type="Label" parent="CostLabels"]
+[node name="Passion" type="Label" parent="CostLabels"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "1"
 label_settings = ExtResource("3_i7j6h")
 horizontal_alignment = 1
 
-[node name="Magic" type="Label" parent="CostLabels"]
+[node name="Imagination" type="Label" parent="CostLabels"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "1"
 label_settings = ExtResource("4_cnl6u")
 horizontal_alignment = 1
 
-[node name="Nature" type="Label" parent="CostLabels"]
+[node name="Growth" type="Label" parent="CostLabels"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "1"
 label_settings = ExtResource("5_noo8s")
 horizontal_alignment = 1
 
-[node name="Robot" type="Label" parent="CostLabels"]
+[node name="Logic" type="Label" parent="CostLabels"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "1"

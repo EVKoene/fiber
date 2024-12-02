@@ -2,28 +2,28 @@ extends Panel
 
 class_name Costs
 
-var animal: int
-var magic: int
-var nature: int
-var robot: int
+var passion: int
+var imagionation: int
+var growth: int
+var logic: int
 
 
 
-func _init(_animal, _magic, _nature, _robot):
-	animal = _animal
-	magic = _magic
-	nature = _nature
-	robot = _robot
+func _init(_passion, _imagionation, _growth, _logic):
+	passion = _passion
+	imagionation = _imagionation
+	growth = _growth
+	logic = _logic
 
 
 func total() -> int:
-	return animal + magic + nature + robot
+	return passion + imagionation + growth + logic
 
 
 func get_costs() -> Dictionary:
 	return {
-		Collections.factions.ANIMAL: animal,
-		Collections.factions.MAGIC: magic,
-		Collections.factions.NATURE: nature,
-		Collections.factions.ROBOT: robot,
+		Collections.factions.PASSION: passion,
+		Collections.factions.IMAGINATION: imagionation,
+		Collections.factions.GROWTH: growth,
+		Collections.factions.LOGIC: logic,
 	}

@@ -2,11 +2,14 @@ extends Node2D
 
 class_name OverworldArea
 
+var pause_menu: Control
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Events.npc_interaction_started.connect(start_npc_interaction)
 	GameManager.current_scene = self
+	pause_menu = $GUI/PauseMenu
 
 
 func start_npc_interaction(npc_id: int) -> void:

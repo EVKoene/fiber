@@ -350,20 +350,20 @@ func _set_labels() -> void:
 		$VBox/BotInfo/BattleStats.text = str(max_attack, "-", min_attack,"/", health)
 	for f in [
 		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Animal,
-			"Cost": costs.animal,
+			"Label": $VBox/TopInfo/Costs/CostLabels/Passion,
+			"Cost": costs.passion,
 		},
 		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Magic,
-			"Cost": costs.magic,
+			"Label": $VBox/TopInfo/Costs/CostLabels/Imagination,
+			"Cost": costs.imagionation,
 		},
 		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Nature,
-			"Cost": costs.nature,
+			"Label": $VBox/TopInfo/Costs/CostLabels/Growth,
+			"Cost": costs.growth,
 		},
 		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Robot,
-			"Cost": costs.robot,
+			"Label": $VBox/TopInfo/Costs/CostLabels/Logic,
+			"Cost": costs.logic,
 		},
 	]:
 		f["Label"].text = str(f["Cost"])
@@ -478,10 +478,10 @@ func _create_battle_stats() -> void:
 
 func _create_costs() -> void:
 	costs = Costs.new(
-		card_data["Costs"][Collections.factions.ANIMAL],
-		card_data["Costs"][Collections.factions.MAGIC],
-		card_data["Costs"][Collections.factions.NATURE],
-		card_data["Costs"][Collections.factions.ROBOT]
+		card_data["Costs"][Collections.factions.PASSION],
+		card_data["Costs"][Collections.factions.IMAGINATION],
+		card_data["Costs"][Collections.factions.GROWTH],
+		card_data["Costs"][Collections.factions.LOGIC]
 	)
 
 

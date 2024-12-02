@@ -92,10 +92,10 @@ func create_fabrication(
 	fabrication.img_path = img_path
 	fabrication.fabrication = true
 	fabrication.costs = Costs.new(
-			costs[Collections.factions.ANIMAL],
-			costs[Collections.factions.MAGIC],
-			costs[Collections.factions.NATURE],
-			costs[Collections.factions.ROBOT],
+			costs[Collections.factions.PASSION],
+			costs[Collections.factions.IMAGINATION],
+			costs[Collections.factions.GROWTH],
+			costs[Collections.factions.LOGIC],
 	)
 	GameManager.cards_in_play[card_owner_id].append(fabrication)
 	GameManager.battle_map.add_child(fabrication)
@@ -157,10 +157,10 @@ func set_conquered_by(player_id: int, column: int, row: int) -> void:
 
 @rpc("any_peer", "call_local")
 func set_resources(
-	resource_owner_id: int, gold: int, animal: int, magic: int, nature: int, robot: int
+	resource_owner_id: int, gold: int, passion: int, imagionation: int, growth: int, logic: int
 ) -> void:
 	GameManager.resource_bars[resource_owner_id].set_resources_labels(
-		gold, animal, magic, nature, robot
+		gold, passion, imagionation, growth, logic
 	)
 
 

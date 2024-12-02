@@ -100,6 +100,10 @@ func use_card_action(card: CardInPlay) -> bool:
 		if card.exhausted:
 			return true
 	
+	if Collections.purposes.CONQUER_SPACES in card.purposes:
+		if await move_to_conquer_space(card):
+			return true
+	
 	# Finding the first card to attack
 	for c in GameManager.cards_in_play[GameManager.p1_id]:
 		if !is_instance_valid(c):

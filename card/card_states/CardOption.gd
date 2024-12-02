@@ -121,20 +121,20 @@ func _set_card_text_font_size() -> void:
 func _set_costs() -> void:
 	for f in [
 		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Animal,
-			"Cost": card_data["Costs"][Collections.factions.ANIMAL],
+			"Label": $VBox/TopInfo/Costs/CostLabels/Passion,
+			"Cost": card_data["Costs"][Collections.factions.PASSION],
 		},
 		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Magic,
-			"Cost": card_data["Costs"][Collections.factions.MAGIC],
+			"Label": $VBox/TopInfo/Costs/CostLabels/Imagination,
+			"Cost": card_data["Costs"][Collections.factions.IMAGINATION],
 		},
 		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Nature,
-			"Cost": card_data["Costs"][Collections.factions.NATURE],
+			"Label": $VBox/TopInfo/Costs/CostLabels/Growth,
+			"Cost": card_data["Costs"][Collections.factions.GROWTH],
 		},
 		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Robot,
-			"Cost": card_data["Costs"][Collections.factions.ROBOT],
+			"Label": $VBox/TopInfo/Costs/CostLabels/Logic,
+			"Cost": card_data["Costs"][Collections.factions.LOGIC],
 		},
 	]:
 		f["Label"].text = str(f["Cost"])
