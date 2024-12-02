@@ -72,8 +72,8 @@ func _on_passion_deck_button_pressed():
 	GameManager.set_current_deck(DeckCollection.passion_starter["ID"])
 
 
-func _on_imagionation_deck_button_pressed():
-	GameManager.set_current_deck(DeckCollection.imagionation_starter["ID"])
+func _on_imagination_deck_button_pressed():
+	GameManager.set_current_deck(DeckCollection.imagination_starter["ID"])
 
 
 func _on_growth_deck_button_pressed():

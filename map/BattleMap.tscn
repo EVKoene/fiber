@@ -1,9 +1,9 @@
 [gd_scene load_steps=10 format=3 uid="uid://dwqensucdc5ig"]
 
 [ext_resource type="Script" path="res://map/BattleMap.gd" id="1_tqi70"]
-[ext_resource type="PackedScene" uid="uid://b1p3drjd83db6" path="res://player/BattlePauseMenu.tscn" id="2_03bps"]
-[ext_resource type="PackedScene" uid="uid://c6a7g6p6nipw5" path="res://player/ZoomPreview.tscn" id="2_8tgqr"]
-[ext_resource type="Script" path="res://player/ResourceBar.gd" id="3_ox48p"]
+[ext_resource type="PackedScene" uid="uid://b1p3drjd83db6" path="res://battle/player/BattlePauseMenu.tscn" id="2_03bps"]
+[ext_resource type="PackedScene" uid="uid://c6a7g6p6nipw5" path="res://battle/player/ZoomPreview.tscn" id="2_8tgqr"]
+[ext_resource type="Script" path="res://battle/player/ResourceBar.gd" id="3_ox48p"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lndr4"]
 bg_color = Color(0.694118, 0.694118, 0.694118, 0.470588)

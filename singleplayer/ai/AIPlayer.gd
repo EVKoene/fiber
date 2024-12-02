@@ -3,7 +3,7 @@ extends Node
 class_name AIPlayer
 
 
-@onready var card_resolve_scene := preload("res://card/card_states/CardResolve.tscn")
+@onready var card_resolve_scene := preload("res://battle/card/card_states/CardResolve.tscn")
 var ai_turn_manager: AITurnManager
 var player_id: int
 var moving_cards := false

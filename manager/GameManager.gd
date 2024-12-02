@@ -137,6 +137,7 @@ func _setup_card_collection(config: ConfigFile) -> void:
 func start_game() -> void:
 	main_menu.hide_main_menu()
 	var b_map = battle_map_scene.instantiate()
+	GameManager.current_scene = b_map
 	main_menu.add_child(b_map, true)
 
 

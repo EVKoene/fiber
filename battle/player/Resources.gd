@@ -5,7 +5,7 @@ class_name Resources
 
 var gold := 0
 var passion := 0
-var imagionation := 0
+var imagination := 0
 var growth := 0
 var logic := 0
 var resources_owner_id: int
@@ -64,7 +64,7 @@ func add_resource(faction: int, amount: int) -> void:
 		Collections.factions.PASSION:
 			passion += amount
 		Collections.factions.IMAGINATION:
-			imagionation += amount
+			imagination += amount
 		Collections.factions.GROWTH:
 			growth += amount
 		Collections.factions.LOGIC:
@@ -83,7 +83,7 @@ func spend_resource(faction: Collections.factions, value: int) -> void:
 		Collections.factions.PASSION:
 			passion -= value
 		Collections.factions.IMAGINATION:
-			imagionation -= value
+			imagination -= value
 		Collections.factions.GROWTH:
 			growth -= value
 		Collections.factions.LOGIC:
@@ -102,7 +102,7 @@ func refresh(gold_gained: int) -> void:
 func get_resources() -> Dictionary:
 	return {
 		Collections.factions.PASSION: passion,
-		Collections.factions.IMAGINATION: imagionation,
+		Collections.factions.IMAGINATION: imagination,
 		Collections.factions.GROWTH: growth,
 		Collections.factions.LOGIC: logic,
 	}
@@ -111,10 +111,10 @@ func get_resources() -> Dictionary:
 func _update_resources() -> void:
 	if GameManager.is_single_player:
 		GameManager.resource_bars[resources_owner_id].set_resources_labels(
-			gold, passion, imagionation, growth, logic
+			gold, passion, imagination, growth, logic
 		)
 	else:
 		for p_id in GameManager.players:
 			BattleSynchronizer.set_resources.rpc_id(
-				p_id, resources_owner_id, gold, passion, imagionation, growth, logic
+				p_id, resources_owner_id, gold, passion, imagination, growth, logic
 			)

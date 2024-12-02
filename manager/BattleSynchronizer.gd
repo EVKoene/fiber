@@ -7,8 +7,8 @@ necessary information. This means we hardly use the multiplayer spawner or synch
 client and server will create objects and execute functionality seperately. 
 """
 
-@onready var card_in_play_scene: PackedScene = preload("res://card/card_states/CardInPlay.tscn")
-@onready var card_in_hand_scene: PackedScene = preload("res://card/card_states/CardInHand.tscn")
+@onready var card_in_play_scene: PackedScene = preload("res://battle/card/card_states/CardInPlay.tscn")
+@onready var card_in_hand_scene: PackedScene = preload("res://battle/card/card_states/CardInHand.tscn")
 
 
 @rpc("any_peer", "call_local")
@@ -157,10 +157,10 @@ func set_conquered_by(player_id: int, column: int, row: int) -> void:
 
 @rpc("any_peer", "call_local")
 func set_resources(
-	resource_owner_id: int, gold: int, passion: int, imagionation: int, growth: int, logic: int
+	resource_owner_id: int, gold: int, passion: int, imagination: int, growth: int, logic: int
 ) -> void:
 	GameManager.resource_bars[resource_owner_id].set_resources_labels(
-		gold, passion, imagionation, growth, logic
+		gold, passion, imagination, growth, logic
 	)
 
 
@@ -180,7 +180,15 @@ func set_progress_bars() -> void:
 		):
 			GameManager.ai_player.game_over = true
 			GameManager.battle_map.show_text("You win!")
-			TransitionScene.transition_to_overworld()
+			var reward_text := []
+			var battle_rewards := PlayerManager.get_battle_reward()
+			for c in battle_rewards:
+				PlayerManager.add_card_to_collection(c)
+				reward_text.append(str(
+					"Congratulations! You receive ", CardDatabase.cards_info[c]["InGameName"]
+				))
+			
+			TransitionScene.transition_to_overworld(reward_text)
 			return
 		elif (
 			conquered_victory_spaces >= MapSettings.n_progress_bars 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://chc36t6voqi7o"]
 
-[ext_resource type="Script" path="res://card/card_states/CardResolve.gd" id="1_a44lm"]
+[ext_resource type="Script" path="res://battle/card/card_states/CardResolve.gd" id="1_a44lm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3a3wk"]
 bg_color = Color(0.6, 0.6, 0.6, 0.372549)

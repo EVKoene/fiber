@@ -6,7 +6,7 @@ class_name ResourceBar
 func set_resources_labels(
 	gold: int,
 	passion: int,
-	imagionation: int,
+	imagination: int,
 	growth: int,
 	logic: int
 ) -> void:
@@ -18,7 +18,7 @@ func set_resources_labels(
 	for f in [
 		[$CostLabels/Gold, gold],
 		[$CostLabels/Passion, passion], 
-		[$CostLabels/Imagination, imagionation],
+		[$CostLabels/Imagination, imagination],
 		[$CostLabels/Growth, growth],
 		[$CostLabels/Logic, logic],
 	]:

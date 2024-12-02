@@ -138,10 +138,10 @@ func _set_card_cost_visuals() -> void:
 			$Vbox/TopInfo/Costs/CostLabels/Passion.hide()
 			$Vbox/TopInfo/Costs/CostLabels/Passion.text = "0"
 			
-		if costs.imagionation > 0:
+		if costs.imagination > 0:
 			$Vbox/TopInfo/Costs/CostLabels/Imagination.show()
 			$Vbox/TopInfo/Costs/CostLabels/Imagination.text = str(
-				costs.imagionation
+				costs.imagination
 			)
 		else:
 			$Vbox/TopInfo/Costs/CostLabels/Imagination.hide()

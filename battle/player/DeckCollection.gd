@@ -1,6 +1,6 @@
 extends Node
 
-var cards = load("res://card/CardDatabase.gd").cards
+var cards = load("res://battle/card/CardDatabase.gd").cards
 enum deck_ids {
 	PASSION_STARTER, IMAGINATION_STARTER, GROWTH_STARTER, LOGIC_STARTER, GORILLA, 
 	IMAGINATION_MISSILES, LOGIC_FACTORY, BEEFY_BOYS, FRENZY_START, TUTORIAL_DECK, OPPONENT_TESTING,

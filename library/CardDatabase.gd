@@ -240,7 +240,7 @@ var cards_info = {
 		"Lord": false,
 		"Text": "Exhaust: Swap with one of your own units",
 		"Purposes": [],
-		"IMGPath": "res://library/imagionation/images/WizardApprentice.png",
+		"IMGPath": "res://library/imagination/images/WizardApprentice.png",
 	},
 	
 	cards.SWITCHEROO: {
@@ -256,7 +256,7 @@ var cards_info = {
 		"CardRange": -1,
 		"TargetRestrictions": TargetSelection.target_restrictions.ANY_UNITS,
 		"Text": "Pick two units with the same owner and swap them. Add 1 <M>",
-		"IMGPath": "res://library/imagionation/images/Switcheroo.png",
+		"IMGPath": "res://library/imagination/images/Switcheroo.png",
 	},
 	
 	cards.ARCANE_ARROW: {
@@ -272,7 +272,7 @@ var cards_info = {
 		"CardRange": 2,
 		"TargetRestrictions": TargetSelection.target_restrictions.ANY_UNITS,
 		"Text": "Deal 3 damage to a unit",
-		"IMGPath": "res://library/imagionation/images/ArcaneArrow.png",
+		"IMGPath": "res://library/imagination/images/ArcaneArrow.png",
 	},
 	
 	cards.MIST_CONJURER: {
@@ -291,7 +291,7 @@ var cards_info = {
 		"Lord": false,
 		"Text": "Opponent units in adjacent spaces get -1 attack",
 		"Purposes": [Collections.purposes.BATTLE, Collections.purposes.DEBUFF_ADJACENT],
-		"IMGPath": "res://library/imagionation/images/MistConjurer.png",
+		"IMGPath": "res://library/imagination/images/MistConjurer.png",
 	},
 	
 	cards.EPHEMERAL_ASSASSIN: {
@@ -310,7 +310,7 @@ var cards_info = {
 		"Lord": false,
 		"Text": "This unit can move through units",
 		"Purposes": [Collections.purposes.REAR],
-		"IMGPath": "res://library/imagionation/images/EphemeralAssassin.png",
+		"IMGPath": "res://library/imagination/images/EphemeralAssassin.png",
 	},
 
 cards.FLOW_ACCELERATOR: {
@@ -330,7 +330,7 @@ cards.FLOW_ACCELERATOR: {
 		"Text": "When this unit moves, it gets +1 attack and health for each space it moved until
 		your next turn",
 		"Purposes": [Collections.purposes.REAR],
-		"IMGPath": "res://library/imagionation/images/FlowAccelerator.png",
+		"IMGPath": "res://library/imagination/images/FlowAccelerator.png",
 	},
 
 	cards.FIREBALL_SHOOTER: {
@@ -349,7 +349,7 @@ cards.FLOW_ACCELERATOR: {
 		"Purposes": [Collections.purposes.REAR],
 		"Lord": false,
 		"Text": "Exhaust: deal 1 damage to all units in any direction from this unit",
-		"IMGPath": "res://library/imagionation/images/FireballShooter.png",
+		"IMGPath": "res://library/imagination/images/FireballShooter.png",
 	},
 	
 	cards.HOMUNCULUS: {
@@ -368,7 +368,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": false,
 		"Purposes": [Collections.purposes.BATTLE],
 		"Text": "",
-		"IMGPath": "res://library/imagionation/images/Homunculus.png",
+		"IMGPath": "res://library/imagination/images/Homunculus.png",
 	},
 	
 	cards.JELLYFISH_EXTRAORDINAIRE: {
@@ -389,7 +389,7 @@ cards.FLOW_ACCELERATOR: {
 		"Purposes": [Collections.purposes.DEFEND_RESOURCE],
 		"Text": "At the start of your turn, if this unit is in a resource space that is not in 
 		your starting area, draw a card and add <M>.",
-		"IMGPath": "res://library/imagionation/images/JellyfishExtraordinaire.jpg",
+		"IMGPath": "res://library/imagination/images/JellyfishExtraordinaire.jpg",
 	},
 	
 	cards.AUDACIOUS_RESEARCHER: {
@@ -409,7 +409,7 @@ cards.FLOW_ACCELERATOR: {
 		"Purposes": [Collections.purposes.BATTLE],
 		"Text": "At the start of your turn, if this unit is in a row that's at least halfway towards
 		your opponent: draw the top spell in your deck.",
-		"IMGPath": "res://library/imagionation/images/AudaciousResearcher.png",
+		"IMGPath": "res://library/imagination/images/AudaciousResearcher.png",
 	},
 	
 	cards.HYRSMIR_RULER_OF_PHYSICS: {
@@ -428,7 +428,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": true,
 		"Text": "At the start of your turn: Swap any number of units any number of times.",
 		"Purposes": [Collections.purposes.REAR],
-		"IMGPath": "res://library/imagionation/images/HyrsmirRulerOfPhysics.png",
+		"IMGPath": "res://library/imagination/images/HyrsmirRulerOfPhysics.png",
 	},
 	
 	cards.PSYCHIC_TAKEOVER: {
@@ -444,7 +444,7 @@ cards.FLOW_ACCELERATOR: {
 		"TargetRestrictions": TargetSelection.target_restrictions.OPPONENT_UNITS,
 		"CardRange": 1,
 		"Text": "Gain control of an enemy unit",
-		"IMGPath": "res://library/imagionation/images/PsychicTakeover.png",
+		"IMGPath": "res://library/imagination/images/PsychicTakeover.png",
 	},
 	
 	cards.GNOME_PROTECTOR: {

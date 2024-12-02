@@ -3,7 +3,7 @@ extends PanelContainer
 class_name CardInPlay
 
 
-@onready var card_action_menu_scene := preload("res://card/card_assets/CardActionMenu.tscn")
+@onready var card_action_menu_scene := preload("res://battle/card/card_assets/CardActionMenu.tscn")
 
 var card_index := 1
 var max_attack: int
@@ -355,7 +355,7 @@ func _set_labels() -> void:
 		},
 		{
 			"Label": $VBox/TopInfo/Costs/CostLabels/Imagination,
-			"Cost": costs.imagionation,
+			"Cost": costs.imagination,
 		},
 		{
 			"Label": $VBox/TopInfo/Costs/CostLabels/Growth,

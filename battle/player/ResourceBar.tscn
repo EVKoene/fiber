@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://bw64l8ssmwlg6"]
 
-[ext_resource type="Script" path="res://player/ResourceBar.gd" id="1_gcjrd"]
+[ext_resource type="Script" path="res://battle/player/ResourceBar.gd" id="1_gcjrd"]
 [ext_resource type="LabelSettings" uid="uid://dq4n6amohwwnk" path="res://styling/labels/GoldLabel.tres" id="2_2lxrf"]
 [ext_resource type="LabelSettings" uid="uid://dq5kctg5dkitl" path="res://styling/labels/AnimalLabel.tres" id="3_i7j6h"]
 [ext_resource type="LabelSettings" uid="uid://nx6f46ywtswa" path="res://styling/labels/MagicLabel.tres" id="4_cnl6u"]

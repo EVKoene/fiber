@@ -75,7 +75,7 @@ func start_turn(player_id: int) -> void:
 	
 	if GameManager.is_single_player:
 		BattleSynchronizer.refresh_all_units(player_id)
-		call_start_turn_triggered_funcs()
+		await call_start_turn_triggered_funcs()
 	if !GameManager.is_single_player:
 		BattleSynchronizer.refresh_all_units.rpc_id(GameManager.p1_id, player_id)
 		call_start_turn_triggered_funcs.rpc_id(GameManager.p1_id)

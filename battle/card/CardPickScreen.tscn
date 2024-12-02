@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dju5yss6n7nkg"]
 
-[ext_resource type="Script" path="res://card/CardPickScreen.gd" id="1_anj03"]
+[ext_resource type="Script" path="res://battle/card/CardPickScreen.gd" id="1_anj03"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tdogt"]
 bg_color = Color(0.303233, 0.303233, 0.303233, 0.431373)

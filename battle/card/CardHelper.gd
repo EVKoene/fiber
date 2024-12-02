@@ -5,7 +5,7 @@ for cards can be put here.
 
 extends Node
 
-@onready var card_scene = preload("res://card/card_states/CardInPlay.tscn")
+@onready var card_scene = preload("res://battle/card/card_states/CardInPlay.tscn")
 
 
 func cards_in_range(
@@ -124,10 +124,8 @@ func closest_enemy_units(card: CardInPlay) -> Array:
 func closest_conquerable_space(player_id: int, card: CardInPlay) -> Array:
 	var shortest_distance: int = -1
 	var closest_spaces: Array
-	for ps in GameManager.play_spaces:
-		if !ps.territory:
-			continue
-		if ps.territory.owner_id == player_id:
+	for ps in GameManager.victory_spaces:
+		if ps.conquered_by == player_id:
 			continue
 		var distance_to_space = card.current_play_space.distance_to_play_space(
 			ps, card.move_through_units

@@ -2,7 +2,7 @@ extends Panel
 
 class_name CardPickScreen
 
-@onready var card_option_scene := preload("res://card/card_states/CardOption.tscn")
+@onready var card_option_scene := preload("res://battle/card/card_states/CardOption.tscn")
 var card_indices: Array 
 
 

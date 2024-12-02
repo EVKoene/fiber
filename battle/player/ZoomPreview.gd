@@ -8,7 +8,7 @@ var min_attack: int
 var health: int
 var movement: int
 var passion_cost: int
-var imagionation_cost: int
+var imagination_cost: int
 var growth_cost: int
 var logic_cost: int
 var ingame_name: String
@@ -35,7 +35,7 @@ func preview_hand_card(
 	locked = lock_card
 	
 	passion_cost = card.costs.passion
-	imagionation_cost = card.costs.imagionation
+	imagination_cost = card.costs.imagination
 	growth_cost = card.costs.growth
 	logic_cost = card.costs.logic
 	ingame_name = card.ingame_name
@@ -78,7 +78,7 @@ func preview_card_in_play(
 	locked = lock_card
 	
 	passion_cost = card.costs.passion
-	imagionation_cost = card.costs.imagionation
+	imagination_cost = card.costs.imagination
 	growth_cost = card.costs.growth
 	logic_cost = card.costs.logic
 	ingame_name = card.ingame_name
@@ -120,7 +120,7 @@ func preview_card_index(card_index, lock_card: bool) -> void:
 	
 	var card_data: Dictionary = CardDatabase.cards_info[card_index]
 	passion_cost = card_data["Costs"][Collections.factions.PASSION]
-	imagionation_cost = card_data["Costs"][Collections.factions.IMAGINATION]
+	imagination_cost = card_data["Costs"][Collections.factions.IMAGINATION]
 	growth_cost = card_data["Costs"][Collections.factions.GROWTH]
 	logic_cost = card_data["Costs"][Collections.factions.LOGIC]
 	ingame_name = card_data["InGameName"]
@@ -160,7 +160,7 @@ func reset_zoom_preview() -> void:
 	health = 0
 	movement = 0
 	passion_cost = 0
-	imagionation_cost = 0
+	imagination_cost = 0
 	growth_cost = 0
 	logic_cost = 0
 	ingame_name = ""
@@ -208,7 +208,7 @@ func _set_labels() -> void:
 		},
 		{
 			"Label": $VBox/TopInfo/Costs/CostLabels/Imagination,
-			"Cost": imagionation_cost,
+			"Cost": imagination_cost,
 		},
 		{
 			"Label": $VBox/TopInfo/Costs/CostLabels/Growth,

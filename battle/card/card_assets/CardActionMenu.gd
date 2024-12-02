@@ -2,7 +2,7 @@ extends PanelContainer
 
 class_name CardActionMenu
 
-var action_button_scene := preload("res://card/card_assets/CardActionMenuButton.tscn")
+var action_button_scene := preload("res://battle/card/card_assets/CardActionMenuButton.tscn")
 var cip_index: int
 var card_owner_id: int
 var card: CardInPlay
