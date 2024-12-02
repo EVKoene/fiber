@@ -134,7 +134,7 @@ func move_to_play_space(new_column: int, new_row: int) -> void:
 	BattleSynchronizer.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, self)	
 	
 	if GameManager.is_single_player:
-		BattleSynchronizer.move_to_play_space(card_owner_id, card_in_play_index, new_column, new_row)
+		<BattleSynchronizer.move_to_play_space(card_owner_id, card_in_play_index, new_column, new_row)
 	if !GameManager.is_single_player:
 		for p_id in GameManager.players:
 			BattleSynchronizer.move_to_play_space.rpc_id(
