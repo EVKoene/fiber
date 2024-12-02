@@ -2,17 +2,24 @@ extends Node2D
 
 class_name OverworldArea
 
+var pause_menu: Control
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Events.npc_interaction_started.connect(start_npc_interaction)
 	GameManager.current_scene = self
+	pause_menu = $GUI/PauseMenu
 
 
 func start_npc_interaction(npc_id: int) -> void:
 	OverworldManager.can_move = false
 	var npc_properties: Dictionary = NPCDatabase.npc_data[npc_id]
-	OverworldManager.overworld_textbox.read_text(npc_properties["Dialogue"])
+	read_text(npc_properties["Dialogue"])
 	await Events.dialogue_finished
 	if npc_properties["Deck"]:
 		TransitionScene.transition_to_npc_battle(npc_id)
+
+
+func read_text(text_to_read: Array) -> void:
+	OverworldManager.overworld_textbox.read_text(text_to_read)

@@ -7,8 +7,8 @@ necessary information. This means we hardly use the multiplayer spawner or synch
 client and server will create objects and execute functionality seperately. 
 """
 
-@onready var card_in_play_scene: PackedScene = preload("res://card/card_states/CardInPlay.tscn")
-@onready var card_in_hand_scene: PackedScene = preload("res://card/card_states/CardInHand.tscn")
+@onready var card_in_play_scene: PackedScene = preload("res://battle/card/card_states/CardInPlay.tscn")
+@onready var card_in_hand_scene: PackedScene = preload("res://battle/card/card_states/CardInHand.tscn")
 
 
 @rpc("any_peer", "call_local")
@@ -92,10 +92,10 @@ func create_fabrication(
 	fabrication.img_path = img_path
 	fabrication.fabrication = true
 	fabrication.costs = Costs.new(
-			costs[Collections.factions.ANIMAL],
-			costs[Collections.factions.MAGIC],
-			costs[Collections.factions.NATURE],
-			costs[Collections.factions.ROBOT],
+			costs[Collections.factions.PASSION],
+			costs[Collections.factions.IMAGINATION],
+			costs[Collections.factions.GROWTH],
+			costs[Collections.factions.LOGIC],
 	)
 	GameManager.cards_in_play[card_owner_id].append(fabrication)
 	GameManager.battle_map.add_child(fabrication)
@@ -157,10 +157,10 @@ func set_conquered_by(player_id: int, column: int, row: int) -> void:
 
 @rpc("any_peer", "call_local")
 func set_resources(
-	resource_owner_id: int, gold: int, animal: int, magic: int, nature: int, robot: int
+	resource_owner_id: int, gold: int, passion: int, imagination: int, growth: int, logic: int
 ) -> void:
 	GameManager.resource_bars[resource_owner_id].set_resources_labels(
-		gold, animal, magic, nature, robot
+		gold, passion, imagination, growth, logic
 	)
 
 
@@ -180,7 +180,15 @@ func set_progress_bars() -> void:
 		):
 			GameManager.ai_player.game_over = true
 			GameManager.battle_map.show_text("You win!")
-			TransitionScene.transition_to_overworld()
+			var reward_text := []
+			var battle_rewards := PlayerManager.get_battle_reward()
+			for c in battle_rewards:
+				PlayerManager.add_card_to_collection(c)
+				reward_text.append(str(
+					"Congratulations! You receive ", CardDatabase.cards_info[c]["InGameName"]
+				))
+			
+			TransitionScene.transition_to_overworld(reward_text)
 			return
 		elif (
 			conquered_victory_spaces >= MapSettings.n_progress_bars 

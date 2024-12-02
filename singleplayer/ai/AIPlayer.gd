@@ -3,7 +3,7 @@ extends Node
 class_name AIPlayer
 
 
-@onready var card_resolve_scene := preload("res://card/card_states/CardResolve.tscn")
+@onready var card_resolve_scene := preload("res://battle/card/card_states/CardResolve.tscn")
 var ai_turn_manager: AITurnManager
 var player_id: int
 var moving_cards := false
@@ -98,6 +98,10 @@ func use_card_action(card: CardInPlay) -> bool:
 		card.resolve_ability_for_ai()
 		await Events.card_ability_resolved_for_ai
 		if card.exhausted:
+			return true
+	
+	if Collections.purposes.CONQUER_SPACES in card.purposes:
+		if await move_to_conquer_space(card):
 			return true
 	
 	# Finding the first card to attack

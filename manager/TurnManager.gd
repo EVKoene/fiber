@@ -75,7 +75,7 @@ func start_turn(player_id: int) -> void:
 	
 	if GameManager.is_single_player:
 		BattleSynchronizer.refresh_all_units(player_id)
-		call_start_turn_triggered_funcs()
+		await call_start_turn_triggered_funcs()
 	if !GameManager.is_single_player:
 		BattleSynchronizer.refresh_all_units.rpc_id(GameManager.p1_id, player_id)
 		call_start_turn_triggered_funcs.rpc_id(GameManager.p1_id)
@@ -150,4 +150,4 @@ func set_turn_actions_enabled_mp(is_enabled: bool) -> void:
 func call_start_turn_triggered_funcs() -> void:
 	for p_id in GameManager.players:
 		for c in GameManager.cards_in_play[p_id]:
-			c.call_triggered_funcs(Collections.triggers.TURN_STARTED, c)
+			await c.call_triggered_funcs(Collections.triggers.TURN_STARTED, c)

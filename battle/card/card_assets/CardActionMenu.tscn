@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://doei5o5aqs6wx"]
+
+[ext_resource type="Script" path="res://battle/card/card_assets/CardActionMenu.gd" id="1_2bgs4"]
+
+[node name="CardActionMenu" type="PanelContainer"]
+offset_right = 100.0
+offset_bottom = 100.0
+script = ExtResource("1_2bgs4")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.471, 0.467, 0, 1)

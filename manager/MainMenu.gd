@@ -14,7 +14,6 @@ func _ready():
 	$MultiplayerSpawner.add_spawnable_scene("res://manager/TurnManager.tscn")
 	current_deck_label = $DeckButtons/CurrentDeck
 	GameManager.main_menu = self
-	GameManager.set_current_deck(DeckCollection.random_deck())
 
 
 func show_prompt(prompt_text: String) -> void:
@@ -69,20 +68,20 @@ func _on_testing_button_pressed():
 		$MainMenuContainer/VBoxContainer/IPAddress.hide()
 
 
-func _on_animal_deck_button_pressed():
-	GameManager.set_current_deck(DeckCollection.animal_starter["ID"])
+func _on_passion_deck_button_pressed():
+	GameManager.set_current_deck(DeckCollection.passion_starter["ID"])
 
 
-func _on_magic_deck_button_pressed():
-	GameManager.set_current_deck(DeckCollection.magic_starter["ID"])
+func _on_imagination_deck_button_pressed():
+	GameManager.set_current_deck(DeckCollection.imagination_starter["ID"])
 
 
-func _on_nature_deck_button_pressed():
-	GameManager.set_current_deck(DeckCollection.nature_starter["ID"])
+func _on_growth_deck_button_pressed():
+	GameManager.set_current_deck(DeckCollection.growth_starter["ID"])
 
 
-func _on_robot_deck_button_pressed() -> void:
-	GameManager.set_current_deck(DeckCollection.robot_starter["ID"])
+func _on_logic_deck_button_pressed() -> void:
+	GameManager.set_current_deck(DeckCollection.logic_starter["ID"])
 
 
 func _on_random_deck_button_pressed():

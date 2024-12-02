@@ -25,7 +25,7 @@ var p2_id: int
 var players := {}
 var is_single_player := true
 var player_id: int  # The player's own id
-@onready var deck := DeckCollection.player_testing
+@onready var deck: Dictionary : get = _get_current_deck
 
 
 #### BATTLE ###
@@ -108,7 +108,8 @@ func setup_savefile() -> void:
 		var create_dir_error := DirAccess.make_dir_recursive_absolute(save_path)
 		if create_dir_error:
 			print("Error creating directory: ", error_string(create_dir_error))
-		config.set_value("deck_data", "decks", DeckCollection.decks)
+		config.set_value("deck_data", "decks", DeckCollection.starter_decks)
+		config.set_value("deck_data", "current_deck_id", DeckCollection.random_starter_deck_id())
 		var save_error := config.save(collections_path)
 		if save_error:
 			print("Error creating collections file: ", error_string(save_error))
@@ -118,14 +119,15 @@ func setup_savefile() -> void:
 func _setup_card_collection(config: ConfigFile) -> void:
 	var cards := {}
 	for starter_deck in [
-		DeckCollection.animal_starter, DeckCollection.magic_starter, DeckCollection.nature_starter,
-		DeckCollection.robot_starter
+		DeckCollection.decks[DeckCollection.deck_ids.PASSION_STARTER], 
+		DeckCollection.decks[DeckCollection.deck_ids.IMAGINATION_STARTER], 
+		DeckCollection.decks[DeckCollection.deck_ids.GROWTH_STARTER], 
+		DeckCollection.decks[DeckCollection.deck_ids.LOGIC_STARTER],
 	]:
 		for c in starter_deck["Cards"].keys():
 			cards[c] = starter_deck["Cards"][c]
 	
 	config.set_value("card_collection", "cards", cards)
-	print(config.get_value("card_collection", "cards"))
 	var save_error := config.save(collections_path)
 	if save_error:
 		print("Error creating card collection: ", error_string(save_error))
@@ -133,22 +135,23 @@ func _setup_card_collection(config: ConfigFile) -> void:
 
 @rpc("any_peer", "call_local")
 func start_game() -> void:
-	GameManager.main_menu.hide_main_menu()
+	main_menu.hide_main_menu()
 	var b_map = battle_map_scene.instantiate()
-	GameManager.main_menu.add_child(b_map, true)
+	GameManager.current_scene = b_map
+	main_menu.add_child(b_map, true)
 
 
 func start_single_player_battle(npc_id: int) -> void:
 	ai_player = null
 	ai_player_id = -1
 	var npc_data: Dictionary = NPCDatabase.npc_data[npc_id]
-	if !GameManager.players.has(1):
-		GameManager.add_player(
-			1, 1, "Player1", GameManager.deck
+	if !players.has(1):
+		add_player(
+			1, 1, "Player1", deck
 		)
-	GameManager.player_id = 1
+	player_id = 1
 
-	GameManager.add_player(2, 2, npc_data["Name"], npc_data["Deck"])
+	add_player(2, 2, npc_data["Name"], npc_data["Deck"])
 	start_game()
 
 
@@ -161,7 +164,7 @@ func opposing_player_id(p_id: int) -> int:
 
 
 func go_to_overworld() -> void:
-	GameManager.testing = false
+	testing = false
 	OverworldManager.can_move = true
 	var overworld: Node = overworld_scene.instantiate()
 	main_menu.hide_main_menu()
@@ -171,8 +174,11 @@ func go_to_overworld() -> void:
 func set_current_deck(deck_id: int) -> void:
 	var config := ConfigFile.new()
 	config.load(collections_path)
-	deck = config.get_value("deck_data", "decks")[deck_id]
-
+	config.set_value("deck_data", "current_deck_id", deck_id)
+	var save_error := config.save(collections_path)
+	if save_error:
+		print("Error setting deck: ", error_string(save_error))
+	
 	main_menu.current_deck_label.text = str(
 		"Currently: ", deck["DeckName"], "\nIP Address: ", IP.get_local_addresses()[3]
 	)
@@ -181,9 +187,9 @@ func set_current_deck(deck_id: int) -> void:
 @rpc("any_peer")
 func setup_game() -> void:
 	_set_cards_in_hand_and_play.rpc()
-	if GameManager.is_single_player:
+	if is_single_player:
 		_create_resources()
-	elif !GameManager.is_single_player:
+	elif !is_single_player:
 		for i in [1, p1_id, p2_id]:
 			_create_resources.rpc_id(i)
 	_add_turn_managers()
@@ -200,14 +206,14 @@ func _add_turn_managers() -> void:
 
 
 func _add_decks() -> void:
-	for p_id in GameManager.players:
-		var deck_data: Dictionary = GameManager.players[p_id]["Deck"]
+	for p_id in players:
+		var deck_data: Dictionary = players[p_id]["Deck"]
 		decks[p_id] = Deck.new(p_id, deck_data["Cards"], deck_data["StartingCards"])
-		main_menu.add_child(GameManager.decks[p_id])
+		main_menu.add_child(decks[p_id])
 
 
 func _start_first_turn() -> void:
-	var first_player_id = [GameManager.p1_id, GameManager.p2_id].pick_random()
+	var first_player_id = [p1_id, p2_id].pick_random()
 	if is_single_player:
 		set_ready_to_play(true)
 		if first_player_id == p1_id:
@@ -235,12 +241,22 @@ func _set_cards_in_hand_and_play() -> void:
 
 @rpc("call_local")
 func _create_resources():
-	for p_id in GameManager.players:
+	for p_id in players:
 		var res := Resources.new(p_id)
-		GameManager.resources[p_id] = res
+		resources[p_id] = res
 		battle_map.add_child(res, true)
 
 
 @rpc("call_local")
 func set_ready_to_play(is_ready: bool) -> void:
 	is_ready_to_play = is_ready
+
+
+func _get_current_deck() -> Dictionary:
+	if testing:
+		return DeckCollection.decks[DeckCollection.deck_ids.PLAYER_TESTING]
+	
+	var config := ConfigFile.new()
+	config.load(collections_path)
+	var deck_id: int = config.get_value("deck_data", "current_deck_id")
+	return DeckCollection.decks[deck_id]

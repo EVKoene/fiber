@@ -39,4 +39,4 @@ func _on_new_deck_pressed():
 
 
 func _on_return_button_pressed():
-	get_parent().show_pause_menu()
+	GameManager.current_scene.pause_menu.show_pause_menu()

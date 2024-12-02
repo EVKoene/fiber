@@ -1,0 +1,104 @@
+[gd_scene load_steps=10 format=3 uid="uid://cr7g0lyb7yo0h"]
+
+[ext_resource type="Script" path="res://battle/card/card_states/CardOption.gd" id="1_4dpuv"]
+[ext_resource type="Texture2D" uid="uid://blrmfntk4ogf0" path="res://library/passion/images/Animal.png" id="2_ll1aj"]
+[ext_resource type="LabelSettings" uid="uid://dq5kctg5dkitl" path="res://styling/labels/AnimalLabel.tres" id="3_nbu8w"]
+[ext_resource type="LabelSettings" uid="uid://nx6f46ywtswa" path="res://styling/labels/MagicLabel.tres" id="4_rgr8s"]
+[ext_resource type="LabelSettings" uid="uid://ihox33scd0t8" path="res://styling/labels/NatureLabel.tres" id="5_g7seq"]
+[ext_resource type="LabelSettings" uid="uid://bpbd72h7s4e60" path="res://styling/labels/RobotLabel.tres" id="6_axrbf"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_31jns"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aavpi"]
+bg_color = Color(0.741176, 0.741176, 0.741176, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_llkpj"]
+bg_color = Color(0.196078, 0.196078, 0.196078, 0.866667)
+
+[node name="CardOption" type="PanelContainer"]
+custom_minimum_size = Vector2(300, 300)
+script = ExtResource("1_4dpuv")
+
+[node name="CardImage" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("2_ll1aj")
+expand_mode = 3
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="TopInfo" type="HBoxContainer" parent="VBox"]
+custom_minimum_size = Vector2(150, 30)
+layout_mode = 2
+
+[node name="CardNameBG" type="Panel" parent="VBox/TopInfo"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="CardName" type="Label" parent="VBox/TopInfo/CardNameBG"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Animal"
+label_settings = SubResource("LabelSettings_31jns")
+
+[node name="Costs" type="Panel" parent="VBox/TopInfo"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_styles/panel = SubResource("StyleBoxFlat_aavpi")
+
+[node name="CostLabels" type="HBoxContainer" parent="VBox/TopInfo/Costs"]
+custom_minimum_size = Vector2(52, 40)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Passion" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
+layout_mode = 2
+text = "1"
+label_settings = ExtResource("3_nbu8w")
+
+[node name="Imagination" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
+layout_mode = 2
+text = "1"
+label_settings = ExtResource("4_rgr8s")
+
+[node name="Growth" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
+layout_mode = 2
+text = "1"
+label_settings = ExtResource("5_g7seq")
+
+[node name="Logic" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
+layout_mode = 2
+text = "1"
+label_settings = ExtResource("6_axrbf")
+
+[node name="BotInfo" type="HBoxContainer" parent="VBox"]
+layout_mode = 2
+size_flags_vertical = 10
+
+[node name="Movement" type="Label" parent="VBox/BotInfo"]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 8
+text = "1"
+
+[node name="CardText" type="Label" parent="VBox/BotInfo"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_llkpj")
+text = "\"Here you will find additional card rules\""
+autowrap_mode = 2
+
+[node name="BattleStats" type="Label" parent="VBox/BotInfo"]
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 8
+text = "1/1"
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

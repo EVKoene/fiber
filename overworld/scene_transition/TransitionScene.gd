@@ -18,7 +18,7 @@ func transition_to_npc_battle(npc_id: int) -> void:
 	animation_player.play_backwards("fade_scene")
 
 
-func transition_to_overworld() -> void:
+func transition_to_overworld(text_after_transition := []) -> void:
 	GameManager.current_scene.queue_free()
 	GameManager.current_scene = null
 	animation_player.play("fade_scene")
@@ -26,6 +26,8 @@ func transition_to_overworld() -> void:
 	GameManager.call_deferred("go_to_overworld")
 	
 	animation_player.play_backwards("fade_scene")
+	if len(text_after_transition) != 0:
+		GameManager.current_scene.read_text(text_after_transition)
 
 
 func transition_to_deck_builder(deck_id: int) -> void:

@@ -129,7 +129,8 @@ func _setup_existing_deck() -> void:
 
 func _set_deck_id(decks: Dictionary) -> void:
 	#TODO: This is a "temporary" solution to create a new unique ID for each deck, but seems like
-	# it would break quickly
+	# it would break quickly. We want all the decks the player makes to be 1000+ to seperate them
+	# from the deckcollection that's already in the game
 	if decks == {}:
 		deck_id = 1
 	else:
@@ -137,7 +138,10 @@ func _set_deck_id(decks: Dictionary) -> void:
 		for d in decks:
 			if decks[d]["ID"] > highest_deck_id:
 				highest_deck_id = decks[d]["ID"]
-		deck_id = highest_deck_id + 1
+		if highest_deck_id >= 1000:
+			deck_id = highest_deck_id + 1
+		else:
+			deck_id = 1000
 
 
 func _set_zoom_preview_position_and_size() -> void:
