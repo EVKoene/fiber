@@ -164,7 +164,6 @@ var decks := {
 	deck_ids.SMELLY_JACQUES_DECK: {
 		"DeckName": "Frenzy Start",
 		"Cards": {
-			cards.GORILLA: 5,
 			cards.SNEK: 15,  
 			cards.FOLLOW_PHEROMONES: 10, 
 			cards.FELOS_EXPEDITIONIST: 10, 

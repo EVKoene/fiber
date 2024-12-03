@@ -23,3 +23,12 @@ func resolve_spell_for_ai() -> void:
 	resolve_spell(-1, -1)
 	Events.spell_resolved_for_ai.emit()
 	BattleSynchronizer.finish_resolve()
+
+
+func is_spell_to_play_now() -> bool:
+	for c in GameManager.cards_in_hand[GameManager.ai_player_id]:
+		if GameManager.resources[GameManager.ai_player_id].can_pay_costs(c.costs):
+			if c.costs.total >= costs.total:
+				return true
+	
+	return false
