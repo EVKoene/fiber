@@ -103,6 +103,17 @@ func use_card_action(card: CardInPlay) -> bool:
 	if Collections.purposes.CONQUER_SPACES in card.purposes:
 		if await move_to_conquer_space(card):
 			return true
+	if Collections.purposes.DEFEND_RESOURCE in card.purposes:
+		if Collections.play_space_attributes.VICTORY_SPACE in card.current_play_space.attributes:
+			var enemies_in_attack_range := CardHelper.cards_in_range_of_card(
+				card, 1, TargetSelection.target_restictions.OPPONENT_UNITS
+			)
+			if len(enemies_in_attack_range) > 0:
+				card.attack_card(enemies_in_attack_range.pick_random())
+			
+			return true
+		else:
+			return await move_to_conquer_space(card)
 	
 	# Finding the first card to attack
 	for c in GameManager.cards_in_play[GameManager.p1_id]:
@@ -128,11 +139,12 @@ func move_to_conquer_space(card: CardInPlay) -> bool:
 	)
 	
 	if card_path.path_length == 0:
-		return false 
+		return await AIHelper.attack_adjacent_enemies(card)
 	
 	if card_path.path_length <= card.movement:
 		card.move_to_play_space(space_to_move_to.column, space_to_move_to.row)
 		card.exhaust()
+		await AIHelper.attack_adjacent_enemies(card)
 		return true
 	
 	var path_to_take: PlaySpacePath = card.current_play_space.path_to_closest_movable_space(
@@ -140,6 +152,7 @@ func move_to_conquer_space(card: CardInPlay) -> bool:
 	)
 	await card.move_over_path(path_to_take)
 	card.exhaust()
+	await AIHelper.attack_adjacent_enemies(card)
 	return true
 
 

@@ -1,7 +1,7 @@
 extends Node
 
 
-enum npcs { HANS, JOS, MASHA, ROB, JESUS }
+enum npcs { HANS, JACQUES, JESUS, JOS, MASHA, ROB }
 enum character_types {
 	 BEEBOY, BUMBLEBEE_LADY, BUSINESS_CAP_BOY, DINO_BUSINESS_MAN, ROBOT_GUY, JESUS, 
 }
@@ -42,6 +42,13 @@ var npc_data: Dictionary = {
 		"Battle": true,
 		"CharacterModel": character_types.JESUS,
 		"Deck": DeckCollection.decks[DeckCollection.deck_ids.BEEFY_BOYS],
+	},
+	npcs.JACQUES: {
+		"Name": "Jacques",
+		"Dialogue": ["Ew, what's that smell?", "Oh, it's me."],
+		"Battle": true,
+		"CharacterModel": character_types.DINO_BUSINESS_MAN,
+		"Deck": DeckCollection.decks[DeckCollection.deck_ids.SMELLY_JACQUES_DECK],
 	},
 }
 

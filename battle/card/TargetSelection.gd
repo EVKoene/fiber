@@ -4,7 +4,7 @@ signal target_selection_finished
 signal space_selection_finished
 
 
-enum target_restrictions {ANY_SPACE, OWN_UNITS, OPPONENT_UNITS, ANY_UNITS}
+enum target_restrictions { ANY_SPACE, OWN_UNITS, OPPONENT_UNITS, ANY_UNITS }
 
 
 var making_selection := false
