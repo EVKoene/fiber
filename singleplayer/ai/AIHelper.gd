@@ -142,8 +142,8 @@ func conquer_space(card: CardInPlay) -> bool:
 
 func attack_adjacent_enemies(card: CardInPlay) -> bool:
 	var enemies_in_attack_range := CardHelper.cards_in_range_of_card(
-				card, 1, TargetSelection.target_restictions.OPPONENT_UNITS
-			)
+			card, 1, TargetSelection.target_restrictions.OPPONENT_UNITS
+		)
 	if len(enemies_in_attack_range) > 0:
 		await card.attack_card(enemies_in_attack_range.pick_random())
 		return true

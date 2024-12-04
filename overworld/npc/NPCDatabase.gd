@@ -1,7 +1,7 @@
 extends Node
 
 
-enum npcs { HANS, JOS, MASHA, ROB, JESUS, JACQUES }
+enum npcs { HANS, JACQUES, JESUS, JOS, MASHA, ROB }
 enum character_types {
 	 BEEBOY, BUMBLEBEE_LADY, BUSINESS_CAP_BOY, DINO_BUSINESS_MAN, ROBOT_GUY, JESUS, 
 }
