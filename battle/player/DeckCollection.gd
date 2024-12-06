@@ -4,7 +4,7 @@ var cards = load("res://battle/card/CardDatabase.gd").cards
 enum deck_ids {
 	PASSION_STARTER, IMAGINATION_STARTER, GROWTH_STARTER, LOGIC_STARTER, GORILLA, 
 	IMAGINATION_MISSILES, LOGIC_FACTORY, BEEFY_BOYS, FRENZY_START, TUTORIAL_DECK, OPPONENT_TESTING,
-	PLAYER_TESTING, SMELLY_JACQUES_DECK,
+	PLAYER_TESTING, SMELLY_JACQUES, MINIBOSS 
 	}
 
 
@@ -161,8 +161,8 @@ var decks := {
 		},
 	},
 
-	deck_ids.SMELLY_JACQUES_DECK: {
-		"DeckName": "Frenzy Start",
+	deck_ids.SMELLY_JACQUES: {
+		"DeckName": "Smelly Jacques",
 		"Cards": {
 			cards.SNEK: 15,  
 			cards.FOLLOW_PHEROMONES: 10, 
@@ -171,6 +171,22 @@ var decks := {
 		"StartingCards": {
 			cards.GORILLA: 2,
 			cards.SNEK: 1,
+		},
+	},
+	
+
+	deck_ids.MINIBOSS: {
+		"DeckName": "Miniboss",
+		"Cards": {
+			cards.GORILLA: 5,
+			cards.ATTACK_COMMAND: 5,
+			cards.GOOSE: 10,  
+			cards.FOLLOW_PHEROMONES: 10, 
+			cards.FELOS_EXPEDITIONIST: 10, 
+		},
+		"StartingCards": {
+			cards.GORILLA: 2,
+			cards.GOOSE: 1,
 		},
 	},
 

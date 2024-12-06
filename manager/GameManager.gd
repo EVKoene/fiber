@@ -65,7 +65,8 @@ var deck_builder: DeckBuilder
 
 @rpc("any_peer", "call_local")
 func add_player(
-	player_number: int, p_id: int, player_name: String, p_deck: Dictionary
+	player_number: int, p_id: int, player_name: String, p_deck: Dictionary,
+	npc_id: int = -1
 ) -> void:
 	if !players.has(p_id):
 		players[p_id] = {
@@ -73,6 +74,7 @@ func add_player(
 			"PlayerNumber": player_number,
 			"ID": p_id,
 			"Deck": p_deck,
+			"NPCID": npc_id,
 		}
 		if player_number == 1:
 			p1_id = p_id
@@ -88,7 +90,8 @@ func add_player(
 				players[i]["PlayerNumber"], 
 				players[i]["ID"], 
 				players[i]["Name"], 
-				players[i]["Deck"]
+				players[i]["Deck"],
+				players[i]["NPCID"]
 			)
 			if MultiplayerManager.dedicated_server:
 				add_player.rpc_id(
@@ -96,7 +99,8 @@ func add_player(
 					players[i]["PlayerNumber"], 
 					players[i]["ID"], 
 					players[i]["Name"], 
-					players[i]["Deck"]
+					players[i]["Deck"],
+					players[i]["NPCID"]
 				)
 		
 		main_menu.show_start_game_button.rpc()
@@ -151,7 +155,7 @@ func start_single_player_battle(npc_id: int) -> void:
 		)
 	player_id = 1
 
-	add_player(2, 2, npc_data["Name"], npc_data["Deck"])
+	add_player(2, 2, npc_data["Name"], npc_data["Deck"], npc_id)
 	start_game()
 
 
@@ -161,14 +165,6 @@ func opposing_player_id(p_id: int) -> int:
 		return p2_id
 	else:
 		return p1_id
-
-
-func go_to_overworld() -> void:
-	testing = false
-	OverworldManager.can_move = true
-	var overworld: Node = overworld_scene.instantiate()
-	main_menu.hide_main_menu()
-	add_child(overworld)
 
 
 func set_current_deck(deck_id: int) -> void:
@@ -216,6 +212,10 @@ func _start_first_turn() -> void:
 	var first_player_id = [p1_id, p2_id].pick_random()
 	if is_single_player:
 		set_ready_to_play(true)
+		var npc_id: int = players[ai_player_id]["NPCID"]
+		assert(npc_id >= 0, str("Invalid NPC ID: ", npc_id))
+		if NPCDatabase.npc_data[npc_id]["SpecialRules"]:
+			await NPCDatabase.setup_special_rules(npc_id)
 		if first_player_id == p1_id:
 			turn_manager.show_start_turn_text()
 		else:

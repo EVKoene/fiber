@@ -1,10 +1,11 @@
 extends Node
 
 
-enum npcs { HANS, JACQUES, JESUS, JOS, MASHA, ROB }
+enum npcs { HANS, JACQUES, JESUS, JOS, GARY, MASHA, ROB }
 enum character_types {
-	 BEEBOY, BUMBLEBEE_LADY, BUSINESS_CAP_BOY, DINO_BUSINESS_MAN, ROBOT_GUY, JESUS, 
+	 BEEBOY, BUMBLEBEE_LADY, BUSINESS_CAP_BOY, DINO_BUSINESS_MAN, ROBOT_GUY, JESUS, GARY, 
 }
+enum special_rules { ADD_1_MAX_ATTACK, }
 
 
 var npc_data: Dictionary = {
@@ -48,9 +49,33 @@ var npc_data: Dictionary = {
 		"Dialogue": ["Ew, what's that smell?", "Oh, it's me."],
 		"Battle": true,
 		"CharacterModel": character_types.DINO_BUSINESS_MAN,
-		"Deck": DeckCollection.decks[DeckCollection.deck_ids.SMELLY_JACQUES_DECK],
+		"Deck": DeckCollection.decks[DeckCollection.deck_ids.SMELLY_JACQUES],
+	},
+	npcs.GARY: {
+		"Name": "Gary",
+		"Dialogue": ["Bring it on bitch"],
+		"SpecialRules": [special_rules.ADD_1_MAX_ATTACK],
+		"Battle": true,
+		"CharacterModel": character_types.GARY,
+		"Deck": DeckCollection.decks[DeckCollection.deck_ids.MINIBOSS],
 	},
 }
+
+var character_model := {
+	character_types.BEEBOY: "beeboy",
+	character_types.BUMBLEBEE_LADY: "bumblebee_lady",
+	character_types.BUSINESS_CAP_BOY: "business_cap_boy",
+	character_types.DINO_BUSINESS_MAN: "dino_business_man",
+	character_types.GARY: "gary",
+	character_types.ROBOT_GUY: "robot_guy",
+	character_types.JESUS: "jesus",
+}
+
+
+func setup_special_rules(npc_id: int) -> void:
+	match npc_id:
+		npcs.GARY:
+			SpecialRules.add_stat(Collections.stats.MAX_ATTACK, 1)
 
 
 func npc_animation(npc: int, direction: int, animation_type: int) -> String:
@@ -78,12 +103,3 @@ func npc_animation(npc: int, direction: int, animation_type: int) -> String:
 	
 	return str(character_type, "_", direction_string, "_", animation_type_string)
 
-
-var character_model := {
-	character_types.BEEBOY: "beeboy",
-	character_types.BUMBLEBEE_LADY: "bumblebee_lady",
-	character_types.BUSINESS_CAP_BOY: "business_cap_boy",
-	character_types.DINO_BUSINESS_MAN: "dino_business_man",
-	character_types.ROBOT_GUY: "robot_guy",
-	character_types.JESUS: "jesus",
-}

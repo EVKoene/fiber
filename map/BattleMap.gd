@@ -16,6 +16,7 @@ var tutorial_container: PanelContainer
 var text_box: Panel
 var finish_button: Button
 var is_tutorial := false
+var awaiting_input := false
 
 
 func _ready():
@@ -379,6 +380,8 @@ func _input(_event):
 		else:
 			$TextBox.hide()
 	
+	if awaiting_input:
+		Events.instruction_input_received.emit()
 	if GameManager.turn_manager.can_start_turn:
 		GameManager.turn_manager.can_start_turn = false
 		if GameManager.is_single_player:

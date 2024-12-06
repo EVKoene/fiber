@@ -188,7 +188,9 @@ func set_progress_bars() -> void:
 					"Congratulations! You receive ", CardDatabase.cards_info[c]["InGameName"]
 				))
 			
-			TransitionScene.transition_to_overworld(reward_text)
+			TransitionScene.transition_to_overworld(
+				AreaDatabase.area_ids.STARTING, reward_text
+			)
 			return
 		elif (
 			conquered_victory_spaces >= MapSettings.n_progress_bars 
@@ -198,7 +200,7 @@ func set_progress_bars() -> void:
 				GameManager.ai_player.game_over = true
 			
 			GameManager.battle_map.show_text("You lose!")
-			TransitionScene.transition_to_overworld()
+			TransitionScene.transition_to_overworld(AreaDatabase.area_ids.STARTING)
 			return
 		
 		for b in range(len(GameManager.progress_bars[p_id])):

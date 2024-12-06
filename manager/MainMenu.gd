@@ -94,7 +94,7 @@ func _on_exit_pressed() -> void:
 
 func _on_single_player_pressed() -> void:
 	GameManager.is_server = true
-	GameManager.go_to_overworld()
+	TransitionScene.transition_to_overworld_scene(AreaDatabase.area_ids.STARTING)
 
 
 func _on_tutorial_pressed():
