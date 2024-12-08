@@ -440,7 +440,7 @@ func _end_turn() -> void:
 
 
 func _finish_tutorial() -> void:
-	TransitionScene.transition_to_overworld(AreaDatabase.area_ids.STARTING)
+	TransitionScene.transition_to_overworld_scene(AreaDatabase.area_ids.STARTING)
 
 
 func pause_battlemap() -> void:

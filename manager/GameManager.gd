@@ -214,7 +214,7 @@ func _start_first_turn() -> void:
 		set_ready_to_play(true)
 		var npc_id: int = players[ai_player_id]["NPCID"]
 		assert(npc_id >= 0, str("Invalid NPC ID: ", npc_id))
-		if NPCDatabase.npc_data[npc_id]["SpecialRules"]:
+		if "SpecialRules" in NPCDatabase.npc_data[npc_id].keys():
 			await NPCDatabase.setup_special_rules(npc_id)
 		if first_player_id == p1_id:
 			turn_manager.show_start_turn_text()
@@ -260,3 +260,25 @@ func _get_current_deck() -> Dictionary:
 	config.load(collections_path)
 	var deck_id: int = config.get_value("deck_data", "current_deck_id")
 	return DeckCollection.decks[deck_id]
+
+
+func cleanup_game() -> void:
+	is_ready_to_play = false
+	battle_map = null
+	victory_spaces = []
+	turn_manager = null
+	play_spaces = []
+	ps_column_row = {}
+	zoom_preview = null
+	resource_bars = {}
+	progress_bars = {}
+	resources = {}
+	decks = {}
+	cards_in_hand = {}
+	cards_in_play = {}
+	territories = []
+	starting_draw = 1
+
+	### SINGLEPLAYER ###
+	ai_player = null
+	ai_player_id = -1

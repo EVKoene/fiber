@@ -380,14 +380,14 @@ func _input(_event):
 		else:
 			$TextBox.hide()
 	
-	if awaiting_input:
-		Events.instruction_input_received.emit()
-	if GameManager.turn_manager.can_start_turn:
-		GameManager.turn_manager.can_start_turn = false
-		if GameManager.is_single_player:
-			GameManager.turn_manager.start_turn(GameManager.p1_id)
-		if !GameManager.is_single_player:
-			GameManager.turn_manager.start_turn.rpc_id(1, GameManager.player_id)
+		if awaiting_input:
+			Events.instruction_input_received.emit()
+		if GameManager.turn_manager.can_start_turn:
+			GameManager.turn_manager.can_start_turn = false
+			if GameManager.is_single_player:
+				GameManager.turn_manager.start_turn(GameManager.p1_id)
+			if !GameManager.is_single_player:
+				GameManager.turn_manager.start_turn.rpc_id(1, GameManager.player_id)
 
 
 func _unhandled_input(event):

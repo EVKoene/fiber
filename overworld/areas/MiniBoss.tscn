@@ -26,7 +26,7 @@ position = Vector2(1252, 200)
 [node name="TransitionTile" parent="." index="7" instance=ExtResource("3_dwuvv")]
 position = Vector2(1252, 156)
 
-[node name="NpcBody" parent="." index="8" instance=ExtResource("4_x5t5s")]
+[node name="Gary" parent="." index="8" instance=ExtResource("4_x5t5s")]
 position = Vector2(697, 167)
-npc_id = 5
+npc_id = 4
 direction = 1

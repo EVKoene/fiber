@@ -15,17 +15,34 @@ layer_1/tile_data = PackedInt32Array(-4849613, 327682, 21, -4849602, 327682, 21,
 
 [node name="Masha" parent="." index="4" instance=ExtResource("5_msrv8")]
 position = Vector2(-107, -305)
-npc_id = 4
+npc_id = 5
 
 [node name="SmellyJacques" parent="." index="5" instance=ExtResource("5_msrv8")]
 position = Vector2(-277, -458)
 npc_id = 1
 direction = 1
 
-[node name="TransitionTile" parent="." index="7" instance=ExtResource("4_d8btr")]
+[node name="Hans" parent="." index="6" instance=ExtResource("5_msrv8")]
+position = Vector2(-125, -581)
+
+[node name="Jesus" parent="." index="7" instance=ExtResource("5_msrv8")]
+position = Vector2(734, -342)
+npc_id = 2
+
+[node name="Jos" parent="." index="8" instance=ExtResource("5_msrv8")]
+position = Vector2(922, -432)
+npc_id = 3
+direction = 3
+
+[node name="Rob" parent="." index="9" instance=ExtResource("5_msrv8")]
+position = Vector2(714, -532)
+npc_id = 6
+direction = 2
+
+[node name="TransitionTile" parent="." index="11" instance=ExtResource("4_d8btr")]
 position = Vector2(-793, -464)
 scene_id = 1
 
-[node name="TransitionTile2" parent="." index="8" instance=ExtResource("4_d8btr")]
+[node name="TransitionTile2" parent="." index="12" instance=ExtResource("4_d8btr")]
 position = Vector2(-794, -409)
 scene_id = 1

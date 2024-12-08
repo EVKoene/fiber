@@ -27,8 +27,6 @@ func transition_to_overworld_scene(
 	await animation_player.animation_finished
 	
 	animation_player.play_backwards("fade_scene")
-	if len(text_after_transition) != 0:
-		GameManager.current_scene.read_text(text_after_transition)
 	GameManager.testing = false
 	OverworldManager.can_move = true
 	var area_scenepath := load(AreaDatabase.get_area_scene(area_id))
@@ -41,7 +39,9 @@ func transition_to_overworld_scene(
 	else:
 		area_scene.player_position = AreaDatabase.areas[area_id]["StartingPosition"]
 	GameManager.add_child(area_scene)
-	
+	if len(text_after_transition) != 0:
+		GameManager.current_scene.call_deferred("read_text", text_after_transition)
+	GameManager.call_deferred("cleanup_game")
 
 
 

@@ -164,7 +164,7 @@ func _on_finish_button_pressed():
 		if !prompt_answer_positive:
 			return
 	
-	TransitionScene.transition_to_overworld(AreaDatabase.area_ids.STARTING)
+	TransitionScene.transition_to_overworld_scene(AreaDatabase.area_ids.STARTING)
 
 
 func _on_save_button_pressed():

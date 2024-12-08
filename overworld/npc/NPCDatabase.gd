@@ -16,33 +16,12 @@ var npc_data: Dictionary = {
 		"CharacterModel": character_types.BEEBOY,
 		"Deck": DeckCollection.decks[DeckCollection.deck_ids.GORILLA]
 	},
-	npcs.JOS: {
-		"Name": "Jos",
-		"Dialogue": ["Let's see how well you can dance..."],
-		"Battle": true,
-		"CharacterModel": character_types.BUSINESS_CAP_BOY,
-		"Deck": DeckCollection.decks[DeckCollection.deck_ids.IMAGINATION_MISSILES]
-	},
 	npcs.MASHA: {
 		"Name": "Masha",
 		"Dialogue": ["WOOF! WOOF!"],
 		"Battle": true,
 		"CharacterModel": character_types.BUMBLEBEE_LADY,
 		"Deck": DeckCollection.decks[DeckCollection.deck_ids.FRENZY_START]
-	},
-	npcs.ROB: {
-		"Name": "Rob",
-		"Dialogue": ["Everyone has their part to play."],
-		"Battle": true,
-		"CharacterModel": character_types.ROBOT_GUY,
-		"Deck": DeckCollection.decks[DeckCollection.deck_ids.LOGIC_FACTORY],
-	},
-	npcs.JESUS: {
-		"Name": "Jesus",
-		"Dialogue": ["Hi.", "I'm Jesus.", "I play some beefy boys."],
-		"Battle": true,
-		"CharacterModel": character_types.JESUS,
-		"Deck": DeckCollection.decks[DeckCollection.deck_ids.BEEFY_BOYS],
 	},
 	npcs.JACQUES: {
 		"Name": "Jacques",
@@ -58,6 +37,33 @@ var npc_data: Dictionary = {
 		"Battle": true,
 		"CharacterModel": character_types.GARY,
 		"Deck": DeckCollection.decks[DeckCollection.deck_ids.MINIBOSS],
+	},
+	
+	### IMAGINATION DECKS ###
+	npcs.JOS: {
+		"Name": "Jos",
+		"Dialogue": ["Let's see how well you can dance..."],
+		"Battle": true,
+		"CharacterModel": character_types.BUSINESS_CAP_BOY,
+		"Deck": DeckCollection.decks[DeckCollection.deck_ids.IMAGINATION_MISSILES]
+	},
+	
+	### LOGIC DECKS ###
+	npcs.ROB: {
+		"Name": "Rob",
+		"Dialogue": ["Everyone has their part to play."],
+		"Battle": true,
+		"CharacterModel": character_types.ROBOT_GUY,
+		"Deck": DeckCollection.decks[DeckCollection.deck_ids.LOGIC_FACTORY],
+	},
+	
+	### GROWTH DECKS ###
+	npcs.JESUS: {
+		"Name": "Jesus",
+		"Dialogue": ["Hi.", "I'm Jesus.", "I play some beefy boys."],
+		"Battle": true,
+		"CharacterModel": character_types.JESUS,
+		"Deck": DeckCollection.decks[DeckCollection.deck_ids.BEEFY_BOYS],
 	},
 }
 
@@ -75,7 +81,7 @@ var character_model := {
 func setup_special_rules(npc_id: int) -> void:
 	match npc_id:
 		npcs.GARY:
-			SpecialRules.add_stat(Collections.stats.MAX_ATTACK, 1)
+			await SpecialRules.add_stat(Collections.stats.MAX_ATTACK, 1)
 
 
 func npc_animation(npc: int, direction: int, animation_type: int) -> String:
