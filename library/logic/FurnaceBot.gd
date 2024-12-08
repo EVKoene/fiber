@@ -25,7 +25,7 @@ func consume_for_fuel() -> bool:
 		for stat in [
 			Collections.stats.MAX_ATTACK, Collections.stats.MIN_ATTACK, Collections.stats.HEALTH
 		]:
-			CardManipulation.change_battle_stat(stat, card_owner_id, card_in_play_index, 2, -1)
+			CardManipulation.change_battle_stat(stat, card_owner_id, card_in_play_index, 1, -1)
 		
 		BattleSynchronizer.finish_resolve()
 		return true
@@ -48,7 +48,7 @@ func resolve_ability_for_ai() -> void:
 	for stat in [
 			Collections.stats.MAX_ATTACK, Collections.stats.MIN_ATTACK, Collections.stats.HEALTH
 	]:
-		CardManipulation.change_battle_stat(stat, card_owner_id, card_in_play_index, 2, -1)
+		CardManipulation.change_battle_stat(stat, card_owner_id, card_in_play_index, 1, -1)
 	Events.card_ability_resolved_for_ai.emit()
 
 

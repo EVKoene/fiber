@@ -39,11 +39,11 @@ func transition_to_overworld_scene(
 	else:
 		area_scene.player_position = AreaDatabase.areas[area_id]["StartingPosition"]
 	GameManager.add_child(area_scene)
+	GameManager.call_deferred("cleanup_game")
 	if len(text_after_transition) != 0:
 		GameManager.current_scene.call_deferred("read_text", text_after_transition)
-	GameManager.call_deferred("cleanup_game")
-
-
+		await Events.dialogue_finished
+		OverworldManager.can_move = true
 
 
 func transition_to_deck_builder(deck_id: int) -> void:

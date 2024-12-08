@@ -278,6 +278,7 @@ func cleanup_game() -> void:
 	cards_in_play = {}
 	territories = []
 	starting_draw = 1
+	players = {}
 
 	### SINGLEPLAYER ###
 	ai_player = null

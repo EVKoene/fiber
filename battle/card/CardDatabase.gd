@@ -848,7 +848,7 @@ cards.FLOW_ACCELERATOR: {
 		"Health": 4,
 		"Movement": 2,
 		"Lord": false,
-		"Text": "Consume a unit in range 1: This unit gets +2 max attack, min attack and health",
+		"Text": "Consume a unit in range 1: This unit gets +1 max attack, min attack and health",
 		"Purposes": [Collections.purposes.BATTLE],
 		"IMGPath": "res://library/logic/images/FurnaceBot.jpg",
 	},
