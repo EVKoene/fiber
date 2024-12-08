@@ -14,6 +14,7 @@ var line_count: int = 0
 var in_dialogue = false
 var current_state := State.READY
 var text_queue := []
+var stay_in_overworld := false
 
 enum State { READY, READING, FINISHED }
 
@@ -46,6 +47,9 @@ func _process(_delta):
 			if Input.is_action_just_pressed("ui_accept"):
 				_change_state(State.READY)
 				_hide_textbox()
+				if stay_in_overworld:
+					OverworldManager.can_move = true
+				
 
 
 func _display_text() -> void:

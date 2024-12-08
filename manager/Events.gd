@@ -8,6 +8,7 @@ signal resolve_spell_button_pressed
 ### INSTRUCTIONS
 signal show_instructions(instruction_text: String)
 signal hide_instructions
+signal instruction_input_received
 signal prompt_answer_positive(positive: bool)
 
 ### CARD ACTIONS

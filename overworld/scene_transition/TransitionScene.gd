@@ -18,16 +18,32 @@ func transition_to_npc_battle(npc_id: int) -> void:
 	animation_player.play_backwards("fade_scene")
 
 
-func transition_to_overworld(text_after_transition := []) -> void:
-	GameManager.current_scene.queue_free()
-	GameManager.current_scene = null
+func transition_to_overworld_scene(
+	area_id: int, coming_from_area_id := -1, text_after_transition := []) -> void:
+	if GameManager.current_scene:
+		GameManager.current_scene.queue_free()
+		GameManager.current_scene = null
 	animation_player.play("fade_scene")
 	await animation_player.animation_finished
-	GameManager.call_deferred("go_to_overworld")
 	
 	animation_player.play_backwards("fade_scene")
+	GameManager.testing = false
+	OverworldManager.can_move = true
+	var area_scenepath := load(AreaDatabase.get_area_scene(area_id))
+	var area_scene = area_scenepath.instantiate()
+	GameManager.main_menu.hide_main_menu()
+	if coming_from_area_id != -1:
+		area_scene.player_position = AreaDatabase.areas[
+			area_id]["TransitionPosition"][coming_from_area_id
+		]
+	else:
+		area_scene.player_position = AreaDatabase.areas[area_id]["StartingPosition"]
+	GameManager.add_child(area_scene)
+	GameManager.call_deferred("cleanup_game")
 	if len(text_after_transition) != 0:
-		GameManager.current_scene.read_text(text_after_transition)
+		GameManager.current_scene.call_deferred("read_text", text_after_transition)
+		await Events.dialogue_finished
+		OverworldManager.can_move = true
 
 
 func transition_to_deck_builder(deck_id: int) -> void:

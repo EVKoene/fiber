@@ -59,7 +59,7 @@ var cards_info = {
 		"MaxAttack": 1, # 1
 		"MinAttack": 0, # 0
 		"Health": 3, # 3
-		"Movement": 2, # 2
+		"Movement": 1, # 1
 		"Lord": false,
 		"Purposes": [Collections.purposes.CONQUER_SPACES],
 		"Text": "",
@@ -269,8 +269,8 @@ var cards_info = {
 		},
 		"MaxAttack": 1,
 		"MinAttack": 1,
-		"Health": 1,
-		"Movement": 2,
+		"Health": 2,
+		"Movement": 1,
 		"Lord": false,
 		"Text": "Exhaust: Swap with one of your own units",
 		"Purposes": [],
@@ -848,7 +848,7 @@ cards.FLOW_ACCELERATOR: {
 		"Health": 4,
 		"Movement": 2,
 		"Lord": false,
-		"Text": "Consume a unit in range 1: This unit gets +2 max attack, min attack and health",
+		"Text": "Consume a unit in range 1: This unit gets +1 max attack, min attack and health",
 		"Purposes": [Collections.purposes.BATTLE],
 		"IMGPath": "res://library/logic/images/FurnaceBot.jpg",
 	},

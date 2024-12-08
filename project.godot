@@ -40,6 +40,8 @@ MPCardManipulation="*res://manager/MPCardManipulation.gd"
 MultiplayerManager="*res://multiplayer/MultiplayerManager.gd"
 Tutorial="*res://tutorial/Tutorial.gd"
 PlayerManager="*res://overworld/player/PlayerManager.gd"
+AreaDatabase="*res://overworld/areas/AreaDatabase.gd"
+SpecialRules="*res://overworld/npc/SpecialRules.gd"
 
 [display]
 

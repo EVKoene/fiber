@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://cvldikdnlojvi"]
+
+[ext_resource type="Script" path="res://overworld/areas/TransitionTile.gd" id="1_1h8jb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q5vtx"]
+size = Vector2(56, 56)
+
+[node name="TransitionTile" type="Area2D"]
+script = ExtResource("1_1h8jb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(18, 18)
+shape = SubResource("RectangleShape2D_q5vtx")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

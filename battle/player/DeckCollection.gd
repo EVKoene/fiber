@@ -4,7 +4,7 @@ var cards = load("res://battle/card/CardDatabase.gd").cards
 enum deck_ids {
 	PASSION_STARTER, IMAGINATION_STARTER, GROWTH_STARTER, LOGIC_STARTER, GORILLA, 
 	IMAGINATION_MISSILES, LOGIC_FACTORY, BEEFY_BOYS, FRENZY_START, TUTORIAL_DECK, OPPONENT_TESTING,
-	PLAYER_TESTING, SMELLY_JACQUES_DECK,
+	PLAYER_TESTING, SMELLY_JACQUES, MINIBOSS 
 	}
 
 
@@ -27,6 +27,7 @@ var decks := {
 			cards.GORILLA: 2,
 			cards.GOOSE: 1,
 		},
+		"ID": deck_ids.PASSION_STARTER,
 	},
 
 	deck_ids.IMAGINATION_STARTER: {
@@ -49,6 +50,7 @@ var decks := {
 			cards.WIZARD_SCOUT: 2,
 			cards.ARCANE_ARROW: 1,
 		},
+		"ID": deck_ids.IMAGINATION_MISSILES,
 	},
 
 	deck_ids.GROWTH_STARTER: {
@@ -71,6 +73,7 @@ var decks := {
 			cards.GNOME_PROTECTOR: 2,
 			cards.BOTANO_GARDENER: 1,
 		},
+		"ID": deck_ids.GROWTH_STARTER,
 	},
 
 	deck_ids.LOGIC_STARTER: {
@@ -93,6 +96,7 @@ var decks := {
 			cards.ASSEMBLY_BOT: 2,
 			cards.FACTORY_WORKER: 1,
 		},
+		"ID": deck_ids.LOGIC_STARTER,
 	},
 
 	deck_ids.GORILLA: {
@@ -105,6 +109,7 @@ var decks := {
 		"StartingCards": {
 			cards.GORILLA: 3,
 		},
+		"ID": deck_ids.GORILLA,
 	},
 
 	deck_ids.IMAGINATION_MISSILES: {
@@ -119,6 +124,7 @@ var decks := {
 			cards.WIZARD_SCOUT: 2,
 			cards.ARCANE_ARROW: 1,
 		},
+		"ID": deck_ids.IMAGINATION_MISSILES,
 	},
 
 	deck_ids.LOGIC_FACTORY: {
@@ -132,6 +138,7 @@ var decks := {
 		"StartingCards": {
 			cards.ASSEMBLY_BOT: 3,
 		},
+		"ID": deck_ids.LOGIC_FACTORY,
 	},
 
 	deck_ids.BEEFY_BOYS: {
@@ -146,6 +153,7 @@ var decks := {
 			cards.GNOME_PROTECTOR: 2,
 			cards.MORNING_LIGHT: 1,
 		},
+		"ID": deck_ids.BEEFY_BOYS,
 	},
 
 	deck_ids.FRENZY_START: {
@@ -159,10 +167,11 @@ var decks := {
 			cards.FANATIC_FOLLOWER: 2,
 			cards.WARTHOG_BERSERKER: 1,
 		},
+		"ID": deck_ids.FRENZY_START,
 	},
 
-	deck_ids.SMELLY_JACQUES_DECK: {
-		"DeckName": "Frenzy Start",
+	deck_ids.SMELLY_JACQUES: {
+		"DeckName": "Smelly Jacques",
 		"Cards": {
 			cards.SNEK: 15,  
 			cards.FOLLOW_PHEROMONES: 10, 
@@ -172,6 +181,24 @@ var decks := {
 			cards.GORILLA: 2,
 			cards.SNEK: 1,
 		},
+		"ID": deck_ids.SMELLY_JACQUES,
+	},
+	
+
+	deck_ids.MINIBOSS: {
+		"DeckName": "Miniboss",
+		"Cards": {
+			cards.GORILLA: 5,
+			cards.ATTACK_COMMAND: 5,
+			cards.GOOSE: 10,  
+			cards.FOLLOW_PHEROMONES: 10, 
+			cards.FELOS_EXPEDITIONIST: 10, 
+		},
+		"StartingCards": {
+			cards.GORILLA: 2,
+			cards.GOOSE: 1,
+		},
+		"ID": deck_ids.MINIBOSS,
 	},
 
 
@@ -183,9 +210,11 @@ var decks := {
 		"StartingCards": {
 			cards.GORILLA: 3,
 		},
+		"ID": deck_ids.TUTORIAL_DECK,
 	},
 
 	deck_ids.OPPONENT_TESTING: {
+		"DeckName": "Opponent testing",
 		"Cards": {
 			cards.GORILLA: 4, 
 			cards.GOOSE: 4, 
@@ -197,17 +226,18 @@ var decks := {
 		"StartingCards": {
 			cards.GORILLA: 2,
 		},
-		"DeckName": "Opponent testing",
+		"ID": deck_ids.OPPONENT_TESTING,
 	},
 
 	deck_ids.PLAYER_TESTING: {
+		"DeckName": "Player testing",
 		"Cards": {
 			cards.GORILLA: 10,
 		},
 		"StartingCards": {
 			cards.GORILLA_KING: 3
 		},
-		"DeckName": "Player testing",
+		"ID": deck_ids.PLAYER_TESTING,
 	},
 }
 
