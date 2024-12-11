@@ -3,8 +3,8 @@ extends Panel
 
 class_name CardResolve
 
-@onready var zoom_preview_scene := preload("res://battle/player/ZoomPreview.tscn")
-@onready var card_resolve_scene := preload("res://battle/card/card_states/CardResolve.tscn")
+@onready var zoom_preview_scene := load("res://battle/player/ZoomPreview.tscn")
+@onready var card_resolve_scene := load("res://battle/card/card_states/CardResolve.tscn")
 var ai_player := false
 var card_index: int
 var card_in_hand_index
@@ -24,6 +24,7 @@ func _ready():
 func continue_resolve() -> void:
 	if ai_player:
 		_resolve_spell_for_ai()
+		queue_free()
 		return
 	
 	if GameManager.is_single_player:

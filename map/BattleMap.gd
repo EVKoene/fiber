@@ -6,7 +6,7 @@ class_name BattleMap
 @onready var card_scene: PackedScene = preload("res://battle/card/card_states/CardInPlay.tscn")
 @onready var resource_bar_scene: PackedScene = preload("res://battle/player/ResourceBar.tscn")
 @onready var card_pick_scene: PackedScene = preload("res://battle/card/CardPickScreen.tscn")
-@onready var card_resolve_scene := preload("res://battle/card/card_states/CardResolve.tscn")
+@onready var card_resolve_scene := load("res://battle/card/card_states/CardResolve.tscn")
 
 var map = MapDatabase.maps.BASE_MAP
 var map_data = MapDatabase.map_data[map]
@@ -206,12 +206,12 @@ func _set_zoom_preview_position_and_size() -> void:
 		MapSettings.total_screen.x * 0.2, MapSettings.total_screen.x * 0.2
 	)
 	# Multiplying the zoom_preview_size.x with 1.1 to adjust for border size
-	$ZoomPreview.position.x = MapSettings.total_screen.x - zoom_preview_size.x * 1.05 
-	$ZoomPreview.position.y = MapSettings.play_area_start.y
-	$ZoomPreview.scale.x *= zoom_preview_size.x / $ZoomPreview.size.x
-	$ZoomPreview.scale.y *= zoom_preview_size.x / $ZoomPreview.size.y
+	$BattleZoomPreview.position.x = MapSettings.total_screen.x - zoom_preview_size.x * 1.05 
+	$BattleZoomPreview.position.y = MapSettings.play_area_start.y
+	$BattleZoomPreview.scale.x *= zoom_preview_size.x / $BattleZoomPreview.size.x
+	$BattleZoomPreview.scale.y *= zoom_preview_size.x / $BattleZoomPreview.size.y
 	MapSettings.zoom_preview_size = zoom_preview_size
-	GameManager.zoom_preview = $ZoomPreview
+	GameManager.zoom_preview = $BattleZoomPreview
 
 
 func _set_resource_bars_position_and_size() -> void:

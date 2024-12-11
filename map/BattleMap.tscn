@@ -62,7 +62,8 @@ horizontal_alignment = 1
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath("..")
 
-[node name="ZoomPreview" parent="." instance=ExtResource("2_8tgqr")]
+[node name="BattleZoomPreview" parent="." instance=ExtResource("2_8tgqr")]
+visible = false
 
 [node name="EndTurnButton" type="Button" parent="."]
 custom_minimum_size = Vector2(100, 100)
