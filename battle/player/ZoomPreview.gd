@@ -24,11 +24,13 @@ var locked := false
 func _ready():
 	_add_border()
 	_set_container_sizes()
+	_add_cost_background()
 
 
 func preview_hand_card(
 	card: CardInHand, lock_card: bool
 ) -> void:
+	show()
 	if locked and !lock_card:
 		return
 	
@@ -72,6 +74,7 @@ func preview_hand_card(
 func preview_card_in_play(
 	card: CardInPlay, lock_card: bool
 ) -> void:
+	show()
 	if locked and !lock_card:
 		return
 	
@@ -113,6 +116,7 @@ func preview_card_in_play(
 
 
 func preview_card_index(card_index, lock_card: bool) -> void:
+	show()
 	if locked and !lock_card:
 		return
 	
@@ -264,8 +268,12 @@ func _set_card_text_font_size() -> void:
 		)
 	$VBox/TopInfo/CardNameBG/CardName.label_settings = LabelSettings.new()
 	$VBox/BotInfo/CardText.label_settings = LabelSettings.new()
+	$VBox/BotInfo/Movement.label_settings = LabelSettings.new()
+	$VBox/BotInfo/BattleStats.label_settings = LabelSettings.new()
 	$VBox/TopInfo/CardNameBG/CardName.label_settings.font_size = max_font
 	$VBox/BotInfo/CardText.label_settings.font_size = card_text_font_size
+	$VBox/BotInfo/Movement.label_settings.font_size = max_font
+	$VBox/BotInfo/BattleStats.label_settings.font_size = max_font
 	
 	for cost_label in [
 		[$VBox/TopInfo/Costs/CostLabels/Passion, Collections.factions.PASSION],
@@ -274,11 +282,17 @@ func _set_card_text_font_size() -> void:
 		[$VBox/TopInfo/Costs/CostLabels/Logic, Collections.factions.LOGIC],
 	]:
 		cost_label[0].label_settings = LabelSettings.new()
-		cost_label[0].label_settings.font_color = Styling.faction_colors[[cost_label[1]]]
 		cost_label[0].label_settings.font_size = max_font
+		cost_label[0].label_settings.font_color = Styling.faction_colors[[cost_label[1]]]
 
 
 func _add_border() -> void:
 	var border := StyleBoxFlat.new()
 	add_theme_stylebox_override("panel", border)
 	get_theme_stylebox("panel").set_border_width_all(size.y / 10)
+
+
+func _add_cost_background() -> void:
+	var background := StyleBoxFlat.new()
+	$VBox/TopInfo/Costs.add_theme_stylebox_override("panel", background)
+	background.set("bg_color", Color("bdbdbd"))

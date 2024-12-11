@@ -89,21 +89,21 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="AnimalDeckButton" type="Button" parent="DeckButtons"]
+[node name="PassionDeckButton" type="Button" parent="DeckButtons"]
 layout_mode = 2
-text = "Animal Deck"
+text = "Passion Deck"
 
-[node name="MagicDeckButton" type="Button" parent="DeckButtons"]
+[node name="ImaginationDeckButton" type="Button" parent="DeckButtons"]
 layout_mode = 2
-text = "Magic Deck"
+text = "Imagination Deck"
 
-[node name="NatureDeckButton" type="Button" parent="DeckButtons"]
+[node name="GrowthDeckButton" type="Button" parent="DeckButtons"]
 layout_mode = 2
-text = "Nature Deck"
+text = "Growth Deck"
 
-[node name="RobotDeckButton" type="Button" parent="DeckButtons"]
+[node name="LogicDeckButton" type="Button" parent="DeckButtons"]
 layout_mode = 2
-text = "Robot Deck"
+text = "Logic Deck"
 
 [node name="RandomDeckButton" type="Button" parent="DeckButtons"]
 layout_mode = 2
@@ -121,8 +121,8 @@ layout_mode = 2
 [connection signal="pressed" from="MainMenuContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
 [connection signal="pressed" from="MainMenuContainer/VBoxContainer/DedicatedServer" to="." method="_on_dedicated_server_pressed"]
 [connection signal="pressed" from="TestingButton" to="." method="_on_testing_button_pressed"]
-[connection signal="pressed" from="DeckButtons/AnimalDeckButton" to="." method="_on_animal_deck_button_pressed"]
-[connection signal="pressed" from="DeckButtons/MagicDeckButton" to="." method="_on_magic_deck_button_pressed"]
-[connection signal="pressed" from="DeckButtons/NatureDeckButton" to="." method="_on_nature_deck_button_pressed"]
-[connection signal="pressed" from="DeckButtons/RobotDeckButton" to="." method="_on_robot_deck_button_pressed"]
+[connection signal="pressed" from="DeckButtons/PassionDeckButton" to="." method="_on_animal_deck_button_pressed"]
+[connection signal="pressed" from="DeckButtons/ImaginationDeckButton" to="." method="_on_magic_deck_button_pressed"]
+[connection signal="pressed" from="DeckButtons/GrowthDeckButton" to="." method="_on_nature_deck_button_pressed"]
+[connection signal="pressed" from="DeckButtons/LogicDeckButton" to="." method="_on_robot_deck_button_pressed"]
 [connection signal="pressed" from="DeckButtons/RandomDeckButton" to="." method="_on_random_deck_button_pressed"]

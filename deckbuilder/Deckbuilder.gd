@@ -3,7 +3,7 @@ extends Control
 
 class_name DeckBuilder
 
-@onready var zoom_preview = $HBoxContainer/PanelContainer/ZoomPreview
+@onready var zoom_preview = $HBoxContainer/PanelContainer/DBZoomPreview
 @onready var deck_builder_card_scene := preload("res://deckbuilder/DeckbuilderCard.tscn")
 @onready var save_path := "user://savedata/"
 @onready var collections_path := str(save_path, "collections.ini")
