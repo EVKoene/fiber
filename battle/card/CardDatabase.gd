@@ -29,12 +29,12 @@ var cards_info = {
 	cards.GORILLA: {
 		"InGameName": "Gorilla",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.PASSION],
+		"fibers": [Collections.fibers.PASSION],
 		"Costs": {
-			Collections.factions.PASSION: 1,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 1,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 3, # 3
 		"MinAttack": 0, # 0
@@ -49,12 +49,12 @@ var cards_info = {
 	cards.FANATIC_FOLLOWER: {
 		"InGameName": "Fanatic Follower",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.PASSION],
+		"fibers": [Collections.fibers.PASSION],
 		"Costs": {
-			Collections.factions.PASSION: 1,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 1,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 1, # 1
 		"MinAttack": 0, # 0
@@ -69,12 +69,12 @@ var cards_info = {
 	cards.ATTACK_COMMAND: {
 		"InGameName": "Attack Command",
 		"CardType": Collections.card_types.SPELL,
-		"Factions": [Collections.factions.PASSION],
+		"fibers": [Collections.fibers.PASSION],
 		"Costs": {
-			Collections.factions.PASSION: 1,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 1,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
 		},
 		"TargetRestrictions": TargetSelection.target_restrictions.OWN_UNITS,
 		"Text": "Pick one of your units. Deal damage equal to it's max attack to a unit in range 2.",
@@ -85,12 +85,12 @@ var cards_info = {
 	cards.GOOSE: {
 		"InGameName": "Goose",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.PASSION],
+		"fibers": [Collections.fibers.PASSION],
 		"Costs": {
-			Collections.factions.PASSION: 2,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 2,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 3,
 		"MinAttack": 1,
@@ -105,12 +105,12 @@ var cards_info = {
 	cards.WARTHOG_BERSERKER: {
 		"InGameName": "Warthog Berserker",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.PASSION],
+		"fibers": [Collections.fibers.PASSION],
 		"Costs": {
-			Collections.factions.PASSION: 3, # 3
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 3, # 3
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 4,
 		"MinAttack": 2,
@@ -125,12 +125,12 @@ var cards_info = {
 	cards.SNEK: {
 		"InGameName": "Snek",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.PASSION],
+		"fibers": [Collections.fibers.PASSION],
 		"Costs": {
-			Collections.factions.PASSION: 3, # 3
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 3, # 3
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 3,
 		"MinAttack": 1,
@@ -146,12 +146,12 @@ var cards_info = {
 	cards.FOLLOW_PHEROMONES: {
 		"InGameName": "Follow Pheromones",
 		"CardType": Collections.card_types.SPELL,
-		"Factions": [Collections.factions.PASSION],
+		"fibers": [Collections.fibers.PASSION],
 		"Costs": {
-			Collections.factions.PASSION: 3, # 3
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 3, # 3
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
 		},
 		"CardRange": -1,
 		"TargetRestrictions": TargetSelection.target_restrictions.ANY_SPACE,
@@ -163,12 +163,12 @@ var cards_info = {
 	cards.GORILLA_BATTLECALLER: {
 		"InGameName": "Gorilla Battlecaller",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.PASSION],
+		"fibers": [Collections.fibers.PASSION],
 		"Costs": {
-			Collections.factions.PASSION: 4, # 4
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 4, # 4
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 3,
 		"MinAttack": 1,
@@ -183,12 +183,12 @@ var cards_info = {
 	cards.STAMPEDE: {
 		"InGameName": "Stampede",
 		"CardType": Collections.card_types.SPELL,
-		"Factions": [Collections.factions.PASSION],
+		"fibers": [Collections.fibers.PASSION],
 		"Costs": {
-			Collections.factions.PASSION: 5, # 5
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 5, # 5
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
 		},
 		"CardRange": -1,
 		"TargetRestrictions": TargetSelection.target_restrictions.ANY_SPACE,
@@ -199,12 +199,12 @@ var cards_info = {
 	cards.FELOS_EXPEDITIONIST: {
 		"InGameName": "Felos Expeditionist",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.PASSION],
+		"fibers": [Collections.fibers.PASSION],
 		"Costs": {
-			Collections.factions.PASSION: 5, # 5
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 5, # 5
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 5,
 		"MinAttack": 3,
@@ -219,12 +219,12 @@ var cards_info = {
 	cards.GORILLA_KING: {
 		"InGameName": "GorillaKing",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.PASSION],
+		"fibers": [Collections.fibers.PASSION],
 		"Costs": {
-			Collections.factions.PASSION: 6, # 4
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 6, # 4
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 5,
 		"MinAttack": 1,
@@ -239,12 +239,12 @@ var cards_info = {
 	cards.SKON_INSECT_FATHER: {
 		"InGameName": "S`kon, Insect Father",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.PASSION],
+		"fibers": [Collections.fibers.PASSION],
 		"Costs": {
-			Collections.factions.PASSION: 6, # 6
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 6, # 6
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 3,
 		"MinAttack": 1,
@@ -259,13 +259,13 @@ var cards_info = {
 	
 	cards.WIZARD_SCOUT: {
 		"InGameName": "Wizard Scout",
-		"Factions": [Collections.factions.IMAGINATION],
+		"fibers": [Collections.fibers.IMAGINATION],
 		"CardType": Collections.card_types.UNIT,
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 1, # 1
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 1, # 1
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 1,
 		"MinAttack": 1,
@@ -280,12 +280,12 @@ var cards_info = {
 	cards.SWITCHEROO: {
 		"InGameName": "Switcheroo",
 		"CardType": Collections.card_types.SPELL,
-		"Factions": [Collections.factions.IMAGINATION],
+		"fibers": [Collections.fibers.IMAGINATION],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 1,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 1,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
 		},
 		"CardRange": -1,
 		"TargetRestrictions": TargetSelection.target_restrictions.ANY_UNITS,
@@ -296,12 +296,12 @@ var cards_info = {
 	cards.MIST_CONJURER: {
 		"InGameName": "Mist Conjurer",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.IMAGINATION],
+		"fibers": [Collections.fibers.IMAGINATION],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 2, # 3
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 2, # 3
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 3,
 		"MinAttack": 1,
@@ -316,12 +316,12 @@ var cards_info = {
 	cards.ARCANE_ARROW: {
 		"InGameName": "Arcane Arrow",
 		"CardType": Collections.card_types.SPELL,
-		"Factions": [Collections.factions.IMAGINATION],
+		"fibers": [Collections.fibers.IMAGINATION],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 2, # 3
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 2, # 3
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
 		},
 		"CardRange": 2,
 		"TargetRestrictions": TargetSelection.target_restrictions.ANY_UNITS,
@@ -332,12 +332,12 @@ var cards_info = {
 	cards.FIREBALL_SHOOTER: {
 		"InGameName": "Fireball Shooter",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.IMAGINATION],
+		"fibers": [Collections.fibers.IMAGINATION],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 3, # 3
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 3, # 3
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 3,
 		"MinAttack": 1,
@@ -352,12 +352,12 @@ var cards_info = {
 cards.FLOW_ACCELERATOR: {
 		"InGameName": "Flow Accelerator",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.IMAGINATION],
+		"fibers": [Collections.fibers.IMAGINATION],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 3, # 3
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 3, # 3
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 2,
 		"MinAttack": 1,
@@ -372,16 +372,16 @@ cards.FLOW_ACCELERATOR: {
 	cards.AUDACIOUS_RESEARCHER: {
 		"InGameName": "Audacious Researcher",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.IMAGINATION],
+		"fibers": [Collections.fibers.IMAGINATION],
 		"MaxAttack": 4,
 		"MinAttack": 2,
 		"Health": 4,
 		"Movement": 1,
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 4, # 4
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 4, # 4
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
 		},
 		"Lord": false,
 		"Purposes": [Collections.purposes.BATTLE],
@@ -392,13 +392,13 @@ cards.FLOW_ACCELERATOR: {
 	
 	cards.HOMUNCULUS: {
 		"InGameName": "Homunculus",
-		"Factions": [Collections.factions.IMAGINATION],
+		"fibers": [Collections.fibers.IMAGINATION],
 		"CardType": Collections.card_types.UNIT,
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 4,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 4,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 5,
 		"MinAttack": 3,
@@ -413,12 +413,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.EPHEMERAL_ASSASSIN: {
 		"InGameName": "Ephemeral Assassin",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.IMAGINATION],
+		"fibers": [Collections.fibers.IMAGINATION],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 5,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 5,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 6,
 		"MinAttack": 2,
@@ -432,13 +432,13 @@ cards.FLOW_ACCELERATOR: {
 	
 	cards.JELLYFISH_EXTRAORDINAIRE: {
 		"InGameName": "Jellyfish Extraordinaire",
-		"Factions": [Collections.factions.IMAGINATION],
+		"fibers": [Collections.fibers.IMAGINATION],
 		"CardType": Collections.card_types.UNIT,
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 5, # 5
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 5, # 5
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 4,
 		"MinAttack": 3,
@@ -455,12 +455,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.HYRSMIR_RULER_OF_PHYSICS: {
 		"InGameName": "Hyrsmir, Ruler of Physics",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.IMAGINATION],
+		"fibers": [Collections.fibers.IMAGINATION],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 6,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 6,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 4,
 		"MinAttack": 2,
@@ -475,12 +475,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.PSYCHIC_TAKEOVER: {
 		"InGameName": "Psychic Takeover",
 		"CardType": Collections.card_types.SPELL,
-		"Factions": [Collections.factions.IMAGINATION],
+		"fibers": [Collections.fibers.IMAGINATION],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 6, # 4
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 6, # 4
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
 		},
 		"TargetRestrictions": TargetSelection.target_restrictions.OPPONENT_UNITS,
 		"CardRange": 1,
@@ -490,17 +490,17 @@ cards.FLOW_ACCELERATOR: {
 	
 	cards.GNOME_PROTECTOR: {
 		"InGameName": "Gnome Protector",
-		"Factions": [Collections.factions.GROWTH],
+		"fibers": [Collections.fibers.GROWTH],
 		"CardType": Collections.card_types.UNIT,
 		"MaxAttack": 2,
 		"MinAttack": 1,
 		"Health": 2,
 		"Movement": 1,
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 1, # 1
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 1, # 1
+			Collections.fibers.LOGIC: 0,
 		},
 		"Lord": false,
 		"Text": "Your units in adjacent spaces have +1 health",
@@ -510,12 +510,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.MORNING_LIGHT: {
 		"InGameName": "Morning Light",
 		"CardType": Collections.card_types.SPELL,
-		"Factions": [Collections.factions.GROWTH],
+		"fibers": [Collections.fibers.GROWTH],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 1, # 1
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 1, # 1
+			Collections.fibers.LOGIC: 0,
 		},
 		"CardRange": 0,
 		"TargetRestrictions": TargetSelection.target_restrictions.ANY_UNITS,
@@ -526,12 +526,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.BOTANO_GARDENER: {
 		"CardType": Collections.card_types.UNIT,
 		"InGameName": "Botano Gardener",
-		"Factions": [Collections.factions.GROWTH],
+		"fibers": [Collections.fibers.GROWTH],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 2,
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 2,
+			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 2,
 		"MinAttack": 1,
@@ -546,12 +546,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.FIRE_GOLEM: {
 		"InGameName": "Fire Golem",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.GROWTH],
+		"fibers": [Collections.fibers.GROWTH],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 3, # 3
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 3, # 3
+			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 2, # 1
 		"MinAttack": 1, # 1
@@ -567,12 +567,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.HAIL_STORM: {
 		"InGameName": "Hail Storm",
 		"CardType": Collections.card_types.SPELL,
-		"Factions": [Collections.factions.GROWTH],
+		"fibers": [Collections.fibers.GROWTH],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 3, # 3
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 3, # 3
+			Collections.fibers.LOGIC: 0,
 		},
 		"CardRange": -1,
 		"TargetRestrictions": TargetSelection.target_restrictions.ANY_SPACE,
@@ -583,12 +583,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.ICE_GOLEM: {
 		"InGameName": "Ice Golem",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.GROWTH],
+		"fibers": [Collections.fibers.GROWTH],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 3, # 4
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 3, # 4
+			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 3,
 		"MinAttack": 1,
@@ -604,12 +604,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.EARTH_GOLEM: {
 		"InGameName": "Earth Golem",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.GROWTH],
+		"fibers": [Collections.fibers.GROWTH],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 4,
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 4,
+			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 2,
 		"MinAttack": 2,
@@ -624,12 +624,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.PROTECTOR_OF_THE_FOREST: {
 		"InGameName": "Protector of the Forest",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.GROWTH],
+		"fibers": [Collections.fibers.GROWTH],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 4, # 6
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 4, # 6
+			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 4,
 		"MinAttack": 2,
@@ -644,12 +644,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.HEART_OF_THE_FOREST: {
 		"InGameName": "Heart of the Forest",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.GROWTH],
+		"fibers": [Collections.fibers.GROWTH],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 5, # 8
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 5, # 8
+			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 0,
 		"MinAttack": 0,
@@ -664,12 +664,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.VOLCANIC_ERUPTION: {
 		"InGameName": "Volcanic Eruption",
 		"CardType": Collections.card_types.SPELL,
-		"Factions": [Collections.factions.GROWTH],
+		"fibers": [Collections.fibers.GROWTH],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 5, # 4
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 5, # 4
+			Collections.fibers.LOGIC: 0,
 		},
 		"CardRange": -1,
 		"TargetRestrictions": TargetSelection.target_restrictions.ANY_SPACE,
@@ -681,12 +681,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.PRANCING_VERDEN: {
 		"InGameName": "Prancing Verden",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.GROWTH],
+		"fibers": [Collections.fibers.GROWTH],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 6, # 6
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 6, # 6
+			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 3,
 		"MinAttack": 2,
@@ -702,12 +702,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.MARCELLA_WHO_NURTURES_GROWTH: {
 		"InGameName": "Marcella, Who Nurtures Growth",
 		"CardType": Collections.card_types.UNIT,		
-		"Factions": [Collections.factions.GROWTH],
+		"fibers": [Collections.fibers.GROWTH],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 6, # 8
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 6, # 8
+			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 4,
 		"MinAttack": 3,
@@ -722,12 +722,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.ASSEMBLY_BOT: {
 		"InGameName": "Assembly Bot",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.LOGIC],
+		"fibers": [Collections.fibers.LOGIC],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 1,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 1,
 		},
 		"MaxAttack": 1,
 		"MinAttack": 0,
@@ -743,12 +743,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.OBSTRUCTION_CONSTRUCTION: {
 		"InGameName": "Obstruction Construction",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.LOGIC],
+		"fibers": [Collections.fibers.LOGIC],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 1,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 1,
 		},
 		"MaxAttack": 0,
 		"MinAttack": 0,
@@ -763,12 +763,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.SHOCK_CHARGE: {
 		"InGameName": "Shock Charge",
 		"CardType": Collections.card_types.SPELL,
-		"Factions": [Collections.factions.LOGIC],
+		"fibers": [Collections.fibers.LOGIC],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 1,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 1,
 		},
 		"Text": "Refresh up to two units.",
 		"CardRange": -1,
@@ -779,12 +779,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.FACTORY_WORKER: {
 		"InGameName": "Factory Worker",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.LOGIC],
+		"fibers": [Collections.fibers.LOGIC],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 2,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 2,
 		},
 		"MaxAttack": 2,
 		"MinAttack": 0,
@@ -799,12 +799,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.NETWORK_FEEDER: {
 		"InGameName": "Network Feeder",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.LOGIC],
+		"fibers": [Collections.fibers.LOGIC],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 3,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 3,
 		},
 		"MaxAttack": 1,
 		"MinAttack": 1,
@@ -819,12 +819,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.EXTERMINATE: {
 		"InGameName": "Exterminate",
 		"CardType": Collections.card_types.SPELL,
-		"Factions": [Collections.factions.LOGIC],
+		"fibers": [Collections.fibers.LOGIC],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 3, # 3
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 3, # 3
 		},
 		"Text": "Consume one of your own units: Destroy a unit within range 1 of the consumed unit",
 		"CardRange": -1,
@@ -836,12 +836,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.FURNACE_BOT: {
 		"InGameName": "Furnace Bot",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.LOGIC],
+		"fibers": [Collections.fibers.LOGIC],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 4, # 2
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 4, # 2
 		},
 		"MaxAttack": 2,
 		"MinAttack": 1,
@@ -856,12 +856,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.ZOLOI_CHARGER: {
 		"InGameName": "Zoloi Charger",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.LOGIC],
+		"fibers": [Collections.fibers.LOGIC],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 4, # 6
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 4, # 6
 		},
 		"MaxAttack": 4,
 		"MinAttack": 2,
@@ -876,12 +876,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.PLUG_BUDDY: {
 		"InGameName": "Plug Buddy",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.LOGIC],
+		"fibers": [Collections.fibers.LOGIC],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 5, # 5
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 5, # 5
 		},
 		"MaxAttack": 3,
 		"MinAttack": 1,
@@ -896,12 +896,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.COMPUTING_BOT: {
 		"InGameName": "Computing Bot",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.LOGIC],
+		"fibers": [Collections.fibers.LOGIC],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 5, # 4
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 5, # 4
 		},
 		"MaxAttack": 4,
 		"MinAttack": 2,
@@ -916,12 +916,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.COPY_MACHINE: {
 		"InGameName": "Copy Machine",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.LOGIC],
+		"fibers": [Collections.fibers.LOGIC],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 6, # 7
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 6, # 7
 		},
 		"MaxAttack": 4,
 		"MinAttack": 2,
@@ -937,12 +937,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.ZALOGI_MIND_OF_MACHINES: {
 		"InGameName": "Zalogi, Mind Of Machines",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.LOGIC],
+		"fibers": [Collections.fibers.LOGIC],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 6, # 7
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 6, # 7
 		},
 		"MaxAttack": 6,
 		"MinAttack": 4,
@@ -957,12 +957,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.PLUTO_MUSICAL_GUIDE: {
 		"InGameName": "Pluto, Musical Guide",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.PASSION, Collections.factions.IMAGINATION],
+		"fibers": [Collections.fibers.PASSION, Collections.fibers.IMAGINATION],
 		"Costs": {
-			Collections.factions.PASSION: 2,
-			Collections.factions.IMAGINATION: 3,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 2,
+			Collections.fibers.IMAGINATION: 3,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
 		},
 		"Attack": 4,
 		"Health": 4,
@@ -972,10 +972,10 @@ cards.FLOW_ACCELERATOR: {
 		"CardFuncs": [{
 			"ActiveFunc": true,
 			"Costs": {
-				Collections.factions.PASSION: 0,
-				Collections.factions.IMAGINATION: 0,
-				Collections.factions.GROWTH: 0,
-				Collections.factions.LOGIC: 0,
+				Collections.fibers.PASSION: 0,
+				Collections.fibers.IMAGINATION: 0,
+				Collections.fibers.GROWTH: 0,
+				Collections.fibers.LOGIC: 0,
 			},
 			"FuncName": "attack_twice",
 			"FuncText": "Attack twice",
@@ -990,12 +990,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.MIDAVES_RESEARCHER_OF_LIFE: {
 		"InGameName": "Midaves, Researcher of Life",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.PASSION, Collections.factions.GROWTH],
+		"fibers": [Collections.fibers.PASSION, Collections.fibers.GROWTH],
 		"Costs": {
-			Collections.factions.PASSION: 1,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 3,
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 1,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 3,
+			Collections.fibers.LOGIC: 0,
 		},
 		"Attack": 3,
 		"Health": 5,
@@ -1005,10 +1005,10 @@ cards.FLOW_ACCELERATOR: {
 		"CardFuncs": [{
 			"ActiveFunc": true,
 			"Costs": {
-				Collections.factions.PASSION: 0,
-				Collections.factions.IMAGINATION: 0,
-				Collections.factions.GROWTH: 0,
-				Collections.factions.LOGIC: 0,
+				Collections.fibers.PASSION: 0,
+				Collections.fibers.IMAGINATION: 0,
+				Collections.fibers.GROWTH: 0,
+				Collections.fibers.LOGIC: 0,
 			},
 			"FuncName": "jip_func",
 			"FuncText": "Grow 1",
@@ -1023,12 +1023,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.KILLER_WHALE_BOT: {
 		"InGameName": "Killer Whale Bot",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.PASSION, Collections.factions.LOGIC],
+		"fibers": [Collections.fibers.PASSION, Collections.fibers.LOGIC],
 		"Costs": {
-			Collections.factions.PASSION: 3,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 1,
+			Collections.fibers.PASSION: 3,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 1,
 		},
 		"Attack": 5,
 		"Health": 3,
@@ -1038,10 +1038,10 @@ cards.FLOW_ACCELERATOR: {
 		"CardFuncs": [{
 			"ActiveFunc": true,
 			"Costs": {
-				Collections.factions.PASSION: 0,
-				Collections.factions.IMAGINATION: 0,
-				Collections.factions.GROWTH: 0,
-				Collections.factions.LOGIC: 0,
+				Collections.fibers.PASSION: 0,
+				Collections.fibers.IMAGINATION: 0,
+				Collections.fibers.GROWTH: 0,
+				Collections.fibers.LOGIC: 0,
 			},
 			"FuncName": "fight",
 			"FuncText": "Fight",
@@ -1056,12 +1056,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.NHOROG_POTION_MASTER: {
 		"InGameName": "Nhorog, Potion Master",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.IMAGINATION, Collections.factions.GROWTH],
+		"fibers": [Collections.fibers.IMAGINATION, Collections.fibers.GROWTH],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 2,
-			Collections.factions.GROWTH: 2,
-			Collections.factions.LOGIC: 0,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 2,
+			Collections.fibers.GROWTH: 2,
+			Collections.fibers.LOGIC: 0,
 		},
 		"Attack": 2,
 		"Health": 3,
@@ -1071,10 +1071,10 @@ cards.FLOW_ACCELERATOR: {
 		"CardFuncs": [{
 			"ActiveFunc": true,
 			"Costs": {
-				Collections.factions.PASSION: 0,
-				Collections.factions.IMAGINATION: 1,
-				Collections.factions.GROWTH: 1,
-				Collections.factions.LOGIC: 0,
+				Collections.fibers.PASSION: 0,
+				Collections.fibers.IMAGINATION: 1,
+				Collections.fibers.GROWTH: 1,
+				Collections.fibers.LOGIC: 0,
 			},
 			"FuncName": "grow_and_deal_damage",
 			"FuncText": "Grow and deal damage",
@@ -1089,12 +1089,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.VOLDOMA_MASTER_OF_ARMS: {
 		"InGameName": "Voldoma, Master of Arms",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.IMAGINATION, Collections.factions.LOGIC],
+		"fibers": [Collections.fibers.IMAGINATION, Collections.fibers.LOGIC],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 2,
-			Collections.factions.GROWTH: 0,
-			Collections.factions.LOGIC: 2,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 2,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 2,
 		},
 		"Attack": 3,
 		"Health": 3,
@@ -1104,10 +1104,10 @@ cards.FLOW_ACCELERATOR: {
 		"CardFuncs": [{
 			"ActiveFunc": true,
 			"Costs": {
-				Collections.factions.PASSION: 0,
-				Collections.factions.IMAGINATION: 1,
-				Collections.factions.GROWTH: 1,
-				Collections.factions.LOGIC: 0,
+				Collections.fibers.PASSION: 0,
+				Collections.fibers.IMAGINATION: 1,
+				Collections.fibers.GROWTH: 1,
+				Collections.fibers.LOGIC: 0,
 			},
 			"FuncName": "deal_damage",
 			"FuncText": "Deal 3 damage",
@@ -1122,12 +1122,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.GHENGI_WHO_SHAPES_THE_EARTH: {
 		"InGameName": "Ghengi, Who Shapes The Earth",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.GROWTH, Collections.factions.LOGIC],
+		"fibers": [Collections.fibers.GROWTH, Collections.fibers.LOGIC],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 1,
-			Collections.factions.LOGIC: 1,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 1,
+			Collections.fibers.LOGIC: 1,
 		},
 		"Attack": 2,
 		"Health": 2,
@@ -1137,13 +1137,13 @@ cards.FLOW_ACCELERATOR: {
 		"CardFuncs": [{
 			"ActiveFunc": false,
 			"Costs": {
-				Collections.factions.PASSION: 0,
-				Collections.factions.IMAGINATION: 0,
-				Collections.factions.GROWTH: 0,
-				Collections.factions.LOGIC: 0,
+				Collections.fibers.PASSION: 0,
+				Collections.fibers.IMAGINATION: 0,
+				Collections.fibers.GROWTH: 0,
+				Collections.fibers.LOGIC: 0,
 			},
-			"FuncName": "ignore_factions_for_resources",
-			"FuncText": "Ignore factions for resources",
+			"FuncName": "ignore_fibers_for_resources",
+			"FuncText": "Ignore fibers for resources",
 			"RequiresActivation": false,
 			"Trigger": -1,
 			"EffectArguments": {}
@@ -1155,12 +1155,12 @@ cards.FLOW_ACCELERATOR: {
 	cards.SPOTOS_RECYCLER: {
 		"InGameName": "Spotos Recycler",
 		"CardType": Collections.card_types.UNIT,
-		"Factions": [Collections.factions.GROWTH, Collections.factions.LOGIC],
+		"fibers": [Collections.fibers.GROWTH, Collections.fibers.LOGIC],
 		"Costs": {
-			Collections.factions.PASSION: 0,
-			Collections.factions.IMAGINATION: 0,
-			Collections.factions.GROWTH: 2,
-			Collections.factions.LOGIC: 2,
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 2,
+			Collections.fibers.LOGIC: 2,
 		},
 		"Attack": 2,
 		"Health": 2,
@@ -1170,10 +1170,10 @@ cards.FLOW_ACCELERATOR: {
 		"CardFuncs": [{
 			"ActiveFunc": false,
 			"Costs": {
-				Collections.factions.PASSION: 0,
-				Collections.factions.IMAGINATION: 0,
-				Collections.factions.GROWTH: 0,
-				Collections.factions.LOGIC: 0,
+				Collections.fibers.PASSION: 0,
+				Collections.fibers.IMAGINATION: 0,
+				Collections.fibers.GROWTH: 0,
+				Collections.fibers.LOGIC: 0,
 			},
 			"FuncName": "grow",
 			"FuncText": "Grow 2",

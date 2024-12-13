@@ -4,6 +4,8 @@ extends Node
 @onready var animation_player = $AnimationPlayer
 @onready var deck_builder_scene := load("res://deckbuilder/Deckbuilder.tscn")
 @onready var deck_picker_scene := load("res://deckbuilder/DeckPicker.tscn")
+@onready var select_fiber_scene := load("res://singleplayer/SelectFiber.tscn")
+
 
 func _ready():
 	color_rect.visible = false
@@ -59,3 +61,9 @@ func reload_scene() -> void:
 	await animation_player.animation_finished
 	get_tree().reload_current_scene()
 	animation_player.play_backwards("fade_scene")
+
+
+func transition_to_start_journey() -> void:
+	var select_fiber = select_fiber_scene.instantiate()
+	GameManager.main_menu.hide_main_menu()
+	GameManager.main_menu.add_child(select_fiber)

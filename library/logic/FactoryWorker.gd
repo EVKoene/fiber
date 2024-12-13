@@ -13,5 +13,5 @@ func _init():
 
 
 func add_r() -> void:
-	GameManager.resources[card_owner_id].add_resource(Collections.factions.LOGIC, 1)
+	GameManager.resources[card_owner_id].add_resource(Collections.fibers.LOGIC, 1)
 	exhaust()

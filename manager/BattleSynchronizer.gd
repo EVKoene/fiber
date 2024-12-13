@@ -76,14 +76,14 @@ func play_unit(card_index: int, card_owner_id: int, column: int, row: int) -> vo
 @rpc("any_peer", "call_local")
 func create_fabrication(
 	card_owner_id: int, column: int, row: int, ingame_name: String, max_attack: int, min_attack: int, 
-	health: int, movement: int, triggered_funcs: Array, img_path: String, factions: Array,
+	health: int, movement: int, triggered_funcs: Array, img_path: String, fibers: Array,
 	costs: Dictionary, 
 ) -> void:
 	var fabrication = card_in_play_scene.instantiate()
 	fabrication.battle_stats = BattleStats.new(
 		max_attack, min_attack, health, movement, fabrication
 	)
-	fabrication.factions = factions
+	fabrication.fibers = fibers
 	fabrication.ingame_name = ingame_name
 	fabrication.card_owner_id = card_owner_id
 	fabrication.column = column
@@ -92,10 +92,10 @@ func create_fabrication(
 	fabrication.img_path = img_path
 	fabrication.fabrication = true
 	fabrication.costs = Costs.new(
-			costs[Collections.factions.PASSION],
-			costs[Collections.factions.IMAGINATION],
-			costs[Collections.factions.GROWTH],
-			costs[Collections.factions.LOGIC],
+			costs[Collections.fibers.PASSION],
+			costs[Collections.fibers.IMAGINATION],
+			costs[Collections.fibers.GROWTH],
+			costs[Collections.fibers.LOGIC],
 	)
 	GameManager.cards_in_play[card_owner_id].append(fabrication)
 	GameManager.battle_map.add_child(fabrication)

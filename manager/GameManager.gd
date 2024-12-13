@@ -9,7 +9,7 @@ var overworld_scene: PackedScene = load("res://overworld/areas/StartingArea.tscn
 @onready var turn_manager_scene: PackedScene = preload("res://manager/TurnManager.tscn")
 
 ### GENERAL ###
-var version := "0.0.1"
+var version := "0.0.2"
 var testing := true
 var main_menu: MainMenu
 var is_server := false
@@ -106,32 +106,27 @@ func add_player(
 		main_menu.show_start_game_button.rpc()
 
 
-func setup_savefile() -> void:
-	if !FileAccess.file_exists(collections_path):
-		var config := ConfigFile.new()
-		var create_dir_error := DirAccess.make_dir_recursive_absolute(save_path)
-		if create_dir_error:
-			print("Error creating directory: ", error_string(create_dir_error))
-		config.set_value("deck_data", "decks", DeckCollection.starter_decks)
-		config.set_value("deck_data", "current_deck_id", DeckCollection.random_starter_deck_id())
-		var save_error := config.save(collections_path)
-		if save_error:
-			print("Error creating collections file: ", error_string(save_error))
-		_setup_card_collection(config)
-
-
-func _setup_card_collection(config: ConfigFile) -> void:
+func setup_starter_deck(fiber: int) -> void:
+	var config := ConfigFile.new()
+	config.load(collections_path)
 	var cards := {}
-	for starter_deck in [
-		DeckCollection.decks[DeckCollection.deck_ids.PASSION_STARTER], 
-		DeckCollection.decks[DeckCollection.deck_ids.IMAGINATION_STARTER], 
-		DeckCollection.decks[DeckCollection.deck_ids.GROWTH_STARTER], 
-		DeckCollection.decks[DeckCollection.deck_ids.LOGIC_STARTER],
-	]:
-		for c in starter_deck["Cards"].keys():
-			cards[c] = starter_deck["Cards"][c]
+	var starter_deck_id: int
+	match fiber:
+		Collections.fibers.PASSION:
+			starter_deck_id = DeckCollection.deck_ids.PASSION_STARTER
+		Collections.fibers.IMAGINATION:
+			starter_deck_id = DeckCollection.deck_ids.IMAGINATION_STARTER
+		Collections.fibers.GROWTH:
+			starter_deck_id = DeckCollection.deck_ids.GROWTH_STARTER
+		Collections.fibers.LOGIC:
+			starter_deck_id = DeckCollection.deck_ids.LOGIC_STARTER
+	
+	for c in DeckCollection.decks[starter_deck_id]["Cards"].keys():
+		cards[c] = DeckCollection.decks[starter_deck_id]["Cards"][c]
 	
 	config.set_value("card_collection", "cards", cards)
+	config.set_value("deck_data", "decks", {starter_deck_id: DeckCollection.decks[starter_deck_id]})
+	config.set_value("start_journey", "starting_fiber", fiber)
 	var save_error := config.save(collections_path)
 	if save_error:
 		print("Error creating card collection: ", error_string(save_error))
@@ -174,10 +169,6 @@ func set_current_deck(deck_id: int) -> void:
 	var save_error := config.save(collections_path)
 	if save_error:
 		print("Error setting deck: ", error_string(save_error))
-	
-	main_menu.current_deck_label.text = str(
-		"Currently: ", deck["DeckName"], "\nIP Address: ", IP.get_local_addresses()[3]
-	)
 
 
 @rpc("any_peer")

@@ -45,8 +45,8 @@ func pay_costs(costs: Costs) -> void:
 		return
 	
 	for f in [
-		Collections.factions.PASSION, Collections.factions.IMAGINATION, Collections.factions.GROWTH, 
-		Collections.factions.LOGIC
+		Collections.fibers.PASSION, Collections.fibers.IMAGINATION, Collections.fibers.GROWTH, 
+		Collections.fibers.LOGIC
 	]:
 		var cost: int = costs.get_costs()[f]
 		if cost == 0:
@@ -61,13 +61,13 @@ func pay_costs(costs: Costs) -> void:
 
 func add_resource(faction: int, amount: int) -> void:
 	match faction:
-		Collections.factions.PASSION:
+		Collections.fibers.PASSION:
 			passion += amount
-		Collections.factions.IMAGINATION:
+		Collections.fibers.IMAGINATION:
 			imagination += amount
-		Collections.factions.GROWTH:
+		Collections.fibers.GROWTH:
 			growth += amount
-		Collections.factions.LOGIC:
+		Collections.fibers.LOGIC:
 			logic += amount
 	
 	_update_resources()
@@ -78,15 +78,15 @@ func add_gold(amount: int) -> void:
 	_update_resources()
 
 
-func spend_resource(faction: Collections.factions, value: int) -> void:
+func spend_resource(faction: Collections.fibers, value: int) -> void:
 	match faction:
-		Collections.factions.PASSION:
+		Collections.fibers.PASSION:
 			passion -= value
-		Collections.factions.IMAGINATION:
+		Collections.fibers.IMAGINATION:
 			imagination -= value
-		Collections.factions.GROWTH:
+		Collections.fibers.GROWTH:
 			growth -= value
-		Collections.factions.LOGIC:
+		Collections.fibers.LOGIC:
 			logic -= value
 	
 	_update_resources()
@@ -101,10 +101,10 @@ func refresh(gold_gained: int) -> void:
 
 func get_resources() -> Dictionary:
 	return {
-		Collections.factions.PASSION: passion,
-		Collections.factions.IMAGINATION: imagination,
-		Collections.factions.GROWTH: growth,
-		Collections.factions.LOGIC: logic,
+		Collections.fibers.PASSION: passion,
+		Collections.fibers.IMAGINATION: imagination,
+		Collections.fibers.GROWTH: growth,
+		Collections.fibers.LOGIC: logic,
 	}
 
 

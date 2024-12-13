@@ -1,13 +1,13 @@
 extends Node
 
 ### CARD ###
-enum factions {PASSION, IMAGINATION, GROWTH, LOGIC,}
-var all_factions: Array = [factions.PASSION, factions.IMAGINATION, factions.GROWTH, factions.LOGIC]
+enum fibers {PASSION, IMAGINATION, GROWTH, LOGIC,}
+var all_fibers: Array = [fibers.PASSION, fibers.IMAGINATION, fibers.GROWTH, fibers.LOGIC]
 var faction_names: Dictionary = {
-	factions.PASSION: "Passion",
-	factions.IMAGINATION: "Imagination",
-	factions.GROWTH: "Growth",
-	factions.LOGIC: "Logic",
+	fibers.PASSION: "Passion",
+	fibers.IMAGINATION: "Imagination",
+	fibers.GROWTH: "Growth",
+	fibers.LOGIC: "Logic",
 	}
 enum card_types {SPELL, UNIT}
 enum stat_params { LOWEST, HIGHEST, OVER_VALUE, UNDER_VALUE }

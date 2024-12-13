@@ -35,21 +35,21 @@ func create_insects() -> bool:
 			if GameManager.is_single_player:
 				BattleSynchronizer.create_fabrication(
 					card_owner_id, ps.column, ps.row, "Insect", 1, 1, 1, 1, 
-					insect_triggered_funcs, insect_img_path, [Collections.factions.PASSION], {
-						Collections.factions.PASSION: 1,
-						Collections.factions.IMAGINATION: 0,
-						Collections.factions.GROWTH: 0,
-						Collections.factions.LOGIC: 0,
+					insect_triggered_funcs, insect_img_path, [Collections.fibers.PASSION], {
+						Collections.fibers.PASSION: 1,
+						Collections.fibers.IMAGINATION: 0,
+						Collections.fibers.GROWTH: 0,
+						Collections.fibers.LOGIC: 0,
 					})
 			if !GameManager.is_single_player:
 				for p_id in GameManager.players:
 					BattleSynchronizer.create_fabrication.rpc_id(
 						p_id, card_owner_id, ps.column, ps.row, "Insect", 1, 1, 1, 1, 
-						insect_triggered_funcs, insect_img_path, [Collections.factions.PASSION], {
-							Collections.factions.PASSION: 1,
-							Collections.factions.IMAGINATION: 0,
-							Collections.factions.GROWTH: 0,
-							Collections.factions.LOGIC: 0,
+						insect_triggered_funcs, insect_img_path, [Collections.fibers.PASSION], {
+							Collections.fibers.PASSION: 1,
+							Collections.fibers.IMAGINATION: 0,
+							Collections.fibers.GROWTH: 0,
+							Collections.fibers.LOGIC: 0,
 						}
 					)
 			

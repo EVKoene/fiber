@@ -13,7 +13,7 @@ var growth_cost: int
 var logic_cost: int
 var ingame_name: String
 var card_type: int
-var factions: Array
+var fibers: Array
 var card_text: String
 var img_path: String
 var card_range: int
@@ -42,7 +42,7 @@ func preview_hand_card(
 	logic_cost = card.costs.logic
 	ingame_name = card.ingame_name
 	card_type = card.card_type
-	factions = card.factions
+	fibers = card.fibers
 	card_text = card.card_text
 	img_path = card.img_path
 	
@@ -86,7 +86,7 @@ func preview_card_in_play(
 	logic_cost = card.costs.logic
 	ingame_name = card.ingame_name
 	card_type = card.card_type
-	factions = card.factions
+	fibers = card.fibers
 	card_text = card.card_text
 	img_path = card.img_path
 	
@@ -123,13 +123,13 @@ func preview_card_index(card_index, lock_card: bool) -> void:
 	locked = lock_card
 	
 	var card_data: Dictionary = CardDatabase.cards_info[card_index]
-	passion_cost = card_data["Costs"][Collections.factions.PASSION]
-	imagination_cost = card_data["Costs"][Collections.factions.IMAGINATION]
-	growth_cost = card_data["Costs"][Collections.factions.GROWTH]
-	logic_cost = card_data["Costs"][Collections.factions.LOGIC]
+	passion_cost = card_data["Costs"][Collections.fibers.PASSION]
+	imagination_cost = card_data["Costs"][Collections.fibers.IMAGINATION]
+	growth_cost = card_data["Costs"][Collections.fibers.GROWTH]
+	logic_cost = card_data["Costs"][Collections.fibers.LOGIC]
 	ingame_name = card_data["InGameName"]
 	card_type = card_data["CardType"]
-	factions = card_data["Factions"]
+	fibers = card_data["fibers"]
 	card_text = card_data["Text"]
 	img_path = card_data["IMGPath"]
 	
@@ -169,7 +169,7 @@ func reset_zoom_preview() -> void:
 	logic_cost = 0
 	ingame_name = ""
 	card_type = 0
-	factions = []
+	fibers = []
 	card_text = ""
 	img_path = ""
 	card_range = 0
@@ -232,7 +232,7 @@ func _set_labels() -> void:
 
 func _set_border_to_faction():
 	get_theme_stylebox("panel").set_border_width_all(size.y / 10)
-	get_theme_stylebox("panel").border_color = Styling.faction_colors[factions]
+	get_theme_stylebox("panel").border_color = Styling.faction_colors[fibers]
 
 
 func _set_card_text_visuals() -> void:
@@ -276,10 +276,10 @@ func _set_card_text_font_size() -> void:
 	$VBox/BotInfo/BattleStats.label_settings.font_size = max_font
 	
 	for cost_label in [
-		[$VBox/TopInfo/Costs/CostLabels/Passion, Collections.factions.PASSION],
-		[$VBox/TopInfo/Costs/CostLabels/Imagination, Collections.factions.IMAGINATION],
-		[$VBox/TopInfo/Costs/CostLabels/Growth, Collections.factions.GROWTH],
-		[$VBox/TopInfo/Costs/CostLabels/Logic, Collections.factions.LOGIC],
+		[$VBox/TopInfo/Costs/CostLabels/Passion, Collections.fibers.PASSION],
+		[$VBox/TopInfo/Costs/CostLabels/Imagination, Collections.fibers.IMAGINATION],
+		[$VBox/TopInfo/Costs/CostLabels/Growth, Collections.fibers.GROWTH],
+		[$VBox/TopInfo/Costs/CostLabels/Logic, Collections.fibers.LOGIC],
 	]:
 		cost_label[0].label_settings = LabelSettings.new()
 		cost_label[0].label_settings.font_size = max_font
