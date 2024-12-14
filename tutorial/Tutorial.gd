@@ -21,11 +21,11 @@ var current_arrows := []
 func setup_tutorial() -> void:
 	if !GameManager.players.has(1):
 		GameManager.add_player(
-			1, 1, "Player1", DeckCollection.tutorial_deck
+			1, 1, "Player1", DeckCollection.decks[DeckCollection.deck_ids.TUTORIAL_DECK]
 		)
 	GameManager.player_id = 1
 
-	GameManager.add_player(2, 2, "Tutorial", DeckCollection.growth_starter)
+	GameManager.add_player(2, 2, "Tutorial", DeckCollection.decks[DeckCollection.deck_ids.GROWTH_STARTER])
 	
 	GameManager.main_menu.hide_main_menu()
 	GameManager.testing = false
