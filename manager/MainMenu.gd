@@ -78,7 +78,7 @@ func _on_single_player_pressed() -> void:
 	
 	var config := ConfigFile.new()
 	config.load(GameManager.collections_path)
-	if !config.get_value("start_journey", "starting_fiber"):
+	if config.get_value("start_journey", "starting_fiber", -1) == -1:
 		TransitionScene.transition_to_start_journey()
 		return
 	
