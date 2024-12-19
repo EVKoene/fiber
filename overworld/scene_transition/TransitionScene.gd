@@ -46,6 +46,8 @@ func transition_to_overworld_scene(
 		GameManager.current_scene.call_deferred("read_text", text_after_transition)
 		await Events.dialogue_finished
 		OverworldManager.can_move = true
+	
+	OverworldManager.save_player_position()
 
 
 func transition_to_deck_builder(deck_id: int) -> void:

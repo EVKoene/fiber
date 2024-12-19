@@ -13,8 +13,8 @@ func _ready():
 	Events.npc_interaction_started.connect(start_npc_interaction)
 	GameManager.current_scene = self
 	pause_menu = $GUI/PauseMenu
-	$PlayerBody.position = player_position
 	player_body = $PlayerBody
+	$PlayerBody.position = player_position
 
 
 func start_npc_interaction(npc_id: int) -> void:
