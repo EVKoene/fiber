@@ -4,6 +4,7 @@ class_name OverworldArea
 
 var pause_menu: Control
 var player_position: Vector2
+var player_body: CharacterBody2D
 @export var scene_id: int
 
 
@@ -12,6 +13,7 @@ func _ready():
 	Events.npc_interaction_started.connect(start_npc_interaction)
 	GameManager.current_scene = self
 	pause_menu = $GUI/PauseMenu
+	player_body = $PlayerBody
 	$PlayerBody.position = player_position
 
 

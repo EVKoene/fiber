@@ -4,6 +4,8 @@ extends Node
 @onready var animation_player = $AnimationPlayer
 @onready var deck_builder_scene := load("res://deckbuilder/Deckbuilder.tscn")
 @onready var deck_picker_scene := load("res://deckbuilder/DeckPicker.tscn")
+@onready var select_fiber_scene := load("res://singleplayer/SelectFiber.tscn")
+
 
 func _ready():
 	color_rect.visible = false
@@ -44,6 +46,8 @@ func transition_to_overworld_scene(
 		GameManager.current_scene.call_deferred("read_text", text_after_transition)
 		await Events.dialogue_finished
 		OverworldManager.can_move = true
+	
+	OverworldManager.save_player_position()
 
 
 func transition_to_deck_builder(deck_id: int) -> void:
@@ -59,3 +63,9 @@ func reload_scene() -> void:
 	await animation_player.animation_finished
 	get_tree().reload_current_scene()
 	animation_player.play_backwards("fade_scene")
+
+
+func transition_to_start_journey() -> void:
+	var select_fiber = select_fiber_scene.instantiate()
+	GameManager.main_menu.hide_main_menu()
+	GameManager.main_menu.add_child(select_fiber)

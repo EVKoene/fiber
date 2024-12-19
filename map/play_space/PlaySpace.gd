@@ -271,8 +271,8 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 					BattleSynchronizer.remove_card_from_hand.rpc_id(
 						p_id, c_owner_id, h_index
 					)
-			if len(data.factions) == 1:
-				GameManager.resources[data.card_owner_id].add_resource(data.factions[0], 1)
+			if len(data.fibers) == 1:
+				GameManager.resources[data.card_owner_id].add_resource(data.fibers[0], 1)
 		Collections.card_types.SPELL:
 			data.play_spell(column, row)
 

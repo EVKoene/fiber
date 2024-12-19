@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cy4ivfje2oj4c" path="res://overworld/player/PlayerBody.tscn" id="6_mmnqy"]
 
 [node name="OverworldArea" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_t1xw5")
 
 [node name="GUI" type="CanvasLayer" parent="."]
@@ -15,10 +16,10 @@ visible = false
 
 [node name="OverworldTextbox" parent="." instance=ExtResource("4_ryuip")]
 
+[node name="TileMap" type="TileMap" parent="."]
+format = 2
+
 [node name="PlayerBody" parent="." instance=ExtResource("6_mmnqy")]
 position = Vector2(287, 119)
 
 [node name="Camera2D" type="Camera2D" parent="PlayerBody"]
-
-[node name="TileMap" type="TileMap" parent="."]
-format = 2

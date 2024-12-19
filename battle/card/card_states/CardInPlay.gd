@@ -23,7 +23,7 @@ var battle_stats: BattleStats
 var costs: Costs
 var ingame_name: String
 var card_type: int
-var factions: Array
+var fibers: Array
 var lord: bool
 var card_text: String
 var img_path: String
@@ -339,7 +339,7 @@ func resolve_spell(_target_column: int, _target_row: int) -> bool:
 
 
 func set_border_to_faction():
-	get_theme_stylebox("panel").border_color = Styling.faction_colors[factions]
+	get_theme_stylebox("panel").border_color = Styling.faction_colors[fibers]
 
 
 func _set_labels() -> void:
@@ -413,7 +413,7 @@ func _load_card_properties() -> void:
 		card_data = CardDatabase.cards_info[card_index]
 		ingame_name = card_data["InGameName"]
 		card_type= card_data["CardType"]
-		factions = card_data["Factions"]
+		fibers = card_data["fibers"]
 		card_text = card_data["Text"]
 		img_path = card_data["IMGPath"]
 	$CardImage.texture = load(img_path)
@@ -478,10 +478,10 @@ func _create_battle_stats() -> void:
 
 func _create_costs() -> void:
 	costs = Costs.new(
-		card_data["Costs"][Collections.factions.PASSION],
-		card_data["Costs"][Collections.factions.IMAGINATION],
-		card_data["Costs"][Collections.factions.GROWTH],
-		card_data["Costs"][Collections.factions.LOGIC]
+		card_data["Costs"][Collections.fibers.PASSION],
+		card_data["Costs"][Collections.fibers.IMAGINATION],
+		card_data["Costs"][Collections.fibers.GROWTH],
+		card_data["Costs"][Collections.fibers.LOGIC]
 	)
 
 
@@ -505,7 +505,7 @@ func _add_border() -> void:
 	add_theme_stylebox_override("panel", border)
 
 	get_theme_stylebox("panel").set_border_width_all(size.y / 10)
-	get_theme_stylebox("panel").border_color = Styling.faction_colors[factions]
+	get_theme_stylebox("panel").border_color = Styling.faction_colors[fibers]
 
 
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:

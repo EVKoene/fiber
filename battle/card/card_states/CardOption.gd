@@ -14,7 +14,7 @@ var card_data: Dictionary
 
 var ingame_name: String
 var card_type: int
-var factions: Array
+var fibers: Array
 var card_text: String
 var battle_stats: BattleStats
 var img_path: String
@@ -46,7 +46,7 @@ func pick() -> void:
 func _load_card_properties() -> void:
 	ingame_name = card_data["InGameName"]
 	card_type= card_data["CardType"]
-	factions = card_data["Factions"]
+	fibers = card_data["fibers"]
 	card_text = card_data["Text"]
 	img_path = card_data["IMGPath"]
 	
@@ -63,7 +63,7 @@ func _load_card_properties() -> void:
 
 
 func set_border_to_faction():
-	get_theme_stylebox("panel").border_color = Styling.faction_colors[factions]
+	get_theme_stylebox("panel").border_color = Styling.faction_colors[fibers]
 
 
 func _set_labels() -> void:
@@ -122,19 +122,19 @@ func _set_costs() -> void:
 	for f in [
 		{
 			"Label": $VBox/TopInfo/Costs/CostLabels/Passion,
-			"Cost": card_data["Costs"][Collections.factions.PASSION],
+			"Cost": card_data["Costs"][Collections.fibers.PASSION],
 		},
 		{
 			"Label": $VBox/TopInfo/Costs/CostLabels/Imagination,
-			"Cost": card_data["Costs"][Collections.factions.IMAGINATION],
+			"Cost": card_data["Costs"][Collections.fibers.IMAGINATION],
 		},
 		{
 			"Label": $VBox/TopInfo/Costs/CostLabels/Growth,
-			"Cost": card_data["Costs"][Collections.factions.GROWTH],
+			"Cost": card_data["Costs"][Collections.fibers.GROWTH],
 		},
 		{
 			"Label": $VBox/TopInfo/Costs/CostLabels/Logic,
-			"Cost": card_data["Costs"][Collections.factions.LOGIC],
+			"Cost": card_data["Costs"][Collections.fibers.LOGIC],
 		},
 	]:
 		f["Label"].text = str(f["Cost"])
@@ -156,7 +156,7 @@ func _add_border() -> void:
 	add_theme_stylebox_override("panel", border)
 
 	get_theme_stylebox("panel").set_border_width_all(size.y / 10)
-	get_theme_stylebox("panel").border_color = Styling.faction_colors[factions]
+	get_theme_stylebox("panel").border_color = Styling.faction_colors[fibers]
 
 
 func _on_mouse_entered():

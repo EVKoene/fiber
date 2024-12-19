@@ -22,8 +22,8 @@ func total() -> int:
 
 func get_costs() -> Dictionary:
 	return {
-		Collections.factions.PASSION: passion,
-		Collections.factions.IMAGINATION: imagination,
-		Collections.factions.GROWTH: growth,
-		Collections.factions.LOGIC: logic,
+		Collections.fibers.PASSION: passion,
+		Collections.fibers.IMAGINATION: imagination,
+		Collections.fibers.GROWTH: growth,
+		Collections.fibers.LOGIC: logic,
 	}

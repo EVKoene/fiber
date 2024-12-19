@@ -296,14 +296,15 @@ radius = 19.0
 script = ExtResource("1_njdv6")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(1, -42)
 sprite_frames = SubResource("SpriteFrames_1waog")
 animation = &"front_idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1, 29)
+position = Vector2(0, -13)
 shape = SubResource("CircleShape2D_3lnb1")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
-position = Vector2(-1, 29)
+position = Vector2(1, -14)
 target_position = Vector2(41, 0)
 script = ExtResource("3_topn0")

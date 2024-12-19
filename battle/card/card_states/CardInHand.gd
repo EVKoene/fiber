@@ -10,7 +10,7 @@ var card_owner_id: int
 var ingame_name: String
 var card_type: int
 var costs: Costs
-var factions: Array = []
+var fibers: Array = []
 var max_attack: int
 var min_attack: int
 var health: int
@@ -125,7 +125,7 @@ func set_card_properties():
 		$Vbox/BotInfo/BattleStats.hide()
 		$Vbox/BotInfo/CardRange.text = str(card_range)
 	
-	get_theme_stylebox("panel").border_color = Styling.faction_colors[factions]
+	get_theme_stylebox("panel").border_color = Styling.faction_colors[fibers]
 
 
 func _set_card_cost_visuals() -> void:
@@ -177,14 +177,14 @@ func _load_card_properties() -> void:
 	ingame_name = card_info["InGameName"]
 	img_path = card_info["IMGPath"]
 	card_type = card_info["CardType"]
-	factions = card_info["Factions"]
+	fibers = card_info["fibers"]
 	card_text = card_info["Text"]
 
 	costs = Costs.new(
-		card_info["Costs"][Collections.factions.PASSION],
-		card_info["Costs"][Collections.factions.IMAGINATION],
-		card_info["Costs"][Collections.factions.GROWTH],
-		card_info["Costs"][Collections.factions.LOGIC]
+		card_info["Costs"][Collections.fibers.PASSION],
+		card_info["Costs"][Collections.fibers.IMAGINATION],
+		card_info["Costs"][Collections.fibers.GROWTH],
+		card_info["Costs"][Collections.fibers.LOGIC]
 	)
 
 	if card_info["CardType"] == Collections.card_types.UNIT:
@@ -236,7 +236,7 @@ func _on_mouse_entered():
 
 
 func _on_mouse_exited():
-	get_theme_stylebox("panel").border_color = Styling.faction_colors[factions]
+	get_theme_stylebox("panel").border_color = Styling.faction_colors[fibers]
 
 
 func _gui_input(event):

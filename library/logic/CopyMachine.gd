@@ -74,7 +74,7 @@ func create_copy(card_to_copy: CardInPlay, ps: PlaySpace) -> void:
 				p_id, card_owner_id, ps.column, ps.row, 
 				card_to_copy.ingame_name, card_to_copy.max_attack, card_to_copy.min_attack, 
 				card_to_copy.health, card_to_copy.movement, card_to_copy.triggered_funcs, 
-				card_to_copy.img_path, card_to_copy.factions, card_to_copy.costs.get_costs()
+				card_to_copy.img_path, card_to_copy.fibers, card_to_copy.costs.get_costs()
 			)
 	
 	if !card_to_copy.fabrication:
