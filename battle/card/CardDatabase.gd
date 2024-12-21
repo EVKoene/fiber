@@ -7,7 +7,8 @@ enum cards {GENERAL_FABRICATION, GORILLA, FANATIC_FOLLOWER, ATTACK_COMMAND, GOOS
 	SKON_INSECT_FATHER, WIZARD_SCOUT, SWITCHEROO, ARCANE_ARROW, MIST_CONJURER, FLOW_ACCELERATOR, 
 	EPHEMERAL_ASSASSIN, FIREBALL_SHOOTER, HOMUNCULUS, JELLYFISH_EXTRAORDINAIRE, 
 	AUDACIOUS_RESEARCHER, HYRSMIR_RULER_OF_PHYSICS, PSYCHIC_TAKEOVER,  GNOME_PROTECTOR,  
-	BOTANO_GARDENER, MORNING_LIGHT, ICE_GOLEM, FIRE_GOLEM, HAIL_STORM, EARTH_GOLEM, 
+	BOTANO_GARDENER, MORNING_LIGHT, WIND_GOLEM, ICE_GOLEM, FIRE_GOLEM, STUDENT_OF_KHONG, HAIL_STORM, 
+	EARTH_GOLEM, 
 	PROTECTOR_OF_THE_FOREST, PRANCING_VERDEN, HEART_OF_THE_FOREST, MARCELLA_WHO_NURTURES_GROWTH, 
 	VOLCANIC_ERUPTION, FACTORY_WORKER, OBSTRUCTION_CONSTRUCTION, SHOCK_CHARGE, ASSEMBLY_BOT, 
 	NETWORK_FEEDER, FURNACE_BOT, EXTERMINATE, PLUG_BUDDY, COMPUTING_BOT, ZOLOI_CHARGER, 
@@ -257,6 +258,8 @@ var cards_info = {
 		"IMGPath": "res://library/passion/images/SkonInsectFather.png",
 	},
 	
+	### IMAGINATION ###
+	
 	cards.WIZARD_SCOUT: {
 		"InGameName": "Wizard Scout",
 		"fibers": [Collections.fibers.IMAGINATION],
@@ -488,6 +491,8 @@ cards.FLOW_ACCELERATOR: {
 		"IMGPath": "res://library/imagination/images/PsychicTakeover.png",
 	},
 	
+	### GROWTH ###
+	
 	cards.GNOME_PROTECTOR: {
 		"InGameName": "Gnome Protector",
 		"fibers": [Collections.fibers.GROWTH],
@@ -550,7 +555,7 @@ cards.FLOW_ACCELERATOR: {
 		"Costs": {
 			Collections.fibers.PASSION: 0,
 			Collections.fibers.IMAGINATION: 0,
-			Collections.fibers.GROWTH: 3, # 3
+			Collections.fibers.GROWTH: 2, # 3
 			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 2, # 1
@@ -562,6 +567,46 @@ cards.FLOW_ACCELERATOR: {
 		of 2",
 		"Purposes": [Collections.purposes.DEFEND_RESOURCE, Collections.purposes.BATTLE,],
 		"IMGPath": "res://library/growth/images/FireGolem.jpg",
+	},
+	
+	cards.WIND_GOLEM: {
+		"InGameName": "Wind Golem",
+		"CardType": Collections.card_types.UNIT,
+		"fibers": [Collections.fibers.GROWTH],
+		"Costs": {
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 2, # 3
+			Collections.fibers.LOGIC: 0,
+		},
+		"MaxAttack": 2, # 1
+		"MinAttack": 2, # 1
+		"Health": 2, # 3
+		"Movement": 2, # 1
+		"Lord": false,
+		"Text": "",
+		"Purposes": [Collections.purposes.CONQUER_SPACES],
+		"IMGPath": "res://library/growth/images/WindGolem.jpg",
+	},
+	
+	cards.STUDENT_OF_KHONG: {
+		"InGameName": "Student of Khong",
+		"CardType": Collections.card_types.UNIT,
+		"fibers": [Collections.fibers.GROWTH],
+		"Costs": {
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 3, # 3
+			Collections.fibers.LOGIC: 0,
+		},
+		"MaxAttack": 1, # 1
+		"MinAttack": 1, # 1
+		"Health": 3, # 3
+		"Movement": 1, # 1
+		"Lord": false,
+		"Text": "When this unit attacks, add it's health to it's min attack for 1 turn",
+		"Purposes": [Collections.purposes.BATTLE,],
+		"IMGPath": "res://library/growth/images/StudentOfKhong.jpg",
 	},
 	
 	cards.HAIL_STORM: {
@@ -1256,6 +1301,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = IceGolem
 		cards.FIRE_GOLEM:
 			card = FireGolem
+		cards.STUDENT_OF_KHONG:
+			card = StudentOfKhong
 		cards.HAIL_STORM:
 			card = HailStorm
 		cards.EARTH_GOLEM:

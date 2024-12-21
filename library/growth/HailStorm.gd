@@ -46,3 +46,25 @@ func resolve_spell(_selected_column: int, _selected_row: int) -> bool:
 		Events.hide_instructions.emit()
 		GameManager.battle_map.hide_finish_button()
 		return false
+
+
+func is_spell_to_play_now() -> bool:
+	for c in GameManager.cards_in_play[GameManager.ai_player_id]:
+		for e in CardHelper.cards_in_range_of_card(
+			c, 2, TargetSelection.target_restrictions.OPPONENT_UNITS
+		):
+			if e.battle_stats.health <= c.battle_stats.max_attack:
+				return true
+		
+	return false
+
+
+func resolve_spell_for_ai() -> void:
+	for c in GameManager.cards_in_play[GameManager.ai_player_id]:
+		for e in CardHelper.cards_in_range_of_card(
+			c, 2, TargetSelection.target_restrictions.OPPONENT_UNITS
+		):
+			if e.battle_stats.health <= c.battle_stats.max_attack:
+				c.attack_card(e)
+				return
+	

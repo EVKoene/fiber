@@ -2,9 +2,9 @@ extends Node
 
 var cards = load("res://battle/card/CardDatabase.gd").cards
 enum deck_ids {
-	PASSION_STARTER, IMAGINATION_STARTER, GROWTH_STARTER, LOGIC_STARTER, GORILLA, 
-	IMAGINATION_MISSILES, LOGIC_FACTORY, BEEFY_BOYS, FRENZY_START, TUTORIAL_DECK, OPPONENT_TESTING,
-	PLAYER_TESTING, SMELLY_JACQUES, MINIBOSS 
+	PASSION_STARTER, IMAGINATION_STARTER, GROWTH_STARTER, LOGIC_STARTER, GORILLA,
+	IMAGINATION_MISSILES, LOGIC_FACTORY, GOLEMS, ELEMENTS, BEEFY_BOYS, FRENZY_START, TUTORIAL_DECK, 
+	OPPONENT_TESTING, PLAYER_TESTING, SMELLY_JACQUES, MINIBOSS 
 	}
 
 
@@ -132,6 +132,37 @@ var decks := {
 			cards.MORNING_LIGHT: 1,
 		},
 		"ID": deck_ids.BEEFY_BOYS,
+	},
+
+	deck_ids.GOLEMS: {
+		"DeckName": "Golems",
+		"Cards": {
+			cards.ICE_GOLEM: 20, 
+			cards.FIRE_GOLEM: 15,  
+			cards.EARTH_GOLEM: 15, 
+		},
+		"StartingCards": {
+			cards.GNOME_PROTECTOR: 3,
+		},
+		
+		"ID": deck_ids.GOLEMS,
+	},
+
+	deck_ids.ELEMENTS: {
+		"DeckName": "Elements",
+		"Cards": {
+			cards.BOTANO_GARDENER: 5,
+			cards.WIND_GOLEM: 10,
+			cards.HAIL_STORM: 15, 
+			cards.EARTH_GOLEM: 10,
+			cards.VOLCANIC_ERUPTION: 10, 
+		},
+		"StartingCards": {
+			cards.GNOME_PROTECTOR: 1,
+			cards.WIND_GOLEM: 2,
+		},
+		
+		"ID": deck_ids.ELEMENTS,
 	},
 
 	deck_ids.FRENZY_START: {
