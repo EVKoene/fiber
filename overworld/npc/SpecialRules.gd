@@ -1,6 +1,9 @@
 extends Node
 
 
+var add_1_health_eot := false
+
+
 func add_stat(stat: int, value: int) -> void:
 	GameManager.battle_map.show_text(
 		str(
@@ -12,3 +15,20 @@ func add_stat(stat: int, value: int) -> void:
 		ps.stat_modifier[GameManager.ai_player_id][Collections.stats.MAX_ATTACK] += 1
 	GameManager.battle_map.awaiting_input = true
 	await Events.instruction_input_received
+
+
+
+
+
+func add_1_health_to_random_unit() -> void:
+	var card: CardInPlay = GameManager.cards_in_play[GameManager.ai_player_id].pick_random()
+	CardManipulation.change_battle_stat(
+		Collections.stats.HEALTH, card.card_owner_id, card.card_in_play_index, 1, -1
+	)
+
+
+func call_triggered_rules(trigger: int) -> void:
+	match trigger:
+		Collections.triggers.TURN_ENDED:
+			if add_1_health_eot:
+				add_1_health_to_random_unit()

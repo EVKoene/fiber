@@ -1,7 +1,7 @@
 extends CardInPlay
 
-
 class_name GnomeProtector
+
 
 func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:
 	if (

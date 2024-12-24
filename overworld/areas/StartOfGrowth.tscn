@@ -3226,17 +3226,21 @@ position = Vector2(-62, 166)
 [node name="GuruTrong" parent="." index="8" instance=ExtResource("5_4wrrr")]
 y_sort_enabled = true
 position = Vector2(669, 13)
+npc_id = 8
 
 [node name="GuruKal" parent="." index="9" instance=ExtResource("5_4wrrr")]
 y_sort_enabled = true
 position = Vector2(954, 101)
+npc_id = 9
 direction = 1
 
 [node name="GuruFlappie" parent="." index="10" instance=ExtResource("5_4wrrr")]
 y_sort_enabled = true
 position = Vector2(950, -178)
+npc_id = 7
 direction = 1
 
 [node name="GuruLahima" parent="." index="11" instance=ExtResource("5_4wrrr")]
 y_sort_enabled = true
 position = Vector2(872, -376)
+npc_id = 10

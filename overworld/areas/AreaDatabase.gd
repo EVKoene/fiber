@@ -14,7 +14,7 @@ var areas := {
 	},
 	area_ids.START_OF_GROWTH: {
 		"AreaName": "StartOfGrowth",
-		"ScenePath": "res://overworld/areas/MiniBoss.tscn",
+		"ScenePath": "res://overworld/areas/StartOfGrowth.tscn",
 		"TransitionPosition": {
 			area_ids.START_OF_JOURNEY: Vector2(86, 134),
 		},

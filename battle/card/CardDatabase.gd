@@ -8,7 +8,7 @@ enum cards {GENERAL_FABRICATION, GORILLA, FANATIC_FOLLOWER, ATTACK_COMMAND, GOOS
 	EPHEMERAL_ASSASSIN, FIREBALL_SHOOTER, HOMUNCULUS, JELLYFISH_EXTRAORDINAIRE, 
 	AUDACIOUS_RESEARCHER, HYRSMIR_RULER_OF_PHYSICS, PSYCHIC_TAKEOVER,  GNOME_PROTECTOR,  
 	BOTANO_GARDENER, MORNING_LIGHT, WIND_GOLEM, ICE_GOLEM, FIRE_GOLEM, STUDENT_OF_KHONG, HAIL_STORM, 
-	EARTH_GOLEM, 
+	EARTH_GOLEM, BRINGER_OF_ENLIGHTENMENT,
 	PROTECTOR_OF_THE_FOREST, PRANCING_VERDEN, HEART_OF_THE_FOREST, MARCELLA_WHO_NURTURES_GROWTH, 
 	VOLCANIC_ERUPTION, FACTORY_WORKER, OBSTRUCTION_CONSTRUCTION, SHOCK_CHARGE, ASSEMBLY_BOT, 
 	NETWORK_FEEDER, FURNACE_BOT, EXTERMINATE, PLUG_BUDDY, COMPUTING_BOT, ZOLOI_CHARGER, 
@@ -576,7 +576,7 @@ cards.FLOW_ACCELERATOR: {
 		"Costs": {
 			Collections.fibers.PASSION: 0,
 			Collections.fibers.IMAGINATION: 0,
-			Collections.fibers.GROWTH: 2, # 3
+			Collections.fibers.GROWTH: 2,
 			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 2, # 1
@@ -586,7 +586,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": false,
 		"Text": "",
 		"Purposes": [Collections.purposes.CONQUER_SPACES],
-		"IMGPath": "res://library/growth/images/WindGolem.jpg",
+		"IMGPath": "res://library/growth/images/Wind<<Golem.jpg",
 	},
 	
 	cards.STUDENT_OF_KHONG: {
@@ -606,7 +606,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": false,
 		"Text": "When this unit attacks, add it's health to it's min attack for 1 turn",
 		"Purposes": [Collections.purposes.BATTLE,],
-		"IMGPath": "res://library/growth/images/StudentOfKhong.jpg",
+		"IMGPath": "res://library/growth/images/StudentOfKhong.png",
 	},
 	
 	cards.HAIL_STORM: {
@@ -704,6 +704,27 @@ cards.FLOW_ACCELERATOR: {
 		"Text": "Allied units in range 1 get +0/+4. Units in range 2 get +0/+2",
 		"Purposes": [Collections.purposes.BUFF_ADJACENT],
 		"IMGPath": "res://library/growth/images/HeartOfTheForest.jpg",
+	},
+	
+	cards.BRINGER_OF_ENLIGHTENMENT: {
+		"InGameName": "Bringer of Enlightenment",
+		"CardType": Collections.card_types.UNIT,
+		"fibers": [Collections.fibers.GROWTH],
+		"Costs": {
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 5,
+			Collections.fibers.LOGIC: 0,
+		},
+		"MaxAttack": 4,
+		"MinAttack": 2,
+		"Health": 5,
+		"Movement": 1,
+		"Lord": false,
+		"Text": "At the start of your turn, your other units in range with at least 5 health get 
+		+3 max attack",
+		"Purposes": [Collections.purposes.BUFF_ADJACENT],
+		"IMGPath": "res://library/growth/images/BringerOfEnlightenment.png",
 	},
 	
 	cards.VOLCANIC_ERUPTION: {
@@ -1309,6 +1330,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = EarthGolem
 		cards.PROTECTOR_OF_THE_FOREST:
 			card = ProtectorOfTheForest
+		cards.BRINGER_OF_ENLIGHTENMENT:
+			card = BringerOfEnlightenment
 		cards.PRANCING_VERDEN:
 			card = PrancingVerden
 		cards.HEART_OF_THE_FOREST:

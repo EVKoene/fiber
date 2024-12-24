@@ -189,7 +189,7 @@ func set_progress_bars() -> void:
 				))
 			
 			TransitionScene.transition_to_overworld_scene(
-				AreaDatabase.area_ids.STARTING, -1, reward_text
+				AreaDatabase.area_ids.START_OF_JOURNEY, -1, reward_text
 			)
 			return
 		elif (
@@ -201,7 +201,7 @@ func set_progress_bars() -> void:
 			
 			GameManager.battle_map.show_text("You lose!")
 			TransitionScene.transition_to_overworld_scene(
-				AreaDatabase.area_ids.STARTING, -1
+				AreaDatabase.area_ids.START_OF_JOURNEY, -1
 			)
 			return
 		

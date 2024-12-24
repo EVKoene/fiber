@@ -71,6 +71,10 @@ text = "Show your IP Adress"
 layout_mode = 2
 text = "Tutorial"
 
+[node name="TestGame" type="Button" parent="MainMenuContainer/VBoxContainer"]
+layout_mode = 2
+text = "Testing game"
+
 [node name="Exit" type="Button" parent="MainMenuContainer/VBoxContainer"]
 layout_mode = 2
 text = "Exit"
@@ -110,6 +114,7 @@ grow_vertical = 0
 [connection signal="pressed" from="MainMenuContainer/VBoxContainer/JoinLan" to="." method="_on_join_lan_pressed"]
 [connection signal="pressed" from="MainMenuContainer/VBoxContainer/ShowIPAdress" to="." method="_on_show_ip_adress_pressed"]
 [connection signal="pressed" from="MainMenuContainer/VBoxContainer/Tutorial" to="." method="_on_tutorial_pressed"]
+[connection signal="pressed" from="MainMenuContainer/VBoxContainer/TestGame" to="." method="_on_test_game_pressed"]
 [connection signal="pressed" from="MainMenuContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
 [connection signal="pressed" from="MainMenuContainer/VBoxContainer/DedicatedServer" to="." method="_on_dedicated_server_pressed"]
 [connection signal="pressed" from="TestingButton" to="." method="_on_testing_button_pressed"]

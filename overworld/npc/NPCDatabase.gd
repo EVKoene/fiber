@@ -2,14 +2,14 @@ extends Node
 
 
 enum npcs {
-	 HANS, JACQUES, JESUS, JOS, GARY, MASHA, ROB, GURU_FLAPPIE, GURU_LAGHIMA, GURU_TRONG, 
-	GURU_KAL, 
+	 HANS, JACQUES, JESUS, JOS, GARY, MASHA, ROB, GURU_FLAPPIE, GURU_TRONG, 
+	GURU_KAL, GURU_LAGHIMA, 
 }
 enum character_types {
 	 BEEBOY, BUMBLEBEE_LADY, BUSINESS_CAP_BOY, DINO_BUSINESS_MAN, ROBOT_GUY, JESUS, GARY, GURU_1,
 	GURU_2, GURU_3, GURU_LAGHIMA
 }
-enum special_rules { ADD_1_MAX_ATTACK, }
+enum special_rules { ADD_1_MAX_ATTACK, ADD_1_HEALTH, }
 
 
 var npc_data: Dictionary = {
@@ -83,7 +83,7 @@ var npc_data: Dictionary = {
 		"Dialogue": ["I'm studying to become a guru"],
 		"Battle": true,
 		"CharacterModel": character_types.GURU_2,
-		"Deck": DeckCollection.decks[DeckCollection.deck_ids.BEEFY_BOYS],
+		"Deck": DeckCollection.decks[DeckCollection.deck_ids.GOLEMS],
 	},
 	
 	npcs.GURU_TRONG: {
@@ -91,15 +91,16 @@ var npc_data: Dictionary = {
 		"Dialogue": ["Right now right now!"],
 		"Battle": true,
 		"CharacterModel": character_types.GURU_3,
-		"Deck": DeckCollection.decks[DeckCollection.deck_ids.BEEFY_BOYS],
+		"Deck": DeckCollection.decks[DeckCollection.deck_ids.ELEMENTS],
 	},
 	
 	npcs.GURU_LAGHIMA: {
 		"Name": "Guru Laghima",
 		"Dialogue": ["Let go your earthly tether.", "Enter the void.", "Empty and become wind."],
+		"SpecialRules": [special_rules.ADD_1_HEALTH],
 		"Battle": true,
 		"CharacterModel": character_types.GURU_LAGHIMA,
-		"Deck": DeckCollection.decks[DeckCollection.deck_ids.BEEFY_BOYS],
+		"Deck": DeckCollection.decks[DeckCollection.deck_ids.GURU_LAGHIMA],
 	},
 }
 
@@ -114,7 +115,7 @@ var character_model := {
 	character_types.GURU_1: "guru_1",
 	character_types.GURU_2: "guru_2",
 	character_types.GURU_3: "guru_3",
-	character_types.GURU_LAHIMA: "guru_laghima",
+	character_types.GURU_LAGHIMA: "guru_laghima",
 }
 
 

@@ -25,7 +25,7 @@ func _ready() -> void:
 
 func start_journey_with_fiber(fiber: int) -> void:
 	GameManager.setup_starter_deck(fiber)
-	TransitionScene.transition_to_overworld_scene(AreaDatabase.area_ids.STARTING)
+	TransitionScene.transition_to_overworld_scene(AreaDatabase.area_ids.START_OF_JOURNEY)
 
 
 func _input(_event):
