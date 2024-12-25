@@ -79,7 +79,12 @@ func resolve_ability_for_ai() -> void:
 	return
 
 
+func prepare_attack() -> void:
+	return
+
+
 func attack_card(target_card: CardInPlay) -> void:
+	prepare_attack()
 	if Tutorial.next_phase in [
 		Tutorial.tutorial_phases.EXHAUST, Tutorial.tutorial_phases.CONQUER_VICTORY_SPACES
 	]:

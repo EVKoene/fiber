@@ -2,9 +2,9 @@ extends Node
 
 var cards = load("res://battle/card/CardDatabase.gd").cards
 enum deck_ids {
-	PASSION_STARTER, IMAGINATION_STARTER, GROWTH_STARTER, LOGIC_STARTER, GORILLA, 
-	IMAGINATION_MISSILES, LOGIC_FACTORY, BEEFY_BOYS, FRENZY_START, TUTORIAL_DECK, OPPONENT_TESTING,
-	PLAYER_TESTING, SMELLY_JACQUES, MINIBOSS 
+	PASSION_STARTER, IMAGINATION_STARTER, GROWTH_STARTER, LOGIC_STARTER, GORILLA,
+	IMAGINATION_MISSILES, LOGIC_FACTORY, GOLEMS, ELEMENTS, BEEFY_BOYS, FRENZY_START, TUTORIAL_DECK, 
+	GURU_LAGHIMA, OPPONENT_TESTING, PLAYER_TESTING, SMELLY_JACQUES, MINIBOSS 
 	}
 
 
@@ -134,6 +134,57 @@ var decks := {
 		"ID": deck_ids.BEEFY_BOYS,
 	},
 
+	deck_ids.GOLEMS: {
+		"DeckName": "Golems",
+		"Cards": {
+			cards.ICE_GOLEM: 20, 
+			cards.FIRE_GOLEM: 15,  
+			cards.EARTH_GOLEM: 15, 
+		},
+		"StartingCards": {
+			cards.GNOME_PROTECTOR: 3,
+		},
+		
+		"ID": deck_ids.GOLEMS,
+	},
+
+	deck_ids.ELEMENTS: {
+		"DeckName": "Elements",
+		"Cards": {
+			cards.BOTANO_GARDENER: 5,
+			cards.WIND_GOLEM: 10,
+			cards.HAIL_STORM: 15, 
+			cards.EARTH_GOLEM: 10,
+			cards.VOLCANIC_ERUPTION: 10, 
+		},
+		"StartingCards": {
+			cards.GNOME_PROTECTOR: 1,
+			cards.WIND_GOLEM: 2,
+		},
+		
+		"ID": deck_ids.ELEMENTS,
+	},
+
+	deck_ids.GURU_LAGHIMA: {
+		"DeckName": "Elements",
+		"Cards": {
+			cards.GNOME_PROTECTOR: 10,
+			cards.MORNING_LIGHT: 10,
+			cards.STUDENT_OF_KHONG: 10,
+			cards.HAIL_STORM: 5, 
+			cards.EARTH_GOLEM: 10,
+			cards.VOLCANIC_ERUPTION: 5,
+			cards.BRINGER_OF_ENLIGHTENMENT: 10,
+			cards.MARCELLA_WHO_NURTURES_GROWTH: 5, 
+		},
+		"StartingCards": {
+			cards.GNOME_PROTECTOR: 2,
+			cards.WIND_GOLEM: 2,
+		},
+		
+		"ID": deck_ids.ELEMENTS,
+	},
+
 	deck_ids.FRENZY_START: {
 		"DeckName": "Frenzy Start",
 		"Cards": {
@@ -194,15 +245,10 @@ var decks := {
 	deck_ids.OPPONENT_TESTING: {
 		"DeckName": "Opponent testing",
 		"Cards": {
-			cards.GORILLA: 4, 
-			cards.GOOSE: 4, 
-			cards.WARTHOG_BERSERKER: 4, 
-			cards.GORILLA_BATTLECALLER: 2, 
-			cards.SNEK: 2, 
-			cards.FELOS_EXPEDITIONIST: 3,
+			cards.GORILLA: 40, 
 		},
 		"StartingCards": {
-			cards.GORILLA: 2,
+			cards.GORILLA: 3,
 		},
 		"ID": deck_ids.OPPONENT_TESTING,
 	},
@@ -210,10 +256,13 @@ var decks := {
 	deck_ids.PLAYER_TESTING: {
 		"DeckName": "Player testing",
 		"Cards": {
-			cards.GORILLA: 10,
+			cards.STUDENT_OF_KHONG: 10,
+			cards.BRINGER_OF_ENLIGHTENMENT: 10,
 		},
 		"StartingCards": {
-			cards.GORILLA_KING: 3
+			cards.STUDENT_OF_KHONG: 1,
+			cards.EARTH_GOLEM: 1,
+			cards.BRINGER_OF_ENLIGHTENMENT: 1,
 		},
 		"ID": deck_ids.PLAYER_TESTING,
 	},

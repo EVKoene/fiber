@@ -1,6 +1,16 @@
 extends Node
 
 
+func spaces_in_range(range_to_check: int) -> Array:
+	var spaces := []
+	for c in GameManager.cards_in_play[GameManager.ai_player_id]:
+		for ps in c.spaces_in_range(range_to_check):
+			if ps not in spaces:
+				spaces.append(ps)
+	
+	return spaces
+
+
 func find_cards_with_stat_from_options(
 	card_options: Array, stat: int, stat_param: int, stat_target: int
 ) -> Array:
@@ -149,3 +159,35 @@ func attack_adjacent_enemies(card: CardInPlay) -> bool:
 		return true
 	
 	return false
+
+
+func areas_with_most_enemy_units(range_to_check: int, max_axis: int, min_axis: int) -> Array:
+	var areas := []
+	var play_spaces_in_range := spaces_in_range(range_to_check)
+	var highest_n_enemies := 0
+	for c in range(MapSettings.n_columns - max_axis):
+		var area := []
+		var is_area_in_range := false
+		var n_enemies := 0
+		for r in range(MapSettings.n_rows - min_axis):
+			var ps: PlaySpace = GameManager.ps_column_row[c][r]
+			if ps in play_spaces_in_range:
+				is_area_in_range = true
+			if (
+				ps.card_in_this_play_space 
+				and ps.card_in_this_play_space.card_owner_id == GameManager.p1_id
+			):
+				n_enemies += 1
+		if !is_area_in_range:
+			continue
+		if n_enemies == 0:
+			continue
+		if n_enemies < highest_n_enemies:
+			continue
+		if n_enemies == highest_n_enemies:
+			areas.append(area)
+		if n_enemies > highest_n_enemies:
+			areas = [area]
+			highest_n_enemies = n_enemies
+			
+	return areas

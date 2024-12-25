@@ -97,3 +97,9 @@ func _on_dedicated_server_pressed():
 func _on_show_ip_adress_pressed():
 	$YourIPLabel.text = str("Your IP: ", IP.get_local_addresses()[3])
 	$YourIPLabel.show()
+
+
+func _on_test_game_pressed():
+	GameManager.testing = true
+	GameManager.is_server = true
+	TransitionScene.transition_to_test_battle()

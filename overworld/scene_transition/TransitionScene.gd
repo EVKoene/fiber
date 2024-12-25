@@ -69,3 +69,15 @@ func transition_to_start_journey() -> void:
 	var select_fiber = select_fiber_scene.instantiate()
 	GameManager.main_menu.hide_main_menu()
 	GameManager.main_menu.add_child(select_fiber)
+
+
+func transition_to_test_battle() -> void:
+	GameManager.add_player(
+			1, 1, "Player1", DeckCollection.decks[DeckCollection.deck_ids.PLAYER_TESTING]
+		)
+	GameManager.player_id = 1
+
+	GameManager.add_player(
+		2, 2, "TestHarry", DeckCollection.decks[DeckCollection.deck_ids.OPPONENT_TESTING], 2
+	)
+	GameManager.start_game()

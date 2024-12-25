@@ -46,3 +46,28 @@ func resolve_spell(_selected_column: int, _selected_row: int) -> bool:
 		Events.hide_instructions.emit()
 		GameManager.battle_map.hide_finish_button()
 		return false
+
+
+func is_spell_to_play_now() -> bool:
+	if len(AIHelper.areas_with_most_enemy_units(1, 3, 3)) >= 1:
+		return true
+		
+	return false
+
+
+func resolve_spell_for_ai() -> void:
+	var selected_area: Array = AIHelper.areas_with_most_enemy_units(1, 3, 3).pick_random()
+	
+	for ps in selected_area:
+		BattleAnimation.play_hailstorm_animation(ps)
+		if ps.card_in_this_play_space:
+			if ps.card_in_this_play_space.card_owner_id != card_owner_id:
+				var target_card: CardInPlay = ps.card_in_this_play_space
+				CardManipulation.change_battle_stat(
+					Collections.stats.MAX_ATTACK, target_card.card_owner_id, 
+					target_card.card_in_play_index, -1, 2
+				)
+				CardManipulation.change_battle_stat(
+					Collections.stats.MOVEMENT, target_card.card_owner_id, 
+					target_card.card_in_play_index, -1, 2
+				)

@@ -140,6 +140,7 @@ func start_game() -> void:
 	main_menu.add_child(b_map, true)
 
 
+
 func start_single_player_battle(npc_id: int) -> void:
 	ai_player = null
 	ai_player_id = -1
