@@ -325,6 +325,7 @@ var decks := {
 			cards.STUDENT_OF_KHONG: 1,
 			cards.EARTH_GOLEM: 1,
 			cards.BRINGER_OF_ENLIGHTENMENT: 1,
+			cards.LASER_CUTTER: 1,
 		},
 		"ID": deck_ids.PLAYER_TESTING,
 	},

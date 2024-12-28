@@ -12,7 +12,7 @@ enum cards {GENERAL_FABRICATION, GORILLA, FANATIC_FOLLOWER, ATTACK_COMMAND, GOOS
 	PROTECTOR_OF_THE_FOREST, PRANCING_VERDEN, HEART_OF_THE_FOREST, MARCELLA_WHO_NURTURES_GROWTH, 
 	VOLCANIC_ERUPTION, FACTORY_WORKER, OBSTRUCTION_CONSTRUCTION, SHOCK_CHARGE, ASSEMBLY_BOT, 
 	NETWORK_FEEDER, FURNACE_BOT, EXTERMINATE, PLUG_BUDDY, COMPUTING_BOT, ZOLOI_CHARGER, 
-	COPY_MACHINE, ZALOGI_MIND_OF_MACHINES, PLUTO_MUSICAL_GUIDE, MIDAVES_RESEARCHER_OF_LIFE, 
+	COPY_MACHINE, LASER_CUTTER, ZALOGI_MIND_OF_MACHINES, PLUTO_MUSICAL_GUIDE, MIDAVES_RESEARCHER_OF_LIFE, 
 	VOLDOMA_MASTER_OF_ARMS, KILLER_WHALE_BOT, NHOROG_POTION_MASTER, GHENGI_WHO_SHAPES_THE_EARTH, 
 	SPOTOS_RECYCLER
 }
@@ -27,6 +27,9 @@ Current races:
 
 
 var cards_info = {
+
+	### PASSION ###
+
 	cards.GORILLA: {
 		"InGameName": "Gorilla",
 		"CardType": Collections.card_types.UNIT,
@@ -78,7 +81,7 @@ var cards_info = {
 			Collections.fibers.LOGIC: 0,
 		},
 		"TargetRestrictions": TargetSelection.target_restrictions.OWN_UNITS,
-		"Text": "Pick one of your units. Deal damage equal to it's max attack to a unit in range 2.",
+		"Text": "Pick one of your units. Deal damage equal to its max attack to a unit in range 2.",
 		"CardRange": 2,
 		"IMGPath": "res://battle/card/library/passion/images/AttackCommand.png",
 	},
@@ -659,7 +662,7 @@ cards.FLOW_ACCELERATOR: {
 		"Health": 3,
 		"Movement": 1,
 		"Lord": false,
-		"Text": "Exhaust: This unit deals damage equal to it's min attack to each enemy unit in a range 
+		"Text": "Exhaust: This unit deals damage equal to its min attack to each enemy unit in a range 
 		of 2",
 		"Purposes": [Collections.purposes.DEFEND_RESOURCE, Collections.purposes.BATTLE,],
 		"IMGPath": "res://battle/card/library/growth/images/FireGolem.jpg",
@@ -700,7 +703,7 @@ cards.FLOW_ACCELERATOR: {
 		"Health": 3,
 		"Movement": 1,
 		"Lord": false,
-		"Text": "When this unit attacks, add it's health to it's min attack for 1 turn",
+		"Text": "When this unit attacks, add its health to its min attack for 1 turn",
 		"Purposes": [Collections.purposes.BATTLE,],
 		"IMGPath": "res://battle/card/library/growth/images/StudentOfKhong.png",
 	},
@@ -880,6 +883,8 @@ cards.FLOW_ACCELERATOR: {
 		"Purposes": [Collections.purposes.REAR,],
 		"IMGPath": "res://battle/card/library/growth/images/MarcellaWhoNurturesGrowth.png",
 	},
+
+	### LOGIC ###
 	
 	cards.ASSEMBLY_BOT: {
 		"InGameName": "Assembly Bot",
@@ -1095,6 +1100,26 @@ cards.FLOW_ACCELERATOR: {
 		"Purposes": [Collections.purposes.REAR],
 		"IMGPath": "res://battle/card/library/logic/images/CopyMachine.png",
 	},
+
+	cards.LASER_CUTTER: {
+		"InGameName": "Laser Cutter",
+		"CardType": Collections.card_types.UNIT,
+		"fibers": [Collections.fibers.LOGIC],
+		"Costs": {
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 3,
+		},
+		"MaxAttack": 4,
+		"MinAttack": 3,
+		"Health": 3,
+		"Movement": 2,
+		"Lord": false,
+		"Text": "",
+		"Purposes": [Collections.purposes.BATTLE],
+		"IMGPath": "res://library/logic/images/LaserCutter.png",
+	},
 	
 	cards.ZALOGI_MIND_OF_MACHINES: {
 		"InGameName": "Zalogi, Mind Of Machines",
@@ -1116,6 +1141,8 @@ cards.FLOW_ACCELERATOR: {
 		"IMGPath": "res://battle/card/library/logic/images/ZalogiMindOfMachines.png",
 	},
 	
+	### ###
+
 	cards.PLUTO_MUSICAL_GUIDE: {
 		"InGameName": "Pluto, Musical Guide",
 		"CardType": Collections.card_types.UNIT,
@@ -1471,6 +1498,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = ZoloiCharger
 		cards.COPY_MACHINE:
 			card = CopyMachine
+		cards.LASER_CUTTER:
+			card = LaserCutter
 		cards.ZALOGI_MIND_OF_MACHINES:
 			card = ZalogiMindOfMachines
 	return card

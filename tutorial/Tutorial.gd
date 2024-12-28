@@ -116,7 +116,7 @@ func _preview_card() -> void:
 func _card_cost() -> void:
 	is_awaiting_tutorial_input = false
 	battle_map.show_tutorial_text(
-		"In the upper right corner of a card you'll find it's costs. This Gorilla will cost 1 
+		"In the upper right corner of a card you'll find its costs. This Gorilla will cost 1 
 		passion (red) resource to play."
 	)
 	var arrow_position := Vector2(
@@ -132,7 +132,7 @@ func _card_cost() -> void:
 func _card_movement() -> void:
 	is_awaiting_tutorial_input = false
 	battle_map.show_tutorial_text(
-		"In the lower left corner of a card you'll find it's movement. This Gorilla will be able 
+		"In the lower left corner of a card you'll find its movement. This Gorilla will be able 
 		to move 1 space each turn."
 	)
 	var arrow_position := Vector2(
@@ -148,8 +148,8 @@ func _card_movement() -> void:
 func _card_attack() -> void:
 	is_awaiting_tutorial_input = false
 	battle_map.show_tutorial_text(
-		"In the lower right corner of a card, before the slash, you'll find it's attack values.\n
-		The left number is it's maximum attack and the right number is it's minimum attack.\n
+		"In the lower right corner of a card, before the slash, you'll find its attack values.\n
+		The left number is its maximum attack and the right number is its minimum attack.\n
 		Whenever this unit attacks, it damage will be a random number in between those two."
 	)
 	var arrow_position := Vector2(
@@ -165,8 +165,8 @@ func _card_attack() -> void:
 func _card_health() -> void:
 	is_awaiting_tutorial_input = false
 	battle_map.show_tutorial_text(
-		"In the lower right corner of a card after the slash, you'll find it's health values.\n
-		Any damage this unit receives will reduce it's health. Once it's health reaches 0 it will
+		"In the lower right corner of a card after the slash, you'll find its health values.\n
+		Any damage this unit receives will reduce its health. Once its health reaches 0 it will
 		die and leave the battlefield"
 	)
 	var arrow_position := Vector2(
