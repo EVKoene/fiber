@@ -44,7 +44,7 @@ var cards_info = {
 		"Lord": false,
 		"Purposes": [],
 		"Text": "",
-		"IMGPath": "res://library/passion/images/Gorilla.png",
+		"IMGPath": "res://battle/card/library/passion/images/Gorilla.png",
 	},
 	
 	cards.FANATIC_FOLLOWER: {
@@ -64,7 +64,7 @@ var cards_info = {
 		"Lord": false,
 		"Purposes": [Collections.purposes.CONQUER_SPACES],
 		"Text": "",
-		"IMGPath": "res://library/passion/images/FanaticFollower.png",
+		"IMGPath": "res://battle/card/library/passion/images/FanaticFollower.png",
 	},
 	
 	cards.ATTACK_COMMAND: {
@@ -80,7 +80,7 @@ var cards_info = {
 		"TargetRestrictions": TargetSelection.target_restrictions.OWN_UNITS,
 		"Text": "Pick one of your units. Deal damage equal to it's max attack to a unit in range 2.",
 		"CardRange": 2,
-		"IMGPath": "res://library/passion/images/AttackCommand.png",
+		"IMGPath": "res://battle/card/library/passion/images/AttackCommand.png",
 	},
 	
 	cards.GOOSE: {
@@ -100,7 +100,7 @@ var cards_info = {
 		"Lord": false,
 		"Text": "",
 		"Purposes": [Collections.purposes.BATTLE, Collections.purposes.DEFEND_RESOURCE],
-		"IMGPath": "res://library/passion/images/Goose.png",
+		"IMGPath": "res://battle/card/library/passion/images/Goose.png",
 	},
 	
 	cards.WARTHOG_BERSERKER: {
@@ -120,7 +120,7 @@ var cards_info = {
 		"Lord": false,
 		"Text": "Frenzy (move towards the closest enemy unit and attack if possible. Then exhaust)",
 		"Purposes": [Collections.purposes.BATTLE],
-		"IMGPath": "res://library/passion/images/WarthogBerserker.png",
+		"IMGPath": "res://battle/card/library/passion/images/WarthogBerserker.png",
 	},
 	
 	cards.SNEK: {
@@ -141,7 +141,7 @@ var cards_info = {
 		"Text": "When an opponent unit enters an adjacent space, deal 1 damage to it",
 		"Purposes": [Collections.purposes.DEFEND_RESOURCE],
 	
-		"IMGPath": "res://library/passion/images/Snek.jpg",
+		"IMGPath": "res://battle/card/library/passion/images/Snek.jpg",
 		},
 		
 	cards.FOLLOW_PHEROMONES: {
@@ -158,7 +158,7 @@ var cards_info = {
 		"TargetRestrictions": TargetSelection.target_restrictions.ANY_SPACE,
 		"Text": "Look at the top cards of your deck until you find 2 units. Draw them and put the 
 		rest on the bottom of your deck.",
-		"IMGPath": "res://library/passion/images/FollowPheromones.png",
+		"IMGPath": "res://battle/card/library/passion/images/FollowPheromones.png",
 	},
 	
 	cards.GORILLA_BATTLECALLER: {
@@ -178,7 +178,7 @@ var cards_info = {
 		"Lord": false,
 		"Text": "Add 2 max attack and 1 movement to the units in adjacent spaces",
 		"Purposes": [Collections.purposes.BUFF_ADJACENT],
-		"IMGPath": "res://library/passion/images/GorillaBattlecaller.png",
+		"IMGPath": "res://battle/card/library/passion/images/GorillaBattlecaller.png",
 	},
 	
 	cards.STAMPEDE: {
@@ -194,7 +194,7 @@ var cards_info = {
 		"CardRange": -1,
 		"TargetRestrictions": TargetSelection.target_restrictions.ANY_SPACE,
 		"Text": "All your units get +2/+2/+2 and +1 movement until your next turn",
-		"IMGPath": "res://library/passion/images/Stampede.png",
+		"IMGPath": "res://battle/card/library/passion/images/Stampede.png",
 	},
 	
 	cards.FELOS_EXPEDITIONIST: {
@@ -214,7 +214,7 @@ var cards_info = {
 		"Lord": false,
 		"Text": "On Attack: Draw a Card",
 		"Purposes": [Collections.purposes.BATTLE],
-		"IMGPath": "res://library/passion/images/FelosExpeditionist.png",
+		"IMGPath": "res://battle/card/library/passion/images/FelosExpeditionist.png",
 	},
 	
 	cards.GORILLA_KING: {
@@ -234,7 +234,7 @@ var cards_info = {
 		"Lord": true,
 		"Text": "Your units get +2 max attack for each adjacent unit",
 		"Purposes": [],
-		"IMGPath": "res://library/passion/images/GorillaKing.png",
+		"IMGPath": "res://battle/card/library/passion/images/GorillaKing.png",
 	},
 	
 	cards.SKON_INSECT_FATHER: {
@@ -255,7 +255,7 @@ var cards_info = {
 		"Text": "Exhaust: Create a 2m 1/1 <N> Insect fabrication with frenzy, and 'this unit
 		deals 1 damage to itself when attacking' in each adjacent space",
 		"Purposes": [Collections.purposes.DEFEND_RESOURCE],
-		"IMGPath": "res://library/passion/images/SkonInsectFather.png",
+		"IMGPath": "res://battle/card/library/passion/images/SkonInsectFather.png",
 	},
 	
 	### IMAGINATION ###
@@ -277,7 +277,7 @@ var cards_info = {
 		"Lord": false,
 		"Text": "Exhaust: Swap with one of your own units",
 		"Purposes": [],
-		"IMGPath": "res://library/imagination/images/WizardApprentice.png",
+		"IMGPath": "res://battle/card/library/imagination/images/WizardApprentice.png",
 	},
 	
 	cards.SWITCHEROO: {
@@ -293,7 +293,7 @@ var cards_info = {
 		"CardRange": -1,
 		"TargetRestrictions": TargetSelection.target_restrictions.ANY_UNITS,
 		"Text": "Pick two units with the same owner and swap them.",
-		"IMGPath": "res://library/imagination/images/Switcheroo.png",
+		"IMGPath": "res://battle/card/library/imagination/images/Switcheroo.png",
 	},
 	
 	cards.MIST_CONJURER: {
@@ -313,7 +313,7 @@ var cards_info = {
 		"Lord": false,
 		"Text": "Opponent units in adjacent spaces get -1 Max attack",
 		"Purposes": [Collections.purposes.BATTLE, Collections.purposes.DEBUFF_ADJACENT],
-		"IMGPath": "res://library/imagination/images/MistConjurer.png",
+		"IMGPath": "res://battle/card/library/imagination/images/MistConjurer.png",
 	},
 	
 	cards.ARCANE_ARROW: {
@@ -329,7 +329,7 @@ var cards_info = {
 		"CardRange": 2,
 		"TargetRestrictions": TargetSelection.target_restrictions.ANY_UNITS,
 		"Text": "Deal 3 damage to a unit",
-		"IMGPath": "res://library/imagination/images/ArcaneArrow.png",
+		"IMGPath": "res://battle/card/library/imagination/images/ArcaneArrow.png",
 	},
 	
 	cards.FIREBALL_SHOOTER: {
@@ -349,7 +349,7 @@ var cards_info = {
 		"Purposes": [Collections.purposes.REAR],
 		"Lord": false,
 		"Text": "Exhaust: deal 1 damage to all enemey units in any direction from this unit",
-		"IMGPath": "res://library/imagination/images/FireballShooter.png",
+		"IMGPath": "res://battle/card/library/imagination/images/FireballShooter.png",
 	},
 
 cards.FLOW_ACCELERATOR: {
@@ -369,7 +369,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": false,
 		"Text": "When this unit moves, it gets +1 max attack and health for each space it moved until your next turn",
 		"Purposes": [Collections.purposes.REAR],
-		"IMGPath": "res://library/imagination/images/FlowAccelerator.png",
+		"IMGPath": "res://battle/card/library/imagination/images/FlowAccelerator.png",
 	},
 	
 	cards.AUDACIOUS_RESEARCHER: {
@@ -390,7 +390,7 @@ cards.FLOW_ACCELERATOR: {
 		"Purposes": [Collections.purposes.BATTLE],
 		"Text": "At the start of your turn, if this unit is in a row that's at least halfway towards
 		your opponent: draw the top spell in your deck.",
-		"IMGPath": "res://library/imagination/images/AudaciousResearcher.png",
+		"IMGPath": "res://battle/card/library/imagination/images/AudaciousResearcher.png",
 	},
 	
 	cards.HOMUNCULUS: {
@@ -410,7 +410,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": false,
 		"Purposes": [Collections.purposes.BATTLE],
 		"Text": "",
-		"IMGPath": "res://library/imagination/images/Homunculus.png",
+		"IMGPath": "res://battle/card/library/imagination/images/Homunculus.png",
 	},
 	
 	cards.EPHEMERAL_ASSASSIN: {
@@ -430,7 +430,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": false,
 		"Text": "This unit can move through units",
 		"Purposes": [Collections.purposes.REAR],
-		"IMGPath": "res://library/imagination/images/EphemeralAssassin.png",
+		"IMGPath": "res://battle/card/library/imagination/images/EphemeralAssassin.png",
 	},
 	
 	cards.JELLYFISH_EXTRAORDINAIRE: {
@@ -452,7 +452,7 @@ cards.FLOW_ACCELERATOR: {
 		"Purposes": [Collections.purposes.DEFEND_RESOURCE],
 		"Text": "At the start of your turn, if this unit is in a resource space that is not in 
 		your starting area, draw a card and add <M>.",
-		"IMGPath": "res://library/imagination/images/JellyfishExtraordinaire.jpg",
+		"IMGPath": "res://battle/card/library/imagination/images/JellyfishExtraordinaire.jpg",
 	},
 	
 	cards.HYRSMIR_RULER_OF_PHYSICS: {
@@ -472,7 +472,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": true,
 		"Text": "At the start of your turn: Swap any number of units any number of times.",
 		"Purposes": [Collections.purposes.REAR],
-		"IMGPath": "res://library/imagination/images/HyrsmirRulerOfPhysics.png",
+		"IMGPath": "res://battle/card/library/imagination/images/HyrsmirRulerOfPhysics.png",
 	},
 	
 	cards.PSYCHIC_TAKEOVER: {
@@ -488,7 +488,7 @@ cards.FLOW_ACCELERATOR: {
 		"TargetRestrictions": TargetSelection.target_restrictions.OPPONENT_UNITS,
 		"CardRange": 1,
 		"Text": "Gain control of an enemy unit",
-		"IMGPath": "res://library/imagination/images/PsychicTakeover.png",
+		"IMGPath": "res://battle/card/library/imagination/images/PsychicTakeover.png",
 	},
 	
 	### GROWTH ###
@@ -510,7 +510,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": false,
 		"Text": "Your units in adjacent spaces have +1 health",
 		"Purposes": [Collections.purposes.BUFF_ADJACENT],
-		"IMGPath": "res://library/growth/images/GnomeProtector.png",
+		"IMGPath": "res://battle/card/library/growth/images/GnomeProtector.png",
 	},
 	cards.MORNING_LIGHT: {
 		"InGameName": "Morning Light",
@@ -525,7 +525,7 @@ cards.FLOW_ACCELERATOR: {
 		"CardRange": 0,
 		"TargetRestrictions": TargetSelection.target_restrictions.ANY_UNITS,
 		"Text": "Target unit gets 2 health and +1 movement.",
-		"IMGPath": "res://library/growth/images/MorningLight.jpg",
+		"IMGPath": "res://battle/card/library/growth/images/MorningLight.jpg",
 	},
 	
 	cards.BOTANO_GARDENER: {
@@ -545,7 +545,7 @@ cards.FLOW_ACCELERATOR: {
 		"Purposes": [Collections.purposes.REAR],
 		"Lord": false,
 		"Text": "Exhaust: Add 1 min attack and 1 health to an adjacent unit",
-		"IMGPath": "res://library/growth/images/BotanoGardener.png",
+		"IMGPath": "res://battle/card/library/growth/images/BotanoGardener.png",
 	},
 	
 	cards.FIRE_GOLEM: {
@@ -566,7 +566,7 @@ cards.FLOW_ACCELERATOR: {
 		"Text": "Exhaust: This unit deals damage equal to it's min attack to each enemy unit in a range 
 		of 2",
 		"Purposes": [Collections.purposes.DEFEND_RESOURCE, Collections.purposes.BATTLE,],
-		"IMGPath": "res://library/growth/images/FireGolem.jpg",
+		"IMGPath": "res://battle/card/library/growth/images/FireGolem.jpg",
 	},
 	
 	cards.WIND_GOLEM: {
@@ -586,7 +586,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": false,
 		"Text": "",
 		"Purposes": [Collections.purposes.CONQUER_SPACES],
-		"IMGPath": "res://library/growth/images/Wind<<Golem.jpg",
+		"IMGPath": "res://battle/card/library/growth/images/Wind<<Golem.jpg",
 	},
 	
 	cards.STUDENT_OF_KHONG: {
@@ -606,7 +606,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": false,
 		"Text": "When this unit attacks, add it's health to it's min attack for 1 turn",
 		"Purposes": [Collections.purposes.BATTLE,],
-		"IMGPath": "res://library/growth/images/StudentOfKhong.png",
+		"IMGPath": "res://battle/card/library/growth/images/StudentOfKhong.png",
 	},
 	
 	cards.HAIL_STORM: {
@@ -622,7 +622,7 @@ cards.FLOW_ACCELERATOR: {
 		"CardRange": -1,
 		"TargetRestrictions": TargetSelection.target_restrictions.ANY_SPACE,
 		"Text": "Select a 3 x 3 square at range 1. All units in that square get -1/-0 and -1 movement.",
-		"IMGPath": "res://library/growth/images/HailStorm.jpg",
+		"IMGPath": "res://battle/card/library/growth/images/HailStorm.jpg",
 	},
 	
 	cards.ICE_GOLEM: {
@@ -643,7 +643,7 @@ cards.FLOW_ACCELERATOR: {
 		"Text": "When Ice Golem deals damage to a unit, that unit gets -1/-0 and -1 movement until
 		your next turn",
 		"Purposes": [Collections.purposes.DEFEND_RESOURCE, Collections.purposes.BATTLE,],
-		"IMGPath": "res://library/growth/images/IceGolem.jpg",
+		"IMGPath": "res://battle/card/library/growth/images/IceGolem.jpg",
 	},
 	
 	cards.EARTH_GOLEM: {
@@ -663,7 +663,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": false,
 		"Text": "",
 		"Purposes": [Collections.purposes.DEFEND_RESOURCE, Collections.purposes.BATTLE,],
-		"IMGPath": "res://library/growth/images/EarthGolem.png",
+		"IMGPath": "res://battle/card/library/growth/images/EarthGolem.png",
 	},
 	
 	cards.PROTECTOR_OF_THE_FOREST: {
@@ -683,7 +683,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": false,
 		"Text": "At the start of your turn: If Protector didn't move since your last turn, it gets +2 health",
 		"Purposes": [Collections.purposes.DEFEND_RESOURCE, Collections.purposes.BATTLE,],
-		"IMGPath": "res://library/growth/images/ProtectorOfTheForest.jpg",
+		"IMGPath": "res://battle/card/library/growth/images/ProtectorOfTheForest.jpg",
 	},
 
 	cards.HEART_OF_THE_FOREST: {
@@ -703,7 +703,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": false,
 		"Text": "Allied units in range 1 get +0/+4. Units in range 2 get +0/+2",
 		"Purposes": [Collections.purposes.BUFF_ADJACENT],
-		"IMGPath": "res://library/growth/images/HeartOfTheForest.jpg",
+		"IMGPath": "res://battle/card/library/growth/images/HeartOfTheForest.jpg",
 	},
 	
 	cards.BRINGER_OF_ENLIGHTENMENT: {
@@ -724,7 +724,7 @@ cards.FLOW_ACCELERATOR: {
 		"Text": "At the start of your turn, your other units in range with at least 5 health get 
 		+3 max attack",
 		"Purposes": [Collections.purposes.BUFF_ADJACENT],
-		"IMGPath": "res://library/growth/images/BringerOfEnlightenment.png",
+		"IMGPath": "res://battle/card/library/growth/images/BringerOfEnlightenment.png",
 	},
 	
 	cards.VOLCANIC_ERUPTION: {
@@ -741,7 +741,7 @@ cards.FLOW_ACCELERATOR: {
 		"TargetRestrictions": TargetSelection.target_restrictions.ANY_SPACE,
 		"Text": "Select a 4 x 4 square at range 1. Deal 2 damage to each enemy unit in the selected 
 		square.",
-		"IMGPath": "res://library/growth/images/VolcanicEruption.jpg",
+		"IMGPath": "res://battle/card/library/growth/images/VolcanicEruption.jpg",
 	},
 	
 	cards.PRANCING_VERDEN: {
@@ -762,7 +762,7 @@ cards.FLOW_ACCELERATOR: {
 		"Text": "This unit can move through units. If it moves through a friendly unit, that unit
 		gets +2 movement and +1 min attack this turn.",
 		"Purposes": [Collections.purposes.BUFF_ADJACENT],
-		"IMGPath": "res://library/growth/images/PrancingVerden.jpg",
+		"IMGPath": "res://battle/card/library/growth/images/PrancingVerden.jpg",
 	},
 	
 	cards.MARCELLA_WHO_NURTURES_GROWTH: {
@@ -782,7 +782,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": true,
 		"Text": "Pay 2<N>: Draw a card, add 1 min attack and 1 health to up to one adjacent unit",
 		"Purposes": [Collections.purposes.REAR,],
-		"IMGPath": "res://library/growth/images/MarcellaWhoNurturesGrowth.png",
+		"IMGPath": "res://battle/card/library/growth/images/MarcellaWhoNurturesGrowth.png",
 	},
 	
 	cards.ASSEMBLY_BOT: {
@@ -803,7 +803,7 @@ cards.FLOW_ACCELERATOR: {
 		"Text": "When this unit enters battle, create a 1/1 logic fabrication in an adjacent space
 		with 1 movement",
 		"Purposes": [],
-		"IMGPath": "res://library/logic/images/AssemblyBot.png",
+		"IMGPath": "res://battle/card/library/logic/images/AssemblyBot.png",
 	},
 	
 	cards.OBSTRUCTION_CONSTRUCTION: {
@@ -823,7 +823,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": false,
 		"Text": "",
 		"Purposes": [Collections.purposes.DEFEND_RESOURCE],
-		"IMGPath": "res://library/logic/images/ObstructionConstruction.png",
+		"IMGPath": "res://battle/card/library/logic/images/ObstructionConstruction.png",
 	},
 	
 	cards.SHOCK_CHARGE: {
@@ -839,7 +839,7 @@ cards.FLOW_ACCELERATOR: {
 		"Text": "Refresh up to two units.",
 		"CardRange": -1,
 		"TargetRestrictions": TargetSelection.target_restrictions.ANY_SPACE,
-		"IMGPath": "res://library/logic/images/ShockCharge.jpg",
+		"IMGPath": "res://battle/card/library/logic/images/ShockCharge.jpg",
 	},
 	
 	cards.FACTORY_WORKER: {
@@ -859,7 +859,7 @@ cards.FLOW_ACCELERATOR: {
 		"Purposes": [Collections.purposes.REAR],
 		"Lord": false,
 		"Text": "Exhaust: Add 1 R",
-		"IMGPath": "res://library/logic/images/FactoryWorker.png",
+		"IMGPath": "res://battle/card/library/logic/images/FactoryWorker.png",
 	},
 	
 	cards.NETWORK_FEEDER: {
@@ -879,7 +879,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": false,
 		"Text": "This unit gets 2 max attack and 2 health for each adjacent allied unit",
 		"Purposes": [Collections.purposes.BATTLE],
-		"IMGPath": "res://library/logic/images/NetworkFeeder.jpg",
+		"IMGPath": "res://battle/card/library/logic/images/NetworkFeeder.jpg",
 	},
 	
 	cards.EXTERMINATE: {
@@ -895,7 +895,7 @@ cards.FLOW_ACCELERATOR: {
 		"Text": "Consume one of your own units: Destroy a unit within range 1 of the consumed unit",
 		"CardRange": -1,
 		"TargetRestrictions": TargetSelection.target_restrictions.OWN_UNITS,
-		"IMGPath": "res://library/logic/images/Exterminate.jpg",
+		"IMGPath": "res://battle/card/library/logic/images/Exterminate.jpg",
 	
 	},
 	
@@ -916,7 +916,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": false,
 		"Text": "Consume a unit in range 1: This unit gets +1 max attack, min attack and health",
 		"Purposes": [Collections.purposes.BATTLE],
-		"IMGPath": "res://library/logic/images/FurnaceBot.jpg",
+		"IMGPath": "res://battle/card/library/logic/images/FurnaceBot.jpg",
 	},
 	
 	cards.ZOLOI_CHARGER: {
@@ -936,7 +936,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": false,
 		"Text": "If there's a unit to the left and right of this unit at the start of your turn, this unit gets +3 max attack, Impact and +2 movement until your next turn",
 		"Purposes": [Collections.purposes.BUFF_ADJACENT],
-		"IMGPath": "res://library/logic/images/ZoloiCharger.png",
+		"IMGPath": "res://battle/card/library/logic/images/ZoloiCharger.png",
 	},
 	
 	cards.PLUG_BUDDY: {
@@ -956,7 +956,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": false,
 		"Text": "Exhaust, 2<R>: Refresh all your other units in range 1",
 		"Purposes": [Collections.purposes.BUFF_ADJACENT],
-		"IMGPath": "res://library/logic/images/PlugBuddy.jpg",
+		"IMGPath": "res://battle/card/library/logic/images/PlugBuddy.jpg",
 	},
 	
 	cards.COMPUTING_BOT: {
@@ -976,7 +976,7 @@ cards.FLOW_ACCELERATOR: {
 		"Movement": 1,
 		"Text": "Exhaust, 1<R>: Consume a unit in range 1: Discard 1 card and draw 3 cards",
 		"Purposes": [Collections.purposes.REAR],
-		"IMGPath": "res://library/logic/images/ComputingBot.jpg",
+		"IMGPath": "res://battle/card/library/logic/images/ComputingBot.jpg",
 	},
 	
 	cards.COPY_MACHINE: {
@@ -997,7 +997,7 @@ cards.FLOW_ACCELERATOR: {
 		"Text": "Exhaust, 3<R>: Choose a unit in range 1. Create a fabrication that's a copy of that
 		unit in range 1. Exhaust it.",
 		"Purposes": [Collections.purposes.REAR],
-		"IMGPath": "res://library/logic/images/CopyMachine.png",
+		"IMGPath": "res://battle/card/library/logic/images/CopyMachine.png",
 	},
 	
 	cards.ZALOGI_MIND_OF_MACHINES: {
@@ -1017,7 +1017,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": true,
 		"Text": "Your fabrications are created with +2 max attack, min attack and health and +1 movement",
 		"Purposes": [Collections.purposes.REAR],
-		"IMGPath": "res://library/logic/images/ZalogiMindOfMachines.png",
+		"IMGPath": "res://battle/card/library/logic/images/ZalogiMindOfMachines.png",
 	},
 	
 	cards.PLUTO_MUSICAL_GUIDE: {

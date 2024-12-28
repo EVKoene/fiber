@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://cwfyh8flqa8rk"]
 
 [ext_resource type="Script" path="res://battle/card/card_states/CardInPlay.gd" id="1_nshbd"]
-[ext_resource type="Texture2D" uid="uid://blrmfntk4ogf0" path="res://library/passion/images/Animal.png" id="2_yqxow"]
+[ext_resource type="Texture2D" uid="uid://blrmfntk4ogf0" path="res://battle/card/library/passion/images/Animal.png" id="2_yqxow"]
 [ext_resource type="LabelSettings" uid="uid://dq5kctg5dkitl" path="res://styling/labels/PassionLabel.tres" id="4_734v1"]
 [ext_resource type="LabelSettings" uid="uid://nx6f46ywtswa" path="res://styling/labels/ImaginationLabel.tres" id="5_k068k"]
 [ext_resource type="LabelSettings" uid="uid://ihox33scd0t8" path="res://styling/labels/GrowthLabel.tres" id="6_2vrch"]
