@@ -2333,12 +2333,15 @@ animations = [{
 radius = 19.0
 
 [node name="NpcBody" type="CharacterBody2D"]
+y_sort_enabled = true
 script = ExtResource("1_ju3ua")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_xjyfs")
 animation = &"guru_laghima_side_walk"
+offset = Vector2(0, -35)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 28)
+position = Vector2(2, -11)
 shape = SubResource("CircleShape2D_5hqt3")
