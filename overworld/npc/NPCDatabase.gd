@@ -149,4 +149,3 @@ func npc_animation(npc: int, direction: int, animation_type: int) -> String:
 			animation_type_string = "walking"
 	
 	return str(character_type, "_", direction_string, "_", animation_type_string)
-
