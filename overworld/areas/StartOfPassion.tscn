@@ -24,20 +24,21 @@ tile_set = ExtResource("4_fl02c")
 
 [node name="Hans" parent="." index="5" instance=ExtResource("5_11alt")]
 position = Vector2(-808, 108)
+npc_name = "Hans"
 direction = 3
 
 [node name="Jacques" parent="." index="6" instance=ExtResource("5_11alt")]
 position = Vector2(276, -356)
-npc_id = 1
+npc_name = "Jacques"
 
 [node name="Masha" parent="." index="7" instance=ExtResource("5_11alt")]
 position = Vector2(80, 72)
-npc_id = 5
+npc_name = "Masha"
 direction = 2
 
 [node name="Gary" parent="." index="8" instance=ExtResource("5_11alt")]
 position = Vector2(580, -1198)
-npc_id = 4
+npc_name = "Gary"
 
 [node name="TransitionTile" parent="." index="10" instance=ExtResource("6_cgnsl")]
 position = Vector2(1192, 1092)

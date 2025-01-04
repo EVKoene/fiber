@@ -21,7 +21,7 @@ visible = false
 [node name="Ground" type="TileMapLayer" parent="."]
 y_sort_enabled = true
 tile_set = SubResource("TileSet_2mr76")
-y_sort_origin = -50
+y_sort_origin = -300
 
 [node name="Objects" type="TileMapLayer" parent="."]
 y_sort_enabled = true

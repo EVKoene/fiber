@@ -2,12 +2,12 @@ extends Node
 
 
 enum npcs {
-	 HANS, JACQUES, JESUS, JOS, GARY, MASHA, ROB, GURU_FLAPPIE, GURU_TRONG, 
-	GURU_KAL, GURU_LAGHIMA, 
+	 HANS, JACQUES, JESUS, GARY, MASHA, ROB, GURU_FLAPPIE, GURU_TRONG, 
+	GURU_KAL, GURU_LAGHIMA, STUDENT_DAL, STUDENT_MAC, STUDENT_KALA, SHALLAN
 }
 enum character_types {
 	 BEEBOY, BUMBLEBEE_LADY, BUSINESS_CAP_BOY, DINO_BUSINESS_MAN, ROBOT_GUY, JESUS, GARY, GURU_1,
-	GURU_2, GURU_3, GURU_LAGHIMA
+	GURU_2, GURU_3, GURU_LAGHIMA, SHALLAN
 }
 enum special_rules { ADD_1_MAX_ATTACK, ADD_1_HEALTH, }
 
@@ -44,11 +44,35 @@ var npc_data: Dictionary = {
 	},
 	
 	### IMAGINATION DECKS ###
-	npcs.JOS: {
-		"Name": "Jos",
-		"Dialogue": ["Let's see how well you can dance..."],
+	npcs.STUDENT_DAL: {
+		"Name": "Student Dal",
+		"Dialogue": ["Boom, baby!"],
+		"Battle": true,
+		"CharacterModel": character_types.BEEBOY,
+		"Deck": DeckCollection.decks[DeckCollection.deck_ids.IMAGINATION_MISSILES]
+	},
+	
+	npcs.STUDENT_MAC: {
+		"Name": "Student Mac",
+		"Dialogue": ["When I grow up I want to be a dinosaur"],
+		"Battle": true,
+		"CharacterModel": character_types.DINO_BUSINESS_MAN,
+		"Deck": DeckCollection.decks[DeckCollection.deck_ids.MOVEMENT_SHENANIGANS]
+	},
+	
+	npcs.STUDENT_KALA: {
+		"Name": "Student Kala",
+		"Dialogue": ["I wonder if aliens can see sounds?"],
 		"Battle": true,
 		"CharacterModel": character_types.BUSINESS_CAP_BOY,
+		"Deck": DeckCollection.decks[DeckCollection.deck_ids.IMAGINATION_MISSILES]
+	},
+	
+	npcs.SHALLAN: {
+		"Name": "Shallan",
+		"Dialogue": ["If you open your mind, anything is possible"],
+		"Battle": true,
+		"CharacterModel": character_types.SHALLAN,
 		"Deck": DeckCollection.decks[DeckCollection.deck_ids.IMAGINATION_MISSILES]
 	},
 	
@@ -87,7 +111,7 @@ var npc_data: Dictionary = {
 	},
 	
 	npcs.GURU_TRONG: {
-		"Name": "Guru Flappie",
+		"Name": "Guru Trong",
 		"Dialogue": ["Right now right now!"],
 		"Battle": true,
 		"CharacterModel": character_types.GURU_3,
@@ -116,6 +140,7 @@ var character_model := {
 	character_types.GURU_2: "guru_2",
 	character_types.GURU_3: "guru_3",
 	character_types.GURU_LAGHIMA: "guru_laghima",
+	character_types.SHALLAN: "shallan"
 }
 
 

@@ -27,3 +27,15 @@ func get_costs() -> Dictionary:
 		Collections.fibers.GROWTH: growth,
 		Collections.fibers.LOGIC: logic,
 	}
+
+
+func change_cost(fiber: int, value: int) -> void:
+	match fiber:
+		Collections.fibers.PASSION:
+			passion += value
+		Collections.fibers.IMAGINATION:
+			imagination -= value
+		Collections.fibers.GROWTH:
+			growth += value
+		Collections.LOGIC:
+			logic += value

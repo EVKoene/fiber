@@ -2,7 +2,7 @@ extends Node
 
 
 func frenzy(
-	card: CardInPlay, trigger: int, triggering_card: CardInPlay, _func_arguments: Dictionary
+	card: CardInPlay, trigger: int, triggering_card: Card, _func_arguments: Dictionary
 ) -> void:
 	if (
 		trigger == Collections.triggers.TURN_STARTED 
@@ -33,7 +33,7 @@ func frenzy(
 
 
 func damage_self(
-	card: CardInPlay, trigger: int, triggering_card: CardInPlay, func_arguments: Dictionary
+	card: CardInPlay, trigger: int, triggering_card: Card, func_arguments: Dictionary
 ) -> void:
 	if trigger == func_arguments["Trigger"] and card == triggering_card:
 		card.resolve_damage(func_arguments["Damage"])

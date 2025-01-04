@@ -337,7 +337,8 @@ func resolve_spell(card_owner_id: int, hand_index: int, column: int, row: int) -
 			BattleSynchronizer.remove_card_from_hand.rpc_id(p_id, card_owner_id, h_index)
 	
 	GameManager.turn_manager.set_turn_actions_enabled(true)
-	
+	call_triggered_funcs(Collections.triggers.SPELL_PLAYED, card)
+
 
 func finish_resolve() -> void:
 	await get_tree().process_frame
@@ -347,7 +348,7 @@ func finish_resolve() -> void:
 	TargetSelection.end_selecting()
 
 
-func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:
+func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 	for p_id in GameManager.players:
 		for card in GameManager.cards_in_play[p_id]:
 			await card.call_triggered_funcs(trigger, triggering_card)

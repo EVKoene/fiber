@@ -2,13 +2,16 @@ extends Node
 
 var cards = load("res://battle/card/CardDatabase.gd").cards
 enum deck_ids {
-	PASSION_STARTER, IMAGINATION_STARTER, GROWTH_STARTER, LOGIC_STARTER, GORILLA,
-	IMAGINATION_MISSILES, LOGIC_FACTORY, GOLEMS, ELEMENTS, BEEFY_BOYS, FRENZY_START, TUTORIAL_DECK, 
+	PASSION_STARTER, IMAGINATION_STARTER, GROWTH_STARTER, LOGIC_STARTER, GORILLA, 
+	MOVEMENT_SHENANIGANS, IMAGINATION_MISSILES, SPELL_SLINGERS, SHALLAN, LOGIC_FACTORY, GOLEMS, 
+	ELEMENTS, BEEFY_BOYS, FRENZY_START, TUTORIAL_DECK, 
 	GURU_LAGHIMA, OPPONENT_TESTING, PLAYER_TESTING, SMELLY_JACQUES, MINIBOSS 
 	}
 
 
 var decks := {
+	### STARTER DECKS ###
+	
 	deck_ids.PASSION_STARTER: {
 		"DeckName": "PassionStarter",
 		"Cards": {
@@ -76,7 +79,9 @@ var decks := {
 		},
 		"ID": deck_ids.LOGIC_STARTER,
 	},
-
+	
+	### PASSION ###
+	
 	deck_ids.GORILLA: {
 		"DeckName": "Gorilla",
 		"Cards": {
@@ -89,102 +94,7 @@ var decks := {
 		},
 		"ID": deck_ids.GORILLA,
 	},
-
-	deck_ids.IMAGINATION_MISSILES: {
-		"DeckName": "ImaginationMissiles",
-		"Cards": {
-			cards.WIZARD_SCOUT: 15,
-			cards.ARCANE_ARROW: 10,
-			cards.FIREBALL_SHOOTER: 15,
-			cards.JELLYFISH_EXTRAORDINAIRE: 5,
-		},
-		"StartingCards": {
-			cards.WIZARD_SCOUT: 2,
-			cards.ARCANE_ARROW: 1,
-		},
-		"ID": deck_ids.IMAGINATION_MISSILES,
-	},
-
-	deck_ids.LOGIC_FACTORY: {
-		"DeckName": "Logic Factory",
-		"Cards": {
-			cards.ASSEMBLY_BOT: 15, 
-			cards.NETWORK_FEEDER: 15, 
-			cards.FURNACE_BOT: 5,
-			cards.COMPUTING_BOT: 5 
-		},
-		"StartingCards": {
-			cards.ASSEMBLY_BOT: 3,
-		},
-		"ID": deck_ids.LOGIC_FACTORY,
-	},
-
-	deck_ids.BEEFY_BOYS: {
-		"DeckName": "Beefy Boys",
-		"Cards": {
-			cards.GNOME_PROTECTOR: 10,  
-			cards.MORNING_LIGHT: 15, 
-			cards.EARTH_GOLEM: 15, 
-			cards.HEART_OF_THE_FOREST: 5, 
-		},
-		"StartingCards": {
-			cards.GNOME_PROTECTOR: 2,
-			cards.MORNING_LIGHT: 1,
-		},
-		"ID": deck_ids.BEEFY_BOYS,
-	},
-
-	deck_ids.GOLEMS: {
-		"DeckName": "Golems",
-		"Cards": {
-			cards.ICE_GOLEM: 20, 
-			cards.FIRE_GOLEM: 15,  
-			cards.EARTH_GOLEM: 15, 
-		},
-		"StartingCards": {
-			cards.GNOME_PROTECTOR: 3,
-		},
-		
-		"ID": deck_ids.GOLEMS,
-	},
-
-	deck_ids.ELEMENTS: {
-		"DeckName": "Elements",
-		"Cards": {
-			cards.BOTANO_GARDENER: 5,
-			cards.WIND_GOLEM: 10,
-			cards.HAIL_STORM: 15, 
-			cards.EARTH_GOLEM: 10,
-			cards.VOLCANIC_ERUPTION: 10, 
-		},
-		"StartingCards": {
-			cards.GNOME_PROTECTOR: 1,
-			cards.WIND_GOLEM: 2,
-		},
-		
-		"ID": deck_ids.ELEMENTS,
-	},
-
-	deck_ids.GURU_LAGHIMA: {
-		"DeckName": "Elements",
-		"Cards": {
-			cards.GNOME_PROTECTOR: 10,
-			cards.MORNING_LIGHT: 10,
-			cards.STUDENT_OF_KHONG: 10,
-			cards.HAIL_STORM: 5, 
-			cards.EARTH_GOLEM: 10,
-			cards.VOLCANIC_ERUPTION: 5,
-			cards.BRINGER_OF_ENLIGHTENMENT: 10,
-			cards.MARCELLA_WHO_NURTURES_GROWTH: 5, 
-		},
-		"StartingCards": {
-			cards.GNOME_PROTECTOR: 2,
-			cards.WIND_GOLEM: 2,
-		},
-		
-		"ID": deck_ids.ELEMENTS,
-	},
-
+	
 	deck_ids.FRENZY_START: {
 		"DeckName": "Frenzy Start",
 		"Cards": {
@@ -229,8 +139,160 @@ var decks := {
 		},
 		"ID": deck_ids.MINIBOSS,
 	},
-
-
+	
+	### IMAGINATION ###
+	deck_ids.IMAGINATION_MISSILES: {
+		"DeckName": "ImaginationMissiles",
+		"Cards": {
+			cards.WIZARD_SCOUT: 15,
+			cards.ARCANE_ARROW: 10,
+			cards.FIREBALL_SHOOTER: 15,
+			cards.JELLYFISH_EXTRAORDINAIRE: 5,
+		},
+		"StartingCards": {
+			cards.WIZARD_SCOUT: 2,
+			cards.ARCANE_ARROW: 1,
+		},
+		"ID": deck_ids.IMAGINATION_MISSILES,
+	},
+	
+	deck_ids.MOVEMENT_SHENANIGANS: {
+		"DeckName": "MovementShenanigans",
+		"Cards": {
+			cards.WIZARD_SCOUT: 15,
+			cards.SWITCHEROO: 10,
+			cards.INSPIRING_ARTIST: 10,
+			cards.FLOW_ACCELERATOR: 15,
+			cards.HYRSMIR_RULER_OF_PHYSICS: 5,
+		},
+		"StartingCards": {
+			cards.WIZARD_SCOUT: 2,
+			cards.FLOW_ACCELERATOR: 1,
+		},
+		"ID": deck_ids.MOVEMENT_SHENANIGANS,
+	},
+	
+	deck_ids.SPELL_SLINGERS: {
+		"DeckName": "Spell Slingers",
+		"Cards": {
+			cards.IMAGINARY_FRIEND: 15,
+			cards.SWITCHEROO: 10,
+			cards.ARCANE_ARROW: 10,
+			cards.DREAMFINDER: 10,
+			cards.AUDACIOUS_RESEARCHER: 15,
+			cards.STREAM_OF_THOUGHT: 15,
+		},
+		"StartingCards": {
+			cards.IMAGINARY_FRIEND: 2,
+			cards.SWITCHEROO: 1,
+		},
+		"ID": deck_ids.SPELL_SLINGERS,
+	},
+	
+	deck_ids.SHALLAN: {
+		"DeckName": "Shallan",
+		"Cards": {
+			cards.IMAGINARY_FRIEND: 10,
+			cards.SWITCHEROO: 10,
+			cards.MIST_CONJURER: 10,
+			cards.ARCANE_ARROW: 10, 
+			cards.HOMUNCULUS: 5,
+			cards.FLOW_ACCELERATOR: 5,
+			cards.STREAM_OF_THOUGHT: 10,
+			cards.HYRSMIR_RULER_OF_PHYSICS: 3, 
+		},
+		"StartingCards": {
+			cards.IMAGINARY_FRIEND: 2,
+			cards.ARCANE_ARROW: 1,
+		},
+		
+		"ID": deck_ids.SHALLAN,
+	},
+	
+	### GROWTH ###
+	deck_ids.BEEFY_BOYS: {
+		"DeckName": "Beefy Boys",
+		"Cards": {
+			cards.GNOME_PROTECTOR: 10,  
+			cards.MORNING_LIGHT: 15, 
+			cards.EARTH_GOLEM: 15, 
+			cards.HEART_OF_THE_FOREST: 5, 
+		},
+		"StartingCards": {
+			cards.GNOME_PROTECTOR: 2,
+			cards.MORNING_LIGHT: 1,
+		},
+		"ID": deck_ids.BEEFY_BOYS,
+	},
+	
+	deck_ids.GOLEMS: {
+		"DeckName": "Golems",
+		"Cards": {
+			cards.ICE_GOLEM: 20, 
+			cards.FIRE_GOLEM: 15,  
+			cards.EARTH_GOLEM: 15, 
+		},
+		"StartingCards": {
+			cards.GNOME_PROTECTOR: 3,
+		},
+		
+		"ID": deck_ids.GOLEMS,
+	},
+	
+	deck_ids.ELEMENTS: {
+		"DeckName": "Elements",
+		"Cards": {
+			cards.BOTANO_GARDENER: 5,
+			cards.WIND_GOLEM: 10,
+			cards.HAIL_STORM: 15, 
+			cards.EARTH_GOLEM: 10,
+			cards.VOLCANIC_ERUPTION: 10, 
+		},
+		"StartingCards": {
+			cards.GNOME_PROTECTOR: 1,
+			cards.WIND_GOLEM: 2,
+		},
+		
+		"ID": deck_ids.ELEMENTS,
+	},
+	
+	deck_ids.GURU_LAGHIMA: {
+		"DeckName": "Elements",
+		"Cards": {
+			cards.GNOME_PROTECTOR: 10,
+			cards.MORNING_LIGHT: 10,
+			cards.STUDENT_OF_KHONG: 10,
+			cards.HAIL_STORM: 5, 
+			cards.EARTH_GOLEM: 10,
+			cards.VOLCANIC_ERUPTION: 5,
+			cards.BRINGER_OF_ENLIGHTENMENT: 10,
+			cards.MARCELLA_WHO_NURTURES_GROWTH: 5, 
+		},
+		"StartingCards": {
+			cards.GNOME_PROTECTOR: 2,
+			cards.WIND_GOLEM: 2,
+		},
+		
+		"ID": deck_ids.ELEMENTS,
+	},
+	
+	### LOGIC 
+	
+	deck_ids.LOGIC_FACTORY: {
+		"DeckName": "Logic Factory",
+		"Cards": {
+			cards.ASSEMBLY_BOT: 15, 
+			cards.NETWORK_FEEDER: 15, 
+			cards.FURNACE_BOT: 5,
+			cards.COMPUTING_BOT: 5 
+		},
+		"StartingCards": {
+			cards.ASSEMBLY_BOT: 3,
+		},
+		"ID": deck_ids.LOGIC_FACTORY,
+	},
+	
+	### MISC ###
 	deck_ids.TUTORIAL_DECK: {
 		"DeckName": "Tutorial Deck",
 		"Cards": {

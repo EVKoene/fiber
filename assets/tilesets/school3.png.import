@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://blrmfntk4ogf0"
-path="res://.godot/imported/Animal.png-784f2a4dd6c9cd47688c27805c68f714.ctex"
+uid="uid://cdfeg1pr0xgpa"
+path="res://.godot/imported/school3.png-0142486dc76378765b5a9d0ff2a2bbe6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://battle/card/library/passion/images/Animal.png"
-dest_files=["res://.godot/imported/Animal.png-784f2a4dd6c9cd47688c27805c68f714.ctex"]
+source_file="res://assets/tilesets/school3.png"
+dest_files=["res://.godot/imported/school3.png-0142486dc76378765b5a9d0ff2a2bbe6.ctex"]
 
 [params]
 

@@ -1,7 +1,7 @@
 extends CardInPlay
 
+class_name OverstimulationFiend
 
-class_name MistConjurer
 
 func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 	if (
@@ -10,7 +10,7 @@ func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 	):
 		for ps in current_play_space.adjacent_play_spaces():
 			ps.update_stat_modifier(
-				GameManager.opposing_player_id(card_owner_id), Collections.stats.MAX_ATTACK, -1
+				GameManager.opposing_player_id(card_owner_id), Collections.stats.MOVEMENT, -1
 			)
 	elif (
 		(
@@ -21,5 +21,5 @@ func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 	):
 		for ps in current_play_space.adjacent_play_spaces():
 			ps.update_stat_modifier(
-				GameManager.opposing_player_id(card_owner_id), Collections.stats.MAX_ATTACK, 1
+				GameManager.opposing_player_id(card_owner_id), Collections.stats.MOVEMENT, 1
 			)
