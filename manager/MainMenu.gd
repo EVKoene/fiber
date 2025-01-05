@@ -83,7 +83,9 @@ func _on_single_player_pressed() -> void:
 		TransitionScene.transition_to_start_journey()
 		return
 	
-	TransitionScene.transition_to_overworld_scene(AreaDatabase.area_ids.START_OF_JOURNEY)
+	TransitionScene.transition_to_overworld_scene(
+		OverworldManager.current_area_id, OverworldManager.player_position
+	)
 
 
 func _on_tutorial_pressed():

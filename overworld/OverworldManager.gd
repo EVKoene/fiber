@@ -6,6 +6,8 @@ extends Node
 
 var can_move := true
 var overworld_textbox: OverworldTextbox
+var player_position: Vector2 : get = _get_player_position
+var current_area_id: int: get = _get_current_area_id
 
 
 func save_player_position() -> void:
@@ -13,9 +15,33 @@ func save_player_position() -> void:
 	if FileAccess.file_exists(overworld_file):
 		config.load(overworld_file)
 	
-	var player_position: Vector2 = GameManager.current_scene.player_position
+	var position_to_save: Vector2 = GameManager.current_scene.player_position
 	var current_scene_id: int = GameManager.current_scene.scene_id
 	
-	config.set_value("player", "position", player_position)
+	config.set_value("player", "position", position_to_save)
 	config.set_value("overworld", "area_id", current_scene_id)
 	config.save(overworld_file)
+
+
+func _get_player_position() -> Vector2:
+	var config := ConfigFile.new()
+	assert(
+		FileAccess.file_exists(overworld_file), 
+		"Couldn't find savefile to determine player position"
+	)
+
+	config.load(overworld_file)
+	
+	return config.get_value("player", "position")
+
+
+func _get_current_area_id() -> int:
+	var config := ConfigFile.new()
+	assert(
+		FileAccess.file_exists(overworld_file), 
+		"Couldn't find savefile to determine player position"
+	)
+
+	config.load(overworld_file)
+	
+	return config.get_value("overworld", "area_id")

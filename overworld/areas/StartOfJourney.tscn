@@ -6,9 +6,6 @@
 
 [node name="OverworldArea" instance=ExtResource("1_1vi52")]
 
-[node name="OverworldTextbox" parent="." index="1"]
-visible = false
-
 [node name="Objects2" type="TileMapLayer" parent="." index="4"]
 y_sort_enabled = true
 use_parent_material = true

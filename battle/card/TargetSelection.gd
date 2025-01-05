@@ -1,6 +1,7 @@
 extends Node
 
 signal target_selection_finished
+@warning_ignore("unused_signal") 
 signal space_selection_finished
 
 

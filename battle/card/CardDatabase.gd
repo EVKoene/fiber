@@ -337,7 +337,7 @@ var cards_info = {
 	},
 	
 	cards.INSPIRING_ARTIST: {
-		"InGameName": "Gorilla Battlecaller",
+		"InGameName": "Inspiring Artist",
 		"CardType": Collections.card_types.UNIT,
 		"fibers": [Collections.fibers.PASSION],
 		"Costs": {

@@ -250,8 +250,10 @@ func _get_current_deck() -> Dictionary:
 	
 	var config := ConfigFile.new()
 	config.load(collections_path)
-	var deck_id: int = config.get_value("deck_data", "current_deck_id")
-	return DeckCollection.decks[deck_id]
+	var deck_collection: Dictionary = config.get_value("deck_data", "decks")
+	var current_deck_id: int = config.get_value("deck_data", "current_deck_id")
+	var current_deck: Dictionary = deck_collection[current_deck_id]
+	return current_deck
 
 
 func cleanup_game() -> void:

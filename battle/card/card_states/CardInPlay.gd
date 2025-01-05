@@ -490,7 +490,7 @@ func _get_card_range() -> int:
 
 
 func _add_border() -> void:
-	var border := StyleBoxFlat.new()
+	border = StyleBoxFlat.new()
 	add_theme_stylebox_override("panel", border)
 
 	get_theme_stylebox("panel").set_border_width_all(size.y / 10)

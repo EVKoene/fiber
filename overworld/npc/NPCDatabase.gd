@@ -64,8 +64,8 @@ var npc_data: Dictionary = {
 		"Name": "Student Kala",
 		"Dialogue": ["I wonder if aliens can see sounds?"],
 		"Battle": true,
-		"CharacterModel": character_types.BUSINESS_CAP_BOY,
-		"Deck": DeckCollection.decks[DeckCollection.deck_ids.IMAGINATION_MISSILES]
+		"CharacterModel": character_types.BUMBLEBEE_LADY,
+		"Deck": DeckCollection.decks[DeckCollection.deck_ids.SPELL_SLINGERS]
 	},
 	
 	npcs.SHALLAN: {
