@@ -48,4 +48,4 @@ z_index = 1
 y_sort_enabled = true
 position = Vector2(163, 329)
 scale = Vector2(5, 5)
-scene_id = 2
+scene_id = 3

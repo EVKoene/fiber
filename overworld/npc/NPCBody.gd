@@ -15,33 +15,33 @@ func _get_npc_id() -> int:
 	var id_to_return: int
 	match npc_name:
 		"Hans":
-			id_to_return = NPCDatabase.npc_ids.HANS
+			id_to_return = NPCDatabase.npcs.HANS
 		"Masha":
-			id_to_return = NPCDatabase.npc_ids.MASHA
+			id_to_return = NPCDatabase.npcs.MASHA
 		"Jacques":
-			id_to_return = NPCDatabase.npc_ids.JACQUES
+			id_to_return = NPCDatabase.npcs.JACQUES
 		"Gary":
-			id_to_return = NPCDatabase.npc_ids.GARY
-		"Dal":
-			id_to_return = NPCDatabase.npc_ids.STUDENT_DAL
-		"Mac":
-			id_to_return = NPCDatabase.npc_ids.STUDENT_MAC
-		"Kala":
-			id_to_return = NPCDatabase.npc_ids.STUDENT_KALA
+			id_to_return = NPCDatabase.npcs.GARY
+		"Student Dal":
+			id_to_return = NPCDatabase.npcs.STUDENT_DAL
+		"Student Mac":
+			id_to_return = NPCDatabase.npcs.STUDENT_MAC
+		"Student Kala":
+			id_to_return = NPCDatabase.npcs.STUDENT_KALA
 		"Rob":
-			id_to_return = NPCDatabase.npc_ids.ROB
+			id_to_return = NPCDatabase.npcs.ROB
 		"Jesus":
-			id_to_return = NPCDatabase.npc_ids.JESUS
+			id_to_return = NPCDatabase.npcs.JESUS
 		"Guru Flappie":
-			id_to_return = NPCDatabase.npc_ids.GURU_FLAPPIE
+			id_to_return = NPCDatabase.npcs.GURU_FLAPPIE
 		"Guru Kal":
-			id_to_return = NPCDatabase.npc_ids.GURU_KAL
+			id_to_return = NPCDatabase.npcs.GURU_KAL
 		"Guru Flappie":
-			id_to_return = NPCDatabase.npc_ids.GURU_TRONG
+			id_to_return = NPCDatabase.npcs.GURU_TRONG
 		"Guru Laghima":
-			id_to_return = NPCDatabase.npc_ids.GURU_LAGHIMA
+			id_to_return = NPCDatabase.npcs.GURU_LAGHIMA
 		"Shallan":
-			id_to_return = NPCDatabase.npc_ids.SHALLAN
+			id_to_return = NPCDatabase.npcs.SHALLAN
 	
 	return id_to_return
 		
