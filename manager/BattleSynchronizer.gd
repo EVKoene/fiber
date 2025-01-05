@@ -189,7 +189,8 @@ func set_progress_bars() -> void:
 				))
 			
 			TransitionScene.transition_to_overworld_scene(
-				OverworldManager.current_area_id, OverworldManager.player_position, reward_text
+				OverworldManager.current_area_id, OverworldManager.saved_player_position, 
+				reward_text
 			)
 			return
 		elif (
@@ -201,7 +202,7 @@ func set_progress_bars() -> void:
 			
 			GameManager.battle_map.show_text("You lose!")
 			TransitionScene.transition_to_overworld_scene(
-				OverworldManager.current_area_id, OverworldManager.player_position
+				OverworldManager.current_area_id, OverworldManager.saved_player_position
 			)
 			return
 		

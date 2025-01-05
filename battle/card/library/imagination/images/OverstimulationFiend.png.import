@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c574n6hdgwxdf"
-valid=false
+uid="uid://dcknrxwwfxysl"
+path="res://.godot/imported/OverstimulationFiend.png-6f9dd6a7d6bba4e6bbc11ede496f97af.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://battle/card/library/imagination/images/OverstimulationFiend.png"
+dest_files=["res://.godot/imported/OverstimulationFiend.png-6f9dd6a7d6bba4e6bbc11ede496f97af.ctex"]
 
 [params]
 

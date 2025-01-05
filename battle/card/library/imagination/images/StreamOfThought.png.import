@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://lv4o4utt13oo"
-valid=false
+uid="uid://bmi6hklon6uei"
+path="res://.godot/imported/StreamOfThought.png-030fee66bddb01c51005bf88194a6fbb.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://battle/card/library/imagination/images/StreamOfThought.png"
+dest_files=["res://.godot/imported/StreamOfThought.png-030fee66bddb01c51005bf88194a6fbb.ctex"]
 
 [params]
 

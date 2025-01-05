@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c7bk83jy5rp0r"
-valid=false
+uid="uid://ci68jtpr8ellt"
+path="res://.godot/imported/Dreamfinder.png-e5cf38a06bd7261147642a58eae5ec61.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://battle/card/library/imagination/images/Dreamfinder.png"
+dest_files=["res://.godot/imported/Dreamfinder.png-e5cf38a06bd7261147642a58eae5ec61.ctex"]
 
 [params]
 

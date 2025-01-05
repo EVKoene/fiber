@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cqo6wqd2qvuw6"
-valid=false
+uid="uid://xtj5rih7hak5"
+path="res://.godot/imported/ImaginaryFriend.png-f8eb3f2fc7eee2ff3148b3cc73e3249f.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://battle/card/library/imagination/images/ImaginaryFriend.png"
+dest_files=["res://.godot/imported/ImaginaryFriend.png-f8eb3f2fc7eee2ff3148b3cc73e3249f.ctex"]
 
 [params]
 

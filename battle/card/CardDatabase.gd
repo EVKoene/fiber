@@ -1383,6 +1383,8 @@ func get_card_class(card_index: int) -> Variant:
 #
 		cards.WIZARD_SCOUT:
 			card = WizardScout
+		cards.IMAGINARY_FRIEND:
+			card = ImaginaryFriend
 		cards.SWITCHEROO:
 			card = Switcheroo
 		cards.FLOW_ACCELERATOR:
@@ -1395,6 +1397,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = MistConjurer
 		cards.FIREBALL_SHOOTER:
 			card = FireballShooter
+		cards.DREAMFINDER:
+			card = Dreamfinder
 		cards.AUDACIOUS_RESEARCHER:
 			card = AudaciousResearcher
 		cards.HOMUNCULUS:

@@ -84,7 +84,7 @@ func _on_single_player_pressed() -> void:
 		return
 	
 	TransitionScene.transition_to_overworld_scene(
-		OverworldManager.current_area_id, OverworldManager.player_position
+		OverworldManager.current_area_id, OverworldManager.saved_player_position
 	)
 
 
