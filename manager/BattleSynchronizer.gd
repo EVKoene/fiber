@@ -182,11 +182,14 @@ func set_progress_bars() -> void:
 			GameManager.battle_map.show_text("You win!")
 			var reward_text := []
 			var battle_rewards := PlayerManager.get_battle_reward()
-			for c in battle_rewards:
-				PlayerManager.add_card_to_collection(c)
-				reward_text.append(str(
-					"Congratulations! You receive ", CardDatabase.cards_info[c]["InGameName"]
-				))
+			if len(battle_rewards) == 0:
+				reward_text.append("No battle rewards this time...")
+			else:
+				for c in battle_rewards:
+					PlayerManager.add_card_to_collection(c)
+					reward_text.append(str(
+						"Congratulations! You receive ", CardDatabase.cards_info[c]["InGameName"]
+					))
 			
 			TransitionScene.transition_to_overworld_scene(
 				OverworldManager.current_area_id, OverworldManager.saved_player_position, 

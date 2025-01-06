@@ -46,6 +46,10 @@ func make_imagination_spells_1_cheaper() -> void:
 	)
 	
 	imagination_spells_1_cheaper = true
+	for c in GameManager.cards_in_hand[GameManager.ai_player_id]:
+		if c.costs.imagination  >= 1 and c.card_type == Collections.card_types.SPELL:
+			c.costs.change_cost(Collections.fibers.IMAGINATION, -1)
+			
 	GameManager.battle_map.awaiting_input = true
 	await Events.instruction_input_received
 
@@ -57,5 +61,8 @@ func call_triggered_rules(trigger: int, triggering_card: Card) -> void:
 				add_1_health_to_random_unit()
 		Collections.triggers.CARD_ADDED_TO_HAND:
 			if imagination_spells_1_cheaper:
-				if triggering_card.costs.imagination >= 1:
-					triggering_card.costs.imagination -= 1
+				if (
+					triggering_card.costs.imagination >= 1 
+					and triggering_card.card_type == Collections.card_types.SPELL
+				):
+					triggering_card.costs.change_cost(Collections.fibers.IMAGINATION, -1)

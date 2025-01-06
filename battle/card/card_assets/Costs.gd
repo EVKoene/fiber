@@ -6,6 +6,7 @@ var passion: int
 var imagination: int
 var growth: int
 var logic: int
+var card: Card = null
 
 
 
@@ -34,10 +35,10 @@ func change_cost(fiber: int, value: int) -> void:
 		Collections.fibers.PASSION:
 			passion += value
 		Collections.fibers.IMAGINATION:
-			imagination -= value
+			imagination += value
 		Collections.fibers.GROWTH:
 			growth += value
 		Collections.LOGIC:
 			logic += value
 		
-	get_parent().set_card_properties()
+	card.set_card_properties()
