@@ -28,6 +28,9 @@ func resolve_spell(selected_column: int, selected_row: int) -> bool:
 
 
 func is_spell_to_play_now() -> bool:
+	if len(GameManager.cards_in_play[card_owner_id]) == 0:
+		return false
+	
 	for c in GameManager.cards_in_play[card_owner_id]:
 		if len(AIHelper.cards_to_swap_with(c)) > 0:
 			return true

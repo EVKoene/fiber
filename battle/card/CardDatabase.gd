@@ -429,7 +429,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": false,
 		"Text": "Your spells cost 1 less {I}",
 		"Purposes": [],
-		"IMGPath": "res://battle/card/library/imagination/images/DreamFinder.png",
+		"IMGPath": "res://battle/card/library/imagination/images/Dreamfinder.png",
 	},
 	
 	cards.AUDACIOUS_RESEARCHER: {

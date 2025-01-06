@@ -183,7 +183,7 @@ func setup_game() -> void:
 	_add_turn_managers()
 	_add_decks()
 	if !battle_map.is_tutorial:
-		_start_first_turn()
+		call_deferred("_start_first_turn")
 	else:
 		Tutorial.start_tutorial()
 
@@ -207,7 +207,8 @@ func _start_first_turn() -> void:
 		var npc_id: int = players[ai_player_id]["NPCID"]
 		assert(npc_id >= 0, str("Invalid NPC ID: ", npc_id))
 		if "SpecialRules" in NPCDatabase.npc_data[npc_id].keys():
-			await NPCDatabase.setup_special_rules(npc_id)
+			for rule in NPCDatabase.npc_data[npc_id]["SpecialRules"]:
+				await NPCDatabase.setup_special_rules(rule)
 		if first_player_id == p1_id:
 			turn_manager.show_start_turn_text()
 		else:

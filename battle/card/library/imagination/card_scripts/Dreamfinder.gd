@@ -5,14 +5,14 @@ class_name Dreamfinder
 
 func enter_battle() -> void:
 	for c in GameManager.cards_in_hand[card_owner_id]:
-		if c.costs.imagionation >= 1:
+		if c.costs.imagination >= 1:
 			c.costs.imagination -= 1
 
 
 func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 	if trigger == Collections.triggers.CARD_CREATED and triggering_card == self:
 		for c in GameManager.cards_in_hand[card_owner_id]:
-			if c.costs.imagionation >= 1:
+			if c.costs.imagination >= 1:
 				c.costs.imagination -= 1
 	
 	elif (

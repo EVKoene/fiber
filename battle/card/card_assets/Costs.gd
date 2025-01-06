@@ -39,3 +39,5 @@ func change_cost(fiber: int, value: int) -> void:
 			growth += value
 		Collections.LOGIC:
 			logic += value
+		
+	get_parent().set_card_properties()

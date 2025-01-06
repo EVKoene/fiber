@@ -71,6 +71,7 @@ func _on_exit_pressed() -> void:
 
 func _on_single_player_pressed() -> void:
 	GameManager.is_server = true
+	GameManager.is_player_1 = true
 	GameManager.testing = false
 	
 	if !FileAccess.file_exists(GameManager.collections_path):

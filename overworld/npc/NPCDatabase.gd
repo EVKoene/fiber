@@ -9,7 +9,7 @@ enum character_types {
 	 BEEBOY, BUMBLEBEE_LADY, BUSINESS_CAP_BOY, DINO_BUSINESS_MAN, ROBOT_GUY, JESUS, GARY, GURU_1,
 	GURU_2, GURU_3, GURU_LAGHIMA, SHALLAN
 }
-enum special_rules { ADD_1_MAX_ATTACK, ADD_1_HEALTH, }
+enum special_rules { ADD_1_MAX_ATTACK, ADD_1_HEALTH, IMAGINATION_SPELLS_1_CHEAPER, }
 
 
 var npc_data: Dictionary = {
@@ -71,6 +71,7 @@ var npc_data: Dictionary = {
 	npcs.SHALLAN: {
 		"Name": "Shallan",
 		"Dialogue": ["If you open your mind, anything is possible"],
+		"SpecialRules": [special_rules.IMAGINATION_SPELLS_1_CHEAPER],
 		"Battle": true,
 		"CharacterModel": character_types.SHALLAN,
 		"Deck": DeckCollection.decks[DeckCollection.deck_ids.IMAGINATION_MISSILES]
@@ -144,10 +145,14 @@ var character_model := {
 }
 
 
-func setup_special_rules(npc_id: int) -> void:
-	match npc_id:
-		npcs.GARY:
+func setup_special_rules(special_rule_id: int) -> void:
+	match special_rule_id:
+		special_rules.ADD_1_MAX_ATTACK:
 			await SpecialRules.add_stat(Collections.stats.MAX_ATTACK, 1)
+		special_rules.ADD_1_HEALTH:
+			await SpecialRules.add_1_health_end_of_turn()
+		special_rules.IMAGINATION_SPELLS_1_CHEAPER:
+			await SpecialRules.make_imagination_spells_1_cheaper()
 
 
 func npc_animation(npc: int, direction: int, animation_type: int) -> String:

@@ -9,7 +9,7 @@ var areas := {
 		"ScenePath": "res://overworld/areas/StartOfJourney.tscn",
 		"TransitionPosition": {
 			area_ids.START_OF_GROWTH: Vector2(497, 88),
-			area_ids.START_OF_PASSION: Vector2(220, -99),
+			area_ids.START_OF_PASSION: Vector2(220, 0),
 			area_ids.START_OF_IMAGINATION: Vector2(280, 180),
 		},
 		"StartingPosition": Vector2(286, 150)
