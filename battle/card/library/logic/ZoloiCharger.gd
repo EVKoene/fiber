@@ -7,7 +7,7 @@ class_name ZoloiCharger
 var charged := false
 
 
-func call_triggered_funcs(trigger: int, _triggering_card: CardInPlay) -> void:
+func call_triggered_funcs(trigger: int, _triggering_card: Card) -> void:
 	if trigger != Collections.triggers.TURN_STARTED or GameManager.turn_manager.turn_owner_id != card_owner_id:
 		return
 

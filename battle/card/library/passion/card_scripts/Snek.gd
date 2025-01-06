@@ -3,7 +3,7 @@ extends CardInPlay
 class_name Snek
 
 
-func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:
+func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 	if trigger not in [Collections.triggers.CARD_MOVED, Collections.triggers.CARD_CREATED]:
 		return
 

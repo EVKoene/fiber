@@ -3,7 +3,7 @@ extends CardInPlay
 
 class_name GorillaBattlecaller
 
-func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:
+func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 	if (
 		(trigger == Collections.triggers.CARD_CREATED or trigger == Collections.triggers.CARD_MOVED)
 		and triggering_card == self

@@ -1,24 +1,8 @@
-extends PanelContainer
+extends Card
 
 class_name CardInHand
 
 
-@onready var border := StyleBoxFlat.new()
-
-var card_index: int = 1
-var card_owner_id: int
-var ingame_name: String
-var card_type: int
-var costs: Costs
-var fibers: Array = []
-var max_attack: int
-var min_attack: int
-var health: int
-var card_range: int
-var movement: int
-var border_style: StyleBox
-var img_path: String
-var card_text: String
 var hand_index: int: get = _get_hand_index
 
 
@@ -30,6 +14,7 @@ func _ready():
 	set_card_properties()
 	set_card_size()
 	_set_drag_node_properties()
+	BattleSynchronizer.call_triggered_funcs(Collections.triggers.CARD_ADDED_TO_HAND, self)
 
 
 func highlight_card():
@@ -38,7 +23,9 @@ func highlight_card():
 
 func discard() -> void:
 	var h_index := hand_index
-	BattleSynchronizer.call_triggered_funcs(Collections.triggers.CARD_DISCARDED, null)
+	BattleSynchronizer.call_triggered_funcs(
+		Collections.triggers.CARD_DISCARDED, null
+	)
 	if GameManager.is_single_player:
 		BattleSynchronizer.remove_card_from_hand(card_owner_id, h_index)
 	else:
@@ -186,6 +173,7 @@ func _load_card_properties() -> void:
 		card_info["Costs"][Collections.fibers.GROWTH],
 		card_info["Costs"][Collections.fibers.LOGIC]
 	)
+	costs.card = self
 
 	if card_info["CardType"] == Collections.card_types.UNIT:
 		max_attack = card_info["MaxAttack"]

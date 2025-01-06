@@ -41,6 +41,7 @@ func play_playable_cards() -> void:
 					await GameManager.battle_map.get_tree().create_timer(0.25).timeout
 			elif c.card_type == Collections.card_types.SPELL:
 				var spell: CardInPlay = CardDatabase.get_card_class(c.card_index).new()
+				spell.card_owner_id = player_id
 				if spell.is_spell_to_play_now():
 					BattleSynchronizer.lock_zoom_preview_hand(c.card_owner_id, c.hand_index)
 					resolve_spell_for_ai(c)
@@ -169,6 +170,7 @@ func resolve_spell_for_ai(spell: CardInHand) -> void:
 	var card_resolve = GameManager.battle_map.card_resolve_scene.instantiate()
 	card_resolve.ai_player = true
 	card_resolve.card_index = spell.card_index
+	card_resolve.card_owner_id = player_id
 	card_resolve.column = -1
 	card_resolve.row = -1
 	card_resolve.card_owner_id = player_id

@@ -4,7 +4,7 @@ extends CardInPlay
 class_name ZalogiMindOfMachines
 
 
-func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:
+func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 	if trigger != Collections.triggers.CARD_CREATED or !triggering_card:
 		return
 	if triggering_card.fabrication and triggering_card.card_owner_id == card_owner_id:

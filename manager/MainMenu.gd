@@ -71,6 +71,7 @@ func _on_exit_pressed() -> void:
 
 func _on_single_player_pressed() -> void:
 	GameManager.is_server = true
+	GameManager.is_player_1 = true
 	GameManager.testing = false
 	
 	if !FileAccess.file_exists(GameManager.collections_path):
@@ -83,7 +84,9 @@ func _on_single_player_pressed() -> void:
 		TransitionScene.transition_to_start_journey()
 		return
 	
-	TransitionScene.transition_to_overworld_scene(AreaDatabase.area_ids.START_OF_JOURNEY)
+	TransitionScene.transition_to_overworld_scene(
+		OverworldManager.current_area_id, OverworldManager.saved_player_position
+	)
 
 
 func _on_tutorial_pressed():

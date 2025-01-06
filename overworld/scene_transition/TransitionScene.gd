@@ -21,7 +21,8 @@ func transition_to_npc_battle(npc_id: int) -> void:
 
 
 func transition_to_overworld_scene(
-	area_id: int, coming_from_area_id := -1, text_after_transition := []) -> void:
+	area_id: int, to_exact_position := Vector2(-1, -1), text_after_transition := []
+) -> void:
 	if GameManager.current_scene:
 		GameManager.current_scene.queue_free()
 		GameManager.current_scene = null
@@ -34,12 +35,10 @@ func transition_to_overworld_scene(
 	var area_scenepath := load(AreaDatabase.get_area_scene(area_id))
 	var area_scene = area_scenepath.instantiate()
 	GameManager.main_menu.hide_main_menu()
-	if coming_from_area_id != -1:
-		area_scene.player_position = AreaDatabase.areas[
-			area_id]["TransitionPosition"][coming_from_area_id
-		]
-	else:
+	if to_exact_position == Vector2(-1, -1):
 		area_scene.player_position = AreaDatabase.areas[area_id]["StartingPosition"]
+	else:
+		area_scene.player_position = to_exact_position
 	GameManager.add_child(area_scene)
 	GameManager.call_deferred("cleanup_game")
 	if len(text_after_transition) != 0:

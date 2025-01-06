@@ -4,7 +4,7 @@ extends CardInPlay
 class_name JellyfishExtraordinaire
 
 
-func call_triggered_funcs(trigger: int, _triggering_card: CardInPlay):
+func call_triggered_funcs(trigger: int, _triggering_card: Card):
 	if (
 		trigger == Collections.triggers.TURN_STARTED
 		and Collections.play_space_attributes.VICTORY_SPACE in current_play_space.attributes

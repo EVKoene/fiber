@@ -2,14 +2,14 @@ extends Node
 
 
 enum npcs {
-	 HANS, JACQUES, JESUS, JOS, GARY, MASHA, ROB, GURU_FLAPPIE, GURU_TRONG, 
-	GURU_KAL, GURU_LAGHIMA, 
+	 HANS, JACQUES, JESUS, GARY, MASHA, ROB, GURU_FLAPPIE, GURU_TRONG, 
+	GURU_KAL, GURU_LAGHIMA, STUDENT_DAL, STUDENT_MAC, STUDENT_KALA, SHALLAN
 }
 enum character_types {
 	 BEEBOY, BUMBLEBEE_LADY, BUSINESS_CAP_BOY, DINO_BUSINESS_MAN, ROBOT_GUY, JESUS, GARY, GURU_1,
-	GURU_2, GURU_3, GURU_LAGHIMA
+	GURU_2, GURU_3, GURU_LAGHIMA, SHALLAN
 }
-enum special_rules { ADD_1_MAX_ATTACK, ADD_1_HEALTH, }
+enum special_rules { ADD_1_MAX_ATTACK, ADD_1_HEALTH, IMAGINATION_SPELLS_1_CHEAPER, }
 
 
 var npc_data: Dictionary = {
@@ -44,11 +44,36 @@ var npc_data: Dictionary = {
 	},
 	
 	### IMAGINATION DECKS ###
-	npcs.JOS: {
-		"Name": "Jos",
-		"Dialogue": ["Let's see how well you can dance..."],
+	npcs.STUDENT_DAL: {
+		"Name": "Student Dal",
+		"Dialogue": ["Boom, baby!"],
 		"Battle": true,
-		"CharacterModel": character_types.BUSINESS_CAP_BOY,
+		"CharacterModel": character_types.BEEBOY,
+		"Deck": DeckCollection.decks[DeckCollection.deck_ids.IMAGINATION_MISSILES]
+	},
+	
+	npcs.STUDENT_MAC: {
+		"Name": "Student Mac",
+		"Dialogue": ["When I grow up I want to be a dinosaur"],
+		"Battle": true,
+		"CharacterModel": character_types.DINO_BUSINESS_MAN,
+		"Deck": DeckCollection.decks[DeckCollection.deck_ids.MOVEMENT_SHENANIGANS]
+	},
+	
+	npcs.STUDENT_KALA: {
+		"Name": "Student Kala",
+		"Dialogue": ["I wonder if aliens can see sounds?"],
+		"Battle": true,
+		"CharacterModel": character_types.BUMBLEBEE_LADY,
+		"Deck": DeckCollection.decks[DeckCollection.deck_ids.SPELL_SLINGERS]
+	},
+	
+	npcs.SHALLAN: {
+		"Name": "Shallan",
+		"Dialogue": ["If you open your mind, anything is possible"],
+		"SpecialRules": [special_rules.IMAGINATION_SPELLS_1_CHEAPER],
+		"Battle": true,
+		"CharacterModel": character_types.SHALLAN,
 		"Deck": DeckCollection.decks[DeckCollection.deck_ids.IMAGINATION_MISSILES]
 	},
 	
@@ -87,7 +112,7 @@ var npc_data: Dictionary = {
 	},
 	
 	npcs.GURU_TRONG: {
-		"Name": "Guru Flappie",
+		"Name": "Guru Trong",
 		"Dialogue": ["Right now right now!"],
 		"Battle": true,
 		"CharacterModel": character_types.GURU_3,
@@ -116,13 +141,18 @@ var character_model := {
 	character_types.GURU_2: "guru_2",
 	character_types.GURU_3: "guru_3",
 	character_types.GURU_LAGHIMA: "guru_laghima",
+	character_types.SHALLAN: "shallan"
 }
 
 
-func setup_special_rules(npc_id: int) -> void:
-	match npc_id:
-		npcs.GARY:
+func setup_special_rules(special_rule_id: int) -> void:
+	match special_rule_id:
+		special_rules.ADD_1_MAX_ATTACK:
 			await SpecialRules.add_stat(Collections.stats.MAX_ATTACK, 1)
+		special_rules.ADD_1_HEALTH:
+			await SpecialRules.add_1_health_end_of_turn()
+		special_rules.IMAGINATION_SPELLS_1_CHEAPER:
+			await SpecialRules.make_imagination_spells_1_cheaper()
 
 
 func npc_animation(npc: int, direction: int, animation_type: int) -> String:

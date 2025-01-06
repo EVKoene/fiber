@@ -182,14 +182,18 @@ func set_progress_bars() -> void:
 			GameManager.battle_map.show_text("You win!")
 			var reward_text := []
 			var battle_rewards := PlayerManager.get_battle_reward()
-			for c in battle_rewards:
-				PlayerManager.add_card_to_collection(c)
-				reward_text.append(str(
-					"Congratulations! You receive ", CardDatabase.cards_info[c]["InGameName"]
-				))
+			if len(battle_rewards) == 0:
+				reward_text.append("No battle rewards this time...")
+			else:
+				for c in battle_rewards:
+					PlayerManager.add_card_to_collection(c)
+					reward_text.append(str(
+						"Congratulations! You receive ", CardDatabase.cards_info[c]["InGameName"]
+					))
 			
 			TransitionScene.transition_to_overworld_scene(
-				AreaDatabase.area_ids.START_OF_JOURNEY, -1, reward_text
+				OverworldManager.current_area_id, OverworldManager.saved_player_position, 
+				reward_text
 			)
 			return
 		elif (
@@ -201,7 +205,7 @@ func set_progress_bars() -> void:
 			
 			GameManager.battle_map.show_text("You lose!")
 			TransitionScene.transition_to_overworld_scene(
-				AreaDatabase.area_ids.START_OF_JOURNEY, -1
+				OverworldManager.current_area_id, OverworldManager.saved_player_position
 			)
 			return
 		
@@ -337,7 +341,8 @@ func resolve_spell(card_owner_id: int, hand_index: int, column: int, row: int) -
 			BattleSynchronizer.remove_card_from_hand.rpc_id(p_id, card_owner_id, h_index)
 	
 	GameManager.turn_manager.set_turn_actions_enabled(true)
-	
+	call_triggered_funcs(Collections.triggers.SPELL_PLAYED, card)
+
 
 func finish_resolve() -> void:
 	await get_tree().process_frame
@@ -347,7 +352,7 @@ func finish_resolve() -> void:
 	TargetSelection.end_selecting()
 
 
-func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:
+func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 	for p_id in GameManager.players:
 		for card in GameManager.cards_in_play[p_id]:
 			await card.call_triggered_funcs(trigger, triggering_card)

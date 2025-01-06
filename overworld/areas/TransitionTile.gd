@@ -6,4 +6,7 @@ extends Area2D
 
 func _on_body_entered(body: Node2D):
 	if body.is_in_group("PlayerBody"):
-		TransitionScene.transition_to_overworld_scene(scene_id, get_parent().scene_id)
+		var new_position: Vector2 = AreaDatabase.areas[
+			scene_id]["TransitionPosition"][get_parent().scene_id
+		]
+		TransitionScene.transition_to_overworld_scene(scene_id, new_position)

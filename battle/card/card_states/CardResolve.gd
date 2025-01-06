@@ -51,6 +51,7 @@ func _resolve_spell_for_ai() -> void:
 	var spell: CardInPlay = CardDatabase.get_card_class(card_index).new()
 	spell.card_owner_id = card_owner_id
 	await spell.resolve_spell_for_ai()
+	BattleSynchronizer.call_triggered_funcs(Collections.triggers.SPELL_PLAYED, spell)
 	queue_free()
 
 

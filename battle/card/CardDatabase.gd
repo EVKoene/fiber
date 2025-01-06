@@ -4,9 +4,9 @@ extends Node
 enum cards {GENERAL_FABRICATION, GORILLA, FANATIC_FOLLOWER, ATTACK_COMMAND, GOOSE, 
 	WARTHOG_BERSERKER, 
 	GORILLA_BATTLECALLER, SNEK, FOLLOW_PHEROMONES, STAMPEDE, FELOS_EXPEDITIONIST, GORILLA_KING, 
-	SKON_INSECT_FATHER, WIZARD_SCOUT, SWITCHEROO, ARCANE_ARROW, MIST_CONJURER, FLOW_ACCELERATOR, 
-	EPHEMERAL_ASSASSIN, FIREBALL_SHOOTER, HOMUNCULUS, JELLYFISH_EXTRAORDINAIRE, 
-	AUDACIOUS_RESEARCHER, HYRSMIR_RULER_OF_PHYSICS, PSYCHIC_TAKEOVER,  GNOME_PROTECTOR,  
+	SKON_INSECT_FATHER, WIZARD_SCOUT, IMAGINARY_FRIEND, SWITCHEROO, ARCANE_ARROW, INSPIRING_ARTIST, MIST_CONJURER, 
+	DREAMFINDER, FLOW_ACCELERATOR, EPHEMERAL_ASSASSIN, FIREBALL_SHOOTER, HOMUNCULUS, JELLYFISH_EXTRAORDINAIRE, 
+	AUDACIOUS_RESEARCHER, OVERSTIMULATION_FIEND, STREAM_OF_THOUGHT, HYRSMIR_RULER_OF_PHYSICS, PSYCHIC_TAKEOVER,  GNOME_PROTECTOR,  
 	BOTANO_GARDENER, MORNING_LIGHT, WIND_GOLEM, ICE_GOLEM, FIRE_GOLEM, STUDENT_OF_KHONG, HAIL_STORM, 
 	EARTH_GOLEM, BRINGER_OF_ENLIGHTENMENT,
 	PROTECTOR_OF_THE_FOREST, PRANCING_VERDEN, HEART_OF_THE_FOREST, MARCELLA_WHO_NURTURES_GROWTH, 
@@ -37,10 +37,10 @@ var cards_info = {
 			Collections.fibers.GROWTH: 0,
 			Collections.fibers.LOGIC: 0,
 		},
-		"MaxAttack": 3, # 3
-		"MinAttack": 0, # 0
-		"Health": 2, # 2
-		"Movement": 1, # 1
+		"MaxAttack": 3,
+		"MinAttack": 0,
+		"Health": 2,
+		"Movement": 1,
 		"Lord": false,
 		"Purposes": [],
 		"Text": "",
@@ -57,10 +57,10 @@ var cards_info = {
 			Collections.fibers.GROWTH: 0,
 			Collections.fibers.LOGIC: 0,
 		},
-		"MaxAttack": 1, # 1
-		"MinAttack": 0, # 0
-		"Health": 3, # 3
-		"Movement": 1, # 1
+		"MaxAttack": 1,
+		"MinAttack": 0,
+		"Health": 3,
+		"Movement": 1,
 		"Lord": false,
 		"Purposes": [Collections.purposes.CONQUER_SPACES],
 		"Text": "",
@@ -108,7 +108,7 @@ var cards_info = {
 		"CardType": Collections.card_types.UNIT,
 		"fibers": [Collections.fibers.PASSION],
 		"Costs": {
-			Collections.fibers.PASSION: 3, # 3
+			Collections.fibers.PASSION: 3,
 			Collections.fibers.IMAGINATION: 0,
 			Collections.fibers.GROWTH: 0,
 			Collections.fibers.LOGIC: 0,
@@ -128,7 +128,7 @@ var cards_info = {
 		"CardType": Collections.card_types.UNIT,
 		"fibers": [Collections.fibers.PASSION],
 		"Costs": {
-			Collections.fibers.PASSION: 3, # 3
+			Collections.fibers.PASSION: 3,
 			Collections.fibers.IMAGINATION: 0,
 			Collections.fibers.GROWTH: 0,
 			Collections.fibers.LOGIC: 0,
@@ -149,7 +149,7 @@ var cards_info = {
 		"CardType": Collections.card_types.SPELL,
 		"fibers": [Collections.fibers.PASSION],
 		"Costs": {
-			Collections.fibers.PASSION: 3, # 3
+			Collections.fibers.PASSION: 3,
 			Collections.fibers.IMAGINATION: 0,
 			Collections.fibers.GROWTH: 0,
 			Collections.fibers.LOGIC: 0,
@@ -166,7 +166,7 @@ var cards_info = {
 		"CardType": Collections.card_types.UNIT,
 		"fibers": [Collections.fibers.PASSION],
 		"Costs": {
-			Collections.fibers.PASSION: 4, # 4
+			Collections.fibers.PASSION: 4,
 			Collections.fibers.IMAGINATION: 0,
 			Collections.fibers.GROWTH: 0,
 			Collections.fibers.LOGIC: 0,
@@ -186,7 +186,7 @@ var cards_info = {
 		"CardType": Collections.card_types.SPELL,
 		"fibers": [Collections.fibers.PASSION],
 		"Costs": {
-			Collections.fibers.PASSION: 5, # 5
+			Collections.fibers.PASSION: 5,
 			Collections.fibers.IMAGINATION: 0,
 			Collections.fibers.GROWTH: 0,
 			Collections.fibers.LOGIC: 0,
@@ -202,7 +202,7 @@ var cards_info = {
 		"CardType": Collections.card_types.UNIT,
 		"fibers": [Collections.fibers.PASSION],
 		"Costs": {
-			Collections.fibers.PASSION: 5, # 5
+			Collections.fibers.PASSION: 5,
 			Collections.fibers.IMAGINATION: 0,
 			Collections.fibers.GROWTH: 0,
 			Collections.fibers.LOGIC: 0,
@@ -222,7 +222,7 @@ var cards_info = {
 		"CardType": Collections.card_types.UNIT,
 		"fibers": [Collections.fibers.PASSION],
 		"Costs": {
-			Collections.fibers.PASSION: 6, # 4
+			Collections.fibers.PASSION: 6,
 			Collections.fibers.IMAGINATION: 0,
 			Collections.fibers.GROWTH: 0,
 			Collections.fibers.LOGIC: 0,
@@ -230,7 +230,7 @@ var cards_info = {
 		"MaxAttack": 5,
 		"MinAttack": 1,
 		"Health": 3,
-		"Movement": 1, # 1
+		"Movement": 1,
 		"Lord": true,
 		"Text": "Your units get +2 max attack for each adjacent unit",
 		"Purposes": [],
@@ -242,7 +242,7 @@ var cards_info = {
 		"CardType": Collections.card_types.UNIT,
 		"fibers": [Collections.fibers.PASSION],
 		"Costs": {
-			Collections.fibers.PASSION: 6, # 6
+			Collections.fibers.PASSION: 6,
 			Collections.fibers.IMAGINATION: 0,
 			Collections.fibers.GROWTH: 0,
 			Collections.fibers.LOGIC: 0,
@@ -266,7 +266,7 @@ var cards_info = {
 		"CardType": Collections.card_types.UNIT,
 		"Costs": {
 			Collections.fibers.PASSION: 0,
-			Collections.fibers.IMAGINATION: 1, # 1
+			Collections.fibers.IMAGINATION: 1,
 			Collections.fibers.GROWTH: 0,
 			Collections.fibers.LOGIC: 0,
 		},
@@ -278,6 +278,26 @@ var cards_info = {
 		"Text": "Exhaust: Swap with one of your own units",
 		"Purposes": [],
 		"IMGPath": "res://battle/card/library/imagination/images/WizardApprentice.png",
+	},
+	
+	cards.IMAGINARY_FRIEND: {
+		"InGameName": "Imaginary Friend",
+		"fibers": [Collections.fibers.IMAGINATION],
+		"CardType": Collections.card_types.UNIT,
+		"Costs": {
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 1,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
+		},
+		"MaxAttack": 1,
+		"MinAttack": 1,
+		"Health": 2,
+		"Movement": 1,
+		"Lord": false,
+		"Text": "Whenever you play a spell, increase a random battlestat by 1.",
+		"Purposes": [],
+		"IMGPath": "res://battle/card/library/imagination/images/ImaginaryFriend.png",
 	},
 	
 	cards.SWITCHEROO: {
@@ -302,7 +322,7 @@ var cards_info = {
 		"fibers": [Collections.fibers.IMAGINATION],
 		"Costs": {
 			Collections.fibers.PASSION: 0,
-			Collections.fibers.IMAGINATION: 2, # 3
+			Collections.fibers.IMAGINATION: 2,
 			Collections.fibers.GROWTH: 0,
 			Collections.fibers.LOGIC: 0,
 		},
@@ -316,13 +336,33 @@ var cards_info = {
 		"IMGPath": "res://battle/card/library/imagination/images/MistConjurer.png",
 	},
 	
+	cards.INSPIRING_ARTIST: {
+		"InGameName": "Inspiring Artist",
+		"CardType": Collections.card_types.UNIT,
+		"fibers": [Collections.fibers.PASSION],
+		"Costs": {
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 2,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
+		},
+		"MaxAttack": 2,
+		"MinAttack": 1,
+		"Health": 3,
+		"Movement": 1,
+		"Lord": false,
+		"Text": "Add 1 movement to the units in adjacent spaces",
+		"Purposes": [Collections.purposes.BUFF_ADJACENT],
+		"IMGPath": "res://battle/card/library/imagination/images/InspiringArtist.png",
+	},
+	
 	cards.ARCANE_ARROW: {
 		"InGameName": "Arcane Arrow",
 		"CardType": Collections.card_types.SPELL,
 		"fibers": [Collections.fibers.IMAGINATION],
 		"Costs": {
 			Collections.fibers.PASSION: 0,
-			Collections.fibers.IMAGINATION: 2, # 3
+			Collections.fibers.IMAGINATION: 2,
 			Collections.fibers.GROWTH: 0,
 			Collections.fibers.LOGIC: 0,
 		},
@@ -338,7 +378,7 @@ var cards_info = {
 		"fibers": [Collections.fibers.IMAGINATION],
 		"Costs": {
 			Collections.fibers.PASSION: 0,
-			Collections.fibers.IMAGINATION: 3, # 3
+			Collections.fibers.IMAGINATION: 3,
 			Collections.fibers.GROWTH: 0,
 			Collections.fibers.LOGIC: 0,
 		},
@@ -358,7 +398,7 @@ cards.FLOW_ACCELERATOR: {
 		"fibers": [Collections.fibers.IMAGINATION],
 		"Costs": {
 			Collections.fibers.PASSION: 0,
-			Collections.fibers.IMAGINATION: 3, # 3
+			Collections.fibers.IMAGINATION: 3,
 			Collections.fibers.GROWTH: 0,
 			Collections.fibers.LOGIC: 0,
 		},
@@ -372,6 +412,26 @@ cards.FLOW_ACCELERATOR: {
 		"IMGPath": "res://battle/card/library/imagination/images/FlowAccelerator.png",
 	},
 	
+	cards.DREAMFINDER: {
+		"InGameName": "Dreamfinder",
+		"fibers": [Collections.fibers.IMAGINATION],
+		"CardType": Collections.card_types.UNIT,
+		"Costs": {
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 3,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
+		},
+		"MaxAttack": 1,
+		"MinAttack": 4,
+		"Health": 4,
+		"Movement": 1,
+		"Lord": false,
+		"Text": "Your spells cost 1 less {I}",
+		"Purposes": [],
+		"IMGPath": "res://battle/card/library/imagination/images/Dreamfinder.png",
+	},
+	
 	cards.AUDACIOUS_RESEARCHER: {
 		"InGameName": "Audacious Researcher",
 		"CardType": Collections.card_types.UNIT,
@@ -382,7 +442,7 @@ cards.FLOW_ACCELERATOR: {
 		"Movement": 1,
 		"Costs": {
 			Collections.fibers.PASSION: 0,
-			Collections.fibers.IMAGINATION: 4, # 4
+			Collections.fibers.IMAGINATION: 4,
 			Collections.fibers.GROWTH: 0,
 			Collections.fibers.LOGIC: 0,
 		},
@@ -413,6 +473,42 @@ cards.FLOW_ACCELERATOR: {
 		"IMGPath": "res://battle/card/library/imagination/images/Homunculus.png",
 	},
 	
+	cards.OVERSTIMULATION_FIEND: {
+		"InGameName": "Overstimulation Fiend",
+		"fibers": [Collections.fibers.IMAGINATION],
+		"CardType": Collections.card_types.UNIT,
+		"Costs": {
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 4,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
+		},
+		"MaxAttack": 4,
+		"MinAttack": 2,
+		"Health": 3,
+		"Movement": 1,
+		"Lord": false,
+		"Purposes": [Collections.purposes.DEBUFF_ADJACENT],
+		"Text": "Opponent units in adjacent spaces get -1 movement",
+		"IMGPath": "res://battle/card/library/imagination/images/OverstimulationFiend.png",
+	},
+	
+	cards.STREAM_OF_THOUGHT: {
+		"InGameName": "Stream of Thought",
+		"CardType": Collections.card_types.SPELL,
+		"fibers": [Collections.fibers.IMAGINATION],
+		"Costs": {
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 4,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
+		},
+		"CardRange": 2,
+		"TargetRestrictions": TargetSelection.target_restrictions.ANY_UNITS,
+		"Text": "Deal 4 damage to a unit. Draw a card.",
+		"IMGPath": "res://battle/card/library/imagination/images/StreamOfThought.png",
+	},
+	
 	cards.EPHEMERAL_ASSASSIN: {
 		"InGameName": "Ephemeral Assassin",
 		"CardType": Collections.card_types.UNIT,
@@ -439,7 +535,7 @@ cards.FLOW_ACCELERATOR: {
 		"CardType": Collections.card_types.UNIT,
 		"Costs": {
 			Collections.fibers.PASSION: 0,
-			Collections.fibers.IMAGINATION: 5, # 5
+			Collections.fibers.IMAGINATION: 5,
 			Collections.fibers.GROWTH: 0,
 			Collections.fibers.LOGIC: 0,
 		},
@@ -481,7 +577,7 @@ cards.FLOW_ACCELERATOR: {
 		"fibers": [Collections.fibers.IMAGINATION],
 		"Costs": {
 			Collections.fibers.PASSION: 0,
-			Collections.fibers.IMAGINATION: 6, # 4
+			Collections.fibers.IMAGINATION: 6,
 			Collections.fibers.GROWTH: 0,
 			Collections.fibers.LOGIC: 0,
 		},
@@ -504,7 +600,7 @@ cards.FLOW_ACCELERATOR: {
 		"Costs": {
 			Collections.fibers.PASSION: 0,
 			Collections.fibers.IMAGINATION: 0,
-			Collections.fibers.GROWTH: 1, # 1
+			Collections.fibers.GROWTH: 1,
 			Collections.fibers.LOGIC: 0,
 		},
 		"Lord": false,
@@ -519,7 +615,7 @@ cards.FLOW_ACCELERATOR: {
 		"Costs": {
 			Collections.fibers.PASSION: 0,
 			Collections.fibers.IMAGINATION: 0,
-			Collections.fibers.GROWTH: 1, # 1
+			Collections.fibers.GROWTH: 1,
 			Collections.fibers.LOGIC: 0,
 		},
 		"CardRange": 0,
@@ -555,13 +651,13 @@ cards.FLOW_ACCELERATOR: {
 		"Costs": {
 			Collections.fibers.PASSION: 0,
 			Collections.fibers.IMAGINATION: 0,
-			Collections.fibers.GROWTH: 2, # 3
+			Collections.fibers.GROWTH: 2,
 			Collections.fibers.LOGIC: 0,
 		},
-		"MaxAttack": 2, # 1
-		"MinAttack": 1, # 1
-		"Health": 3, # 3
-		"Movement": 1, # 1
+		"MaxAttack": 2,
+		"MinAttack": 1,
+		"Health": 3,
+		"Movement": 1,
 		"Lord": false,
 		"Text": "Exhaust: This unit deals damage equal to it's min attack to each enemy unit in a range 
 		of 2",
@@ -579,10 +675,10 @@ cards.FLOW_ACCELERATOR: {
 			Collections.fibers.GROWTH: 2,
 			Collections.fibers.LOGIC: 0,
 		},
-		"MaxAttack": 2, # 1
-		"MinAttack": 2, # 1
-		"Health": 2, # 3
-		"Movement": 2, # 1
+		"MaxAttack": 2,
+		"MinAttack": 2,
+		"Health": 2,
+		"Movement": 2,
 		"Lord": false,
 		"Text": "",
 		"Purposes": [Collections.purposes.CONQUER_SPACES],
@@ -596,13 +692,13 @@ cards.FLOW_ACCELERATOR: {
 		"Costs": {
 			Collections.fibers.PASSION: 0,
 			Collections.fibers.IMAGINATION: 0,
-			Collections.fibers.GROWTH: 3, # 3
+			Collections.fibers.GROWTH: 3,
 			Collections.fibers.LOGIC: 0,
 		},
-		"MaxAttack": 1, # 1
-		"MinAttack": 1, # 1
-		"Health": 3, # 3
-		"Movement": 1, # 1
+		"MaxAttack": 1,
+		"MinAttack": 1,
+		"Health": 3,
+		"Movement": 1,
 		"Lord": false,
 		"Text": "When this unit attacks, add it's health to it's min attack for 1 turn",
 		"Purposes": [Collections.purposes.BATTLE,],
@@ -616,7 +712,7 @@ cards.FLOW_ACCELERATOR: {
 		"Costs": {
 			Collections.fibers.PASSION: 0,
 			Collections.fibers.IMAGINATION: 0,
-			Collections.fibers.GROWTH: 3, # 3
+			Collections.fibers.GROWTH: 3,
 			Collections.fibers.LOGIC: 0,
 		},
 		"CardRange": -1,
@@ -632,13 +728,13 @@ cards.FLOW_ACCELERATOR: {
 		"Costs": {
 			Collections.fibers.PASSION: 0,
 			Collections.fibers.IMAGINATION: 0,
-			Collections.fibers.GROWTH: 3, # 4
+			Collections.fibers.GROWTH: 3,
 			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 3,
 		"MinAttack": 1,
 		"Health": 5,
-		"Movement": 1, # 1
+		"Movement": 1,
 		"Lord": false,
 		"Text": "When Ice Golem deals damage to a unit, that unit gets -1/-0 and -1 movement until
 		your next turn",
@@ -673,7 +769,7 @@ cards.FLOW_ACCELERATOR: {
 		"Costs": {
 			Collections.fibers.PASSION: 0,
 			Collections.fibers.IMAGINATION: 0,
-			Collections.fibers.GROWTH: 4, # 6
+			Collections.fibers.GROWTH: 4,
 			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 4,
@@ -693,7 +789,7 @@ cards.FLOW_ACCELERATOR: {
 		"Costs": {
 			Collections.fibers.PASSION: 0,
 			Collections.fibers.IMAGINATION: 0,
-			Collections.fibers.GROWTH: 5, # 8
+			Collections.fibers.GROWTH: 5,
 			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 0,
@@ -734,7 +830,7 @@ cards.FLOW_ACCELERATOR: {
 		"Costs": {
 			Collections.fibers.PASSION: 0,
 			Collections.fibers.IMAGINATION: 0,
-			Collections.fibers.GROWTH: 5, # 4
+			Collections.fibers.GROWTH: 5,
 			Collections.fibers.LOGIC: 0,
 		},
 		"CardRange": -1,
@@ -751,7 +847,7 @@ cards.FLOW_ACCELERATOR: {
 		"Costs": {
 			Collections.fibers.PASSION: 0,
 			Collections.fibers.IMAGINATION: 0,
-			Collections.fibers.GROWTH: 6, # 6
+			Collections.fibers.GROWTH: 6,
 			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 3,
@@ -772,7 +868,7 @@ cards.FLOW_ACCELERATOR: {
 		"Costs": {
 			Collections.fibers.PASSION: 0,
 			Collections.fibers.IMAGINATION: 0,
-			Collections.fibers.GROWTH: 6, # 8
+			Collections.fibers.GROWTH: 6,
 			Collections.fibers.LOGIC: 0,
 		},
 		"MaxAttack": 4,
@@ -890,7 +986,7 @@ cards.FLOW_ACCELERATOR: {
 			Collections.fibers.PASSION: 0,
 			Collections.fibers.IMAGINATION: 0,
 			Collections.fibers.GROWTH: 0,
-			Collections.fibers.LOGIC: 3, # 3
+			Collections.fibers.LOGIC: 3,
 		},
 		"Text": "Consume one of your own units: Destroy a unit within range 1 of the consumed unit",
 		"CardRange": -1,
@@ -907,7 +1003,7 @@ cards.FLOW_ACCELERATOR: {
 			Collections.fibers.PASSION: 0,
 			Collections.fibers.IMAGINATION: 0,
 			Collections.fibers.GROWTH: 0,
-			Collections.fibers.LOGIC: 4, # 2
+			Collections.fibers.LOGIC: 4,
 		},
 		"MaxAttack": 2,
 		"MinAttack": 1,
@@ -927,7 +1023,7 @@ cards.FLOW_ACCELERATOR: {
 			Collections.fibers.PASSION: 0,
 			Collections.fibers.IMAGINATION: 0,
 			Collections.fibers.GROWTH: 0,
-			Collections.fibers.LOGIC: 4, # 6
+			Collections.fibers.LOGIC: 4,
 		},
 		"MaxAttack": 4,
 		"MinAttack": 2,
@@ -947,7 +1043,7 @@ cards.FLOW_ACCELERATOR: {
 			Collections.fibers.PASSION: 0,
 			Collections.fibers.IMAGINATION: 0,
 			Collections.fibers.GROWTH: 0,
-			Collections.fibers.LOGIC: 5, # 5
+			Collections.fibers.LOGIC: 5,
 		},
 		"MaxAttack": 3,
 		"MinAttack": 1,
@@ -967,7 +1063,7 @@ cards.FLOW_ACCELERATOR: {
 			Collections.fibers.PASSION: 0,
 			Collections.fibers.IMAGINATION: 0,
 			Collections.fibers.GROWTH: 0,
-			Collections.fibers.LOGIC: 5, # 4
+			Collections.fibers.LOGIC: 5,
 		},
 		"MaxAttack": 4,
 		"MinAttack": 2,
@@ -987,7 +1083,7 @@ cards.FLOW_ACCELERATOR: {
 			Collections.fibers.PASSION: 0,
 			Collections.fibers.IMAGINATION: 0,
 			Collections.fibers.GROWTH: 0,
-			Collections.fibers.LOGIC: 6, # 7
+			Collections.fibers.LOGIC: 6,
 		},
 		"MaxAttack": 4,
 		"MinAttack": 2,
@@ -1008,7 +1104,7 @@ cards.FLOW_ACCELERATOR: {
 			Collections.fibers.PASSION: 0,
 			Collections.fibers.IMAGINATION: 0,
 			Collections.fibers.GROWTH: 0,
-			Collections.fibers.LOGIC: 6, # 7
+			Collections.fibers.LOGIC: 6,
 		},
 		"MaxAttack": 6,
 		"MinAttack": 4,
@@ -1287,28 +1383,38 @@ func get_card_class(card_index: int) -> Variant:
 #
 		cards.WIZARD_SCOUT:
 			card = WizardScout
+		cards.IMAGINARY_FRIEND:
+			card = ImaginaryFriend
 		cards.SWITCHEROO:
 			card = Switcheroo
-		cards.EPHEMERAL_ASSASSIN:
-			card = EphemeralAssassin
+		cards.FLOW_ACCELERATOR:
+			card = FlowAccelerator
+		cards.INSPIRING_ARTIST:
+			card = InspiringArtist
+		cards.ARCANE_ARROW:
+			card = ArcaneArrow
 		cards.MIST_CONJURER:
 			card = MistConjurer
 		cards.FIREBALL_SHOOTER:
 			card = FireballShooter
+		cards.DREAMFINDER:
+			card = Dreamfinder
+		cards.AUDACIOUS_RESEARCHER:
+			card = AudaciousResearcher
 		cards.HOMUNCULUS:
 			card = Homunculus
 		cards.JELLYFISH_EXTRAORDINAIRE:
 			card = JellyfishExtraordinaire
-		cards.AUDACIOUS_RESEARCHER:
-			card = AudaciousResearcher
+		cards.OVERSTIMULATION_FIEND:
+			card = OverstimulationFiend
+		cards.STREAM_OF_THOUGHT:
+			card = StreamOfThought
 		cards.HYRSMIR_RULER_OF_PHYSICS:
 			card = HyrsmirRulerOfPhysics
-		cards.FLOW_ACCELERATOR:
-			card = FlowAccelerator
-		cards.ARCANE_ARROW:
-			card = ArcaneArrow
-		#cards.PSYCHIC_TAKEOVER:
-			#card = PsychicTakeover
+		cards.EPHEMERAL_ASSASSIN:
+			card = EphemeralAssassin
+		cards.PSYCHIC_TAKEOVER:
+			card = PsychicTakeover
 #
 		#### Growth ###
 #

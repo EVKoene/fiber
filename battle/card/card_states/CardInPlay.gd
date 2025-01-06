@@ -1,37 +1,22 @@
-extends PanelContainer
+extends Card
 
 class_name CardInPlay
 
 
 @onready var card_action_menu_scene := preload("res://battle/card/card_assets/CardActionMenu.tscn")
 
-var card_index := 1
-var max_attack: int
-var min_attack: int
-var health: int
-var movement: int
 var exhausted := false
-var card_owner_id: int
 var column := -1
 var row := -1
+
 var fabrication := false
-
-
 var current_play_space: PlaySpace: get = _get_play_space
 var card_data: Dictionary
 var battle_stats: BattleStats
-var costs: Costs
-var ingame_name: String
-var card_type: int
-var fibers: Array
 var lord: bool
-var card_text: String
-var img_path: String
-var card_range: int: get = _get_card_range
 var abilities: Array = []
 var triggered_funcs: Array = []
 var purposes: Array = []
-var border_style: StyleBox
 var move_through_units := false
 var card_in_play_index: int: get = _get_card_in_play_index
 
@@ -301,7 +286,7 @@ func update_stats() -> void:
 	_set_labels()
 
 
-func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:
+func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 	for f in triggered_funcs:
 		await TriggeredCardFuncs.call(
 			f["FuncName"], self, trigger, triggering_card, f["FuncArguments"]
@@ -423,7 +408,6 @@ func _load_card_properties() -> void:
 		img_path = card_data["IMGPath"]
 	$CardImage.texture = load(img_path)
 	_set_card_text_visuals()
-	
 	set_border_to_faction()
 
 
@@ -506,7 +490,7 @@ func _get_card_range() -> int:
 
 
 func _add_border() -> void:
-	var border := StyleBoxFlat.new()
+	border = StyleBoxFlat.new()
 	add_theme_stylebox_override("panel", border)
 
 	get_theme_stylebox("panel").set_border_width_all(size.y / 10)

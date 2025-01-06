@@ -9,7 +9,7 @@ func enter_battle() -> void:
 	last_space = current_play_space
 
 
-func call_triggered_funcs(trigger: int, triggering_card: CardInPlay) -> void:
+func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 	if trigger == Collections.triggers.CARD_MOVED and triggering_card == self:
 		var spaces_moved = last_space.distance_to_play_space(current_play_space, true)
 		CardManipulation.change_battle_stat(

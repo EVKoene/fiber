@@ -7,7 +7,7 @@ class_name NetworkFeeder
 var n_allies_in_adjacent_spaces: int = 0
 
 
-func call_triggered_funcs(trigger: int, _triggering_card: CardInPlay) -> void:
+func call_triggered_funcs(trigger: int, _triggering_card: Card) -> void:
 	if trigger in [
 		Collections.triggers.CARD_CREATED, Collections.triggers.CARD_MOVED, Collections.triggers.CARD_MOVING_AWAY
 	] and card_owner_id == _triggering_card.card_owner_id:

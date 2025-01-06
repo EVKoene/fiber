@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://sp248oelfwpr"]
+
+[ext_resource type="Script" path="res://battle/card/card_states/Card.gd" id="1_g1pwu"]
+
+[node name="Card" type="PanelContainer"]
+script = ExtResource("1_g1pwu")

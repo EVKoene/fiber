@@ -42,6 +42,7 @@ func pay_costs(costs: Costs) -> void:
 	
 	if gold >= costs.total():
 		gold -= costs.total()
+		_update_resources()
 		return
 	
 	for f in [
