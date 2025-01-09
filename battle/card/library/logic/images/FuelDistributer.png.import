@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dni0l78kxl2b5"
-path="res://.godot/imported/ResourceExtractor.jpg-6f635ec2986dd00d7f02a58e6446b937.ctex"
+uid="uid://dt12dq4cw636o"
+path="res://.godot/imported/FuelDistributer.png-3b4662d8b23d9123830c641170093c2c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://battle/card/library/logic/ResourceExtractor.jpg"
-dest_files=["res://.godot/imported/ResourceExtractor.jpg-6f635ec2986dd00d7f02a58e6446b937.ctex"]
+source_file="res://battle/card/library/logic/images/FuelDistributer.png"
+dest_files=["res://.godot/imported/FuelDistributer.png-3b4662d8b23d9123830c641170093c2c.ctex"]
 
 [params]
 

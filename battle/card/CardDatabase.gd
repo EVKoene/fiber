@@ -1018,7 +1018,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": false,
 		"Text": "When this unit attacks, add 2 <R>",
 		"Purposes": [Collections.purposes.BATTLE],
-		"IMGPath": "res://battle/card/library/logic/images/ResourceExtractor.jpg",
+		"IMGPath": "res://battle/card/library/logic/images/ResourceExtractor.png",
 	},
 	
 	cards.EXTERMINATE: {
@@ -1172,8 +1172,8 @@ cards.FLOW_ACCELERATOR: {
 		"Text": "Pick up to 3 spaces in your territory. Create a 3-3/3 Battle Bot fabrication in
 		each chosen space.",
 		"CardRange": -1,
-		"TargetRestrictions": TargetSelection.target_restrictions.OWN_UNITS,
-		"IMGPath": "res://battle/card/library/logic/images/Exterminate.jpg",
+		"TargetRestrictions": TargetSelection.target_restrictions.ANY_SPACE,
+		"IMGPath": "res://battle/card/library/logic/images/SupplyDelivery.png",
 	
 	},
 	
@@ -1518,8 +1518,12 @@ func get_card_class(card_index: int) -> Variant:
 			card = ShockCharge
 		cards.FACTORY_WORKER:
 			card = FactoryWorker
+		cards.FUEL_DISTRIBUTER:
+			card = FuelDistributer
 		cards.NETWORK_FEEDER:
 			card = NetworkFeeder
+		cards.RESOURCE_EXTRACTOR:
+			card = ResourceExtractor
 		cards.FURNACE_BOT:
 			card = FurnaceBot
 		cards.EXTERMINATE:
@@ -1534,4 +1538,7 @@ func get_card_class(card_index: int) -> Variant:
 			card = CopyMachine
 		cards.ZALOGI_MIND_OF_MACHINES:
 			card = ZalogiMindOfMachines
+		cards.SUPPLY_DELIVERY:
+			card = SupplyDelivery
+	
 	return card
