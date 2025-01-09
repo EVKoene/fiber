@@ -11,7 +11,7 @@ enum cards {GENERAL_FABRICATION, GORILLA, FANATIC_FOLLOWER, ATTACK_COMMAND, GOOS
 	EARTH_GOLEM, BRINGER_OF_ENLIGHTENMENT,
 	PROTECTOR_OF_THE_FOREST, PRANCING_VERDEN, HEART_OF_THE_FOREST, MARCELLA_WHO_NURTURES_GROWTH, 
 	VOLCANIC_ERUPTION, FACTORY_WORKER, OBSTRUCTION_CONSTRUCTION, SHOCK_CHARGE, ASSEMBLY_BOT, 
-	NETWORK_FEEDER, FURNACE_BOT, EXTERMINATE, PLUG_BUDDY, COMPUTING_BOT, ZOLOI_CHARGER, 
+	FUEL_DISTRIBUTER, NETWORK_FEEDER, RESOURCE_EXTRACTOR, FURNACE_BOT, EXTERMINATE, PLUG_BUDDY, COMPUTING_BOT, ZOLOI_CHARGER, 
 	COPY_MACHINE, ZALOGI_MIND_OF_MACHINES, PLUTO_MUSICAL_GUIDE, MIDAVES_RESEARCHER_OF_LIFE, 
 	VOLDOMA_MASTER_OF_ARMS, KILLER_WHALE_BOT, NHOROG_POTION_MASTER, GHENGI_WHO_SHAPES_THE_EARTH, 
 	SPOTOS_RECYCLER
@@ -881,6 +881,8 @@ cards.FLOW_ACCELERATOR: {
 		"IMGPath": "res://battle/card/library/growth/images/MarcellaWhoNurturesGrowth.png",
 	},
 	
+	### LOGIC ###
+	
 	cards.ASSEMBLY_BOT: {
 		"InGameName": "Assembly Bot",
 		"CardType": Collections.card_types.UNIT,
@@ -954,8 +956,29 @@ cards.FLOW_ACCELERATOR: {
 		"Movement": 1,
 		"Purposes": [Collections.purposes.REAR],
 		"Lord": false,
-		"Text": "Exhaust: Add 1 R",
+		"Text": "Exhaust: Add 1 {R}",
 		"IMGPath": "res://battle/card/library/logic/images/FactoryWorker.png",
+	},
+	
+	cards.FUEL_DISTRIBUTER: {
+		"InGameName": "Fuel Distributer",
+		"CardType": Collections.card_types.UNIT,
+		"fibers": [Collections.fibers.LOGIC],
+		"Costs": {
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 2,
+		},
+		"MaxAttack": 2,
+		"MinAttack": 1,
+		"Health": 2,
+		"Movement": 1,
+		"Purposes": [Collections.purposes.BUFF_ADJACENT],
+		"Lord": false,
+		"Text": "Exhaust: Add 1 movement, min attack, max attack and health to each adjacent
+		unit until your next turn",
+		"IMGPath": "res://battle/card/library/logic/images/FuelDistributer.png",
 	},
 	
 	cards.NETWORK_FEEDER: {
@@ -976,6 +999,26 @@ cards.FLOW_ACCELERATOR: {
 		"Text": "This unit gets 2 max attack and 2 health for each adjacent allied unit",
 		"Purposes": [Collections.purposes.BATTLE],
 		"IMGPath": "res://battle/card/library/logic/images/NetworkFeeder.jpg",
+	},
+	
+	cards.RESOURCE_EXTRACTOR: {
+		"InGameName": "Resource extractor",
+		"CardType": Collections.card_types.UNIT,
+		"fibers": [Collections.fibers.LOGIC],
+		"Costs": {
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 3,
+		},
+		"MaxAttack": 4,
+		"MinAttack": 1,
+		"Health": 4,
+		"Movement": 1,
+		"Lord": false,
+		"Text": "When this unit attacks, add 2 {R}",
+		"Purposes": [Collections.purposes.BATTLE],
+		"IMGPath": "res://battle/card/library/logic/images/ResourceExtractor.jpg",
 	},
 	
 	cards.EXTERMINATE: {
