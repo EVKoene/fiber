@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cy6ic25kd3qm3" path="res://assets/tilesets/starting_area.png" id="2_k2kox"]
 [ext_resource type="Texture2D" uid="uid://du88phcf3x223" path="res://assets/tilesets/A2_Floors_MV_TILESET_2.png" id="2_lkjng"]
 [ext_resource type="Texture2D" uid="uid://d27jssiayiinw" path="res://assets/tilesets/office/street.png" id="3_hkkqa"]
-[ext_resource type="TileSet" path="res://assets/tilesets/office/office_outside.tres" id="4_jfapb"]
+[ext_resource type="TileSet" uid="uid://674uu528xvpo" path="res://assets/tilesets/office/office_outside.tres" id="4_jfapb"]
 [ext_resource type="PackedScene" uid="uid://bhwnc325j70sr" path="res://overworld/npc/NPCBody.tscn" id="6_ch33q"]
 [ext_resource type="PackedScene" uid="uid://cvldikdnlojvi" path="res://overworld/areas/TransitionTile.tscn" id="7_5wtha"]
 
