@@ -11,8 +11,8 @@ enum cards {GENERAL_FABRICATION, GORILLA, FANATIC_FOLLOWER, ATTACK_COMMAND, GOOS
 	EARTH_GOLEM, BRINGER_OF_ENLIGHTENMENT,
 	PROTECTOR_OF_THE_FOREST, PRANCING_VERDEN, HEART_OF_THE_FOREST, MARCELLA_WHO_NURTURES_GROWTH, 
 	VOLCANIC_ERUPTION, FACTORY_WORKER, OBSTRUCTION_CONSTRUCTION, SHOCK_CHARGE, ASSEMBLY_BOT, 
-	NETWORK_FEEDER, FURNACE_BOT, EXTERMINATE, PLUG_BUDDY, COMPUTING_BOT, ZOLOI_CHARGER, 
-	COPY_MACHINE, ZALOGI_MIND_OF_MACHINES, PLUTO_MUSICAL_GUIDE, MIDAVES_RESEARCHER_OF_LIFE, 
+	FUEL_DISTRIBUTER, NETWORK_FEEDER, RESOURCE_EXTRACTOR, FURNACE_BOT, EXTERMINATE, PLUG_BUDDY, COMPUTING_BOT, ZOLOI_CHARGER, 
+	COPY_MACHINE, ZALOGI_MIND_OF_MACHINES, SUPPLY_DELIVERY, PLUTO_MUSICAL_GUIDE, MIDAVES_RESEARCHER_OF_LIFE, 
 	VOLDOMA_MASTER_OF_ARMS, KILLER_WHALE_BOT, NHOROG_POTION_MASTER, GHENGI_WHO_SHAPES_THE_EARTH, 
 	SPOTOS_RECYCLER
 }
@@ -252,8 +252,8 @@ var cards_info = {
 		"Health": 5,
 		"Movement": 1,
 		"Lord": true,
-		"Text": "Exhaust: Create a 2m 1/1 <N> Insect fabrication with frenzy, and 'this unit
-		deals 1 damage to itself when attacking' in each adjacent space",
+		"Text": "Exhaust: Create a 1-1/1 <N> Insect fabrication with frenzy, 2 movement, and 'this 
+		unit deals 1 damage to itself when attacking' in each adjacent space",
 		"Purposes": [Collections.purposes.DEFEND_RESOURCE],
 		"IMGPath": "res://battle/card/library/passion/images/SkonInsectFather.png",
 	},
@@ -881,6 +881,8 @@ cards.FLOW_ACCELERATOR: {
 		"IMGPath": "res://battle/card/library/growth/images/MarcellaWhoNurturesGrowth.png",
 	},
 	
+	### LOGIC ###
+	
 	cards.ASSEMBLY_BOT: {
 		"InGameName": "Assembly Bot",
 		"CardType": Collections.card_types.UNIT,
@@ -896,7 +898,7 @@ cards.FLOW_ACCELERATOR: {
 		"Health": 1,
 		"Movement": 1,
 		"Lord": false,
-		"Text": "When this unit enters battle, create a 1/1 logic fabrication in an adjacent space
+		"Text": "When this unit enters battle, create a 1-1/1 logic fabrication in an adjacent space
 		with 1 movement",
 		"Purposes": [],
 		"IMGPath": "res://battle/card/library/logic/images/AssemblyBot.png",
@@ -954,8 +956,29 @@ cards.FLOW_ACCELERATOR: {
 		"Movement": 1,
 		"Purposes": [Collections.purposes.REAR],
 		"Lord": false,
-		"Text": "Exhaust: Add 1 R",
+		"Text": "Exhaust: Add 1 {R}",
 		"IMGPath": "res://battle/card/library/logic/images/FactoryWorker.png",
+	},
+	
+	cards.FUEL_DISTRIBUTER: {
+		"InGameName": "Fuel Distributer",
+		"CardType": Collections.card_types.UNIT,
+		"fibers": [Collections.fibers.LOGIC],
+		"Costs": {
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 2,
+		},
+		"MaxAttack": 2,
+		"MinAttack": 1,
+		"Health": 2,
+		"Movement": 1,
+		"Purposes": [Collections.purposes.BUFF_ADJACENT],
+		"Lord": false,
+		"Text": "<R>, Exhaust: Add 1 movement, 1 min attack, 1 max attack and 1 health to each 
+		adjacent unit until your next turn",
+		"IMGPath": "res://battle/card/library/logic/images/FuelDistributer.png",
 	},
 	
 	cards.NETWORK_FEEDER: {
@@ -976,6 +999,26 @@ cards.FLOW_ACCELERATOR: {
 		"Text": "This unit gets 2 max attack and 2 health for each adjacent allied unit",
 		"Purposes": [Collections.purposes.BATTLE],
 		"IMGPath": "res://battle/card/library/logic/images/NetworkFeeder.jpg",
+	},
+	
+	cards.RESOURCE_EXTRACTOR: {
+		"InGameName": "Resource extractor",
+		"CardType": Collections.card_types.UNIT,
+		"fibers": [Collections.fibers.LOGIC],
+		"Costs": {
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 3,
+		},
+		"MaxAttack": 4,
+		"MinAttack": 1,
+		"Health": 4,
+		"Movement": 1,
+		"Lord": false,
+		"Text": "When this unit attacks, add 2 <R>",
+		"Purposes": [Collections.purposes.BATTLE],
+		"IMGPath": "res://battle/card/library/logic/images/ResourceExtractor.png",
 	},
 	
 	cards.EXTERMINATE: {
@@ -1114,6 +1157,24 @@ cards.FLOW_ACCELERATOR: {
 		"Text": "Your fabrications are created with +2 max attack, min attack and health and +1 movement",
 		"Purposes": [Collections.purposes.REAR],
 		"IMGPath": "res://battle/card/library/logic/images/ZalogiMindOfMachines.png",
+	},
+	
+	cards.SUPPLY_DELIVERY: {
+		"InGameName": "Supply Delivery",
+		"CardType": Collections.card_types.SPELL,
+		"fibers": [Collections.fibers.LOGIC],
+		"Costs": {
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 6,
+		},
+		"Text": "Pick up to 3 spaces in your territory. Create a 3-3/3 Battle Bot fabrication in
+		each chosen space.",
+		"CardRange": -1,
+		"TargetRestrictions": TargetSelection.target_restrictions.ANY_SPACE,
+		"IMGPath": "res://battle/card/library/logic/images/SupplyDelivery.png",
+	
 	},
 	
 	cards.PLUTO_MUSICAL_GUIDE: {
@@ -1457,8 +1518,12 @@ func get_card_class(card_index: int) -> Variant:
 			card = ShockCharge
 		cards.FACTORY_WORKER:
 			card = FactoryWorker
+		cards.FUEL_DISTRIBUTER:
+			card = FuelDistributer
 		cards.NETWORK_FEEDER:
 			card = NetworkFeeder
+		cards.RESOURCE_EXTRACTOR:
+			card = ResourceExtractor
 		cards.FURNACE_BOT:
 			card = FurnaceBot
 		cards.EXTERMINATE:
@@ -1473,4 +1538,7 @@ func get_card_class(card_index: int) -> Variant:
 			card = CopyMachine
 		cards.ZALOGI_MIND_OF_MACHINES:
 			card = ZalogiMindOfMachines
+		cards.SUPPLY_DELIVERY:
+			card = SupplyDelivery
+	
 	return card

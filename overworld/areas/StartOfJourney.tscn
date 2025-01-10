@@ -46,3 +46,10 @@ y_sort_enabled = true
 position = Vector2(163, 329)
 scale = Vector2(5, 5)
 scene_id = 3
+
+[node name="TransitionStartOfLogic" parent="." index="12" instance=ExtResource("4_jd8wd")]
+z_index = 1
+y_sort_enabled = true
+position = Vector2(-224, 3.05176e-05)
+scale = Vector2(5, 5)
+scene_id = 4

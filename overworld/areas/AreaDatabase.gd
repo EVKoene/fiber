@@ -1,7 +1,10 @@
 extends Node
 
 
-enum area_ids { START_OF_JOURNEY, START_OF_GROWTH, START_OF_PASSION, START_OF_IMAGINATION }
+enum area_ids {
+	 START_OF_JOURNEY, START_OF_GROWTH, START_OF_PASSION, START_OF_IMAGINATION, 
+	START_OF_LOGIC, 
+}
 
 var areas := {
 	area_ids.START_OF_JOURNEY: {
@@ -11,6 +14,7 @@ var areas := {
 			area_ids.START_OF_GROWTH: Vector2(497, 88),
 			area_ids.START_OF_PASSION: Vector2(220, 0),
 			area_ids.START_OF_IMAGINATION: Vector2(280, 180),
+			area_ids.START_OF_LOGIC: Vector2(111, 22),
 		},
 		"StartingPosition": Vector2(286, 150)
 	},
@@ -40,6 +44,15 @@ var areas := {
 			area_ids.START_OF_JOURNEY: Vector2(-290, 20),
 		},
 		"StartingPosition": Vector2(86, 134)
+	},
+	
+	area_ids.START_OF_LOGIC: {
+		"AreaName": "Start Of Logic",
+		"ScenePath": "res://overworld/areas/StartOfLogic.tscn",
+		"TransitionPosition": {
+			area_ids.START_OF_JOURNEY: Vector2(-603, -73),
+		},
+		"StartingPosition": Vector2(603, -73)
 	},
 }
 

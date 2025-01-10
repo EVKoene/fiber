@@ -42,7 +42,8 @@ func play_playable_cards() -> void:
 			elif c.card_type == Collections.card_types.SPELL:
 				var spell: CardInPlay = CardDatabase.get_card_class(c.card_index).new()
 				spell.card_owner_id = player_id
-				if spell.is_spell_to_play_now():
+				playing_cards = await spell.is_spell_to_play_now()
+				if playing_cards:
 					BattleSynchronizer.lock_zoom_preview_hand(c.card_owner_id, c.hand_index)
 					resolve_spell_for_ai(c)
 					await Events.spell_resolved_for_ai

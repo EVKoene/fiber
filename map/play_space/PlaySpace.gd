@@ -238,12 +238,12 @@ func is_in_starting_area(player_id: int) -> bool:
 
 
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
-	if territory:
-		if (
-			territory.owner_id == data.card_owner_id 
-			and data.card_type == Collections.card_types.UNIT
-		):
-			return true
+	if (
+		territory 
+		and territory.owner_id == data.card_owner_id 
+		and data.card_type == Collections.card_types.UNIT
+	):
+		return true
 	
 	if data.card_type == Collections.card_types.SPELL and data.can_target_unit(null):
 		return true

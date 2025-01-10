@@ -3,7 +3,8 @@ extends Node
 var cards = load("res://battle/card/CardDatabase.gd").cards
 enum deck_ids {
 	PASSION_STARTER, IMAGINATION_STARTER, GROWTH_STARTER, LOGIC_STARTER, GORILLA, 
-	MOVEMENT_SHENANIGANS, IMAGINATION_MISSILES, SPELL_SLINGERS, SHALLAN, LOGIC_FACTORY, GOLEMS, 
+	MOVEMENT_SHENANIGANS, IMAGINATION_MISSILES, SPELL_SLINGERS, SHALLAN, LOGIC_FACTORY, 
+	RESOURCE_EXTRAVAGANZA, STRENGTH_IN_NUMBERS, BILL_GATES, GOLEMS, 
 	ELEMENTS, BEEFY_BOYS, FRENZY_START, TUTORIAL_DECK, 
 	GURU_LAGHIMA, OPPONENT_TESTING, PLAYER_TESTING, SMELLY_JACQUES, MINIBOSS 
 	}
@@ -292,6 +293,61 @@ var decks := {
 		"ID": deck_ids.LOGIC_FACTORY,
 	},
 	
+	deck_ids.RESOURCE_EXTRAVAGANZA: {
+		"DeckName": "Resource Extravaganza",
+		"Cards": {
+			cards.OBSTRUCTION_CONSTRUCTION: 15, 
+			cards.SHOCK_CHARGE: 5,
+			cards.FACTORY_WORKER: 15, 
+			cards.RESOURCE_EXTRACTOR: 10,
+			cards.PLUG_BUDDY: 10,
+			cards.SUPPLY_DELIVERY: 10,
+		},
+		"StartingCards": {
+			cards.OBSTRUCTION_CONSTRUCTION: 2,
+			cards.FACTORY_WORKER: 1,
+		},
+		"ID": deck_ids.RESOURCE_EXTRAVAGANZA,
+	},
+	
+	deck_ids.STRENGTH_IN_NUMBERS: {
+		"DeckName": "Strength in Numbers",
+		"Cards": {
+			cards.ASSEMBLY_BOT: 15, 
+			cards.FUEL_DISTRIBUTER: 15, 
+			cards.NETWORK_FEEDER: 10,
+			cards.EXTERMINATE: 10,
+			cards.FURNACE_BOT: 10,
+		},
+		"StartingCards": {
+			cards.ASSEMBLY_BOT: 2,
+			cards.NETWORK_FEEDER: 1,
+		},
+		"ID": deck_ids.STRENGTH_IN_NUMBERS,
+	},
+	
+	deck_ids.BILL_GATES: {
+		"DeckName": "Strength in Numbers",
+		"Cards": {
+			cards.ASSEMBLY_BOT: 15, 
+			cards.SHOCK_CHARGE: 15, 
+			cards.FUEL_DISTRIBUTER: 10,
+			cards.RESOURCE_EXTRACTOR: 10,
+			cards.EXTERMINATE: 10,
+			cards.FURNACE_BOT: 10,
+			cards.PLUG_BUDDY: 5,
+			cards.COMPUTING_BOT: 10,
+			cards.ZALOGI_MIND_OF_MACHINES: 3,
+			cards.SUPPLY_DELIVERY: 5,
+			
+		},
+		"StartingCards": {
+			cards.ASSEMBLY_BOT: 2,
+			cards.NETWORK_FEEDER: 1,
+		},
+		"ID": deck_ids.BILL_GATES,
+	},
+	
 	### MISC ###
 	deck_ids.TUTORIAL_DECK: {
 		"DeckName": "Tutorial Deck",
@@ -307,10 +363,14 @@ var decks := {
 	deck_ids.OPPONENT_TESTING: {
 		"DeckName": "Opponent testing",
 		"Cards": {
-			cards.GORILLA: 40, 
+			cards.FUEL_DISTRIBUTER: 10,
+			cards.RESOURCE_EXTRACTOR: 10,
+			cards.SUPPLY_DELIVERY: 10,
 		},
 		"StartingCards": {
-			cards.GORILLA: 3,
+			cards.FUEL_DISTRIBUTER: 1,
+			cards.RESOURCE_EXTRACTOR: 1,
+			cards.SUPPLY_DELIVERY: 1,
 		},
 		"ID": deck_ids.OPPONENT_TESTING,
 	},
@@ -318,13 +378,14 @@ var decks := {
 	deck_ids.PLAYER_TESTING: {
 		"DeckName": "Player testing",
 		"Cards": {
-			cards.STUDENT_OF_KHONG: 10,
-			cards.BRINGER_OF_ENLIGHTENMENT: 10,
+			cards.FUEL_DISTRIBUTER: 10,
+			cards.RESOURCE_EXTRACTOR: 10,
+			cards.SUPPLY_DELIVERY: 10,
 		},
 		"StartingCards": {
-			cards.STUDENT_OF_KHONG: 1,
-			cards.EARTH_GOLEM: 1,
-			cards.BRINGER_OF_ENLIGHTENMENT: 1,
+			cards.FUEL_DISTRIBUTER: 1,
+			cards.RESOURCE_EXTRACTOR: 1,
+			cards.SUPPLY_DELIVERY: 1,
 		},
 		"ID": deck_ids.PLAYER_TESTING,
 	},
