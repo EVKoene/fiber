@@ -2669,15 +2669,19 @@ position = Vector2(-295, -42)
 
 [node name="BusinessPersonLeonardo" parent="." index="7" instance=ExtResource("6_ch33q")]
 position = Vector2(37, -115)
+npc_name = "Businessperson Leonardo"
 
 [node name="BusinessPersonAna" parent="." index="8" instance=ExtResource("6_ch33q")]
 position = Vector2(289, -108)
+npc_name = "Businessperson Ana"
 
 [node name="BusinessPersonJeroen" parent="." index="9" instance=ExtResource("6_ch33q")]
 position = Vector2(646, -111)
+npc_name = "Businessperson Jeroen"
 
 [node name="BillGates" parent="." index="10" instance=ExtResource("6_ch33q")]
 position = Vector2(1456, -17)
+direction = 1
 
 [node name="TransitionTile" parent="." index="11" instance=ExtResource("7_5wtha")]
 position = Vector2(-1319, -106)

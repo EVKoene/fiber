@@ -297,6 +297,7 @@ var decks := {
 		"DeckName": "Resource Extravaganza",
 		"Cards": {
 			cards.OBSTRUCTION_CONSTRUCTION: 15, 
+			cards.SHOCK_CHARGE: 5,
 			cards.FACTORY_WORKER: 15, 
 			cards.RESOURCE_EXTRACTOR: 10,
 			cards.PLUG_BUDDY: 10,
@@ -312,17 +313,39 @@ var decks := {
 	deck_ids.STRENGTH_IN_NUMBERS: {
 		"DeckName": "Strength in Numbers",
 		"Cards": {
-			cards.OBSTRUCTION_CONSTRUCTION: 15, 
-			cards.FACTORY_WORKER: 15, 
-			cards.RESOURCE_EXTRACTOR: 10,
-			cards.PLUG_BUDDY: 10,
-			cards.SUPPLY_DELIVERY: 10,
+			cards.ASSEMBLY_BOT: 15, 
+			cards.FUEL_DISTRIBUTER: 15, 
+			cards.NETWORK_FEEDER: 10,
+			cards.EXTERMINATE: 10,
+			cards.FURNACE_BOT: 10,
 		},
 		"StartingCards": {
-			cards.OBSTRUCTION_CONSTRUCTION: 2,
-			cards.FACTORY_WORKER: 1,
+			cards.ASSEMBLY_BOT: 2,
+			cards.NETWORK_FEEDER: 1,
 		},
-		"ID": deck_ids.RESOURCE_EXTRAVAGANZA,
+		"ID": deck_ids.STRENGTH_IN_NUMBERS,
+	},
+	
+	deck_ids.BILL_GATES: {
+		"DeckName": "Strength in Numbers",
+		"Cards": {
+			cards.ASSEMBLY_BOT: 15, 
+			cards.SHOCK_CHARGE: 15, 
+			cards.FUEL_DISTRIBUTER: 10,
+			cards.RESOURCE_EXTRACTOR: 10,
+			cards.EXTERMINATE: 10,
+			cards.FURNACE_BOT: 10,
+			cards.PLUG_BUDDY: 5,
+			cards.COMPUTING_BOT: 10,
+			cards.ZALOGI_MIND_OF_MACHINES: 3,
+			cards.SUPPLY_DELIVERY: 5,
+			
+		},
+		"StartingCards": {
+			cards.ASSEMBLY_BOT: 2,
+			cards.NETWORK_FEEDER: 1,
+		},
+		"ID": deck_ids.BILL_GATES,
 	},
 	
 	### MISC ###

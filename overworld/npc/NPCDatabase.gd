@@ -4,11 +4,11 @@ extends Node
 enum npcs {
 	 HANS, JACQUES, JESUS, GARY, MASHA, ROB, GURU_FLAPPIE, GURU_TRONG, 
 	GURU_KAL, GURU_LAGHIMA, STUDENT_DAL, STUDENT_MAC, STUDENT_KALA, SHALLAN, 
-	BUSINESSPERSON_LEONARDO, BUSINESSPERSON_ANA, BUSINESSPERSON_JEROEN, BILL_GATES
+	BUSINESS_PERSON_LEONARDO, BUSINESS_PERSON_ANA, BUSINESS_PERSON_JEROEN, BILL_GATES
 }
 enum character_types {
 	 BEEBOY, BUMBLEBEE_LADY, BUSINESS_CAP_BOY, DINO_BUSINESS_MAN, ROBOT_GUY, JESUS, GARY, GURU_1,
-	GURU_2, GURU_3, GURU_LAGHIMA, SHALLAN, BUSINESSPERSON_1, BUSINESSPERSON_2, BUSINESSPERSON_3,
+	GURU_2, GURU_3, GURU_LAGHIMA, SHALLAN, BUSINESS_PERSON_1, BUSINESS_PERSON_2, BUSINESS_PERSON_3,
 	BILL_GATES
 }
 enum special_rules { ADD_1_MAX_ATTACK, ADD_1_HEALTH, IMAGINATION_SPELLS_1_CHEAPER, }
@@ -129,6 +129,40 @@ var npc_data: Dictionary = {
 		"CharacterModel": character_types.GURU_LAGHIMA,
 		"Deck": DeckCollection.decks[DeckCollection.deck_ids.GURU_LAGHIMA],
 	},
+	
+	### LOGIC DECKS ###
+	
+	npcs.BUSINESS_PERSON_LEONARDO: {
+		"Name": "Businessperson Leonardo",
+		"Dialogue": ["It's all about the grind"],
+		"Battle": true,
+		"CharacterModel": character_types.BUSINESS_PERSON_1,
+		"Deck": DeckCollection.decks[DeckCollection.deck_ids.LOGIC_FACTORY],
+	},
+	
+	npcs.BUSINESS_PERSON_ANA: {
+		"Name": "Businessperson Ana",
+		"Dialogue": ["I'm too old for this shit"],
+		"Battle": true,
+		"CharacterModel": character_types.BUSINESS_PERSON_2,
+		"Deck": DeckCollection.decks[DeckCollection.deck_ids.MOVEMENT_SHENANIGANS],
+	},
+	
+	npcs.BUSINESS_PERSON_JEROEN: {
+		"Name": "Businessperson Jeroen",
+		"Dialogue": ["It's all about the grind"],
+		"Battle": true,
+		"CharacterModel": character_types.BUSINESS_PERSON_3,
+		"Deck": DeckCollection.decks[DeckCollection.deck_ids.STRENGTH_IN_NUMBERS],
+	},
+	
+	npcs.BILL_GATES: {
+		"Name": "Bill Gates",
+		"Dialogue": ["It's all about the grind"],
+		"Battle": true,
+		"CharacterModel": character_types.BILL_GATES,
+		"Deck": DeckCollection.decks[DeckCollection.deck_ids.BILL_GATES],
+	},
 }
 
 var character_model := {
@@ -142,6 +176,9 @@ var character_model := {
 	character_types.GURU_1: "guru_1",
 	character_types.GURU_2: "guru_2",
 	character_types.GURU_3: "guru_3",
+	character_types.BUSINESS_PERSON_1: "business_person_1",
+	character_types.BUSINESS_PERSON_2: "business_person_2",
+	character_types.BUSINESS_PERSON_3: "business_person_3",
 	character_types.GURU_LAGHIMA: "guru_laghima",
 	character_types.SHALLAN: "shallan"
 }
