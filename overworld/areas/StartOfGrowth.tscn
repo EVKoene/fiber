@@ -1100,6 +1100,7 @@ sources/0 = SubResource("TileSetAtlasSource_5w7s4")
 sources/1 = SubResource("TileSetAtlasSource_ppm2m")
 
 [node name="OverworldArea" instance=ExtResource("1_wmdwy")]
+scene_id = 1
 
 [node name="TransitionTile3" parent="." index="3" instance=ExtResource("4_13cap")]
 position = Vector2(-62, 113)

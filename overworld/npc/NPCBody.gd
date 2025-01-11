@@ -1,15 +1,24 @@
 extends CharacterBody2D
 
+
+class_name NPCBody
+
+
 @export var npc_name: String
 @export var direction: int
 var npc_id: int: get = _get_npc_id
 
 
 func _ready():
-	$AnimatedSprite2D.play(
-		NPCDatabase.npc_animation(npc_id, direction, Collections.animation_types.IDLE)
+	play_animation(
+		npc_id, direction, Collections.animation_types.IDLE
 	) 
 
+
+func play_animation(animation_npc_id: int, animation_direction: int, animation_types: int) -> void:
+	$AnimatedSprite2D.play(
+		NPCDatabase.npc_animation(animation_npc_id, animation_direction, animation_types)
+	) 
 
 func _get_npc_id() -> int:
 	var id_to_return: int
@@ -36,12 +45,22 @@ func _get_npc_id() -> int:
 			id_to_return = NPCDatabase.npcs.GURU_FLAPPIE
 		"Guru Kal":
 			id_to_return = NPCDatabase.npcs.GURU_KAL
-		"Guru Flappie":
+		"Guru Trong":
 			id_to_return = NPCDatabase.npcs.GURU_TRONG
 		"Guru Laghima":
 			id_to_return = NPCDatabase.npcs.GURU_LAGHIMA
 		"Shallan":
 			id_to_return = NPCDatabase.npcs.SHALLAN
+		"Businessperson Leonardo":
+			id_to_return = NPCDatabase.npcs.BUSINESS_PERSON_LEONARDO
+		"Businessperson Ana":
+			id_to_return = NPCDatabase.npcs.BUSINESS_PERSON_ANA
+		"Businessperson Jeroen":
+			id_to_return = NPCDatabase.npcs.BUSINESS_PERSON_JEROEN
+		"Bill Gates":
+			id_to_return = NPCDatabase.npcs.BILL_GATES
+		"Wise Man":
+			id_to_return = NPCDatabase.npcs.WISE_MAN
 	
 	return id_to_return
 		

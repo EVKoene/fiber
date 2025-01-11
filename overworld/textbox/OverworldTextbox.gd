@@ -15,6 +15,8 @@ var in_dialogue = false
 var current_state := State.READY
 var text_queue := []
 var stay_in_overworld := false
+var question := false
+var question_options := []
 
 enum State { READY, READING, FINISHED }
 

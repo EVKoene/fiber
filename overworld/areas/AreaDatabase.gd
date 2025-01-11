@@ -11,10 +11,10 @@ var areas := {
 		"AreaName": "Start Of Journey",
 		"ScenePath": "res://overworld/areas/StartOfJourney.tscn",
 		"TransitionPosition": {
-			area_ids.START_OF_GROWTH: Vector2(497, 88),
-			area_ids.START_OF_PASSION: Vector2(220, 0),
-			area_ids.START_OF_IMAGINATION: Vector2(280, 180),
-			area_ids.START_OF_LOGIC: Vector2(111, 22),
+			area_ids.START_OF_GROWTH: Vector2(1100, 0),
+			area_ids.START_OF_PASSION: Vector2(-289, -245),
+			area_ids.START_OF_IMAGINATION: Vector2(-240, 700),
+			area_ids.START_OF_LOGIC: Vector2(-410, 0),
 		},
 		"StartingPosition": Vector2(286, 150)
 	},

@@ -73,6 +73,7 @@ func _on_single_player_pressed() -> void:
 	GameManager.is_server = true
 	GameManager.is_player_1 = true
 	GameManager.testing = false
+	OverworldManager.can_move = false
 	
 	if !FileAccess.file_exists(GameManager.collections_path):
 		TransitionScene.transition_to_start_journey()
