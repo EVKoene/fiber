@@ -19,7 +19,6 @@ grow_vertical = 2
 
 [node name="Label" type="Label" parent="ChoicIndicatorPanel/CenterContainer"]
 layout_mode = 2
-text = ">"
 
 [node name="ChoiceTextPanel" type="Panel" parent="."]
 custom_minimum_size = Vector2(150, 30)

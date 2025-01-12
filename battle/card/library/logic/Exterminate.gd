@@ -25,3 +25,36 @@ func resolve_spell(c_column: int, c_row: int) -> bool:
 	else:
 		BattleSynchronizer.finish_resolve()
 		return false
+
+
+func is_spell_to_play_now() -> bool:
+	for c in GameManager.cards_in_play[card_owner_id]:
+		for ps in PlaySpaceHelper.spaces_in_range(c.current_play_space, card_owner_id, 1):
+			if (
+				!ps.card_in_this_play_space 
+				or ps.card_in_this_play_space.card_owner_id == card_owner_id
+			):
+				continue
+			elif ps.card_in_this_play_space.costs.total() > costs.total():
+				return true
+		
+	return false
+
+
+func resolve_spell_for_ai() -> void:
+	for c in GameManager.cards_in_play[card_owner_id]:
+		for ps in PlaySpaceHelper.spaces_in_range(c.current_play_space, card_owner_id, 1):
+			if (
+				!ps.card_in_this_play_space 
+				or ps.card_in_this_play_space.card_owner_id == card_owner_id
+			):
+				continue
+			elif ps.card_in_this_play_space.costs.total() > costs.total():
+				c.destroy()
+				ps.card_in_this_play_space.destroy()
+				Events.spell_resolved_for_ai.emit()
+				BattleSynchronizer.finish_resolve()
+				return
+
+		
+	assert(false, "AIPlayer couldn't find a correct target to play exterminate on")

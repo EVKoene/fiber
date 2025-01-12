@@ -126,6 +126,7 @@ func setup_starter_deck(fiber: int) -> void:
 	
 	config.set_value("card_collection", "cards", cards)
 	config.set_value("deck_data", "decks", {starter_deck_id: DeckCollection.decks[starter_deck_id]})
+	config.set_value("deck_data", "current_deck_id", starter_deck_id)
 	config.set_value("start_journey", "starting_fiber", fiber)
 	var save_error := config.save(collections_path)
 	if save_error:

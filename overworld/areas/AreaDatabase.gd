@@ -16,7 +16,7 @@ var areas := {
 			area_ids.START_OF_IMAGINATION: Vector2(-240, 700),
 			area_ids.START_OF_LOGIC: Vector2(-410, 0),
 		},
-		"StartingPosition": Vector2(286, 150)
+		"StartingPosition": Vector2(300, 360)
 	},
 	
 	area_ids.START_OF_GROWTH: {

@@ -9,14 +9,12 @@ const CHAR_READ_RATE = 0.05
 @onready var continue_symbol := $TextboxContainer/MarginContainer/HBoxContainer/ContinueSymbol
 var tween: Tween
 
-var text_lines: Array = []
-var line_count: int = 0
-var in_dialogue = false
 var current_state := State.READY
 var text_queue := []
 var stay_in_overworld := false
 var question := false
 var question_options := []
+var picking_option := false
 
 enum State { READY, READING, FINISHED }
 
@@ -26,8 +24,11 @@ func _ready():
 	_hide_textbox()
 
 
-func read_text(text_to_read: Array) -> void:
+func read_text(text_to_read: Array, is_question := false, options := []) -> void:
+	_show_textbox()
 	OverworldManager.can_move = false
+	question = is_question
+	question_options = options
 	for t in text_to_read:
 		_queue_text(t)
 
@@ -46,9 +47,20 @@ func _process(_delta):
 				continue_symbol.show()
 				_change_state(State.FINISHED)
 		State.FINISHED:
-			if Input.is_action_just_pressed("ui_accept"):
-				_change_state(State.READY)
-				_hide_textbox()
+			if question:
+				if !text_queue.is_empty():
+					if Input.is_action_just_pressed("ui_accept"):
+						_change_state(State.READY)
+				else:
+					if picking_option:
+						return
+					else:
+						picking_option = true
+						OverworldManager.mc_question_textbox.pick_from_options(question_options)
+						await OverworldManager.mc_question_textbox.option_picked
+			
+			elif Input.is_action_just_pressed("ui_accept"):
+				cleanup_textbox()
 				if stay_in_overworld:
 					OverworldManager.can_move = true
 				
@@ -75,6 +87,16 @@ func _queue_text(next_text) -> void:
 func _finish_reading() -> void:
 	_show_continue_symbol()
 	_change_state(State.FINISHED)
+
+
+func cleanup_textbox() -> void:
+	_change_state(State.READY)
+	text_queue = []
+	stay_in_overworld = false
+	question = false
+	question_options = []
+	picking_option = false
+	_hide_textbox()
 
 
 func _change_state(next_state: State) -> void:

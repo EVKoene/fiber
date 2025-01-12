@@ -28,6 +28,8 @@ func set_current_decks() -> void:
 
 
 func _find_decks() -> void:
+	if !FileAccess.file_exists(collections_path):
+		return
 	var config := ConfigFile.new()
 	config.load(collections_path)
 	decks = config.get_value("deck_data", "decks")

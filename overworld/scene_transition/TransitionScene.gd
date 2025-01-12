@@ -4,7 +4,7 @@ extends Node
 @onready var animation_player = $AnimationPlayer
 @onready var deck_builder_scene := load("res://deckbuilder/Deckbuilder.tscn")
 @onready var deck_picker_scene := load("res://deckbuilder/DeckPicker.tscn")
-@onready var select_fiber_scene := load("res://singleplayer/SelectFiber.tscn")
+@onready var start_journey_scene := load("res://overworld/areas/StartOfJourney.tscn")
 
 
 func _ready():
@@ -65,9 +65,35 @@ func reload_scene() -> void:
 
 
 func transition_to_start_journey() -> void:
-	var select_fiber = select_fiber_scene.instantiate()
+	if GameManager.current_scene:
+		GameManager.current_scene.queue_free()
+		GameManager.current_scene = null
+	animation_player.play("fade_scene")
+	await animation_player.animation_finished
+	
+	animation_player.play_backwards("fade_scene")
+	GameManager.testing = false
+	OverworldManager.can_move = true
+	var start_journey = start_journey_scene.instantiate()
+	start_journey.new_game = true
 	GameManager.main_menu.hide_main_menu()
-	GameManager.main_menu.add_child(select_fiber)
+	start_journey.player_position = AreaDatabase.areas[
+		AreaDatabase.area_ids.START_OF_JOURNEY
+	]["StartingPosition"]
+	GameManager.add_child(start_journey)
+	GameManager.call_deferred("cleanup_game")
+	OverworldManager.can_move = false
+	OverworldManager.save_player_position()
+	
+
+
+func transition_to_tutorial() -> void:
+	animation_player.play("fade_scene")
+	await animation_player.animation_finished
+	GameManager.current_scene.queue_free()
+	GameManager.current_scene = null
+	Tutorial.setup_tutorial()
+	animation_player.play_backwards("fade_scene")
 
 
 func transition_to_test_battle() -> void:

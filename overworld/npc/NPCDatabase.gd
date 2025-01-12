@@ -137,7 +137,7 @@ var npc_data: Dictionary = {
 	
 	npcs.BUSINESS_PERSON_LEONARDO: {
 		"Name": "Businessperson Leonardo",
-		"Dialogue": ["It's all about the grind"],
+		"Dialogue": ["It's all about the grind."],
 		"Battle": true,
 		"CharacterModel": character_types.BUSINESS_PERSON_1,
 		"Deck": DeckCollection.decks[DeckCollection.deck_ids.LOGIC_FACTORY],
@@ -145,7 +145,7 @@ var npc_data: Dictionary = {
 	
 	npcs.BUSINESS_PERSON_ANA: {
 		"Name": "Businessperson Ana",
-		"Dialogue": ["I'm too old for this shit"],
+		"Dialogue": ["I'm too old for this shit."],
 		"Battle": true,
 		"CharacterModel": character_types.BUSINESS_PERSON_2,
 		"Deck": DeckCollection.decks[DeckCollection.deck_ids.MOVEMENT_SHENANIGANS],
@@ -153,7 +153,7 @@ var npc_data: Dictionary = {
 	
 	npcs.BUSINESS_PERSON_JEROEN: {
 		"Name": "Businessperson Jeroen",
-		"Dialogue": ["Life is either a party or resting for one"],
+		"Dialogue": ["Life is one big party."],
 		"Battle": true,
 		"CharacterModel": character_types.BUSINESS_PERSON_3,
 		"Deck": DeckCollection.decks[DeckCollection.deck_ids.STRENGTH_IN_NUMBERS],
@@ -161,7 +161,7 @@ var npc_data: Dictionary = {
 	
 	npcs.BILL_GATES: {
 		"Name": "Bill Gates",
-		"Dialogue": ["Success is a lousy teacher"],
+		"Dialogue": ["Success is a lousy teacher."],
 		"Battle": true,
 		"CharacterModel": character_types.BILL_GATES,
 		"Deck": DeckCollection.decks[DeckCollection.deck_ids.BILL_GATES],
@@ -229,6 +229,6 @@ func npc_animation(npc: int, direction: int, animation_type: int) -> String:
 		Collections.animation_types.IDLE:
 			animation_type_string = "idle"
 		Collections.animation_types.WALKING:
-			animation_type_string = "walking"
+			animation_type_string = "walk"
 	
 	return str(character_type, "_", direction_string, "_", animation_type_string)
