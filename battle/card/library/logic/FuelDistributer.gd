@@ -35,7 +35,7 @@ func fuel_adjacent() -> bool:
 			CardManipulation.change_battle_stat(
 				Collections.stats.MOVEMENT, card_to_buff.card_owner_id, card_to_buff.card_in_play_index, 1, 2
 			)
-	
+	exhaust()
 	return true
 
 

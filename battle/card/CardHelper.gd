@@ -125,7 +125,7 @@ func closest_conquerable_space(player_id: int, card: CardInPlay) -> Array:
 	var shortest_distance: int = -1
 	var closest_spaces: Array
 	for ps in GameManager.victory_spaces:
-		if ps.conquered_by == player_id:
+		if ps.conquered_by == player_id or ps == card.current_play_space:
 			continue
 		var distance_to_space = card.current_play_space.distance_to_play_space(
 			ps, card.move_through_units

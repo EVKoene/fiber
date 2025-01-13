@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=4 uid="uid://yte2pay4cx54"]
+[gd_scene load_steps=35 format=4 uid="uid://yte2pay4cx54"]
 
 [ext_resource type="PackedScene" uid="uid://drutvpo7uegtk" path="res://overworld/areas/OverworldArea.tscn" id="1_1vi52"]
 [ext_resource type="Texture2D" uid="uid://du88phcf3x223" path="res://assets/tilesets/A2_Floors_MV_TILESET_2.png" id="2_d27bg"]
@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://nasghue06a1y" path="res://assets/tilesets/growth/garden_objects.png" id="13_avd6m"]
 [ext_resource type="Texture2D" uid="uid://b02yd7pkpsua2" path="res://assets/tilesets/grey_houses.png" id="15_3bqdi"]
 [ext_resource type="PackedScene" uid="uid://bhwnc325j70sr" path="res://overworld/npc/NPCBody.tscn" id="18_gc2hb"]
+[ext_resource type="PackedScene" uid="uid://623ndni7h6ry" path="res://overworld/objects/Sign.tscn" id="19_fphxc"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fxdr4"]
 texture = ExtResource("2_d27bg")
@@ -16250,3 +16251,19 @@ npc_name = "Wise Man"
 
 [node name="PlayerBody" parent="." index="13"]
 position = Vector2(300, 386)
+
+[node name="PassionSign" parent="." index="14" instance=ExtResource("19_fphxc")]
+position = Vector2(-212, -255)
+sign_text = ["Passion"]
+
+[node name="ImaginationSign" parent="." index="15" instance=ExtResource("19_fphxc")]
+position = Vector2(-325, 648)
+sign_text = ["Imagination"]
+
+[node name="GrowthSign" parent="." index="16" instance=ExtResource("19_fphxc")]
+position = Vector2(1064, -28)
+sign_text = ["Growth"]
+
+[node name="LogicSign" parent="." index="17" instance=ExtResource("19_fphxc")]
+position = Vector2(-396, -127)
+sign_text = ["Logic"]

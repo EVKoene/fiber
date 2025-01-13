@@ -56,7 +56,7 @@ func is_ability_to_use_now() -> bool:
 	for c in CardHelper.cards_in_range(
 		card_owner_id, 1, TargetSelection.target_restrictions.OWN_UNITS
 	):
-		if c.card_owner_id == card_owner_id and c.cost <= 1:
+		if c.card_owner_id == card_owner_id and c.costs.total() <= 1:
 			return true
 	
 	return false

@@ -132,7 +132,7 @@ func move_to_play_space(new_column: int, new_row: int) -> void:
 				new_column, new_row
 			)
 			
-	BattleSynchronizer.call_triggered_funcs(Collections.triggers.CARD_MOVED, self)
+	await BattleSynchronizer.call_triggered_funcs(Collections.triggers.CARD_MOVED, self)
 	return
 
 
@@ -157,7 +157,7 @@ func move_over_path(path: PlaySpacePath) -> void:
 				z_index -= 50
 			else:
 				await get_tree().create_timer(0.25).timeout
-				move_to_play_space(path.path_spaces[s].column, path.path_spaces[s].row)
+				await move_to_play_space(path.path_spaces[s].column, path.path_spaces[s].row)
 			
 	
 	TargetSelection.end_selecting()

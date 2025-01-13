@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://623ndni7h6ry"]
+
+[ext_resource type="Script" path="res://overworld/objects/Sign.gd" id="1_chyp6"]
+[ext_resource type="Texture2D" uid="uid://b077m6vbebhnx" path="res://assets/objects/sign.png" id="1_epi5s"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3k284"]
+size = Vector2(12, 12)
+
+[node name="Sign" type="StaticBody2D"]
+scale = Vector2(3, 3)
+script = ExtResource("1_chyp6")
+sign_text = [""]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_epi5s")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_3k284")

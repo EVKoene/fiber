@@ -4121,7 +4121,7 @@ script = ExtResource("1_ju3ua")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_xjyfs")
-animation = &"wise_man_side_walk"
+animation = &"wise_man_side_idle"
 offset = Vector2(0, -35)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
