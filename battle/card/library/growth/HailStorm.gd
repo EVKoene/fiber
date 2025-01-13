@@ -49,14 +49,15 @@ func resolve_spell(_selected_column: int, _selected_row: int) -> bool:
 
 
 func is_spell_to_play_now() -> bool:
-	if len(AIHelper.areas_with_most_enemy_units(1, 3, 3)) >= 1:
+	var areas := AIHelper.areas_in_range_with_most_enemy_units(1, 3, 3)
+	if len(AIHelper.areas_in_range_with_most_enemy_units(1, 3, 3)) >= 1:
 		return true
 		
 	return false
 
 
 func resolve_spell_for_ai() -> void:
-	var selected_area: Array = AIHelper.areas_with_most_enemy_units(1, 3, 3).pick_random()
+	var selected_area: Array = AIHelper.areas_in_range_with_most_enemy_units(1, 3, 3).pick_random()
 	
 	for ps in selected_area:
 		BattleAnimation.play_hailstorm_animation(ps)
@@ -71,3 +72,6 @@ func resolve_spell_for_ai() -> void:
 					Collections.stats.MOVEMENT, target_card.card_owner_id, 
 					target_card.card_in_play_index, -1, 2
 				)
+	
+	Events.spell_resolved_for_ai.emit()
+	BattleSynchronizer.finish_resolve()

@@ -69,6 +69,7 @@ func _start_of_journey_conversation() -> void:
 	if play_tutorial == 0:
 		TransitionScene.transition_to_tutorial()
 	else:
+		OverworldManager.can_move = true
 		return
 
 

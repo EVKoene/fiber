@@ -5,6 +5,7 @@ var is_paused: bool = false: set = _set_is_paused
 
 
 func show_pick_deck() -> void:
+	$CenterContainer/DeckPicker.find_decks()
 	$CenterContainer/PauseButtons.hide()
 	$CenterContainer/DeckPicker.show()
 	$CenterContainer/DeckPicker.set_current_decks()

@@ -293,7 +293,7 @@ func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 		)
 
 
-func spaces_in_range(range_to_check: int, ignore_obstacles: bool) -> Array:
+func spaces_in_range(range_to_check: int, ignore_obstacles := false) -> Array:
 	var spaces: Array = []
 	for ps in GameManager.play_spaces:
 		var distance := current_play_space.distance_to_play_space(ps, ignore_obstacles)

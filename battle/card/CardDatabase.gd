@@ -682,7 +682,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": false,
 		"Text": "",
 		"Purposes": [Collections.purposes.CONQUER_SPACES],
-		"IMGPath": "res://battle/card/library/growth/images/Wind<<Golem.jpg",
+		"IMGPath": "res://battle/card/library/growth/images/WindGolem.png",
 	},
 	
 	cards.STUDENT_OF_KHONG: {
@@ -1487,6 +1487,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = MorningLight
 		cards.ICE_GOLEM:
 			card = IceGolem
+		cards.WIND_GOLEM:
+			card = WindGolem
 		cards.FIRE_GOLEM:
 			card = FireGolem
 		cards.STUDENT_OF_KHONG:

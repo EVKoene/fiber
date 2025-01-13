@@ -125,6 +125,7 @@ func _setup_existing_deck() -> void:
 	for c in existing_deck["Cards"]:
 		for i in existing_deck["Cards"][c]:
 			card_collection_options[c]["Card"].add_to_deck()
+			card_collection_options[c]["Card"].remove_from_card_collection_options()
 
 
 func _set_deck_id(decks: Dictionary) -> void:

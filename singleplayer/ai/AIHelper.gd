@@ -161,33 +161,89 @@ func attack_adjacent_enemies(card: CardInPlay) -> bool:
 	return false
 
 
-func areas_with_most_enemy_units(range_to_check: int, max_axis: int, min_axis: int) -> Array:
+func horizontal_area(area_column: int, area_row: int, max_axis: int, min_axis: int) -> Array:
+	var area := []
+	for c in range(min_axis):
+		if area_column + c > MapSettings.n_columns:
+			break
+		
+		for r in range(max_axis):
+			if area_row + r > MapSettings.n_rows:
+				break
+			area.append(GameManager.ps_column_row[c][r])
+	
+	return area
+
+
+func vertical_area(area_column: int, area_row: int, max_axis: int, min_axis: int) -> Array:
+	var area := []
+	for c in range(max_axis):
+		if area_column + c > MapSettings.n_columns:
+			break
+		
+		for r in range(min_axis):
+			if area_row + r > MapSettings.n_rows:
+				break
+			area.append(GameManager.ps_column_row[c][r])
+	
+	return area
+
+
+func areas_in_range_with_most_enemy_units(range_to_check: int, max_axis: int, min_axis: int) -> Array:
 	var areas := []
 	var play_spaces_in_range := spaces_in_range(range_to_check)
 	var highest_n_enemies := 0
+	for c in range(MapSettings.n_columns - min_axis):
+		for r in range(MapSettings.n_rows - max_axis):
+			var area := horizontal_area(c, r, max_axis, min_axis)
+			var is_area_in_range := false
+			var n_enemies := 0
+			for ps in area:
+				if ps in play_spaces_in_range:
+					is_area_in_range = true
+				if (
+					ps.card_in_this_play_space 
+					and ps.card_in_this_play_space.card_owner_id == GameManager.p1_id
+				):
+					n_enemies += 1
+			if !is_area_in_range:
+				continue
+			if n_enemies == 0:
+				continue
+			if n_enemies < highest_n_enemies:
+				continue
+			if n_enemies == highest_n_enemies:
+				areas.append(area)
+			if n_enemies > highest_n_enemies:
+				areas = [area]
+				highest_n_enemies = n_enemies
+	
+	if max_axis == min_axis:
+		return areas
+	
 	for c in range(MapSettings.n_columns - max_axis):
-		var area := []
-		var is_area_in_range := false
-		var n_enemies := 0
 		for r in range(MapSettings.n_rows - min_axis):
-			var ps: PlaySpace = GameManager.ps_column_row[c][r]
-			if ps in play_spaces_in_range:
-				is_area_in_range = true
-			if (
-				ps.card_in_this_play_space 
-				and ps.card_in_this_play_space.card_owner_id == GameManager.p1_id
-			):
-				n_enemies += 1
-		if !is_area_in_range:
-			continue
-		if n_enemies == 0:
-			continue
-		if n_enemies < highest_n_enemies:
-			continue
-		if n_enemies == highest_n_enemies:
-			areas.append(area)
-		if n_enemies > highest_n_enemies:
-			areas = [area]
-			highest_n_enemies = n_enemies
-			
+			var area := vertical_area(c, r, max_axis, min_axis)
+			var is_area_in_range := false
+			var n_enemies := 0
+			for ps in area:
+				if ps in play_spaces_in_range:
+					is_area_in_range = true
+				if (
+					ps.card_in_this_play_space 
+					and ps.card_in_this_play_space.card_owner_id == GameManager.p1_id
+				):
+					n_enemies += 1
+			if !is_area_in_range:
+				continue
+			if n_enemies == 0:
+				continue
+			if n_enemies < highest_n_enemies:
+				continue
+			if n_enemies == highest_n_enemies:
+				areas.append(area)
+			if n_enemies > highest_n_enemies:
+				areas = [area]
+				highest_n_enemies = n_enemies
+	
 	return areas

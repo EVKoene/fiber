@@ -9,7 +9,7 @@ var overworld_scene: PackedScene = load("res://overworld/areas/StartingArea.tscn
 @onready var turn_manager_scene: PackedScene = preload("res://manager/TurnManager.tscn")
 
 ### GENERAL ###
-var version := "0.0.2"
+var version := "0.0.3"
 var testing := true
 var main_menu: MainMenu
 var is_server := false

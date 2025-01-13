@@ -56,6 +56,7 @@ func _cleanup_options() -> void:
 		c.queue_free()
 	options = []
 	picking_options = false
+	current_option_index = 0
 	hide()
 
 

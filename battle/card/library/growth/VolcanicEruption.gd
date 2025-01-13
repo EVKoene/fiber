@@ -44,17 +44,21 @@ func resolve_spell(_selected_column: int, _selected_row: int) -> bool:
 		return false
 
 func is_spell_to_play_now() -> bool:
-	if len(AIHelper.areas_with_most_enemy_units(1, 4, 4)) >= 1:
+	if len(AIHelper.areas_in_range_with_most_enemy_units(1, 4, 4)) >= 1:
 		return true
 		
 	return false
 
 
 func resolve_spell_for_ai() -> void:
-	var selected_area: Array = AIHelper.areas_with_most_enemy_units(1, 4, 4).pick_random()
+	var selected_area: Array = AIHelper.areas_in_range_with_most_enemy_units(1, 4, 4).pick_random()
 	
 	for ps in selected_area:
 		BattleAnimation.play_burn_animation(ps.column, ps.row)
 		if ps.card_in_this_play_space:
 			if ps.card_in_this_play_space.card_owner_id != card_owner_id:
 				ps.card_in_this_play_space.resolve_damage(2)
+	
+	
+	Events.spell_resolved_for_ai.emit()
+	BattleSynchronizer.finish_resolve()
