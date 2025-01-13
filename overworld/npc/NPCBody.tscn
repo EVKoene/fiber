@@ -19,6 +19,10 @@
 [ext_resource type="Texture2D" uid="uid://ijj17s5i8xf" path="res://assets/character_sheets/guru_laghima.png" id="14_nasm2"]
 [ext_resource type="Texture2D" uid="uid://imtiudqu4i2g" path="res://assets/character_sheets/wise_man.png" id="18_rxatj"]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b4lh1"]
+radius = 15.0
+height = 34.0
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_2irb8"]
 atlas = ExtResource("2_6gvmo")
 region = Rect2(288, 98, 48, 98)
@@ -4111,19 +4115,17 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_5hqt3"]
-radius = 22.0
-
 [node name="NpcBody" type="CharacterBody2D"]
 y_sort_enabled = true
 script = ExtResource("1_ju3ua")
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, -1)
+shape = SubResource("CapsuleShape2D_b4lh1")
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
+position = Vector2(0, 1)
 sprite_frames = SubResource("SpriteFrames_xjyfs")
 animation = &"guru_laghima_side_walk"
-offset = Vector2(0, -35)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(2, -11)
-shape = SubResource("CircleShape2D_5hqt3")
+offset = Vector2(0, -30)

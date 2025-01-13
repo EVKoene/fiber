@@ -244,11 +244,11 @@ var decks := {
 	deck_ids.ELEMENTS: {
 		"DeckName": "Elements",
 		"Cards": {
-			#cards.BOTANO_GARDENER: 5,
-			#cards.WIND_GOLEM: 10,
+			cards.BOTANO_GARDENER: 5,
+			cards.WIND_GOLEM: 10,
 			cards.HAIL_STORM: 15, 
-			#cards.EARTH_GOLEM: 10,
-			#cards.VOLCANIC_ERUPTION: 10, 
+			cards.EARTH_GOLEM: 10,
+			cards.VOLCANIC_ERUPTION: 10, 
 		},
 		"StartingCards": {
 			cards.GNOME_PROTECTOR: 1,
