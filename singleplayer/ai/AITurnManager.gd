@@ -12,5 +12,6 @@ func start_turn() -> void:
 
 
 func end_turn() -> void:
+	SpecialRules.call_triggered_rules(Collections.triggers.TURN_ENDED, null)
 	await GameManager.battle_map.get_tree().create_timer(0.25).timeout
 	GameManager.turn_manager.show_start_turn_text()

@@ -23,7 +23,7 @@ func add_1_health_end_of_turn() -> void:
 	GameManager.battle_map.show_text(
 		str(
 			"This is a boss battle! At the end of the turn, your opponent will add 1 health to a 
-			random unit"
+			random unit."
 		)
 	)
 	
@@ -36,7 +36,7 @@ func create_robot_fabrication_end_of_turn() -> void:
 	GameManager.battle_map.show_text(
 		str(
 			"This is a boss battle! At the end of the turn, your opponent will create a robot 
-			fabrication in a random space in their territory"
+			fabrication in a random space in their territory."
 		)
 	)
 	
@@ -65,7 +65,7 @@ func create_robot_fabrication_in_territory():
 		return
 	
 	var space: PlaySpace = space_options.pick_random()
-	BattleSynchronizer.create_fabrication(
+	var robot = await BattleSynchronizer.create_fabrication(
 		GameManager.ai_player_id, space.column, space.row, "Robot", 1, 0, 1, 1, [], 
 		"res://battle/card/library/logic/images/Robot.png", [Collections.fibers.LOGIC], {
 			Collections.fibers.PASSION: 0,
@@ -74,6 +74,7 @@ func create_robot_fabrication_in_territory():
 			Collections.fibers.LOGIC: 1,
 		}
 	)
+	robot.exhaust()
 
 
 func make_imagination_spells_1_cheaper() -> void:

@@ -43,6 +43,7 @@ func resolve_ability_for_ai() -> void:
 	select_card(true)
 	await get_tree().create_timer(0.5).timeout
 	fuel_adjacent()
+	TargetSelection.end_selecting()
 	Events.card_ability_resolved_for_ai.emit()
 
 

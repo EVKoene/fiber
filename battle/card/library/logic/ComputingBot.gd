@@ -46,7 +46,7 @@ func resolve_ability_for_ai() -> void:
 		consume_options, Collections.stats.TOTAL_COST, Collections.stat_params.LOWEST, -1
 	)
 	
-	consume_options.pick_random().destroy_card()
+	consume_options.pick_random().destroy()
 	GameManager.ai_player.discard_cards(1)
 	
 	for i in range(3):

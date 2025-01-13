@@ -148,7 +148,7 @@ var npc_data: Dictionary = {
 		"Dialogue": ["I'm too old for this shit."],
 		"Battle": true,
 		"CharacterModel": character_types.BUSINESS_PERSON_2,
-		"Deck": DeckCollection.decks[DeckCollection.deck_ids.MOVEMENT_SHENANIGANS],
+		"Deck": DeckCollection.decks[DeckCollection.deck_ids.RESOURCE_EXTRAVAGANZA],
 	},
 	
 	npcs.BUSINESS_PERSON_JEROEN: {
@@ -163,6 +163,7 @@ var npc_data: Dictionary = {
 		"Name": "Bill Gates",
 		"Dialogue": ["Success is a lousy teacher."],
 		"Battle": true,
+		"SpecialRules": [special_rules.CREATE_ROBOT_FABRICATION],
 		"CharacterModel": character_types.BILL_GATES,
 		"Deck": DeckCollection.decks[DeckCollection.deck_ids.BILL_GATES],
 	},

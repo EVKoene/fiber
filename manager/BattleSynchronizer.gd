@@ -78,7 +78,7 @@ func create_fabrication(
 	card_owner_id: int, column: int, row: int, ingame_name: String, max_attack: int, min_attack: int, 
 	health: int, movement: int, triggered_funcs: Array, img_path: String, fibers: Array,
 	costs: Dictionary, 
-) -> void:
+) -> CardInPlay:
 	var fabrication = card_in_play_scene.instantiate()
 	fabrication.battle_stats = BattleStats.new(
 		max_attack, min_attack, health, movement, fabrication
@@ -101,6 +101,7 @@ func create_fabrication(
 	GameManager.battle_map.add_child(fabrication)
 	
 	await get_tree().create_timer(0.1).timeout
+	return fabrication
 
 
 @rpc("any_peer", "call_local")

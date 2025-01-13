@@ -25,9 +25,6 @@ func _ready():
 	)
 	draw_starting_cards()
 	shuffle()
-	
-	for c in GameManager.starting_draw:
-		draw_card()
 
 
 func shuffle() -> void:

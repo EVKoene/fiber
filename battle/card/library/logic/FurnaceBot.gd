@@ -43,7 +43,7 @@ func resolve_ability_for_ai() -> void:
 		consume_options, Collections.stats.TOTAL_COST, Collections.stat_params.LOWEST, -1
 	)
 	
-	consume_options.pick_random().destroy_card()
+	consume_options.pick_random().destroy()
 	
 	for stat in [
 			Collections.stats.MAX_ATTACK, Collections.stats.MIN_ATTACK, Collections.stats.HEALTH

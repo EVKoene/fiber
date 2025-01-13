@@ -47,7 +47,6 @@ var decks := {}
 var cards_in_hand := {}
 var cards_in_play := {}
 var territories := []
-var starting_draw := 1
 
 ### SINGLEPLAYER ###
 var ai_player: AIPlayer
@@ -273,7 +272,6 @@ func cleanup_game() -> void:
 	cards_in_hand = {}
 	cards_in_play = {}
 	territories = []
-	starting_draw = 1
 	players = {}
 
 	### SINGLEPLAYER ###

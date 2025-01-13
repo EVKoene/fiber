@@ -29,7 +29,7 @@ func resolve_spell(c_column: int, c_row: int) -> bool:
 
 func is_spell_to_play_now() -> bool:
 	for c in GameManager.cards_in_play[card_owner_id]:
-		for ps in PlaySpaceHelper.spaces_in_range([c.current_play_space], card_owner_id, 1):
+		for ps in c.spaces_in_range(1, card_owner_id):
 			if (
 				!ps.card_in_this_play_space 
 				or ps.card_in_this_play_space.card_owner_id == card_owner_id
@@ -43,7 +43,7 @@ func is_spell_to_play_now() -> bool:
 
 func resolve_spell_for_ai() -> void:
 	for c in GameManager.cards_in_play[card_owner_id]:
-		for ps in PlaySpaceHelper.spaces_in_range(c.current_play_space, card_owner_id, 1):
+		for ps in c.spaces_in_range(c.current_play_space, card_owner_id, 1):
 			if (
 				!ps.card_in_this_play_space 
 				or ps.card_in_this_play_space.card_owner_id == card_owner_id

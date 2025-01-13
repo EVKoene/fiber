@@ -616,6 +616,7 @@ func _on_gui_input(event):
 			or Collections.play_space_attributes.VICTORY_SPACE in current_play_space.attributes
 		)
 		and GameManager.turn_manager.turn_actions_enabled
+		and GameManager.turn_manager.turn_owner_id == card_owner_id
 	):
 		TargetSelection.end_selecting()
 		create_card_action_menu()
