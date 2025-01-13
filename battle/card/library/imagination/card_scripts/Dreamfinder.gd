@@ -13,7 +13,7 @@ func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 	if trigger == Collections.triggers.CARD_CREATED and triggering_card == self:
 		for c in GameManager.cards_in_hand[card_owner_id]:
 			if c.costs.imagination >= 1 and c.card_type == Collections.card_types.SPELL:
-				c.costs.imagination -= 1
+				c.costs.change_cost(Collections.fibers.IMAGINATION, -1)
 	
 	elif (
 		trigger == Collections.triggers.CARD_ADDED_TO_HAND 
@@ -25,7 +25,7 @@ func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 			triggering_card_data["Costs"][Collections.fibers.IMAGINATION] 
 			and triggering_card.costs.imagination >= 1
 		):
-			triggering_card.costs.imagination -= 1
+			triggering_card.costs.change_cost(Collections.fibers.IMAGINATION, -1)
 	
 	elif trigger == Collections.triggers.CARD_DESTROYED and triggering_card == self: 
 		for c in GameManager.cards_in_hand[card_owner_id]:
@@ -34,4 +34,4 @@ func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 				c_card_data["Costs"][Collections.fibers.IMAGINATION] >= 1 
 				and c.card_type == Collections.card_types.SPELL
 			):
-				c.costs.imagination += 1
+				triggering_card.costs.change_cost(Collections.fibers.IMAGINATION, -1)

@@ -91,7 +91,6 @@ func _finish_reading() -> void:
 
 func cleanup_textbox() -> void:
 	_change_state(State.READY)
-	text_queue = []
 	stay_in_overworld = false
 	question = false
 	question_options = []

@@ -470,7 +470,8 @@ func _create_costs() -> void:
 		card_data["Costs"][Collections.fibers.PASSION],
 		card_data["Costs"][Collections.fibers.IMAGINATION],
 		card_data["Costs"][Collections.fibers.GROWTH],
-		card_data["Costs"][Collections.fibers.LOGIC]
+		card_data["Costs"][Collections.fibers.LOGIC],
+		self
 	)
 
 

@@ -171,7 +171,8 @@ func _load_card_properties() -> void:
 		card_info["Costs"][Collections.fibers.PASSION],
 		card_info["Costs"][Collections.fibers.IMAGINATION],
 		card_info["Costs"][Collections.fibers.GROWTH],
-		card_info["Costs"][Collections.fibers.LOGIC]
+		card_info["Costs"][Collections.fibers.LOGIC],
+		self
 	)
 	costs.card = self
 

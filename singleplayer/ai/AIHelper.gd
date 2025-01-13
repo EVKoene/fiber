@@ -170,7 +170,7 @@ func horizontal_area(area_column: int, area_row: int, max_axis: int, min_axis: i
 		for r in range(max_axis):
 			if area_row + r > MapSettings.n_rows:
 				break
-			area.append(GameManager.ps_column_row[c][r])
+			area.append(GameManager.ps_column_row[area_column + c][area_row + r])
 	
 	return area
 
@@ -184,7 +184,7 @@ func vertical_area(area_column: int, area_row: int, max_axis: int, min_axis: int
 		for r in range(min_axis):
 			if area_row + r > MapSettings.n_rows:
 				break
-			area.append(GameManager.ps_column_row[c][r])
+			area.append(GameManager.ps_column_row[area_column + c][area_row + r])
 	
 	return area
 

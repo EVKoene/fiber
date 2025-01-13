@@ -6,15 +6,16 @@ var passion: int
 var imagination: int
 var growth: int
 var logic: int
-var card: Card = null
+var card
 
 
 
-func _init(_passion, _imagination, _growth, _logic):
+func _init(_passion: int, _imagination: int, _growth: int, _logic: int, _card: Card = null):
 	passion = _passion
 	imagination = _imagination
 	growth = _growth
 	logic = _logic
+	card = _card
 
 
 func total() -> int:

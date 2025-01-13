@@ -96,6 +96,7 @@ func create_fabrication(
 			costs[Collections.fibers.IMAGINATION],
 			costs[Collections.fibers.GROWTH],
 			costs[Collections.fibers.LOGIC],
+			fabrication
 	)
 	GameManager.cards_in_play[card_owner_id].append(fabrication)
 	GameManager.battle_map.add_child(fabrication)

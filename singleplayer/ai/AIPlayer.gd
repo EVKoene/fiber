@@ -40,12 +40,21 @@ func play_playable_cards() -> void:
 				if playing_cards:
 					await GameManager.battle_map.get_tree().create_timer(0.25).timeout
 			elif c.card_type == Collections.card_types.SPELL:
-				var spell: CardInPlay = CardDatabase.get_card_class(c.card_index).new()
+				var spell: Card = CardDatabase.get_card_class(c.card_index).new()
 				spell.card_owner_id = player_id
+				var card_info = CardDatabase.cards_info[c.card_index]
+				spell.costs = Costs.new(
+					card_info["Costs"][Collections.fibers.PASSION],
+					card_info["Costs"][Collections.fibers.IMAGINATION],
+					card_info["Costs"][Collections.fibers.GROWTH],
+					card_info["Costs"][Collections.fibers.LOGIC],
+					spell
+				)
 				playing_cards = await spell.is_spell_to_play_now()
 				if playing_cards:
 					BattleSynchronizer.lock_zoom_preview_hand(c.card_owner_id, c.hand_index)
 					resolve_spell_for_ai(c)
+					GameManager.resources[player_id].pay_costs(c.costs)
 					await Events.spell_resolved_for_ai
 
 

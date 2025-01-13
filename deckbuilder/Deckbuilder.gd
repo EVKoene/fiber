@@ -41,6 +41,8 @@ func _save_deck() -> void:
 	for card_index in cards_in_deck:
 		cards[card_index] = cards_in_deck[card_index]["NCards"]
 	
+	if starting_cards == {}:
+		starting_cards = {cards_in_deck.keys()[0]: 3}
 	var deck := {
 		"DeckName": deck_name,
 		"Cards": cards,
@@ -126,6 +128,9 @@ func _setup_existing_deck() -> void:
 		for i in existing_deck["Cards"][c]:
 			card_collection_options[c]["Card"].add_to_deck()
 			card_collection_options[c]["Card"].remove_from_card_collection_options()
+	for s in existing_deck["StartingCards"]:
+		for i in range(existing_deck["StartingCards"][s]):
+			add_to_starting_cards(s)
 
 
 func _set_deck_id(decks: Dictionary) -> void:

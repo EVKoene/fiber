@@ -48,6 +48,9 @@ func resolve_spell_for_ai() -> void:
 			c, 2, TargetSelection.target_restrictions.OPPONENT_UNITS
 		):
 			if e.battle_stats.health <= c.battle_stats.max_attack:
-				c.attack_card(e)
+				await c.attack_card(e)
+				
+				Events.spell_resolved_for_ai.emit()
+				BattleSynchronizer.finish_resolve()
 				return
 	
