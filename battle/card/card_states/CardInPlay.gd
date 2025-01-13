@@ -132,7 +132,7 @@ func move_to_play_space(new_column: int, new_row: int) -> void:
 				new_column, new_row
 			)
 			
-	BattleSynchronizer.call_triggered_funcs(Collections.triggers.CARD_MOVED, self)
+	await BattleSynchronizer.call_triggered_funcs(Collections.triggers.CARD_MOVED, self)
 	return
 
 
@@ -157,7 +157,7 @@ func move_over_path(path: PlaySpacePath) -> void:
 				z_index -= 50
 			else:
 				await get_tree().create_timer(0.25).timeout
-				move_to_play_space(path.path_spaces[s].column, path.path_spaces[s].row)
+				await move_to_play_space(path.path_spaces[s].column, path.path_spaces[s].row)
 			
 	
 	TargetSelection.end_selecting()
@@ -616,6 +616,7 @@ func _on_gui_input(event):
 			or Collections.play_space_attributes.VICTORY_SPACE in current_play_space.attributes
 		)
 		and GameManager.turn_manager.turn_actions_enabled
+		and GameManager.turn_manager.turn_owner_id == card_owner_id
 	):
 		TargetSelection.end_selecting()
 		create_card_action_menu()

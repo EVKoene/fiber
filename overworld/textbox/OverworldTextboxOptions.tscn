@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://c3rswtkm58c1s"]
+[gd_scene load_steps=3 format=3 uid="uid://c741sshssnf7x"]
 
-[ext_resource type="Script" path="res://overworld/textbox/OverworldTextbox.gd" id="1_h8ki5"]
+[ext_resource type="Script" path="res://overworld/textbox/OverworldTextboxOptions.gd" id="1_dneu5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vpk51"]
 bg_color = Color(0.2, 0.2, 0.2, 1)
@@ -10,15 +10,18 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color(1, 1, 1, 1)
 
-[node name="OverworldTextbox" type="CanvasLayer"]
-script = ExtResource("1_h8ki5")
+[node name="OverworldTextboxMCOptions" type="CanvasLayer"]
+script = ExtResource("1_dneu5")
 
 [node name="TextboxContainer" type="MarginContainer" parent="."]
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -171.0
+offset_left = 963.0
+offset_top = -323.0
+offset_right = -7.0
+offset_bottom = -152.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/margin_left = 20
@@ -41,24 +44,5 @@ theme_override_constants/margin_bottom = 15
 visible = false
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TextboxContainer/MarginContainer"]
+[node name="OptionsContainer" type="VBoxContainer" parent="TextboxContainer/MarginContainer"]
 layout_mode = 2
-
-[node name="Text" type="Label" parent="TextboxContainer/MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(1, 1)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-theme_override_font_sizes/font_size = 31
-text = "Text!"
-autowrap_mode = 2
-clip_text = true
-visible_characters = 0
-visible_ratio = 0.0
-
-[node name="ContinueSymbol" type="Label" parent="TextboxContainer/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
-theme_override_font_sizes/font_size = 31
-text = "..."

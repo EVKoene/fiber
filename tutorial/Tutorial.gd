@@ -41,10 +41,10 @@ func start_tutorial() -> void:
 	battle_map = GameManager.battle_map
 	battle_map.end_turn_button.hide()
 	battle_map.set_tutorial_container()
-	battle_map.show_tutorial_text(
-		"Welcome to Fiber! In this tutorial you will learn the basics on how to play the game.\n
-		Click to continue."
-		)
+	battle_map.show_tutorial_text("
+		Welcome to Fiber! In this tutorial you will learn the basics on how to play the game.
+		\n\n(Click to continue)
+	")
 	pause_battlemap()
 	next_phase = tutorial_phases.BATTLEMAP_EXPLANATION
 	is_awaiting_tutorial_input = true
@@ -53,7 +53,7 @@ func start_tutorial() -> void:
 func _battlemap_explanation() -> void:
 	is_awaiting_tutorial_input = false
 	battle_map.show_tutorial_text(
-		"This is the battlefield, consisting of 5 rows and 7 columns."
+		"This is the battlefield, consisting of 5 rows and 7 columns.\n\n(Click to continue)"
 	)
 	var arrow_position := Vector2(
 		MapSettings.play_area_end.x - arrow_size.x * 0.5,
@@ -69,7 +69,7 @@ func _blue_red_spaces() -> void:
 	is_awaiting_tutorial_input = false
 	battle_map.show_tutorial_text(
 		"You can play your units on the blue spaces.\n Your opponent can play their units on the 
-		red spaces."
+		red spaces.\n\n(Click to continue)"
 	)
 	var arrow_position_x := MapSettings.get_column_start_x(5) + arrow_size.x * 1.5
 	var blue_arrow_position := Vector2(arrow_position_x, MapSettings.card_in_hand_size.y * 3)
@@ -101,7 +101,7 @@ func _preview_card() -> void:
 	is_awaiting_tutorial_input = false
 	battle_map.show_tutorial_text(
 		"When you hover cards in your hand or on the battlefield you'll see a preview in the upper 
-		right corner."
+		right corner.\n\n(Click to continue)"
 	)
 	var arrow_position := Vector2(
 		GameManager.zoom_preview.position.x - GameManager.zoom_preview.size.x / 4,
@@ -117,7 +117,7 @@ func _card_cost() -> void:
 	is_awaiting_tutorial_input = false
 	battle_map.show_tutorial_text(
 		"In the upper right corner of a card you'll find it's costs. This Gorilla will cost 1 
-		passion (red) resource to play."
+		passion (red) resource to play.\n\n(Click to continue)"
 	)
 	var arrow_position := Vector2(
 		GameManager.zoom_preview.position.x + GameManager.zoom_preview.size.x * 1.25,
@@ -133,7 +133,7 @@ func _card_movement() -> void:
 	is_awaiting_tutorial_input = false
 	battle_map.show_tutorial_text(
 		"In the lower left corner of a card you'll find it's movement. This Gorilla will be able 
-		to move 1 space each turn."
+		to move 1 space each turn.\n\n(Click to continue)"
 	)
 	var arrow_position := Vector2(
 		GameManager.zoom_preview.position.x + GameManager.zoom_preview.size.x * 0.4,
@@ -150,7 +150,8 @@ func _card_attack() -> void:
 	battle_map.show_tutorial_text(
 		"In the lower right corner of a card, before the slash, you'll find it's attack values.\n
 		The left number is it's maximum attack and the right number is it's minimum attack.\n
-		Whenever this unit attacks, it damage will be a random number in between those two."
+		Whenever this unit attacks, it damage will be a random number in between those two.
+		\n\n(Click to continue)"
 	)
 	var arrow_position := Vector2(
 		GameManager.zoom_preview.position.x + GameManager.zoom_preview.size.x * 1.75,
@@ -167,7 +168,8 @@ func _card_health() -> void:
 	battle_map.show_tutorial_text(
 		"In the lower right corner of a card after the slash, you'll find it's health values.\n
 		Any damage this unit receives will reduce it's health. Once it's health reaches 0 it will
-		die and leave the battlefield"
+		die and leave the battlefield.
+		\n\n(Click to continue)"
 	)
 	var arrow_position := Vector2(
 		GameManager.zoom_preview.position.x + GameManager.zoom_preview.size.x * 1.9,
@@ -183,7 +185,8 @@ func _resources() -> void:
 	is_awaiting_tutorial_input = false
 	battle_map.show_tutorial_text(
 		"In the lower right corner of your screen you'll find your resources.\n
-		Gold resources can be used for any faction (color) and refresh every turn."
+		Gold resources can be used for any faction (color) and refresh every turn.
+		\n\n(Click to continue)"
 	)
 	GameManager.resources[GameManager.player_id].refresh(1)
 	var arrow_position_y := (
@@ -204,7 +207,8 @@ func _resource_refresh() -> void:
 	battle_map.show_tutorial_text(
 		"The first player will start with 1 gold resource per turn. \nThe amount of gold resources
 		players get will slowly increase over the course of the game. \nIn this container you'll
-		find how much gold you're getting each turn and how many turns it will take to increase"
+		find how much gold you're getting each turn and how many turns it will take to increase.
+		\n\n(Click to continue)"
 	)
 	battle_map.update_gold_container_text(1, 1)
 	var arrow_position_y: float = (
@@ -237,7 +241,8 @@ func _faction_resources() -> void:
 	pause_battlemap()
 	battle_map.show_tutorial_text(
 		"Playing units will give you one resource of their faction. Unlike gold, this resource
-		doesn't refresh and carries over turns."
+		doesn't refresh and carries over turns.
+		\n\n(Click to continue)"
 	)
 	var arrow_position_y := (
 		MapSettings.total_screen.y - MapSettings.resource_bar_size.y * 1.5 
@@ -258,7 +263,7 @@ func _move_card() -> void:
 		"You can select units to take actions by clicking them with the left mouse button.\n
 		You can move units by clicking any space withing their movement range with the right mouse
 		button.\n You will see an arrow that shows the selected movement. Click the right mouse
-		button again to move"
+		button again to move."
 	)
 	unpause_battlemap()
 	next_phase = tutorial_phases.ATTACK_CARD
@@ -276,7 +281,7 @@ func _attack_card() -> void:
 	
 	battle_map.show_tutorial_text(
 		"You can attack cards within a range of 1 by selecting a unit and rightclicking an opponent
-		unit. Try attacking your opponents unit"
+		unit. Try attacking your opponents unit."
 	)
 	next_phase = tutorial_phases.EXHAUST
 
@@ -285,7 +290,8 @@ func _exhaust() -> void:
 	is_awaiting_tutorial_input = false
 	battle_map.show_tutorial_text(
 		"After you move or attack with a unit it will exhaust and you will be unable to use it
-		until it refreshes. All your units refresh at the start of your turn"
+		until it refreshes. All your units refresh at the start of your turn.
+		\n\n(Click to continue)"
 	)
 	await get_tree().create_timer(0.25).timeout
 	var player_unit: CardInPlay = GameManager.cards_in_play[GameManager.player_id][0]
@@ -314,7 +320,7 @@ func _attack_further() -> void:
 	
 	battle_map.show_tutorial_text(
 		"You can attack cards within a range of 1 by selecting a unit and rightclicking an opponent
-		unit. Try attacking your opponents unit"
+		unit. Try attacking your opponents unit."
 	)
 	next_phase = tutorial_phases.CONQUER_VICTORY_SPACES
 
@@ -342,7 +348,8 @@ func _show_progress_bar() -> void:
 	is_awaiting_tutorial_input = false
 	battle_map.show_tutorial_text(
 		"Whoever is the first to conquer 4 victory spaces will win the game. You can see each
-		player's progress by checking the progress bars on the right side of the battlefield"
+		player's progress by checking the progress bars on the right side of the battlefield.
+		\n\n(Click to continue)"
 	)
 	var arrow_position := Vector2(
 		MapSettings.total_screen.x - arrow_size.x,
@@ -358,13 +365,13 @@ func _use_abilities() -> void:
 	is_awaiting_tutorial_input = false
 	battle_map.show_tutorial_text(
 		"Some cards, like this Wizard Scout, have abilities. You can use them by right clicking 
-		on the unit and selecting the ability. Try swapping your Wizard Scout with your Gorilla"
+		on the unit and selecting the ability. Try swapping your Wizard Scout with your Gorilla."
 	)
 	BattleSynchronizer.play_unit(
 		CardDatabase.cards.WIZARD_SCOUT, GameManager.player_id, 
-		1, 1)
+		2, 1)
 	
-	var wizard_position: Vector2 = GameManager.ps_column_row[1][1].position
+	var wizard_position: Vector2 = GameManager.ps_column_row[2][1].position
 	var arrow_position := Vector2(
 		wizard_position.x + MapSettings.card_in_play_size.x * 2,
 		wizard_position.y + MapSettings.card_in_play_size.y * 0.75
@@ -383,7 +390,8 @@ func _spells() -> void:
 	battle_map.show_tutorial_text(
 		"Some cards are spells. You play them by dragging them onto the battlefield, but after their
 		effect has been used they will disappear. If they have a range, like Attack Command, they
-		need to be used within that range of one of your units."
+		need to be used within that range of one of your units.
+		\n\n(Click to continue)"
 	)
 	var arrow_position := Vector2(
 		GameManager.zoom_preview.position.x + GameManager.zoom_preview.size.x * 0.4,
@@ -414,7 +422,7 @@ func _use_attack_command() -> void:
 	
 	battle_map.show_tutorial_text(
 		"Try dragging Attack command from your hand onto your Gorilla Unit, and target the 
-		opponent's Wizard Scout"
+		opponent's Wizard Scout."
 	)
 	
 	unpause_battlemap()

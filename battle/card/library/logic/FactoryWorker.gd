@@ -18,7 +18,11 @@ func add_r() -> void:
 
 
 func resolve_ability_for_ai() -> void:
+	select_card(true)
 	add_r()
+	await get_tree().create_timer(0.5).timeout
+	TargetSelection.end_selecting()
+	Events.card_ability_resolved_for_ai.emit()
 
 
 func is_ability_to_use_now() -> bool:

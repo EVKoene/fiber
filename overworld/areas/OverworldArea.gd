@@ -15,6 +15,7 @@ func _ready():
 	pause_menu = $GUI/PauseMenu
 	player_body = $PlayerBody
 	$PlayerBody.position = player_position
+	OverworldManager.can_move = true
 
 
 func start_npc_interaction(npc_id: int) -> void:
@@ -22,10 +23,12 @@ func start_npc_interaction(npc_id: int) -> void:
 	var npc_properties: Dictionary = NPCDatabase.npc_data[npc_id]
 	read_text(npc_properties["Dialogue"])
 	await Events.dialogue_finished
-	if npc_properties["Deck"]:
+	if npc_properties.has("Deck"):
 		OverworldManager.save_player_position()
 		TransitionScene.transition_to_npc_battle(npc_id)
+	else:
+		OverworldManager.can_move = true
 
 
-func read_text(text_to_read: Array) -> void:
-	OverworldManager.overworld_textbox.read_text(text_to_read)
+func read_text(text_to_read: Array, is_question := false, question_options := []) -> void:
+	OverworldManager.overworld_textbox.read_text(text_to_read, is_question, question_options)

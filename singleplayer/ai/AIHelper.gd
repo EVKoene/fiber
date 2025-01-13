@@ -147,7 +147,7 @@ func conquer_space(card: CardInPlay) -> bool:
 	
 	card.conquer_space()
 	
-	return false
+	return true
 
 
 func attack_adjacent_enemies(card: CardInPlay) -> bool:

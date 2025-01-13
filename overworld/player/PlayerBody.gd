@@ -16,12 +16,15 @@ func _physics_process(_delta):
 	
 
 func _player_movement():
+	if !OverworldManager.can_move:
+		return
+	
 	if (
 		Input.is_action_pressed("ui_down") 
 		and current_direction == Collections.directions.DOWN
 		and !movement_paused
 	):
-		_play_animation(1)
+		play_animation(1)
 		velocity.x = 0
 		velocity.y = SPEED
 	elif (
@@ -30,7 +33,7 @@ func _player_movement():
 		and !movement_paused
 	):
 		current_direction = Collections.directions.DOWN
-		_play_animation(0)
+		play_animation(0)
 		velocity.x = 0
 		velocity.y = 0
 	elif (
@@ -38,7 +41,7 @@ func _player_movement():
 		and current_direction == Collections.directions.LEFT
 		and !movement_paused
 	):
-		_play_animation(1)
+		play_animation(1)
 		velocity.x = -SPEED
 		velocity.y = 0
 	elif (
@@ -47,7 +50,7 @@ func _player_movement():
 		and !movement_paused
 	):
 		current_direction = Collections.directions.LEFT
-		_play_animation(0)
+		play_animation(0)
 		velocity.x = 0
 		velocity.y = 0
 	elif (
@@ -55,7 +58,7 @@ func _player_movement():
 		and current_direction == Collections.directions.RIGHT
 		and !movement_paused
 	):
-		_play_animation(1)
+		play_animation(1)
 		velocity.x = SPEED
 		velocity.y = 0
 	elif (
@@ -63,7 +66,7 @@ func _player_movement():
 		and current_direction != Collections.directions.RIGHT
 		and !movement_paused
 	):
-		_play_animation(0)
+		play_animation(0)
 		velocity.x = 0
 		velocity.y = 0
 		current_direction = Collections.directions.RIGHT
@@ -72,7 +75,7 @@ func _player_movement():
 		and current_direction == Collections.directions.UP
 		and !movement_paused
 	):
-		_play_animation(1)
+		play_animation(1)
 		velocity.x = 0
 		velocity.y = -SPEED
 	elif (
@@ -81,11 +84,11 @@ func _player_movement():
 		and !movement_paused
 	):
 		current_direction = Collections.directions.UP
-		_play_animation(0)
+		play_animation(0)
 		velocity.x = 0
 		velocity.y = 0
 	else:
-		_play_animation(0)
+		play_animation(0)
 		velocity.x = 0
 		velocity.y = 0
 		
@@ -96,7 +99,7 @@ func pause_movement() -> void:
 	movement_paused = true
 
 
-func _play_animation(movement: int):
+func play_animation(movement: int):
 	var animation: Object = $AnimatedSprite2D
 	
 	match current_direction:

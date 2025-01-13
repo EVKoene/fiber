@@ -4,14 +4,17 @@ extends Node
 enum npcs {
 	 HANS, JACQUES, JESUS, GARY, MASHA, ROB, GURU_FLAPPIE, GURU_TRONG, 
 	GURU_KAL, GURU_LAGHIMA, STUDENT_DAL, STUDENT_MAC, STUDENT_KALA, SHALLAN, 
-	BUSINESS_PERSON_LEONARDO, BUSINESS_PERSON_ANA, BUSINESS_PERSON_JEROEN, BILL_GATES
+	BUSINESS_PERSON_LEONARDO, BUSINESS_PERSON_ANA, BUSINESS_PERSON_JEROEN, BILL_GATES, WISE_MAN
 }
 enum character_types {
 	 BEEBOY, BUMBLEBEE_LADY, BUSINESS_CAP_BOY, DINO_BUSINESS_MAN, ROBOT_GUY, JESUS, GARY, GURU_1,
 	GURU_2, GURU_3, GURU_LAGHIMA, SHALLAN, BUSINESS_PERSON_1, BUSINESS_PERSON_2, BUSINESS_PERSON_3,
-	BILL_GATES
+	BILL_GATES, WISE_MAN
 }
-enum special_rules { ADD_1_MAX_ATTACK, ADD_1_HEALTH, IMAGINATION_SPELLS_1_CHEAPER, }
+enum special_rules { 
+	ADD_1_MAX_ATTACK, ADD_1_HEALTH, IMAGINATION_SPELLS_1_CHEAPER, 
+	CREATE_ROBOT_FABRICATION, 
+}
 
 
 var npc_data: Dictionary = {
@@ -134,7 +137,7 @@ var npc_data: Dictionary = {
 	
 	npcs.BUSINESS_PERSON_LEONARDO: {
 		"Name": "Businessperson Leonardo",
-		"Dialogue": ["It's all about the grind"],
+		"Dialogue": ["It's all about the grind."],
 		"Battle": true,
 		"CharacterModel": character_types.BUSINESS_PERSON_1,
 		"Deck": DeckCollection.decks[DeckCollection.deck_ids.LOGIC_FACTORY],
@@ -142,15 +145,15 @@ var npc_data: Dictionary = {
 	
 	npcs.BUSINESS_PERSON_ANA: {
 		"Name": "Businessperson Ana",
-		"Dialogue": ["I'm too old for this shit"],
+		"Dialogue": ["I'm too old for this shit."],
 		"Battle": true,
 		"CharacterModel": character_types.BUSINESS_PERSON_2,
-		"Deck": DeckCollection.decks[DeckCollection.deck_ids.MOVEMENT_SHENANIGANS],
+		"Deck": DeckCollection.decks[DeckCollection.deck_ids.RESOURCE_EXTRAVAGANZA],
 	},
 	
 	npcs.BUSINESS_PERSON_JEROEN: {
 		"Name": "Businessperson Jeroen",
-		"Dialogue": ["It's all about the grind"],
+		"Dialogue": ["Life is one big party."],
 		"Battle": true,
 		"CharacterModel": character_types.BUSINESS_PERSON_3,
 		"Deck": DeckCollection.decks[DeckCollection.deck_ids.STRENGTH_IN_NUMBERS],
@@ -158,10 +161,18 @@ var npc_data: Dictionary = {
 	
 	npcs.BILL_GATES: {
 		"Name": "Bill Gates",
-		"Dialogue": ["It's all about the grind"],
+		"Dialogue": ["Success is a lousy teacher."],
 		"Battle": true,
+		"SpecialRules": [special_rules.CREATE_ROBOT_FABRICATION],
 		"CharacterModel": character_types.BILL_GATES,
 		"Deck": DeckCollection.decks[DeckCollection.deck_ids.BILL_GATES],
+	},
+	
+	npcs.WISE_MAN: {
+		"Name": "Wise Man",
+		"Dialogue": ["Good luck."],
+		"Battle": false,
+		"CharacterModel": character_types.WISE_MAN,
 	},
 }
 
@@ -179,8 +190,10 @@ var character_model := {
 	character_types.BUSINESS_PERSON_1: "business_person_1",
 	character_types.BUSINESS_PERSON_2: "business_person_2",
 	character_types.BUSINESS_PERSON_3: "business_person_3",
+	character_types.BILL_GATES: "bill_gates",
 	character_types.GURU_LAGHIMA: "guru_laghima",
-	character_types.SHALLAN: "shallan"
+	character_types.SHALLAN: "shallan",
+	character_types.WISE_MAN: "wise_man",
 }
 
 
@@ -192,6 +205,8 @@ func setup_special_rules(special_rule_id: int) -> void:
 			await SpecialRules.add_1_health_end_of_turn()
 		special_rules.IMAGINATION_SPELLS_1_CHEAPER:
 			await SpecialRules.make_imagination_spells_1_cheaper()
+		special_rules.CREATE_ROBOT_FABRICATION:
+			await SpecialRules.create_robot_fabrication_end_of_turn()
 
 
 func npc_animation(npc: int, direction: int, animation_type: int) -> String:
@@ -215,6 +230,6 @@ func npc_animation(npc: int, direction: int, animation_type: int) -> String:
 		Collections.animation_types.IDLE:
 			animation_type_string = "idle"
 		Collections.animation_types.WALKING:
-			animation_type_string = "walking"
+			animation_type_string = "walk"
 	
 	return str(character_type, "_", direction_string, "_", animation_type_string)

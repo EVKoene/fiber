@@ -47,7 +47,6 @@ var decks := {}
 var cards_in_hand := {}
 var cards_in_play := {}
 var territories := []
-var starting_draw := 1
 
 ### SINGLEPLAYER ###
 var ai_player: AIPlayer
@@ -126,6 +125,7 @@ func setup_starter_deck(fiber: int) -> void:
 	
 	config.set_value("card_collection", "cards", cards)
 	config.set_value("deck_data", "decks", {starter_deck_id: DeckCollection.decks[starter_deck_id]})
+	config.set_value("deck_data", "current_deck_id", starter_deck_id)
 	config.set_value("start_journey", "starting_fiber", fiber)
 	var save_error := config.save(collections_path)
 	if save_error:
@@ -272,7 +272,6 @@ func cleanup_game() -> void:
 	cards_in_hand = {}
 	cards_in_play = {}
 	territories = []
-	starting_draw = 1
 	players = {}
 
 	### SINGLEPLAYER ###
