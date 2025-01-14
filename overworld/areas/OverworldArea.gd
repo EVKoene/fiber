@@ -15,7 +15,7 @@ func _ready():
 	pause_menu = $GUI/PauseMenu
 	player_body = $PlayerBody
 	$PlayerBody.position = player_position
-	OverworldManager.can_move = true
+	OverworldManager.can_move = trueW
 
 
 func start_npc_interaction(npc_id: int) -> void:
