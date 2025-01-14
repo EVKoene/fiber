@@ -47,6 +47,7 @@ func start_tutorial() -> void:
 	")
 	pause_battlemap()
 	next_phase = tutorial_phases.BATTLEMAP_EXPLANATION
+	GameManager.turn_manager.turn_actions_enabled = true
 	is_awaiting_tutorial_input = true
 
 

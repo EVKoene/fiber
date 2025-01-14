@@ -42,6 +42,7 @@ Tutorial="*res://tutorial/Tutorial.gd"
 PlayerManager="*res://overworld/player/PlayerManager.gd"
 AreaDatabase="*res://overworld/areas/AreaDatabase.gd"
 SpecialRules="*res://overworld/npc/SpecialRules.gd"
+PatchManager="*res://manager/PatchManager.gd"
 
 [display]
 

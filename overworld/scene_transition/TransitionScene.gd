@@ -13,6 +13,7 @@ func _ready():
 
 func transition_to_npc_battle(npc_id: int) -> void:
 	animation_player.play("fade_scene")
+	
 	await animation_player.animation_finished
 	GameManager.current_scene.queue_free()
 	GameManager.current_scene = null
@@ -69,9 +70,9 @@ func transition_to_start_journey() -> void:
 		GameManager.current_scene.queue_free()
 		GameManager.current_scene = null
 	animation_player.play("fade_scene")
+	OverworldManager.create_overworld_file()
 	await animation_player.animation_finished
 	
-	animation_player.play_backwards("fade_scene")
 	GameManager.testing = false
 	OverworldManager.can_move = true
 	var start_journey = start_journey_scene.instantiate()
@@ -85,6 +86,7 @@ func transition_to_start_journey() -> void:
 	OverworldManager.can_move = false
 	OverworldManager.save_player_position()
 	
+	animation_player.play_backwards("fade_scene")
 
 
 func transition_to_tutorial() -> void:

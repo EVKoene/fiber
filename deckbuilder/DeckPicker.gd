@@ -11,7 +11,7 @@ var deck_nodes := []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	_find_decks()
+	find_decks()
 
 
 func set_current_decks() -> void:
@@ -27,12 +27,12 @@ func set_current_decks() -> void:
 		$VBoxContainer.add_child(dp_container)
 
 
-func _find_decks() -> void:
+func find_decks() -> void:
 	if !FileAccess.file_exists(collections_path):
 		return
 	var config := ConfigFile.new()
 	config.load(collections_path)
-	decks = config.get_value("deck_data", "decks")
+	decks = config.get_value("deck_data", "decks", {})
 
 
 func _on_new_deck_pressed():

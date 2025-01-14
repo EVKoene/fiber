@@ -59,7 +59,7 @@ var decks := {
 		},
 		"StartingCards": {
 			cards.GNOME_PROTECTOR: 2,
-			cards.BOTANO_GARDENER: 1,
+			cards.ICE_GOLEM: 1,
 		},
 		"ID": deck_ids.GROWTH_STARTER,
 	},
@@ -211,6 +211,7 @@ var decks := {
 	},
 	
 	### GROWTH ###
+	
 	deck_ids.BEEFY_BOYS: {
 		"DeckName": "Beefy Boys",
 		"Cards": {
@@ -250,8 +251,8 @@ var decks := {
 			cards.VOLCANIC_ERUPTION: 10, 
 		},
 		"StartingCards": {
-			cards.GNOME_PROTECTOR: 1,
-			cards.WIND_GOLEM: 2,
+			cards.GNOME_PROTECTOR: 2,
+			cards.WIND_GOLEM: 1,
 		},
 		
 		"ID": deck_ids.ELEMENTS,

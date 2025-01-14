@@ -59,7 +59,7 @@ var npc_data: Dictionary = {
 	
 	npcs.STUDENT_MAC: {
 		"Name": "Student Mac",
-		"Dialogue": ["When I grow up I want to be a dinosaur"],
+		"Dialogue": ["When I grow up I want to be a dinosaur."],
 		"Battle": true,
 		"CharacterModel": character_types.DINO_BUSINESS_MAN,
 		"Deck": DeckCollection.decks[DeckCollection.deck_ids.MOVEMENT_SHENANIGANS]
@@ -102,7 +102,7 @@ var npc_data: Dictionary = {
 	
 	npcs.GURU_FLAPPIE: {
 		"Name": "Guru Flappie",
-		"Dialogue": ["I'm just really into my guitar right now"],
+		"Dialogue": ["I'm just really into my guitar right now."],
 		"Battle": true,
 		"CharacterModel": character_types.GURU_1,
 		"Deck": DeckCollection.decks[DeckCollection.deck_ids.BEEFY_BOYS],
@@ -110,7 +110,7 @@ var npc_data: Dictionary = {
 	
 	npcs.GURU_KAL: {
 		"Name": "Guru Kal",
-		"Dialogue": ["I'm studying to become a guru"],
+		"Dialogue": ["I'm studying to become a guru."],
 		"Battle": true,
 		"CharacterModel": character_types.GURU_2,
 		"Deck": DeckCollection.decks[DeckCollection.deck_ids.GOLEMS],

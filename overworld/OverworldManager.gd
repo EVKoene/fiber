@@ -11,6 +11,15 @@ var saved_player_position: Vector2 : get = _get_saved_player_position
 var current_area_id: int: get = _get_saved_area_id
 var mc_question_textbox: OverworldTextboxMCOptions
 
+
+func create_overworld_file() -> void:
+	var config := ConfigFile.new()
+	if FileAccess.file_exists(overworld_file):
+		return
+	else:
+		config.save(overworld_file)
+
+
 func save_player_position() -> void:
 	var config := ConfigFile.new()
 	if FileAccess.file_exists(overworld_file):

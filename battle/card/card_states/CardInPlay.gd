@@ -293,7 +293,7 @@ func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 		)
 
 
-func spaces_in_range(range_to_check: int, ignore_obstacles: bool) -> Array:
+func spaces_in_range(range_to_check: int, ignore_obstacles := false) -> Array:
 	var spaces: Array = []
 	for ps in GameManager.play_spaces:
 		var distance := current_play_space.distance_to_play_space(ps, ignore_obstacles)
@@ -470,7 +470,8 @@ func _create_costs() -> void:
 		card_data["Costs"][Collections.fibers.PASSION],
 		card_data["Costs"][Collections.fibers.IMAGINATION],
 		card_data["Costs"][Collections.fibers.GROWTH],
-		card_data["Costs"][Collections.fibers.LOGIC]
+		card_data["Costs"][Collections.fibers.LOGIC],
+		self
 	)
 
 
