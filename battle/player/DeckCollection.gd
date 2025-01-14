@@ -176,12 +176,12 @@ var decks := {
 	deck_ids.SPELL_SLINGERS: {
 		"DeckName": "Spell Slingers",
 		"Cards": {
-			#cards.IMAGINARY_FRIEND: 15,
-			#cards.SWITCHEROO: 10,
-			cards.ARCANE_ARROW: 20, # 10
-			cards.DREAMFINDER: 20, # 10
-			#cards.AUDACIOUS_RESEARCHER: 15,
-			#cards.STREAM_OF_THOUGHT: 15,
+			cards.IMAGINARY_FRIEND: 15,
+			cards.SWITCHEROO: 10,
+			cards.ARCANE_ARROW: 10,
+			cards.DREAMFINDER: 10,
+			cards.AUDACIOUS_RESEARCHER: 15,
+			cards.STREAM_OF_THOUGHT: 15,
 		},
 		"StartingCards": {
 			cards.IMAGINARY_FRIEND: 2,

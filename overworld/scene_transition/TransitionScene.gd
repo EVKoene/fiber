@@ -13,6 +13,7 @@ func _ready():
 
 func transition_to_npc_battle(npc_id: int) -> void:
 	animation_player.play("fade_scene")
+	
 	await animation_player.animation_finished
 	GameManager.current_scene.queue_free()
 	GameManager.current_scene = null
