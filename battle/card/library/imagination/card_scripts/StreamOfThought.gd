@@ -3,10 +3,20 @@ extends CardInPlay
 class_name StreamOfThought
 
 
-func resolve_spell(selected_column: int, selected_row: int) -> bool:
-	var selected_card: CardInPlay = (
-		GameManager.ps_column_row[selected_column][selected_row].card_in_this_play_space
+func resolve_spell() -> bool:
+	Events.show_instructions.emit("Pick an opponent unit")
+	TargetSelection.select_targets(
+		1, TargetSelection.target_restrictions.OPPONENT_UNITS, null, false, 2, true
 	)
+	await TargetSelection.target_selection_finished
+	var selected_card: CardInPlay
+	if len(TargetSelection.selected_targets) == 1:
+		selected_card = TargetSelection.selected_targets[0]
+	else:
+		BattleSynchronizer.finish_resolve()
+		return false
+	
+	
 	selected_card.highlight_card(true)
 	selected_card.resolve_damage(4)
 	BattleSynchronizer.draw_card(card_owner_id)

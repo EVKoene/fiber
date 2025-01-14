@@ -3,13 +3,12 @@ extends CardInPlay
 
 class_name HailStorm
 
-func resolve_spell(_selected_column: int, _selected_row: int) -> bool:
+func resolve_spell() -> bool:
 	TargetSelection.can_drag_to_select = true
 	TargetSelection.n_highest_axis_to_select = 3
 	TargetSelection.n_lowest_axis_to_select = 3
 	TargetSelection.drag_selection_range = 1
 	Events.show_instructions.emit("Choose a 3x3 area in range 1 of one of your units")
-	GameManager.battle_map.show_finish_button()
 	TargetSelection.making_selection = true
 	GameManager.turn_manager.set_turn_actions_enabled(false)
 	
@@ -37,10 +36,12 @@ func resolve_spell(_selected_column: int, _selected_row: int) -> bool:
 					)
 		
 		TargetSelection.end_drag_to_select()
+		Events.hide_instructions.emit()
 		TargetSelection.end_selecting()
 		return true
 
 	else:
+		Events.hide_instructions.emit()
 		TargetSelection.end_drag_to_select()
 		TargetSelection.end_selecting()
 		Events.hide_instructions.emit()
@@ -49,7 +50,6 @@ func resolve_spell(_selected_column: int, _selected_row: int) -> bool:
 
 
 func is_spell_to_play_now() -> bool:
-	var areas := AIHelper.areas_in_range_with_most_enemy_units(1, 3, 3)
 	if len(AIHelper.areas_in_range_with_most_enemy_units(1, 3, 3)) >= 1:
 		return true
 		

@@ -125,12 +125,12 @@ func end_turn(player_id: int) -> void:
 
 @rpc("call_local")
 func show_end_turn_button() -> void:
-	GameManager.battle_map.end_turn_button.show()
+	GameManager.battle_map.end_turn_button_container.show()
 
 
 @rpc("call_local")
 func hide_end_turn_button() -> void:
-	GameManager.battle_map.end_turn_button.hide()
+	GameManager.battle_map.end_turn_button_container.hide()
 
 
 func set_turn_actions_enabled(is_enabled: bool) -> void:

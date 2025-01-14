@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dwqensucdc5ig"]
+[gd_scene load_steps=12 format=3 uid="uid://dwqensucdc5ig"]
 
 [ext_resource type="Script" path="res://map/BattleMap.gd" id="1_tqi70"]
 [ext_resource type="PackedScene" uid="uid://b1p3drjd83db6" path="res://battle/player/BattlePauseMenu.tscn" id="2_03bps"]
@@ -14,11 +14,15 @@ font_size = 38
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jiecs"]
 bg_color = Color(0.219501, 0.219501, 0.219501, 1)
+border_color = Color(0.0102107, 0.00144834, 0.000194756, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_yqc0s"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x7g4r"]
 bg_color = Color(0.395769, 0.282376, 0.189525, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_avg4j"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [node name="BattleMap" type="Node2D"]
 script = ExtResource("1_tqi70")
@@ -66,18 +70,6 @@ spawn_path = NodePath("..")
 [node name="BattleZoomPreview" parent="." instance=ExtResource("2_8tgqr")]
 visible = false
 
-[node name="EndTurnButton" type="Button" parent="."]
-custom_minimum_size = Vector2(100, 100)
-offset_left = 300.0
-offset_top = 158.0
-offset_right = 400.0
-offset_bottom = 258.0
-
-[node name="FinishButton" type="Button" parent="."]
-visible = false
-offset_right = 8.0
-offset_bottom = 8.0
-
 [node name="ResourceBarP1" type="Panel" parent="."]
 offset_right = 40.0
 offset_bottom = 40.0
@@ -100,6 +92,8 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_jiecs")
 [node name="InstructionText" type="Label" parent="InstructionContainer"]
 layout_mode = 2
 text = "Test"
+horizontal_alignment = 1
+vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="ResolveSpellButton" type="Button" parent="."]
@@ -137,6 +131,24 @@ autowrap_mode = 2
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_b0dsh")
 
-[connection signal="pressed" from="EndTurnButton" to="." method="_on_end_turn_button_pressed"]
-[connection signal="pressed" from="FinishButton" to="." method="_on_finish_button_pressed"]
+[node name="FinishButtonContainer" type="PanelContainer" parent="."]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_avg4j")
+
+[node name="FinishButton" type="Button" parent="FinishButtonContainer"]
+layout_mode = 2
+
+[node name="EndTurnButtonContainer" type="PanelContainer" parent="."]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="EndTurnButton" type="Button" parent="EndTurnButtonContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+
 [connection signal="pressed" from="ResolveSpellButton" to="." method="_on_resolve_spell_button_pressed"]
+[connection signal="pressed" from="FinishButtonContainer/FinishButton" to="." method="_on_finish_button_pressed"]
+[connection signal="pressed" from="EndTurnButtonContainer/EndTurnButton" to="." method="_on_end_turn_button_pressed"]

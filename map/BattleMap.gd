@@ -10,13 +10,18 @@ class_name BattleMap
 
 var map = MapDatabase.maps.BASE_MAP
 var map_data = MapDatabase.map_data[map]
-var end_turn_button: Button
+var end_turn_button_container: PanelContainer
 var instruction_container: PanelContainer
 var tutorial_container: PanelContainer
+var gold_gained_container: PanelContainer
 var text_box: Panel
-var finish_button: Button
+var finish_button_container: PanelContainer
 var is_tutorial := false
 var awaiting_input := false
+var highlight_instruction_container_tween: Tween
+var highlight_finish_button_tween: Tween
+var showing_instruction := false
+var showing_finish_button := false
 
 
 func _ready():
@@ -161,30 +166,39 @@ func _create_starting_territory() -> void:
 
 
 func _set_end_turn_button() -> void:
-	$EndTurnButton.scale.x *= (MapSettings.total_screen.x / 10) / $EndTurnButton.size.x
-	$EndTurnButton.scale.y *= (MapSettings.total_screen.y / 10) / $EndTurnButton.size.y
-	$EndTurnButton.position.x = MapSettings.total_screen.x - MapSettings.total_screen.x / 10
-	$EndTurnButton.position.y = MapSettings.total_screen.y - MapSettings.total_screen.y / 10
-	MapSettings.end_turn_button_size = $EndTurnButton.size
-	$EndTurnButton.text = "End your turn!"
-	end_turn_button = $EndTurnButton
+	end_turn_button_container = $EndTurnButtonContainer
+	$EndTurnButtonContainer.size.x = MapSettings.total_screen.x / 10
+	$EndTurnButtonContainer.size.y = MapSettings.total_screen.y / 10
+	$EndTurnButtonContainer.position.x = MapSettings.total_screen.x - $EndTurnButtonContainer.size.x
+	$EndTurnButtonContainer.position.y = MapSettings.total_screen.y - $EndTurnButtonContainer.size.y
+	MapSettings.end_turn_button_size = $EndTurnButtonContainer.size
+	$EndTurnButtonContainer/EndTurnButton.text = "End your turn!"
 
 
 func hide_finish_button() -> void:
-	$FinishButton.hide()
+	showing_finish_button = false
+	$FinishButtonContainer.hide()
 
 
 func show_finish_button() -> void:
-	$FinishButton.show()
+	showing_finish_button = true
+	_tween_highlight_finish_button()
+	$FinishButtonContainer.show()
 
 
 func _set_finish_button() -> void:
-	finish_button = $FinishButton
-	finish_button.text = "Finish"
-	finish_button.custom_minimum_size.y = MapSettings.play_space_size.y / 2
-	finish_button.custom_minimum_size.x = MapSettings.play_space_size.x
-	finish_button.position.x = MapSettings.total_screen.x - MapSettings.play_space_size.x
-	finish_button.position.y = MapSettings.total_screen.y * 0.8
+	finish_button_container = $FinishButtonContainer
+	$FinishButtonContainer/FinishButton.text = "Finish"
+	finish_button_container.size.y = end_turn_button_container.size.y
+	finish_button_container.size.x = end_turn_button_container.size.x
+	finish_button_container.position.x = (
+		MapSettings.total_screen.x - end_turn_button_container.size.x
+		 - finish_button_container.size.x
+	)
+	finish_button_container.get_theme_stylebox("panel").set_border_width_all(
+		finish_button_container.size.x / 15
+	)
+	finish_button_container.position.y = MapSettings.total_screen.y - finish_button_container.size.y
 
 
 @rpc("any_peer", "call_local")
@@ -278,10 +292,13 @@ func _create_progress_bars() -> void:
 
 
 func hide_instructions() -> void:
+	showing_instruction = false
 	$InstructionContainer.hide()
 
 
 func show_instructions(instruction_text: String) -> void:
+	showing_instruction = true
+	_tween_highlight_instruction_container()
 	$InstructionContainer/InstructionText.text = instruction_text
 	$InstructionContainer.show()
 
@@ -303,31 +320,48 @@ func show_tutorial_text(tutorial_text: String) -> void:
 
 
 func _set_text_containers() -> void:
-	$InstructionContainer.size.x = (MapSettings.play_space_size.x * 2)
-	$InstructionContainer.size.y = (MapSettings.total_screen.y / 5)
-	$InstructionContainer.position.x = MapSettings.total_screen.x - MapSettings.play_space_size.x * 2
-	$InstructionContainer.position.y = MapSettings.total_screen.y * 0.6
-	$InstructionContainer/InstructionText.label_settings = LabelSettings.new()
-	$InstructionContainer/InstructionText.label_settings.font_size = round(
-		MapSettings.play_space_size.x
-	)/15
-	instruction_container = $InstructionContainer
-	
 	$TextBox.size = MapSettings.total_screen
 	text_box = $TextBox
 	_set_gold_gained_container()
+	_set_instruction_container()
 
 
 func _set_gold_gained_container() -> void:
-	assert(instruction_container.size.x > 0, "Instruction container size not set yet")
-	$GoldGainedContainer.size.x = instruction_container.size.x
-	$GoldGainedContainer.size.y = instruction_container.size.y / 6
+	gold_gained_container = $GoldGainedContainer
+	$GoldGainedContainer.size.x = MapSettings.play_space_size.x * 2.5
+	$GoldGainedContainer.size.y = MapSettings.total_screen.y / 30
 	$GoldGainedContainer/GoldGained.label_settings.font_size = round(
 		MapSettings.play_space_size.x
 	)/15
 	$GoldGainedContainer.position.x = MapSettings.total_screen.x - $GoldGainedContainer.size.x
-	$GoldGainedContainer.position.y = MapSettings.total_screen.y * 0.8 - $GoldGainedContainer.size.y
+	$GoldGainedContainer.position.y = (
+		MapSettings.total_screen.y - MapSettings.resource_bar_size.y - 
+		MapSettings.end_turn_button_size.y - $GoldGainedContainer.size.y
+	)
 	update_gold_container_text(0, 1)
+
+
+func _set_instruction_container() -> void:
+	assert(gold_gained_container != null, "Gold Gained container size not set yet")
+	$InstructionContainer.size.x = gold_gained_container.size.x
+	$InstructionContainer.size.y = gold_gained_container.size.y * 6
+	$InstructionContainer.size.x = MapSettings.play_space_size.x * 2.5
+	$InstructionContainer.size.y = MapSettings.total_screen.y / 5
+	$InstructionContainer.position.x = MapSettings.total_screen.x - $InstructionContainer.size.x
+	$InstructionContainer.position.y = (
+		MapSettings.total_screen.y - MapSettings.resource_bar_size.y - 
+		MapSettings.end_turn_button_size.y - $GoldGainedContainer.size.y - 
+		$InstructionContainer.size.y
+	)
+	$InstructionContainer/InstructionText.label_settings = LabelSettings.new()
+	$InstructionContainer/InstructionText.label_settings.font_size = round(
+		MapSettings.play_space_size.x
+	)/10
+	instruction_container = $InstructionContainer
+
+	instruction_container.get_theme_stylebox("panel").set_border_width_all(
+		instruction_container.size.x / 15
+	)
 
 
 @rpc("call_local")
@@ -340,6 +374,62 @@ func update_gold_container_text(gold_gained: int, turns_until_increase: int) -> 
 		)
 
 
+func _tween_highlight_instruction_container() -> void:
+	if !showing_instruction:
+		return
+	
+	if highlight_instruction_container_tween:
+		highlight_instruction_container_tween.kill()
+	highlight_instruction_container_tween = create_tween()
+	var ic_stylebox: StyleBox = instruction_container.get_theme_stylebox("panel")
+	highlight_instruction_container_tween.tween_property(
+		ic_stylebox, "border_color", Color("d75c27"), 1
+	)
+	highlight_instruction_container_tween.tween_callback(_tween_unhighlight_instruction_container)
+
+
+func _tween_unhighlight_instruction_container() -> void:
+	if !showing_instruction:
+		return
+	
+	if highlight_instruction_container_tween:
+		highlight_instruction_container_tween.kill()
+	highlight_instruction_container_tween = create_tween()
+	var ic_stylebox: StyleBox = instruction_container.get_theme_stylebox("panel")
+	highlight_instruction_container_tween.tween_property(
+		ic_stylebox, "border_color", Color("030000"), 1
+	)
+	highlight_instruction_container_tween.tween_callback(_tween_highlight_instruction_container)
+
+
+func _tween_highlight_finish_button() -> void:
+	if !showing_finish_button:
+		return
+	
+	if highlight_finish_button_tween:
+		highlight_finish_button_tween.kill()
+	highlight_finish_button_tween = create_tween()
+	var finish_button_stylebox: StyleBox = finish_button_container.get_theme_stylebox("panel")
+	highlight_finish_button_tween.tween_property(
+		finish_button_stylebox, "border_color", Color("d75c27"), 1
+	)
+	highlight_finish_button_tween.tween_callback(_tween_unhighlight_finish_button)
+
+
+func _tween_unhighlight_finish_button() -> void:
+	if !showing_finish_button:
+		return
+	
+	if highlight_finish_button_tween:
+		highlight_finish_button_tween.kill()
+	highlight_finish_button_tween = create_tween()
+	var finish_button_stylebox: StyleBox = finish_button_container.get_theme_stylebox("panel")
+	highlight_finish_button_tween.tween_property(
+		finish_button_stylebox, "border_color", Color("030000"), 1
+	)
+	highlight_finish_button_tween.tween_callback(_tween_highlight_finish_button)
+
+
 func _on_end_turn_button_pressed():
 	if Tutorial.next_phase == Tutorial.tutorial_phases.FINISH_TUTORIAL:
 		Tutorial.continue_tutorial()
@@ -347,13 +437,6 @@ func _on_end_turn_button_pressed():
 		return
 	
 	GameManager.turn_manager.end_turn.rpc_id(1, GameManager.player_id)
-
-
-func _on_finish_button_pressed():
-	Events.finish_button_pressed.emit()
-	TargetSelection.space_selection_finished.emit()
-	TargetSelection.target_selection_finished.emit()
-	$FinishButton.hide()
 
 
 func _on_resolve_spell_button_pressed():
@@ -464,9 +547,11 @@ func _unhandled_input(event):
 						selection_in_range = true
 						break
 				if selection_in_range:
+					show_finish_button()
 					for ps in TargetSelection.selected_spaces:
 						ps.highlight_space()
 				else:
+					hide_finish_button()
 					TargetSelection.clear_selections()
 
 
@@ -489,3 +574,11 @@ func _draw():
 			),
 			Color.YELLOW, false, 2.0
 		)
+
+
+func _on_finish_button_pressed() -> void:
+	Events.finish_button_pressed.emit()
+	TargetSelection.space_selection_finished.emit()
+	TargetSelection.target_selection_finished.emit()
+	showing_finish_button = false
+	$FinishButtonContainer.hide()

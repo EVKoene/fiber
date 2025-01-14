@@ -1,16 +1,6 @@
 extends Node
 
 
-func spaces_in_range(range_to_check: int) -> Array:
-	var spaces := []
-	for c in GameManager.cards_in_play[GameManager.ai_player_id]:
-		for ps in c.spaces_in_range(range_to_check):
-			if ps not in spaces:
-				spaces.append(ps)
-	
-	return spaces
-
-
 func find_cards_with_stat_from_options(
 	card_options: Array, stat: int, stat_param: int, stat_target: int
 ) -> Array:
@@ -191,7 +181,9 @@ func vertical_area(area_column: int, area_row: int, max_axis: int, min_axis: int
 
 func areas_in_range_with_most_enemy_units(range_to_check: int, max_axis: int, min_axis: int) -> Array:
 	var areas := []
-	var play_spaces_in_range := spaces_in_range(range_to_check)
+	var play_spaces_in_range: Array= PlaySpaceHelper.spaces_in_range(
+		range_to_check, GameManager.ai_player_id
+	)
 	var highest_n_enemies := 0
 	for c in range(MapSettings.n_columns - min_axis):
 		for r in range(MapSettings.n_rows - max_axis):

@@ -3,7 +3,7 @@ extends CardInPlay
 class_name Stampede
 
 
-func resolve_spell(_c_column: int, _c_row: int) -> bool:
+func resolve_spell() -> bool:
 	for c in GameManager.cards_in_play[card_owner_id]:
 		for stat in [
 			Collections.stats.MAX_ATTACK, Collections.stats.MIN_ATTACK, 
@@ -20,6 +20,6 @@ func resolve_spell(_c_column: int, _c_row: int) -> bool:
 
 
 func resolve_spell_for_ai() -> void:
-	resolve_spell(-1, -1)
+	resolve_spell()
 	Events.spell_resolved_for_ai.emit()
 	BattleSynchronizer.finish_resolve()
