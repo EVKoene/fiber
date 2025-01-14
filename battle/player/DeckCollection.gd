@@ -364,14 +364,10 @@ var decks := {
 	deck_ids.OPPONENT_TESTING: {
 		"DeckName": "Opponent testing",
 		"Cards": {
-			cards.FUEL_DISTRIBUTER: 10,
-			cards.RESOURCE_EXTRACTOR: 10,
-			cards.SUPPLY_DELIVERY: 10,
+			cards.GORILLA: 30,
 		},
 		"StartingCards": {
-			cards.FUEL_DISTRIBUTER: 1,
-			cards.RESOURCE_EXTRACTOR: 1,
-			cards.SUPPLY_DELIVERY: 1,
+			cards.GORILLA: 3,
 		},
 		"ID": deck_ids.OPPONENT_TESTING,
 	},
@@ -379,14 +375,13 @@ var decks := {
 	deck_ids.PLAYER_TESTING: {
 		"DeckName": "Player testing",
 		"Cards": {
-			cards.FUEL_DISTRIBUTER: 10,
-			cards.RESOURCE_EXTRACTOR: 10,
-			cards.SUPPLY_DELIVERY: 10,
+			cards.IMAGINARY_FRIEND: 20,
+			cards.ARCANE_ARROW: 10,
 		},
 		"StartingCards": {
-			cards.FUEL_DISTRIBUTER: 1,
-			cards.RESOURCE_EXTRACTOR: 1,
-			cards.SUPPLY_DELIVERY: 1,
+			cards.WIZARD_SCOUT: 1,
+			cards.ATTACK_COMMAND: 1,
+			cards.HAIL_STORM: 1,
 		},
 		"ID": deck_ids.PLAYER_TESTING,
 	},

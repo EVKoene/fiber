@@ -4,20 +4,27 @@ extends CardInPlay
 class_name MorningLight
 
 
-func resolve_spell(selected_column: int, selected_row: int) -> bool:
-	var selected_card: CardInPlay = (
-		GameManager.ps_column_row[selected_column][selected_row].card_in_this_play_space
+func resolve_spell() -> bool:
+	Events.show_instructions.emit("Pick one of your units")
+	TargetSelection.select_targets(
+		1, TargetSelection.target_restrictions.OWN_UNITS, null, false, -1, true
 	)
-	selected_card.highlight_card(true)
-	CardManipulation.change_battle_stat(
-		Collections.stats.HEALTH, card_owner_id, card_in_play_index, 2, -1
-	)
-	CardManipulation.change_battle_stat(
-		Collections.stats.MOVEMENT, card_owner_id, card_in_play_index, 1, -1
-	)
+	await TargetSelection.target_selection_finished
+	if len(TargetSelection.selected_targets) == 1:
+	
+		var target: CardInPlay = TargetSelection.selected_targets[0]
+		CardManipulation.change_battle_stat(
+		Collections.stats.HEALTH, target.card_owner_id, target.card_in_play_index, 2, -1
+		)
+		CardManipulation.change_battle_stat(
+			Collections.stats.MOVEMENT, target.card_owner_id, target.card_in_play_index, 1, -1
+		)
+		
+		BattleSynchronizer.finish_resolve()
+		return true
 	
 	BattleSynchronizer.finish_resolve()
-	return true
+	return false
 
 
 func is_spell_to_play_now() -> bool:
@@ -39,6 +46,11 @@ func resolve_spell_for_ai() -> void:
 		str("No targets to select, AI shouldn't have played this spell: ", ingame_name)
 	)
 	var target: CardInPlay = potential_targets.pick_random()
-	resolve_spell(target.column, target.row)
+	CardManipulation.change_battle_stat(
+	Collections.stats.HEALTH, target.card_owner_id, target.card_in_play_index, 2, -1
+	)
+	CardManipulation.change_battle_stat(
+		Collections.stats.MOVEMENT, target.card_owner_id, target.card_in_play_index, 1, -1
+	)
 	Events.spell_resolved_for_ai.emit()
 	BattleSynchronizer.finish_resolve()

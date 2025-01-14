@@ -3,7 +3,7 @@ extends CardInPlay
 
 class_name VolcanicEruption
 
-func resolve_spell(_selected_column: int, _selected_row: int) -> bool:
+func resolve_spell() -> bool:
 	TargetSelection.can_drag_to_select = true
 	TargetSelection.n_highest_axis_to_select = 4
 	TargetSelection.n_lowest_axis_to_select = 4
@@ -28,6 +28,7 @@ func resolve_spell(_selected_column: int, _selected_row: int) -> bool:
 				if ps.card_in_this_play_space.card_owner_id != card_owner_id:
 					ps.card_in_this_play_space.resolve_damage(2)
 
+		Events.hide_instructions.emit()
 		TargetSelection.end_selecting()
 		TargetSelection.end_drag_to_select()
 		GameManager.turn_manager.set_turn_actions_enabled(true)
@@ -35,6 +36,8 @@ func resolve_spell(_selected_column: int, _selected_row: int) -> bool:
 		return true
 
 	else:
+		
+		Events.hide_instructions.emit()
 		TargetSelection.end_selecting()
 		TargetSelection.end_drag_to_select()
 		Events.hide_instructions.emit()

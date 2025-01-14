@@ -45,7 +45,7 @@ var discarding := false
 
 func select_targets(
 	n_targets: int, _target_restrictions: int, _selecting_unit: CardInPlay, _self_allowed: bool, 
-	range_from_unit: int, ignore_obstacles := true
+	range_to_check: int, ignore_obstacles := true
 ) -> void:
 	#NOTE: We disable turn actions here but don't enable them in the same function. That means
 	# that any function that will call this function will have to enable turn actions again
@@ -66,11 +66,15 @@ func select_targets(
 				GameManager.opposing_player_id(GameManager.player_id)
 			]
 	
-	if range_from_unit == -1:
+	if range_to_check == -1:
 		target_play_space_options = GameManager.play_spaces
+	elif selecting_unit == null:
+		target_play_space_options = PlaySpaceHelper.spaces_in_range(
+			range_to_check, GameManager.player_id
+		)
 	else:
 		target_play_space_options = selecting_unit.spaces_in_range(
-			range_from_unit, ignore_obstacles
+			range_to_check, ignore_obstacles
 		)
 
 
@@ -120,7 +124,6 @@ func end_selecting() -> void:
 	clear_arrows()
 	clear_selections()
 	clear_card_action_menu()
-	Events.hide_instructions.emit()
 
 
 func clear_selections() -> void:

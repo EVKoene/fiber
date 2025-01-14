@@ -45,6 +45,7 @@ func resolve_ability_for_ai() -> void:
 	await get_tree().create_timer(0.5).timeout
 	swap_with_card(card_to_swap_with.card_owner_id, card_to_swap_with.card_in_play_index)
 	exhaust()
+	Events.hide_instructions.emit()
 	TargetSelection.end_selecting()
 	Events.card_ability_resolved_for_ai.emit()
 

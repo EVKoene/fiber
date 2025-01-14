@@ -3,7 +3,7 @@ extends CardInPlay
 
 class_name FollowPheromones
 
-func resolve_spell(_c_column: int, _c_row) -> bool:
+func resolve_spell() -> bool:
 	for i in range(2):
 		if GameManager.is_single_player:
 			BattleSynchronizer.draw_type_put_rest_bottom(card_owner_id, Collections.card_types.UNIT)
@@ -20,7 +20,7 @@ func resolve_spell(_c_column: int, _c_row) -> bool:
 
 
 func resolve_spell_for_ai() -> void:
-	resolve_spell(-1, -1)
+	resolve_spell()
 	Events.spell_resolved_for_ai.emit()
 	BattleSynchronizer.finish_resolve()
 

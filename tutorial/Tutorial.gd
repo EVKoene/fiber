@@ -39,7 +39,7 @@ func start_tutorial() -> void:
 	GameManager.turn_manager.turn_owner_id = GameManager.player_id
 	GameManager.is_ready_to_play = true
 	battle_map = GameManager.battle_map
-	battle_map.end_turn_button.hide()
+	battle_map.end_turn_button_container.hide()
 	battle_map.set_tutorial_container()
 	battle_map.show_tutorial_text("
 		Welcome to Fiber! In this tutorial you will learn the basics on how to play the game.
@@ -422,8 +422,8 @@ func _use_attack_command() -> void:
 	)
 	
 	battle_map.show_tutorial_text(
-		"Try dragging Attack command from your hand onto your Gorilla Unit, and target the 
-		opponent's Wizard Scout."
+		"Try dragging Attack command from your hand to the battlefield. Then target the Gorilla.
+		Next target the Wizard Scout."
 	)
 	
 	unpause_battlemap()
@@ -432,14 +432,14 @@ func _use_attack_command() -> void:
 
 func _end_turn() -> void:
 	is_awaiting_tutorial_input = false
-	GameManager.battle_map.end_turn_button.show()
+	GameManager.battle_map.end_turn_button_container.show()
 	battle_map.show_tutorial_text(
 		"You end your turn by clicking this button in the lower right corner. Click it to finish
 		this tutorial."
 	)
 	var arrow_position := Vector2(
-		GameManager.battle_map.end_turn_button.position.x - arrow_size.x * 2,
-		GameManager.battle_map.end_turn_button.position.y
+		GameManager.battle_map.end_turn_button_container.position.x - arrow_size.x * 2,
+		GameManager.battle_map.end_turn_button_container.position.y
 	)
 	_create_arrow(arrow_position, 0)
 	

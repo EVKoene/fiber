@@ -4,10 +4,19 @@ extends CardInPlay
 class_name Exterminate
 
 
-func resolve_spell(c_column: int, c_row: int) -> bool:
-	var selected_card: CardInPlay = (
-		GameManager.ps_column_row[c_column][c_row].card_in_this_play_space
+func resolve_spell() -> bool:
+	Events.show_instructions.emit("Pick one of your units")
+	TargetSelection.select_targets(
+		1, TargetSelection.target_restrictions.OWN_UNITS, null, false, -1, true
 	)
+	await TargetSelection.target_selection_finished
+	var selected_card: CardInPlay
+	if len(TargetSelection.selected_targets) == 1:
+		selected_card = TargetSelection.selected_targets[0]
+	else:
+		BattleSynchronizer.finish_resolve()
+		return false
+	
 	Events.show_instructions.emit("Choose a unit to destroy")
 	TargetSelection.select_targets(
 		1, TargetSelection.target_restrictions.ANY_UNITS, selected_card, 

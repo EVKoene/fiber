@@ -4,15 +4,25 @@ extends CardInPlay
 class_name Switcheroo
 
 
-func resolve_spell(selected_column: int, selected_row: int) -> bool:
-	var selected_card: CardInPlay = (
-		GameManager.ps_column_row[selected_column][selected_row].card_in_this_play_space
+func resolve_spell() -> bool:
+	Events.show_instructions.emit("Pick a unit")
+	TargetSelection.select_targets(
+		1, TargetSelection.target_restrictions.ANY_UNITS, null, false, -1, true
 	)
+	await TargetSelection.target_selection_finished
+	var selected_card: CardInPlay
+	if len(TargetSelection.selected_targets) == 1:
+		selected_card = TargetSelection.selected_targets[0]
+		TargetSelection.clear_selections()
+	else:
+		BattleSynchronizer.finish_resolve()
+		return false
+	selected_card.select_card(true)
+	
 	TargetSelection.select_targets(
 		1, TargetSelection.target_restrictions.OWN_UNITS, selected_card, false, -1, true
 	)
-	selected_card.select_card(true)
-	Events.show_instructions.emit("Choose two cards with the same owner to swap")
+	Events.show_instructions.emit("Choose another unit from the same owner")
 	await TargetSelection.target_selection_finished
 	if len(TargetSelection.selected_targets) == 1:
 		
@@ -58,5 +68,6 @@ func resolve_spell_for_ai() -> void:
 		card_to_swap_with.card_owner_id, card_to_swap_with.card_in_play_index
 	)
 	
+	Events.hide_instructions.emit()
 	TargetSelection.end_selecting()
 	Events.card_ability_resolved_for_ai.emit()

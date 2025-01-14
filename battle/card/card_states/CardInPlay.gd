@@ -318,7 +318,7 @@ func spaces_in_range_to_attack_card(card: CardInPlay) -> Array:
 	return spaces_to_attack_from
 
 
-func resolve_spell(_target_column: int, _target_row: int) -> bool:
+func resolve_spell() -> bool:
 	assert(
 		false, str(
 			"resolve spell not implemented for ", ingame_name, ", function must be overriden in ",
@@ -499,10 +499,7 @@ func _add_border() -> void:
 
 
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
-	if (
-		data.can_target_unit(self)
-		and GameManager.resources[data.card_owner_id].can_pay_costs(data.costs)
-	):
+	if GameManager.resources[data.card_owner_id].can_pay_costs(data.costs):
 		return true
 	else:
 		return false
@@ -572,10 +569,13 @@ func _on_gui_input(event):
 		and self in TargetSelection.selected_targets
 	):
 		TargetSelection.selected_targets.erase(self)
-		for p_id in [GameManager.p1_id, GameManager.p2_id]:
-			CardManipulation.set_border_to_faction.rpc_id(
-				p_id, card_owner_id, card_in_play_index
-			)
+		if GameManager.is_single_player:
+			CardManipulation.set_border_to_faction(card_owner_id, card_in_play_index)
+		else:
+			for p_id in [GameManager.p1_id, GameManager.p2_id]:
+				CardManipulation.set_border_to_faction.rpc_id(
+					p_id, card_owner_id, card_in_play_index
+				)
 
 	elif (
 		left_mouse_button_pressed 

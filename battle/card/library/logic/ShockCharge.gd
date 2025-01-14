@@ -4,7 +4,7 @@ extends CardInPlay
 class_name ShockCharge
 
 
-func resolve_spell(_c_column: int, _c_row) -> bool:
+func resolve_spell() -> bool:
 	Events.show_instructions.emit("Choose up to two units to refresh")
 	GameManager.battle_map.show_finish_button()
 	TargetSelection.making_selection = true

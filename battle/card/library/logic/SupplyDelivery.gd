@@ -4,7 +4,7 @@ extends CardInPlay
 class_name SupplyDelivery
 
 
-func resolve_spell(_selected_column: int, _selected_row: int) -> bool:
+func resolve_spell() -> bool:
 	for i in range(3):
 		var space_options := []
 		for ps in GameManager.play_spaces:

@@ -322,12 +322,12 @@ func pick_card(player_id: int, option_index: int, card_indices: Array) -> void:
 
 
 @rpc("any_peer", "call_local")
-func resolve_spell(card_owner_id: int, hand_index: int, column: int, row: int) -> void:
+func resolve_spell(card_owner_id: int, hand_index: int) -> void:
 	var card_in_hand: CardInHand = GameManager.cards_in_hand[card_owner_id][hand_index]
 	var card: CardInPlay = CardDatabase.get_card_class(card_in_hand.card_index).new()
 	card.card_owner_id = card_in_hand.card_owner_id
 	@warning_ignore("redundant_await")
-	var succesfull_resolve: bool = await card.resolve_spell(column, row)
+	var succesfull_resolve: bool = await card.resolve_spell()
 	TargetSelection.end_selecting()
 	
 	var h_index = hand_index

@@ -28,14 +28,14 @@ func continue_resolve() -> void:
 		return
 	
 	if GameManager.is_single_player:
-		BattleSynchronizer.resolve_spell(card_owner_id, card_in_hand_index, column, row)
+		BattleSynchronizer.resolve_spell(card_owner_id, card_in_hand_index)
 		queue_free()
 		return
 	
 	var opposing_player_id: int = GameManager.opposing_player_id(GameManager.player_id)
 	if card_owner_id != GameManager.player_id:
 		BattleSynchronizer.resolve_spell.rpc_id(
-			opposing_player_id, card_owner_id, card_in_hand_index, column, row
+			opposing_player_id, card_owner_id, card_in_hand_index
 		)
 		queue_free()
 		return
