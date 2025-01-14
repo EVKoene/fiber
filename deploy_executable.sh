@@ -1,1 +1,1 @@
-godot --headless --export-release "Linux/X11 2" ./project.godot --verbose
+godot --headless --export-release "Linux/X11 Headless (Runnable)" ./project.godot --verbose
