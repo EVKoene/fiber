@@ -9,6 +9,7 @@ export_presets.cfg
 # Soundfiles
 .mpeg
 .wav
+.mp3
 
 # Imported translations (automatically generated from CSV files)
 *.translation
