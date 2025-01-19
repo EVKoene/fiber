@@ -5,7 +5,6 @@ extends Node
 # setup that makes sense.
 ### SCENES ###
 var battle_map_scene: PackedScene = load("res://map/BattleMap.tscn")
-var overworld_scene: PackedScene = load("res://overworld/areas/StartingArea.tscn")
 @onready var turn_manager_scene: PackedScene = preload("res://manager/TurnManager.tscn")
 
 ### GENERAL ###
