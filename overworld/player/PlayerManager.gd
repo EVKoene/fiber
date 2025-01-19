@@ -20,7 +20,7 @@ func get_battle_reward() -> Array:
 	var rewards := []
 	var opponent_deck: Dictionary = GameManager.players[
 		GameManager.opposing_player_id(GameManager.player_id)
-	]["Deck"]
+	]["DeckID"]
 	var n_rewards: int = [0, 1, 1, 1, 1, 2].pick_random()
 	for c in range(n_rewards):
 		rewards.append(pick_random_card(opponent_deck))

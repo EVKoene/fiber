@@ -1,18 +1,30 @@
 extends Node
 
 # All the exisiting cards go into this enum
-enum cards {GENERAL_FABRICATION, GORILLA, FANATIC_FOLLOWER, ATTACK_COMMAND, GOOSE, 
-	WARTHOG_BERSERKER, 
-	GORILLA_BATTLECALLER, SNEK, FOLLOW_PHEROMONES, STAMPEDE, FELOS_EXPEDITIONIST, GORILLA_KING, 
-	SKON_INSECT_FATHER, WIZARD_SCOUT, IMAGINARY_FRIEND, SWITCHEROO, ARCANE_ARROW, INSPIRING_ARTIST, MIST_CONJURER, 
-	DREAMFINDER, FLOW_ACCELERATOR, EPHEMERAL_ASSASSIN, FIREBALL_SHOOTER, HOMUNCULUS, JELLYFISH_EXTRAORDINAIRE, 
-	AUDACIOUS_RESEARCHER, OVERSTIMULATION_FIEND, STREAM_OF_THOUGHT, HYRSMIR_RULER_OF_PHYSICS, PSYCHIC_TAKEOVER,  GNOME_PROTECTOR,  
-	BOTANO_GARDENER, MORNING_LIGHT, WIND_GOLEM, ICE_GOLEM, FIRE_GOLEM, STUDENT_OF_KHONG, HAIL_STORM, 
-	EARTH_GOLEM, BRINGER_OF_ENLIGHTENMENT,
-	PROTECTOR_OF_THE_FOREST, PRANCING_VERDEN, HEART_OF_THE_FOREST, MARCELLA_WHO_NURTURES_GROWTH, 
-	VOLCANIC_ERUPTION, FACTORY_WORKER, OBSTRUCTION_CONSTRUCTION, SHOCK_CHARGE, ASSEMBLY_BOT, 
-	FUEL_DISTRIBUTER, NETWORK_FEEDER, RESOURCE_EXTRACTOR, FURNACE_BOT, EXTERMINATE, PLUG_BUDDY, COMPUTING_BOT, ZOLOI_CHARGER, 
-	COPY_MACHINE, ZALOGI_MIND_OF_MACHINES, SUPPLY_DELIVERY, PLUTO_MUSICAL_GUIDE, MIDAVES_RESEARCHER_OF_LIFE, 
+enum cards {
+	### PASSION ### (16)
+	GORILLA, FANATIC_FOLLOWER, ATTACK_COMMAND, GOOSE, CRAZED_GAMBLER, VIGOR, WARTHOG_BERSERKER, 
+	GORILLA_BATTLECALLER, SNEK, FOLLOW_PHEROMONES, YOUNG_DRIVEN_MINOTAUR, STAMPEDE, 
+	FELOS_EXPEDITIONIST, CHEETAH, GORILLA_KING, SKON_INSECT_FATHER, 
+	
+	### IMAGINATION ### (17)
+	WIZARD_SCOUT, IMAGINARY_FRIEND, SWITCHEROO, ARCANE_ARROW, INSPIRING_ARTIST, MIST_CONJURER, 
+	DREAMFINDER, FLOW_ACCELERATOR, EPHEMERAL_ASSASSIN, FIREBALL_SHOOTER, HOMUNCULUS, 
+	JELLYFISH_EXTRAORDINAIRE, AUDACIOUS_RESEARCHER, OVERSTIMULATION_FIEND, STREAM_OF_THOUGHT, 
+	HYRSMIR_RULER_OF_PHYSICS, PSYCHIC_TAKEOVER,  
+	
+	### GROWTH ### (15)
+	GNOME_PROTECTOR, BOTANO_GARDENER, MORNING_LIGHT, WIND_GOLEM, ICE_GOLEM, FIRE_GOLEM, 
+	STUDENT_OF_KHONG, HAIL_STORM, EARTH_GOLEM, BRINGER_OF_ENLIGHTENMENT, PROTECTOR_OF_THE_FOREST, 
+	PRANCING_VERDEN, HEART_OF_THE_FOREST, MARCELLA_WHO_NURTURES_GROWTH, VOLCANIC_ERUPTION, 
+	
+	### LOGIC ### (15)
+	FACTORY_WORKER, OBSTRUCTION_CONSTRUCTION, SHOCK_CHARGE, ASSEMBLY_BOT, FUEL_DISTRIBUTER, 
+	NETWORK_FEEDER, RESOURCE_EXTRACTOR, FURNACE_BOT, EXTERMINATE, PLUG_BUDDY, COMPUTING_BOT, 
+	ZOLOI_CHARGER, COPY_MACHINE, ZALOGI_MIND_OF_MACHINES, SUPPLY_DELIVERY, 
+	
+	### MULTIFIBER ###
+	PLUTO_MUSICAL_GUIDE, MIDAVES_RESEARCHER_OF_LIFE, 
 	VOLDOMA_MASTER_OF_ARMS, KILLER_WHALE_BOT, NHOROG_POTION_MASTER, GHENGI_WHO_SHAPES_THE_EARTH, 
 	SPOTOS_RECYCLER
 }
@@ -59,8 +71,8 @@ var cards_info = {
 		},
 		"MaxAttack": 1,
 		"MinAttack": 0,
-		"Health": 3,
-		"Movement": 1,
+		"Health": 1,
+		"Movement": 2,
 		"Lord": false,
 		"Purposes": [Collections.purposes.CONQUER_SPACES],
 		"Text": "",
@@ -101,6 +113,41 @@ var cards_info = {
 		"Text": "",
 		"Purposes": [Collections.purposes.BATTLE, Collections.purposes.DEFEND_RESOURCE],
 		"IMGPath": "res://battle/card/library/passion/images/Goose.png",
+	},
+	
+	cards.CRAZED_GAMBLER: {
+		"InGameName": "Crazed Gambler",
+		"CardType": Collections.card_types.UNIT,
+		"fibers": [Collections.fibers.PASSION],
+		"Costs": {
+			Collections.fibers.PASSION: 2,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
+		},
+		"MaxAttack": 5,
+		"MinAttack": 1,
+		"Health": 1,
+		"Movement": 1,
+		"Lord": false,
+		"Text": "",
+		"Purposes": [Collections.purposes.BATTLE],
+		"IMGPath": "res://battle/card/library/passion/images/CrazedGambler.jpg",
+	},
+	
+	cards.VIGOR: {
+		"InGameName": "Vigor",
+		"CardType": Collections.card_types.SPELL,
+		"fibers": [Collections.fibers.PASSION],
+		"Costs": {
+			Collections.fibers.PASSION: 2,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
+		},
+		"CardRange": -1,
+		"Text": "Your units get 1 movement and 1 max attack until your next turn.",
+		"IMGPath": "res://battle/card/library/passion/images/Vigor.png",
 	},
 	
 	cards.WARTHOG_BERSERKER: {
@@ -161,6 +208,26 @@ var cards_info = {
 		"IMGPath": "res://battle/card/library/passion/images/FollowPheromones.png",
 	},
 	
+	cards.YOUNG_DRIVEN_MINOTAUR: {
+		"InGameName": "Young Driven Minotaur",
+		"CardType": Collections.card_types.UNIT,
+		"fibers": [Collections.fibers.PASSION],
+		"Costs": {
+			Collections.fibers.PASSION: 4,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
+		},
+		"MaxAttack": 2,
+		"MinAttack": 2,
+		"Health": 3,
+		"Movement": 1,
+		"Lord": false,
+		"Text": "When one of your other units attacks, add 1 max attack and 1 health to this unit.",
+		"Purposes": [Collections.purposes.REAR],
+		"IMGPath": "res://battle/card/library/passion/images/YoungDrivenMinotaur.jpg",
+	},
+	
 	cards.GORILLA_BATTLECALLER: {
 		"InGameName": "Gorilla Battlecaller",
 		"CardType": Collections.card_types.UNIT,
@@ -215,6 +282,26 @@ var cards_info = {
 		"Text": "On Attack: Draw a Card",
 		"Purposes": [Collections.purposes.BATTLE],
 		"IMGPath": "res://battle/card/library/passion/images/FelosExpeditionist.png",
+	},
+	
+	cards.CHEETAH: {
+		"InGameName": "Cheetah",
+		"CardType": Collections.card_types.UNIT,
+		"fibers": [Collections.fibers.PASSION],
+		"Costs": {
+			Collections.fibers.PASSION: 5,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
+		},
+		"MaxAttack": 6,
+		"MinAttack": 3,
+		"Health": 4,
+		"Movement": 4,
+		"Lord": false,
+		"Text": "",
+		"Purposes": [Collections.purposes.BATTLE],
+		"IMGPath": "res://battle/card/library/passion/images/Cheetah.png",
 	},
 	
 	cards.GORILLA_KING: {
@@ -1421,10 +1508,12 @@ func get_card_class(card_index: int) -> Variant:
 			card = FanaticFollower
 		cards.ATTACK_COMMAND:
 			card = AttackCommand
-		cards.WARTHOG_BERSERKER:
-			card = WarthogBerserker
 		cards.GOOSE:
 			card = Goose
+		cards.VIGOR:
+			card = Vigor
+		cards.WARTHOG_BERSERKER:
+			card = WarthogBerserker
 		cards.SNEK:
 			card = Snek
 		cards.GORILLA_BATTLECALLER:
@@ -1435,10 +1524,12 @@ func get_card_class(card_index: int) -> Variant:
 			card = GorillaKing
 		cards.FELOS_EXPEDITIONIST:
 			card = FelosExpeditionist
-		cards.SKON_INSECT_FATHER:
-			card = SkonInsectFather
+		cards.CHEETAH:
+			card = Cheetah
 		cards.STAMPEDE:
 			card = Stampede
+		cards.SKON_INSECT_FATHER:
+			card = SkonInsectFather
 #
 		#### Imagination ###
 #

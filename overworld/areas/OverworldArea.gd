@@ -7,6 +7,8 @@ var player_position: Vector2
 var player_body: CharacterBody2D
 @export var scene_id: int
 
+var defeated_npc_ids := []
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -16,6 +18,12 @@ func _ready():
 	player_body = $PlayerBody
 	$PlayerBody.position = player_position
 	OverworldManager.can_move = true
+	for npc_id in defeated_npc_ids:
+		improve_area(npc_id)
+
+
+func improve_area(_npc_id: int) -> void:
+	pass
 
 
 func start_npc_interaction(npc_id: int) -> void:
@@ -23,7 +31,7 @@ func start_npc_interaction(npc_id: int) -> void:
 	var npc_properties: Dictionary = NPCDatabase.npc_data[npc_id]
 	read_text(npc_properties["Dialogue"])
 	await Events.dialogue_finished
-	if npc_properties.has("Deck"):
+	if npc_properties.has("DeckID"):
 		OverworldManager.save_player_position()
 		TransitionScene.transition_to_npc_battle(npc_id)
 	else:

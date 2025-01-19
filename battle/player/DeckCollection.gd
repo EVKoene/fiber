@@ -2,11 +2,22 @@ extends Node
 
 var cards = load("res://battle/card/CardDatabase.gd").cards
 enum deck_ids {
-	PASSION_STARTER, IMAGINATION_STARTER, GROWTH_STARTER, LOGIC_STARTER, GORILLA, 
-	MOVEMENT_SHENANIGANS, IMAGINATION_MISSILES, SPELL_SLINGERS, SHALLAN, LOGIC_FACTORY, 
-	RESOURCE_EXTRAVAGANZA, STRENGTH_IN_NUMBERS, BILL_GATES, GOLEMS, 
-	ELEMENTS, BEEFY_BOYS, FRENZY_START, TUTORIAL_DECK, 
-	GURU_LAGHIMA, OPPONENT_TESTING, PLAYER_TESTING, SMELLY_JACQUES, MINIBOSS 
+	### PASSION ###
+	PASSION_STARTER, GORILLA, FRENZY_START, SMELLY_JACQUES, GARY, GOTTA_GO_FAST, BIG_ATTACK,
+	STAY_AWAY,
+	
+	### IMAGINATION ### 
+	IMAGINATION_STARTER, MOVEMENT_SHENANIGANS, IMAGINATION_MISSILES, SPELL_SLINGERS, SHALLAN, 
+	
+	### GROWTH ###
+	GROWTH_STARTER, GOLEMS, ELEMENTS, BEEFY_BOYS, GURU_LAGHIMA, 
+	
+	### LOGIC ###
+	LOGIC_STARTER, 
+	LOGIC_FACTORY, RESOURCE_EXTRAVAGANZA, STRENGTH_IN_NUMBERS, BILL_GATES, 
+	
+	### MISC ###
+	TUTORIAL_DECK, OPPONENT_TESTING, PLAYER_TESTING, 
 	}
 
 
@@ -81,7 +92,7 @@ var decks := {
 		"ID": deck_ids.LOGIC_STARTER,
 	},
 	
-	### PASSION ###
+	### PASSION_LEVEL_1 ###
 	
 	deck_ids.GORILLA: {
 		"DeckName": "Gorilla",
@@ -94,6 +105,59 @@ var decks := {
 			cards.GORILLA: 3,
 		},
 		"ID": deck_ids.GORILLA,
+	},
+	
+	deck_ids.BIG_ATTACK: {
+		"DeckName": "Big Attack",
+		"Cards": {
+			cards.GORILLA: 10,
+			cards.ATTACK_COMMAND: 20,
+			cards.CRAZED_GAMBLER: 15,
+			cards.YOUNG_DRIVEN_MINOTAUR: 15,
+			cards.GORILLA_BATTLECALLER: 5,
+			cards.FELOS_EXPEDITIONIST: 10,
+		},
+		"StartingCards": {
+			cards.GORILLA: 2,
+			cards.YOUNG_DRIVEN_MINOTAUR: 1,
+		},
+		"ID": deck_ids.BIG_ATTACK,
+	},
+	
+	deck_ids.STAY_AWAY: {
+		"DeckName": "Stay Away",
+		"Cards": {
+			cards.FANATIC_FOLLOWER: 10,
+			cards.ATTACK_COMMAND: 20,
+			cards.GOOSE: 5,
+			cards.SNEK: 15,
+			cards.FOLLOW_PHEROMONES: 15,
+			cards.STAMPEDE: 5,
+			cards.SKON_INSECT_FATHER: 5,
+		},
+		"StartingCards": {
+			cards.FANATIC_FOLLOWER: 2,
+			cards.SNEK: 1,
+		},
+		"ID": deck_ids.STAY_AWAY,
+	},
+	
+	### START_OF_PASSION ###
+	
+	deck_ids.GOTTA_GO_FAST: {
+		"DeckName": "Gotta Go Fast",
+		"Cards": {
+			cards.FANATIC_FOLLOWER: 10,
+			cards.VIGOR: 10,
+			cards.WARTHOG_BERSERKER: 15,
+			cards.GORILLA_BATTLECALLER: 15,
+			cards.CHEETAH: 15,
+		},
+		"StartingCards": {
+			cards.FANATIC_FOLLOWER: 2,
+			cards.GOOSE: 1,
+		},
+		"ID": deck_ids.GOTTA_GO_FAST,
 	},
 	
 	deck_ids.FRENZY_START: {
@@ -125,20 +189,24 @@ var decks := {
 	},
 	
 
-	deck_ids.MINIBOSS: {
-		"DeckName": "Miniboss",
+	deck_ids.GARY: {
+		"DeckName": "Gary",
 		"Cards": {
 			cards.GORILLA: 5,
 			cards.ATTACK_COMMAND: 5,
-			cards.GOOSE: 10,  
+			cards.CRAZED_GAMBLER: 15,
+			cards.SNEK: 10,  
 			cards.FOLLOW_PHEROMONES: 10, 
+			cards.YOUNG_DRIVEN_MINOTAUR: 15,
 			cards.FELOS_EXPEDITIONIST: 10, 
+			cards.GORILLA_KING: 5,
+			cards.SKON_INSECT_FATHER: 5,
 		},
 		"StartingCards": {
 			cards.GORILLA: 2,
-			cards.GOOSE: 1,
+			cards.CRAZED_GAMBLER: 1,
 		},
-		"ID": deck_ids.MINIBOSS,
+		"ID": deck_ids.GARY,
 	},
 	
 	### IMAGINATION ###

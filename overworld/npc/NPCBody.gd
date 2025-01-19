@@ -51,6 +51,17 @@ func face_towards_player() -> void:
 func _get_npc_id() -> int:
 	var id_to_return: int
 	match npc_name:
+		### PASSION_LEVEL_1 ###
+		"Rambo":
+			id_to_return = NPCDatabase.npcs.RAMBO
+		"Trudy":
+			id_to_return = NPCDatabase.npcs.TRUDY
+		"Ingrid":
+			id_to_return = NPCDatabase.npcs.INGRID
+		"Yaya":
+			id_to_return = NPCDatabase.npcs.YAYA
+		
+		### START_OF_PASSION ###
 		"Hans":
 			id_to_return = NPCDatabase.npcs.HANS
 		"Masha":

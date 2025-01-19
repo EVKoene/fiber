@@ -17,7 +17,7 @@ func start_battle() -> void:
 	)
 	
 	GameManager.add_player_to_GameManager(
-			2, "AIOpponent", npc_data["Deck"]
+			2, "AIOpponent", npc_data["DeckID"]
 		)
 	GameManager.is_single_player = true
 	var battle_map_scene: PackedScene = load("res://map/BattleMap.tscn")

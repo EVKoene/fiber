@@ -150,7 +150,7 @@ func start_single_player_battle(npc_id: int) -> void:
 		)
 	player_id = 1
 
-	add_player(2, 2, npc_data["Name"], npc_data["Deck"], npc_id)
+	add_player(2, 2, npc_data["Name"], DeckCollection.decks[npc_data["DeckID"]], npc_id)
 	start_game()
 
 
