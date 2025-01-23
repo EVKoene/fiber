@@ -3,7 +3,8 @@ extends Node
 
 @export var address := "127.0.0.1"
 @export var port = 8910
-@export var server_addres = "188.245.54.189"
+@export var server_address := "127.0.0.1"
+#@export var server_address = "188.245.54.189"
 var peer
 var dedicated_server := false
 var n_connected_players := 0
@@ -42,7 +43,7 @@ func connection_failed() -> void:
 
 func join_random_game() -> void:
 	peer = ENetMultiplayerPeer.new()
-	peer.create_client(server_addres, port)
+	peer.create_client(server_address, port)
 	
 	multiplayer.set_multiplayer_peer(peer)
 	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
@@ -95,3 +96,6 @@ func join_lan_game() -> void:
 func add_player(p_id: int, player_name: String, p_deck: Dictionary) -> void:
 	n_connected_players += 1
 	GameManager.add_player.rpc_id(1, n_connected_players, p_id, player_name, p_deck)
+	await get_tree().create_timer(1).timeout
+	if n_connected_players == 2:
+		GameManager.start_game.rpc()
