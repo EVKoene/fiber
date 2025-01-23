@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://b1p3drjd83db6" path="res://battle/player/BattlePauseMenu.tscn" id="2_03bps"]
 [ext_resource type="PackedScene" uid="uid://c6a7g6p6nipw5" path="res://battle/player/ZoomPreview.tscn" id="2_8tgqr"]
 [ext_resource type="Script" path="res://battle/player/ResourceBar.gd" id="3_ox48p"]
-[ext_resource type="AudioStream" uid="uid://ds178kdbqroii" path="res://assets/music/BattleSong.mp3" id="5_b0dsh"]
+[ext_resource type="AudioStream" uid="uid://dfejbhr8ex8yv" path="res://assets/music/BattleSong.mp3" id="5_b0dsh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lndr4"]
 bg_color = Color(0.694118, 0.694118, 0.694118, 0.470588)
