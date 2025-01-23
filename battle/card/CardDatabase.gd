@@ -904,8 +904,8 @@ cards.FLOW_ACCELERATOR: {
 		"Health": 5,
 		"Movement": 1,
 		"Lord": false,
-		"Text": "At the start of your turn, your other units in range with at least 5 health get 
-		+3 max attack",
+		"Text": "At the start of your turn, your other units in range 2 with at least 5 health get 
+		+3 max attack until the end of turn",
 		"Purposes": [Collections.purposes.BUFF_ADJACENT],
 		"IMGPath": "res://battle/card/library/growth/images/BringerOfEnlightenment.png",
 	},
