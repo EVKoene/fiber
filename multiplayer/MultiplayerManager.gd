@@ -3,8 +3,7 @@ extends Node
 
 @export var address := "127.0.0.1"
 @export var port = 8910
-@export var server_address := "127.0.0.1"
-#@export var server_address = "188.245.54.189"
+@export var server_address = "188.245.54.189"
 var peer
 var dedicated_server := false
 var n_connected_players := 0
