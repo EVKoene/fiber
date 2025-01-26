@@ -334,7 +334,7 @@ func _conquer_victory_spaces() -> void:
 			c.call_deferred("destroy")
 	var player_card: CardInPlay = GameManager.cards_in_play[GameManager.player_id][0]
 	if !(player_card.column == 3 and player_card.row == 2):
-		player_card.move_to_play_space(3, 2)
+		player_card.move_to_play_space(4, 3)
 	
 	battle_map.show_tutorial_text(
 		"You can conquer victory spaces by right clicking on your unit and choosing \"conquer space
@@ -474,6 +474,12 @@ func _create_arrow(arrow_position: Vector2, arrow_rotation_degrees: int) -> void
 	arrow.rotation_degrees = arrow_rotation_degrees
 	current_arrows.append(arrow)
 	battle_map.add_child(arrow)
+
+
+func _cleanup_tutorial() -> void:
+	is_awaiting_tutorial_input = false
+	next_phase = tutorial_phases.INSTRUCTION_START
+	current_arrows = []
 
 
 func continue_tutorial() -> void:

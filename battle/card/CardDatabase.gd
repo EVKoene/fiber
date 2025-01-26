@@ -426,7 +426,7 @@ var cards_info = {
 	cards.INSPIRING_ARTIST: {
 		"InGameName": "Inspiring Artist",
 		"CardType": Collections.card_types.UNIT,
-		"fibers": [Collections.fibers.PASSION],
+		"fibers": [Collections.fibers.IMAGINATION],
 		"Costs": {
 			Collections.fibers.PASSION: 0,
 			Collections.fibers.IMAGINATION: 2,

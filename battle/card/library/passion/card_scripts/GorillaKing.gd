@@ -16,10 +16,13 @@ func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 	
 	if trigger == Collections.triggers.CARD_DESTROYED and triggering_card == self:
 		for c in n_adj_units:
-			CardManipulation.change_battle_stat(
-				Collections.stats.MAX_ATTACK, c.card_owner_id, c.card_in_play_index, 
-				-n_adj_units[c] * 2, -1
-			)
+			if !is_instance_valid(c):
+				n_adj_units.erase(c)
+			else:
+				CardManipulation.change_battle_stat(
+					Collections.stats.MAX_ATTACK, c.card_owner_id, c.card_in_play_index, 
+					-n_adj_units[c] * 2, -1
+				)
 		return
 
 	for c in n_adj_units:

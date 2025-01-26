@@ -31,6 +31,7 @@ func swap() -> bool:
 		TargetSelection.making_selection = false
 		BattleSynchronizer.finish_resolve()
 		if Tutorial.next_phase == Tutorial.tutorial_phases.SPELLS:
+			await get_tree().create_timer(0.25).timeout
 			Tutorial.continue_tutorial()
 		return true
 	else:
