@@ -7,8 +7,6 @@ var player_position: Vector2
 var player_body: CharacterBody2D
 @export var scene_id: int
 
-var defeated_npc_ids := []
-
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -18,7 +16,7 @@ func _ready():
 	player_body = $PlayerBody
 	$PlayerBody.position = player_position
 	OverworldManager.can_move = true
-	for npc_id in defeated_npc_ids:
+	for npc_id in OverworldManager.defeated_npc_ids:
 		improve_area(npc_id)
 
 

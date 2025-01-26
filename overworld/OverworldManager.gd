@@ -10,6 +10,7 @@ var current_player_position: Vector2 : get = _get_current_player_position
 var saved_player_position: Vector2 : get = _get_saved_player_position
 var current_area_id: int: get = _get_saved_area_id
 var mc_question_textbox: OverworldTextboxMCOptions
+var defeated_npc_ids := []
 
 
 func create_overworld_file() -> void:

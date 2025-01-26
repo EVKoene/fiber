@@ -192,7 +192,8 @@ func set_progress_bars() -> void:
 					reward_text.append(str(
 						"Congratulations! You receive ", CardDatabase.cards_info[c]["InGameName"]
 					))
-			GameManager.current_area.win_from_npc(GameManager.p2_id)
+			if GameManager.players[GameManager.ai_player_id]["NPCID"] not in OverworldManager.defeated_npc_ids:
+				OverworldManager.defeated_npc_ids.append(GameManager.players[GameManager.ai_player_id]["NPCID"])
 			TransitionScene.transition_to_overworld_scene(
 				OverworldManager.current_area_id, OverworldManager.saved_player_position, 
 				reward_text

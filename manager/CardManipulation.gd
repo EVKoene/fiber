@@ -6,9 +6,8 @@ func destroy(card_owner_id: int, cip_index: int) -> void:
 	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
 	card.current_play_space.card_in_this_play_space = null
 	BattleSynchronizer.call_triggered_funcs(Collections.triggers.CARD_DESTROYED, card)
-	await get_tree().create_timer(0.25).timeout
-	card.remove_from_cards_in_play()
-	card.queue_free()
+	card.call_deferred("remove_from_cards_in_play")
+	card.call_deferred("queue_free")
 
 
 
