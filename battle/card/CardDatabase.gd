@@ -223,7 +223,8 @@ var cards_info = {
 		"Health": 3,
 		"Movement": 1,
 		"Lord": false,
-		"Text": "When one of your other units attacks, add 1 max attack and 1 health to this unit.",
+		"Text": "When one of your other units in range 2 attacks, add 1 max attack and 1 health to 
+		this unit.",
 		"Purposes": [Collections.purposes.REAR],
 		"IMGPath": "res://battle/card/library/passion/images/YoungDrivenMinotaur.jpg",
 	},
@@ -1512,6 +1513,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = Goose
 		cards.VIGOR:
 			card = Vigor
+		cards.CRAZED_GAMBLER:
+			card = CrazedGambler
 		cards.WARTHOG_BERSERKER:
 			card = WarthogBerserker
 		cards.SNEK:
@@ -1520,6 +1523,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = GorillaBattlecaller
 		cards.FOLLOW_PHEROMONES:
 			card = FollowPheromones
+		cards.YOUNG_DRIVEN_MINOTAUR:
+			card = YoungDrivenMinotaur
 		cards.GORILLA_KING:
 			card = GorillaKing
 		cards.FELOS_EXPEDITIONIST:

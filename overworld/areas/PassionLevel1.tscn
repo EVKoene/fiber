@@ -250,6 +250,7 @@ tile_set = SubResource("TileSet_n3rwv")
 [node name="TransitionStartOfPassion" parent="." index="8" instance=ExtResource("4_lhqdu")]
 position = Vector2(209, -957)
 scale = Vector2(5, 5)
+scene_id = 2
 
 [node name="Rambo" parent="." index="9" instance=ExtResource("5_i0egj")]
 position = Vector2(-115, -139)

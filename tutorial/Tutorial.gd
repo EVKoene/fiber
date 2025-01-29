@@ -450,7 +450,7 @@ func _end_turn() -> void:
 
 func _finish_tutorial() -> void:
 	TransitionScene.transition_to_overworld_scene(
-		OverworldManager.current_area_id, OverworldManager.saved_player_position
+		OverworldManager.saved_area_id, OverworldManager.saved_player_position
 	)
 
 

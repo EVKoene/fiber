@@ -8,7 +8,7 @@ var battle_map_scene: PackedScene = load("res://map/BattleMap.tscn")
 @onready var turn_manager_scene: PackedScene = preload("res://manager/TurnManager.tscn")
 
 ### GENERAL ###
-var version := "0.0.3"
+var version := "0.0.4"
 var testing := true
 var main_menu: MainMenu
 var is_server := false

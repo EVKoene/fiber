@@ -194,7 +194,7 @@ func set_progress_bars() -> void:
 					))
 			OverworldManager.defeat_npc(GameManager.players[GameManager.ai_player_id]["NPCID"])
 			TransitionScene.transition_to_overworld_scene(
-				OverworldManager.current_area_id, OverworldManager.saved_player_position, 
+				OverworldManager.saved_area_id, OverworldManager.saved_player_position, 
 				reward_text
 			)
 			return
@@ -207,7 +207,7 @@ func set_progress_bars() -> void:
 			
 			GameManager.battle_map.show_text("You lose!")
 			TransitionScene.transition_to_overworld_scene(
-				OverworldManager.current_area_id, OverworldManager.saved_player_position
+				OverworldManager.saved_area_ids, OverworldManager.saved_player_position
 			)
 			return
 		
