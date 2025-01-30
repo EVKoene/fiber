@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://02bmubxjpmp8"]
+
+[ext_resource type="Texture2D" uid="uid://8hsxjo7jf18i" path="res://assets/objects/tv.png" id="1_cmbtd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ni43m"]
+size = Vector2(85, 61)
+
+[node name="Television" type="StaticBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
+position = Vector2(0, -17)
+scale = Vector2(3, 3)
+texture = ExtResource("1_cmbtd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1.5, -9.5)
+shape = SubResource("RectangleShape2D_ni43m")

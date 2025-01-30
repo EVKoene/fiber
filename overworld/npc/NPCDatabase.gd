@@ -2,14 +2,16 @@ extends Node
 
 
 enum npcs {
-	 HANS, JACQUES, JESUS, GARY, MASHA, ROB, GURU_FLAPPIE, GURU_TRONG, 
+	HANS, JACQUES, JESUS, GARY, MASHA, ROB, GURU_FLAPPIE, GURU_TRONG, 
 	GURU_KAL, GURU_LAGHIMA, STUDENT_DAL, STUDENT_MAC, STUDENT_KALA, SHALLAN, 
-	BUSINESS_PERSON_LEONARDO, BUSINESS_PERSON_ANA, BUSINESS_PERSON_JEROEN, BILL_GATES, WISE_MAN
+	BUSINESS_PERSON_LEONARDO, BUSINESS_PERSON_ANA, BUSINESS_PERSON_JEROEN, BILL_GATES, WISE_MAN,
+	RAMBO, TRUDY, INGRID, YAYA
 }
 enum character_types {
 	 BEEBOY, BUMBLEBEE_LADY, BUSINESS_CAP_BOY, DINO_BUSINESS_MAN, ROBOT_GUY, JESUS, GARY, GURU_1,
 	GURU_2, GURU_3, GURU_LAGHIMA, SHALLAN, BUSINESS_PERSON_1, BUSINESS_PERSON_2, BUSINESS_PERSON_3,
-	BILL_GATES, WISE_MAN
+	BILL_GATES, WISE_MAN, GENERIC_GUY_1, GENERIC_GUY_2, GENERIC_GUY_3, GENERIC_GIRL_1, 
+	GENERIC_GIRL_2, GENERIC_GIRL_3,
 }
 enum special_rules { 
 	ADD_1_MAX_ATTACK, ADD_1_HEALTH, IMAGINATION_SPELLS_1_CHEAPER, 
@@ -18,26 +20,60 @@ enum special_rules {
 
 
 var npc_data: Dictionary = {
+	### PASION_LEVEL_1 ###
+	
+	npcs.TRUDY: {
+		"Name": "Trudy",
+		"Dialogue": ["You think you can handle me?", "My gorillas will fucking tear you to shreds"],
+		"Battle": true,
+		"CharacterModel": character_types.GENERIC_GIRL_1,
+		"DeckID": DeckCollection.deck_ids.GORILLA
+	},
+	
+	npcs.RAMBO: {
+		"Name": "Rambo",
+		"Dialogue": ["Can you shut up? I'm watching TV."],
+		"Battle": false,
+		"CharacterModel": character_types.GENERIC_GUY_1,
+	},
+	
+	npcs.INGRID: {
+		"Name": "Ingrid",
+		"Dialogue": ["I don't care"],
+		"Battle": true,
+		"CharacterModel": character_types.GENERIC_GIRL_2,
+		"DeckID": DeckCollection.deck_ids.BIG_ATTACK,
+	},
+	
+	npcs.YAYA: {
+		"Name": "Ingrid",
+		"Dialogue": ["It's all the same."],
+		"Battle": true,
+		"CharacterModel": character_types.GENERIC_GIRL_3,
+		"DeckID": DeckCollection.deck_ids.STAY_AWAY,
+	},
+	
+	### START_OF_PASSION ###
 	npcs.HANS: {
 		"Name": "Hans",
 		"Dialogue": ["You think you can handle me?", "My gorillas will fucking tear you to shreds"],
 		"Battle": true,
 		"CharacterModel": character_types.BEEBOY,
-		"Deck": DeckCollection.decks[DeckCollection.deck_ids.GORILLA]
+		"DeckID": DeckCollection.deck_ids.GOTTA_GO_FAST,
 	},
 	npcs.MASHA: {
 		"Name": "Masha",
 		"Dialogue": ["WOOF! WOOF!"],
 		"Battle": true,
 		"CharacterModel": character_types.BUMBLEBEE_LADY,
-		"Deck": DeckCollection.decks[DeckCollection.deck_ids.FRENZY_START]
+		"DeckID": DeckCollection.deck_ids.FRENZY_START
 	},
 	npcs.JACQUES: {
 		"Name": "Jacques",
 		"Dialogue": ["Ew, what's that smell?", "Oh, it's me."],
 		"Battle": true,
 		"CharacterModel": character_types.DINO_BUSINESS_MAN,
-		"Deck": DeckCollection.decks[DeckCollection.deck_ids.SMELLY_JACQUES],
+		"DeckID": DeckCollection.deck_ids.SMELLY_JACQUES,
 	},
 	npcs.GARY: {
 		"Name": "Gary",
@@ -45,16 +81,16 @@ var npc_data: Dictionary = {
 		"SpecialRules": [special_rules.ADD_1_MAX_ATTACK],
 		"Battle": true,
 		"CharacterModel": character_types.GARY,
-		"Deck": DeckCollection.decks[DeckCollection.deck_ids.MINIBOSS],
+		"DeckID": DeckCollection.deck_ids.GARY,
 	},
 	
-	### IMAGINATION DECKS ###
+	### START OF IMAGINATION ###
 	npcs.STUDENT_DAL: {
 		"Name": "Student Dal",
 		"Dialogue": ["Boom, baby!"],
 		"Battle": true,
 		"CharacterModel": character_types.BEEBOY,
-		"Deck": DeckCollection.decks[DeckCollection.deck_ids.IMAGINATION_MISSILES]
+		"DeckID": DeckCollection.deck_ids.IMAGINATION_MISSILES
 	},
 	
 	npcs.STUDENT_MAC: {
@@ -62,7 +98,7 @@ var npc_data: Dictionary = {
 		"Dialogue": ["When I grow up I want to be a dinosaur."],
 		"Battle": true,
 		"CharacterModel": character_types.DINO_BUSINESS_MAN,
-		"Deck": DeckCollection.decks[DeckCollection.deck_ids.MOVEMENT_SHENANIGANS]
+		"DeckID": DeckCollection.deck_ids.MOVEMENT_SHENANIGANS
 	},
 	
 	npcs.STUDENT_KALA: {
@@ -70,7 +106,7 @@ var npc_data: Dictionary = {
 		"Dialogue": ["I wonder if aliens can see sounds?"],
 		"Battle": true,
 		"CharacterModel": character_types.BUMBLEBEE_LADY,
-		"Deck": DeckCollection.decks[DeckCollection.deck_ids.SPELL_SLINGERS]
+		"DeckID": DeckCollection.deck_ids.SPELL_SLINGERS
 	},
 	
 	npcs.SHALLAN: {
@@ -79,25 +115,25 @@ var npc_data: Dictionary = {
 		"SpecialRules": [special_rules.IMAGINATION_SPELLS_1_CHEAPER],
 		"Battle": true,
 		"CharacterModel": character_types.SHALLAN,
-		"Deck": DeckCollection.decks[DeckCollection.deck_ids.IMAGINATION_MISSILES]
+		"DeckID": DeckCollection.deck_ids.IMAGINATION_MISSILES
 	},
 	
-	### LOGIC DECKS ###
+	### START OF LOGIC ###
 	npcs.ROB: {
 		"Name": "Rob",
 		"Dialogue": ["Everyone has their part to play."],
 		"Battle": true,
 		"CharacterModel": character_types.ROBOT_GUY,
-		"Deck": DeckCollection.decks[DeckCollection.deck_ids.LOGIC_FACTORY],
+		"DeckID": DeckCollection.deck_ids.LOGIC_FACTORY,
 	},
 	
-	### GROWTH DECKS ###
+	### START OF GROWTH ###
 	npcs.JESUS: {
 		"Name": "Jesus",
 		"Dialogue": ["Hi.", "I'm Jesus.", "I play some beefy boys."],
 		"Battle": true,
 		"CharacterModel": character_types.JESUS,
-		"Deck": DeckCollection.decks[DeckCollection.deck_ids.BEEFY_BOYS],
+		"DeckID": DeckCollection.deck_ids.BEEFY_BOYS,
 	},
 	
 	npcs.GURU_FLAPPIE: {
@@ -105,7 +141,7 @@ var npc_data: Dictionary = {
 		"Dialogue": ["I'm just really into my guitar right now."],
 		"Battle": true,
 		"CharacterModel": character_types.GURU_1,
-		"Deck": DeckCollection.decks[DeckCollection.deck_ids.BEEFY_BOYS],
+		"DeckID": DeckCollection.deck_ids.BEEFY_BOYS,
 	},
 	
 	npcs.GURU_KAL: {
@@ -113,7 +149,7 @@ var npc_data: Dictionary = {
 		"Dialogue": ["I'm studying to become a guru."],
 		"Battle": true,
 		"CharacterModel": character_types.GURU_2,
-		"Deck": DeckCollection.decks[DeckCollection.deck_ids.GOLEMS],
+		"DeckID": DeckCollection.deck_ids.GOLEMS,
 	},
 	
 	npcs.GURU_TRONG: {
@@ -121,7 +157,7 @@ var npc_data: Dictionary = {
 		"Dialogue": ["Right now right now!"],
 		"Battle": true,
 		"CharacterModel": character_types.GURU_3,
-		"Deck": DeckCollection.decks[DeckCollection.deck_ids.ELEMENTS],
+		"DeckID": DeckCollection.deck_ids.ELEMENTS,
 	},
 	
 	npcs.GURU_LAGHIMA: {
@@ -130,7 +166,7 @@ var npc_data: Dictionary = {
 		"SpecialRules": [special_rules.ADD_1_HEALTH],
 		"Battle": true,
 		"CharacterModel": character_types.GURU_LAGHIMA,
-		"Deck": DeckCollection.decks[DeckCollection.deck_ids.GURU_LAGHIMA],
+		"DeckID": DeckCollection.deck_ids.GURU_LAGHIMA,
 	},
 	
 	### LOGIC DECKS ###
@@ -140,7 +176,7 @@ var npc_data: Dictionary = {
 		"Dialogue": ["It's all about the grind."],
 		"Battle": true,
 		"CharacterModel": character_types.BUSINESS_PERSON_1,
-		"Deck": DeckCollection.decks[DeckCollection.deck_ids.LOGIC_FACTORY],
+		"DeckID": DeckCollection.deck_ids.LOGIC_FACTORY,
 	},
 	
 	npcs.BUSINESS_PERSON_ANA: {
@@ -148,7 +184,7 @@ var npc_data: Dictionary = {
 		"Dialogue": ["I'm too old for this shit."],
 		"Battle": true,
 		"CharacterModel": character_types.BUSINESS_PERSON_2,
-		"Deck": DeckCollection.decks[DeckCollection.deck_ids.RESOURCE_EXTRAVAGANZA],
+		"DeckID": DeckCollection.deck_ids.RESOURCE_EXTRAVAGANZA,
 	},
 	
 	npcs.BUSINESS_PERSON_JEROEN: {
@@ -156,7 +192,7 @@ var npc_data: Dictionary = {
 		"Dialogue": ["Life is one big party."],
 		"Battle": true,
 		"CharacterModel": character_types.BUSINESS_PERSON_3,
-		"Deck": DeckCollection.decks[DeckCollection.deck_ids.STRENGTH_IN_NUMBERS],
+		"DeckID": DeckCollection.deck_ids.STRENGTH_IN_NUMBERS,
 	},
 	
 	npcs.BILL_GATES: {
@@ -165,7 +201,7 @@ var npc_data: Dictionary = {
 		"Battle": true,
 		"SpecialRules": [special_rules.CREATE_ROBOT_FABRICATION],
 		"CharacterModel": character_types.BILL_GATES,
-		"Deck": DeckCollection.decks[DeckCollection.deck_ids.BILL_GATES],
+		"DeckID": DeckCollection.deck_ids.BILL_GATES,
 	},
 	
 	npcs.WISE_MAN: {
@@ -194,6 +230,12 @@ var character_model := {
 	character_types.GURU_LAGHIMA: "guru_laghima",
 	character_types.SHALLAN: "shallan",
 	character_types.WISE_MAN: "wise_man",
+	character_types.GENERIC_GUY_1: "generic_guy_1",
+	character_types.GENERIC_GUY_2: "generic_guy_2",
+	character_types.GENERIC_GUY_3: "generic_guy_3",
+	character_types.GENERIC_GIRL_1: "generic_girl_1",
+	character_types.GENERIC_GIRL_2: "generic_girl_2",
+	character_types.GENERIC_GIRL_3: "generic_girl_3",
 }
 
 

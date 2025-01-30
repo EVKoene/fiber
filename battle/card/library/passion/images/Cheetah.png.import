@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dor2rt42wpwgs"
-path="res://.godot/imported/generic_girl_2.png-5609f8116a2540eb313056058b23dbf6.ctex"
+uid="uid://dnfqx5nnl75v3"
+path="res://.godot/imported/Cheetah.png-2ff0670d1265a0bba7ec9bbefdcf8a70.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/character_sheets/generic_girl_2.png"
-dest_files=["res://.godot/imported/generic_girl_2.png-5609f8116a2540eb313056058b23dbf6.ctex"]
+source_file="res://battle/card/library/passion/images/Cheetah.png"
+dest_files=["res://.godot/imported/Cheetah.png-2ff0670d1265a0bba7ec9bbefdcf8a70.ctex"]
 
 [params]
 

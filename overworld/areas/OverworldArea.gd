@@ -16,6 +16,12 @@ func _ready():
 	player_body = $PlayerBody
 	$PlayerBody.position = player_position
 	OverworldManager.can_move = true
+	for npc_id in OverworldManager.defeated_npc_ids:
+		improve_area(npc_id)
+
+
+func improve_area(_npc_id: int) -> void:
+	pass
 
 
 func start_npc_interaction(npc_id: int) -> void:
@@ -23,8 +29,10 @@ func start_npc_interaction(npc_id: int) -> void:
 	var npc_properties: Dictionary = NPCDatabase.npc_data[npc_id]
 	read_text(npc_properties["Dialogue"])
 	await Events.dialogue_finished
-	if npc_properties.has("Deck"):
-		OverworldManager.save_player_position()
+	if npc_properties.has("DeckID"):
+		OverworldManager.save_player_position(
+			$PlayerBody.position, scene_id
+		)
 		TransitionScene.transition_to_npc_battle(npc_id)
 	else:
 		OverworldManager.can_move = true

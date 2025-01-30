@@ -13,9 +13,9 @@ var game_over := false
 
 func play_turn() -> void:
 	await play_playable_cards()
-	await GameManager.battle_map.get_tree().create_timer(0.5).timeout
+	await GameManager.battle_map.get_tree().create_timer(0.25).timeout
 	await use_cards_in_play()
-	await GameManager.battle_map.get_tree().create_timer(0.5).timeout
+	await GameManager.battle_map.get_tree().create_timer(0.25).timeout
 	# If the AI wins by conquering victory spaces, the battle map will be removed and they won't
 	# be able to end the turn anymore
 	if is_instance_valid(GameManager.battle_map) and !game_over:

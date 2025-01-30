@@ -192,9 +192,9 @@ func set_progress_bars() -> void:
 					reward_text.append(str(
 						"Congratulations! You receive ", CardDatabase.cards_info[c]["InGameName"]
 					))
-			
+			OverworldManager.defeat_npc(GameManager.players[GameManager.ai_player_id]["NPCID"])
 			TransitionScene.transition_to_overworld_scene(
-				OverworldManager.current_area_id, OverworldManager.saved_player_position, 
+				OverworldManager.saved_area_id, OverworldManager.saved_player_position, 
 				reward_text
 			)
 			return
@@ -207,7 +207,7 @@ func set_progress_bars() -> void:
 			
 			GameManager.battle_map.show_text("You lose!")
 			TransitionScene.transition_to_overworld_scene(
-				OverworldManager.current_area_id, OverworldManager.saved_player_position
+				OverworldManager.saved_area_ids, OverworldManager.saved_player_position
 			)
 			return
 		
@@ -333,14 +333,13 @@ func resolve_spell(card_owner_id: int, hand_index: int) -> void:
 	var h_index = hand_index
 	if succesfull_resolve:
 		GameManager.resources[card_in_hand.card_owner_id].pay_costs(card_in_hand.costs)
-	
-	if GameManager.is_single_player:
-		BattleSynchronizer.reset_zoom_preview()
-		BattleSynchronizer.remove_card_from_hand(card_owner_id, h_index)
-	if !GameManager.is_single_player:
-		for p_id in GameManager.players:
-			BattleSynchronizer.reset_zoom_preview.rpc_id(p_id)
-			BattleSynchronizer.remove_card_from_hand.rpc_id(p_id, card_owner_id, h_index)
+		if GameManager.is_single_player:
+			BattleSynchronizer.reset_zoom_preview()
+			BattleSynchronizer.remove_card_from_hand(card_owner_id, h_index)
+		if !GameManager.is_single_player:
+			for p_id in GameManager.players:
+				BattleSynchronizer.reset_zoom_preview.rpc_id(p_id)
+				BattleSynchronizer.remove_card_from_hand.rpc_id(p_id, card_owner_id, h_index)
 	
 	GameManager.turn_manager.set_turn_actions_enabled(true)
 	call_triggered_funcs(Collections.triggers.SPELL_PLAYED, card)
@@ -355,6 +354,7 @@ func finish_resolve() -> void:
 
 
 func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
+	var is_all_triggers_handled := false
 	for p_id in GameManager.players:
 		for card in GameManager.cards_in_play[p_id]:
 			await card.call_triggered_funcs(trigger, triggering_card)

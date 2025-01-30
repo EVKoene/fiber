@@ -27,11 +27,11 @@ func move_over_path(path: PlaySpacePath) -> void:
 				if path.path_spaces[s].card_in_this_play_space.card_owner_id == card_owner_id:
 					var card: CardInPlay = path.path_spaces[s].card_in_this_play_space
 					for p_id in GameManager.players:
-						CardManipulation.change_movement(
-							card.card_owner_id, card.card_in_play_index, 2, 1
+						CardManipulation.change_battle_stat(
+							Collections.stats.MOVEMENT, card.card_owner_id, card.card_in_play_index, 2, 1
 						)
-						CardManipulation.change_min_attack(
-							card.card_owner_id, card.card_in_play_index, 2, 1
+						CardManipulation.change_battle_stat(
+							Collections.stats.MIN_ATTACK, card.card_owner_id, card.card_in_play_index, 1, 1
 						)
 				z_index -= 50
 			else:

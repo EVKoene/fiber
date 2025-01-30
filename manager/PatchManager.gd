@@ -4,10 +4,19 @@ extends Node
 func check_version() -> void:
 	var config := ConfigFile.new()
 	config.load(GameManager.collections_path)
-	if config.get_value("version", "local_version", "") == "":
+	var save_version: String = config.get_value("version", "local_version", "")
+	
+	if save_version == GameManager.version:
+		return
+	
+	elif save_version == "":
 		# We start keeping track of patches 0.0.3. We want to remove old savefiles from people
 		# playing before that time.
 		clean_outdated_save()
+		set_version()
+	
+	elif save_version != GameManager.version:
+		OverworldManager.set_player_position_to_start_journey()
 		set_version()
 
 

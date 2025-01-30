@@ -23,3 +23,15 @@ func resolve_spell_for_ai() -> void:
 	resolve_spell()
 	Events.spell_resolved_for_ai.emit()
 	BattleSynchronizer.finish_resolve()
+
+
+func is_spell_to_play_now() -> bool:
+	var n_fresh_cards := 0
+	for c in GameManager.cards_in_play[card_owner_id]:
+		if !c.exhausted:
+			n_fresh_cards += 1
+	
+	if n_fresh_cards >= 2:
+		return true
+	
+	return false

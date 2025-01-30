@@ -1,11 +1,28 @@
 extends Node
 
 
-enum maps {BASE_MAP, BOSS_MAP,}
+enum maps {BASE_MAP, FIRST_ITERATION_MAP, BOSS_MAP,}
 
 var map_data: Dictionary = {
 	
 	maps.BASE_MAP: {
+		"SpacesToWin": 6,
+		"Columns": 9,
+		"Rows": 7,
+		"P1StartingConqueredSpaces": [Vector2(4, 6)],
+		"P2StartingConqueredSpaces": [Vector2(4, 0)],
+		"P1Territory": [Vector2(4, 6), Vector2(3, 6), Vector2(5, 6), Vector2(4, 5)],
+		"P2Territory": [Vector2(4, 0), Vector2(3, 0), Vector2(5, 0), Vector2(4, 1)],
+		"ResourceSpaces": [
+			Vector2(0, 1), Vector2(8, 1),
+			Vector2(2, 2), Vector2(6, 2),
+			Vector2(0,3), Vector2(4, 3), Vector2(8, 3),
+			Vector2(2, 4), Vector2(6, 4),
+			Vector2(0, 5), Vector2(8, 5),
+		],
+	},
+	
+	maps.FIRST_ITERATION_MAP: {
 		"SpacesToWin": 4,
 		"Columns": 7,
 		"Rows": 5,
