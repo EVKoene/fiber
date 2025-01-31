@@ -7,8 +7,8 @@ necessary information. This means we hardly use the multiplayer spawner or synch
 client and server will create objects and execute functionality seperately. 
 """
 
-@onready var card_in_play_scene: PackedScene = preload("res://battle/card/card_states/CardInPlay.tscn")
-@onready var card_in_hand_scene: PackedScene = preload("res://battle/card/card_states/CardInHand.tscn")
+@onready var card_in_play_scene: PackedScene = preload("res://card/card_states/CardInPlay.tscn")
+@onready var card_in_hand_scene: PackedScene = preload("res://card/card_states/CardInHand.tscn")
 
 
 @rpc("any_peer", "call_local")

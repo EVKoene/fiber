@@ -67,7 +67,7 @@ func create_robot_fabrication_in_territory():
 	var space: PlaySpace = space_options.pick_random()
 	var robot = await BattleSynchronizer.create_fabrication(
 		GameManager.ai_player_id, space.column, space.row, "Robot", 1, 0, 1, 1, [], 
-		"res://battle/card/library/logic/images/Robot.png", [Collections.fibers.LOGIC], {
+		"res://assets/card_images/logic/Robot.png", [Collections.fibers.LOGIC], {
 			Collections.fibers.PASSION: 0,
 			Collections.fibers.IMAGINATION: 0,
 			Collections.fibers.GROWTH: 0,

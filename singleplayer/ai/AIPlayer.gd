@@ -3,7 +3,7 @@ extends Node
 class_name AIPlayer
 
 
-@onready var card_resolve_scene := load("res://battle/card/card_states/CardResolve.tscn")
+@onready var card_resolve_scene := load("res://card/card_states/CardResolve.tscn")
 var ai_turn_manager: AITurnManager
 var player_id: int
 var moving_cards := false
@@ -116,7 +116,7 @@ func use_card_action(card: CardInPlay) -> bool:
 			return true
 	if Collections.purposes.DEFEND_RESOURCE in card.purposes:
 		if Collections.play_space_attributes.VICTORY_SPACE in card.current_play_space.attributes:
-			var enemies_in_attack_range := CardHelper.cards_in_range_of_card(
+			var enemies_in_attack_range: Array = CardHelper.cards_in_range_of_card(
 				card, 1, TargetSelection.target_restictions.OPPONENT_UNITS
 			)
 			if len(enemies_in_attack_range) > 0:
