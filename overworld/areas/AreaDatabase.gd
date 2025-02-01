@@ -2,8 +2,8 @@ extends Node
 
 
 enum area_ids {
-	START_OF_JOURNEY, START_OF_GROWTH, START_OF_PASSION, START_OF_IMAGINATION, 
-	START_OF_LOGIC, PASSION_LEVEL_1,
+	START_OF_JOURNEY, PASSION_LEVEL_1, START_OF_PASSION, START_OF_IMAGINATION, 
+	GROWTH_LEVEL_1, START_OF_GROWTH, START_OF_LOGIC, 
 }
 
 var areas := {
@@ -19,13 +19,13 @@ var areas := {
 		"StartingPosition": Vector2(300, 360)
 	},
 	
-	area_ids.START_OF_GROWTH: {
-		"AreaName": "Start Of Growth",
-		"ScenePath": "res://overworld/areas/StartOfGrowth.tscn",
+	area_ids.PASSION_LEVEL_1: {
+		"AreaName": "Passion Level 1",
+		"ScenePath": "res://overworld/areas/PassionLevel1.tscn",
 		"TransitionPosition": {
-			area_ids.START_OF_JOURNEY: Vector2(86, 134),
+			area_ids.START_OF_PASSION: Vector2(290, -670),
 		},
-		"StartingPosition": Vector2(86, 134)
+		"StartingPosition": Vector2(603, -73)
 	},
 	
 	area_ids.START_OF_PASSION: {
@@ -34,6 +34,25 @@ var areas := {
 		"TransitionPosition": {
 			area_ids.PASSION_LEVEL_1: Vector2(1264, 827),
 			area_ids.START_OF_JOURNEY: Vector2(1264, 827),
+		},
+		"StartingPosition": Vector2(86, 134)
+	},
+	
+	area_ids.GROWTH_LEVEL_1: {
+		"AreaName": "Growth Level 1",
+		"ScenePath": "res://overworld/areas/GrowthLevel1.tscn",
+		"TransitionPosition": {
+			area_ids.START_OF_GROWTH: Vector2(-100, 70),
+			area_ids.START_OF_PASSION: Vector2(1080, 70),
+		},
+		"StartingPosition": Vector2(500, 70)
+	},
+	
+	area_ids.START_OF_GROWTH: {
+		"AreaName": "Start Of Growth",
+		"ScenePath": "res://overworld/areas/StartOfGrowth.tscn",
+		"TransitionPosition": {
+			area_ids.START_OF_JOURNEY: Vector2(86, 134),
 		},
 		"StartingPosition": Vector2(86, 134)
 	},
@@ -52,15 +71,6 @@ var areas := {
 		"ScenePath": "res://overworld/areas/StartOfLogic.tscn",
 		"TransitionPosition": {
 			area_ids.START_OF_JOURNEY: Vector2(-603, -73),
-		},
-		"StartingPosition": Vector2(603, -73)
-	},
-	
-	area_ids.PASSION_LEVEL_1: {
-		"AreaName": "Passion Level 1",
-		"ScenePath": "res://overworld/areas/PassionLevel1.tscn",
-		"TransitionPosition": {
-			area_ids.START_OF_PASSION: Vector2(290, -670),
 		},
 		"StartingPosition": Vector2(603, -73)
 	},

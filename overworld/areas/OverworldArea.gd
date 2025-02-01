@@ -5,7 +5,7 @@ class_name OverworldArea
 var pause_menu: Control
 var player_position: Vector2
 var player_body: CharacterBody2D
-@export var scene_id: int
+var scene_id: int
 
 
 # Called when the node enters the scene tree for the first time.
@@ -18,6 +18,16 @@ func _ready():
 	OverworldManager.can_move = true
 	for npc_id in OverworldManager.defeated_npc_ids:
 		improve_area(npc_id)
+	set_transition_tile_ids()
+	setup_npcs()
+	
+
+func set_transition_tile_ids() -> void:
+	pass
+
+
+func setup_npcs() -> void:
+	pass
 
 
 func improve_area(_npc_id: int) -> void:

@@ -1,14 +1,15 @@
-[gd_scene load_steps=7 format=4 uid="uid://bt2gaugaeugtn"]
+[gd_scene load_steps=8 format=4 uid="uid://bt2gaugaeugtn"]
 
 [ext_resource type="PackedScene" uid="uid://drutvpo7uegtk" path="res://overworld/areas/OverworldArea.tscn" id="1_f5it2"]
+[ext_resource type="Script" path="res://overworld/areas/StartOfPassion.gd" id="2_665pd"]
 [ext_resource type="TileSet" uid="uid://bcpihsek884v8" path="res://styling/tilesets/Passion.tres" id="2_sgv76"]
 [ext_resource type="TileSet" uid="uid://bavk3m8kyhwrp" path="res://overworld/areas/tilesets/StartingArea.tres" id="3_fy0c8"]
 [ext_resource type="TileSet" uid="uid://be22vt7mmohxv" path="res://styling/tilesets/PassionDecoration.tres" id="4_fl02c"]
 [ext_resource type="PackedScene" uid="uid://bhwnc325j70sr" path="res://overworld/npc/NPCBody.tscn" id="5_11alt"]
 [ext_resource type="PackedScene" uid="uid://cvldikdnlojvi" path="res://overworld/areas/TransitionTile.tscn" id="6_cgnsl"]
 
-[node name="OverworldArea" instance=ExtResource("1_f5it2")]
-scene_id = 2
+[node name="StartOfPassion" instance=ExtResource("1_f5it2")]
+script = ExtResource("2_665pd")
 
 [node name="Ground" parent="." index="3"]
 position = Vector2(3, 0)

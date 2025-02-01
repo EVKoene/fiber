@@ -9,12 +9,14 @@ var stat_modifier := {
 		Collections.stats.MAX_ATTACK: 0,
 		Collections.stats.MIN_ATTACK: 0,
 		Collections.stats.HEALTH: 0,
+		Collections.stats.SHIELD: 0,
 		Collections.stats.MOVEMENT: 0,
 	},
 	GameManager.p2_id: {
 		Collections.stats.MAX_ATTACK: 0,
 		Collections.stats.MIN_ATTACK: 0,
 		Collections.stats.HEALTH: 0,
+		Collections.stats.SHIELD: 0,
 		Collections.stats.MOVEMENT: 0,
 	},
 }

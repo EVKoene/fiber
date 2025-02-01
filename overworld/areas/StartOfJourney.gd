@@ -40,6 +40,19 @@ func _ready() -> void:
 		_walk_to_player_and_start_conversation()
 	else:
 		OverworldManager.can_move = true
+	setup_npcs()
+	set_transition_tile_ids()
+
+
+func setup_npcs() -> void:
+	$WiseMan.setup_npc(NPCDatabase.npcs.WISE_MAN, Collections.directions.DOWN)
+
+
+func set_transition_tile_ids() -> void:
+	$TransitionStartOfGrowth.scene_id = AreaDatabase.area_ids.START_OF_GROWTH
+	$TransitionStartOfImagination.scene_id = AreaDatabase.area_ids.START_OF_IMAGINATION
+	$TransitionStartOfPassion.scene_id = AreaDatabase.area_ids.START_OF_PASSION
+	$TransitionStartOfLogic.scene_id = AreaDatabase.area_ids.START_OF_LOGIC
 
 
 func _walk_to_player_and_start_conversation() -> void:
