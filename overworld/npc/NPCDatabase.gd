@@ -2,13 +2,29 @@ extends Node
 
 
 enum npcs {
-	HANS, JACQUES, JESUS, GARY, MASHA, ROB, GURU_FLAPPIE, GURU_TRONG, 
-	GURU_KAL, GURU_LAGHIMA, STUDENT_DAL, STUDENT_MAC, STUDENT_KALA, SHALLAN, 
-	BUSINESS_PERSON_LEONARDO, BUSINESS_PERSON_ANA, BUSINESS_PERSON_JEROEN, BILL_GATES, WISE_MAN,
-	RAMBO, TRUDY, INGRID, YAYA
+	### START_OF_JOURNEY ###
+	WISE_MAN,
+	
+	### PASSION_LEVEL_1 ###
+	TRUDY, RAMBO, INGRID, YAYA,
+	
+	### START_OF_PASSION ###
+	HANS, MASHA, JACQUES, GARY, 
+	
+	### START_OF_IMAGINATION ###
+	STUDENT_DAL, STUDENT_MAC, STUDENT_KALA, SHALLAN, 
+	
+	### GROWTH_LEVEL_1 ###
+	KWIK, KWEK, KWAK,
+	
+	### START_OF_GROWTH ###
+	GURU_KAL, GURU_LAGHIMA, GURU_FLAPPIE, GURU_TRONG, 
+	
+	### START_OF_LOGIC ###
+	BUSINESS_PERSON_LEONARDO, BUSINESS_PERSON_ANA, BUSINESS_PERSON_JEROEN, BILL_GATES, 
 }
 enum character_types {
-	 BEEBOY, BUMBLEBEE_LADY, BUSINESS_CAP_BOY, DINO_BUSINESS_MAN, ROBOT_GUY, JESUS, GARY, GURU_1,
+	BEEBOY, BUMBLEBEE_LADY, BUSINESS_CAP_BOY, DINO_BUSINESS_MAN, ROBOT_GUY, JESUS, GARY, GURU_1,
 	GURU_2, GURU_3, GURU_LAGHIMA, SHALLAN, BUSINESS_PERSON_1, BUSINESS_PERSON_2, BUSINESS_PERSON_3,
 	BILL_GATES, WISE_MAN, GENERIC_GUY_1, GENERIC_GUY_2, GENERIC_GUY_3, GENERIC_GIRL_1, 
 	GENERIC_GIRL_2, GENERIC_GIRL_3,
@@ -75,6 +91,7 @@ var npc_data: Dictionary = {
 		"CharacterModel": character_types.DINO_BUSINESS_MAN,
 		"DeckID": DeckCollection.deck_ids.SMELLY_JACQUES,
 	},
+	
 	npcs.GARY: {
 		"Name": "Gary",
 		"Dialogue": ["Bring it on bitch"],
@@ -118,23 +135,33 @@ var npc_data: Dictionary = {
 		"DeckID": DeckCollection.deck_ids.IMAGINATION_MISSILES
 	},
 	
-	### START OF LOGIC ###
-	npcs.ROB: {
-		"Name": "Rob",
-		"Dialogue": ["Everyone has their part to play."],
+	### GROWTH_LEVEL_1 ###
+	
+	npcs.KWIK: {
+		"Name": "Kwik",
+		"Dialogue": ["Relax, take it easy."],
 		"Battle": true,
-		"CharacterModel": character_types.ROBOT_GUY,
-		"DeckID": DeckCollection.deck_ids.LOGIC_FACTORY,
+		"CharacterModel": character_types.GENERIC_GIRL_3,
+		"DeckID": DeckCollection.deck_ids.PATIENCE,
 	},
 	
-	### START OF GROWTH ###
-	npcs.JESUS: {
-		"Name": "Jesus",
-		"Dialogue": ["Hi.", "I'm Jesus.", "I play some beefy boys."],
+	npcs.KWEK: {
+		"Name": "KWEK",
+		"Dialogue": ["This stuff is fire!"],
 		"Battle": true,
-		"CharacterModel": character_types.JESUS,
-		"DeckID": DeckCollection.deck_ids.BEEFY_BOYS,
+		"CharacterModel": character_types.GENERIC_GUY_1,
+		"DeckID": DeckCollection.deck_ids.FIRE,
 	},
+	
+	npcs.KWAK: {
+		"Name": "Kwak",
+		"Dialogue": ["If you think nature is slow, wait until you see my wind elementals!"],
+		"Battle": true,
+		"CharacterModel": character_types.GENERIC_GIRL_1,
+		"DeckID": DeckCollection.deck_ids.FAST_GNOMES,
+	},
+	
+	### START_OF_GROWTH ###
 	
 	npcs.GURU_FLAPPIE: {
 		"Name": "Guru Flappie",
@@ -169,7 +196,7 @@ var npc_data: Dictionary = {
 		"DeckID": DeckCollection.deck_ids.GURU_LAGHIMA,
 	},
 	
-	### LOGIC DECKS ###
+	### START_OF_LOGIC ###
 	
 	npcs.BUSINESS_PERSON_LEONARDO: {
 		"Name": "Businessperson Leonardo",
@@ -204,6 +231,7 @@ var npc_data: Dictionary = {
 		"DeckID": DeckCollection.deck_ids.BILL_GATES,
 	},
 	
+	### START_OF_JOURNEY ###
 	npcs.WISE_MAN: {
 		"Name": "Wise Man",
 		"Dialogue": ["Good luck."],

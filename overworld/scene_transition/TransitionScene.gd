@@ -34,6 +34,7 @@ func transition_to_overworld_scene(
 	GameManager.testing = false
 	var area_scenepath := load(AreaDatabase.get_area_scene(area_id))
 	var area_scene = area_scenepath.instantiate()
+	area_scene.scene_id = area_id
 	GameManager.main_menu.hide_main_menu()
 	if to_exact_position == Vector2(-1, -1):
 		area_scene.player_position = AreaDatabase.areas[area_id]["StartingPosition"]
@@ -45,8 +46,9 @@ func transition_to_overworld_scene(
 		GameManager.current_scene.call_deferred("read_text", text_after_transition)
 		await Events.dialogue_finished
 	
-	OverworldManager.save_player_position(
-		OverworldManager.current_player_position, OverworldManager.current_area_id
+	OverworldManager.call_deferred(
+		"save_player_position", OverworldManager.current_player_position, 
+		OverworldManager.current_area_id
 	)
 	OverworldManager.can_move = true
 

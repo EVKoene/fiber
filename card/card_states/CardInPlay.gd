@@ -13,6 +13,7 @@ var fabrication := false
 var current_play_space: PlaySpace: get = _get_play_space
 var card_data: Dictionary
 var battle_stats: BattleStats
+var shield: int
 var lord: bool
 var abilities: Array = []
 var triggered_funcs: Array = []
@@ -274,13 +275,13 @@ func shake() -> void:
 	position.x += 10
 	await get_tree().create_timer(0.05).timeout
 	position.x -= 10
-	await get_tree().create_timer(0.05).timeout
 
 
 func update_stats() -> void:
 	max_attack = battle_stats.max_attack
 	min_attack = battle_stats.min_attack
 	health = battle_stats.health
+	shield = battle_stats.shield
 	movement = battle_stats.movement
 	
 	_set_labels()
@@ -335,9 +336,16 @@ func set_border_to_faction():
 func _set_labels() -> void:
 	$VBox/BotInfo/Movement.text = str(movement)
 	if max_attack == min_attack:
-		$VBox/BotInfo/BattleStats.text = str(max_attack, "/", health)
+		$VBox/BotInfo/HealthContainer/BattleStats.text = str(max_attack, "/", health)
 	else:
-		$VBox/BotInfo/BattleStats.text = str(max_attack, "-", min_attack,"/", health)
+		$VBox/BotInfo/HealthContainer/BattleStats.text = str(max_attack, "-", min_attack,"/", health)
+	
+	if shield == 0:
+		$VBox/BotInfo/HealthContainer/Shield.hide()
+	else:
+		$VBox/BotInfo/HealthContainer/Shield.show()
+		$VBox/BotInfo/HealthContainer/Shield.text = str(shield)
+	
 	for f in [
 		{
 			"Label": $VBox/TopInfo/Costs/CostLabels/Passion,
@@ -367,6 +375,7 @@ func flip_card() -> void:
 	$VBox.move_child($VBox/BotInfo, 0)
 	$CardImage.flip_v = true
 	$VBox/BotInfo.size_flags_vertical = SIZE_EXPAND | SIZE_SHRINK_BEGIN
+	$VBox/BotInfo/HealthContainer.size_flags_vertical = SIZE_EXPAND | SIZE_SHRINK_BEGIN
 
 
 func unflip_card() -> void:

@@ -9,10 +9,10 @@ func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 		and triggering_card == self
 	):
 		for ps in current_play_space.adjacent_play_spaces():
-			ps.update_stat_modifier(card_owner_id, Collections.stats.HEALTH, 1)
+			ps.update_stat_modifier(card_owner_id, Collections.stats.SHIELD, 1)
 	elif (
 		(trigger == Collections.triggers.CARD_DESTROYED or trigger == Collections.triggers.CARD_MOVING_AWAY)
 		and triggering_card == self
 	):
 		for ps in current_play_space.adjacent_play_spaces():
-			ps.update_stat_modifier(card_owner_id, Collections.stats.HEALTH, -1)
+			ps.update_stat_modifier(card_owner_id, Collections.stats.SHIELD, -1)

@@ -13,9 +13,9 @@ enum cards {
 	JELLYFISH_EXTRAORDINAIRE, AUDACIOUS_RESEARCHER, OVERSTIMULATION_FIEND, STREAM_OF_THOUGHT, 
 	HYRSMIR_RULER_OF_PHYSICS, PSYCHIC_TAKEOVER,  
 	
-	### GROWTH ### (15)
-	GNOME_PROTECTOR, BOTANO_GARDENER, MORNING_LIGHT, WIND_GOLEM, ICE_GOLEM, FIRE_GOLEM, 
-	STUDENT_OF_KHONG, HAIL_STORM, EARTH_GOLEM, BRINGER_OF_ENLIGHTENMENT, PROTECTOR_OF_THE_FOREST, 
+	### GROWTH ### (16)
+	GNOME_PROTECTOR, PATIENT_DUDE, BOTANO_GARDENER, MORNING_LIGHT, WIND_GOLEM, ICE_GOLEM, 
+	FIRE_GOLEM, STUDENT_OF_KHONG, HAIL_STORM, EARTH_GOLEM, BRINGER_OF_ENLIGHTENMENT, PROTECTOR_OF_THE_FOREST, 
 	PRANCING_VERDEN, HEART_OF_THE_FOREST, MARCELLA_WHO_NURTURES_GROWTH, VOLCANIC_ERUPTION, 
 	
 	### LOGIC ### (15)
@@ -696,6 +696,28 @@ cards.FLOW_ACCELERATOR: {
 		"Purposes": [Collections.purposes.BUFF_ADJACENT],
 		"IMGPath": "res://assets/card_images/growth/GnomeProtector.png",
 	},
+	
+	cards.PATIENT_DUDE: {
+		"InGameName": "Patient Dude",
+		"fibers": [Collections.fibers.GROWTH],
+		"CardType": Collections.card_types.UNIT,
+		"MaxAttack": 1,
+		"MinAttack": 1,
+		"Health": 2,
+		"Movement": 1,
+		"Costs": {
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 1,
+			Collections.fibers.LOGIC: 0,
+		},
+		"Lord": false,
+		"Text": "If this unit didn't move in your last turn, it gets +2 max attack, +2 min attack 
+		and +2 shield until your next turn",
+		"Purposes": [Collections.purposes.DEFEND_RESOURCE],
+		"IMGPath": "res://assets/card_images/growth/PatientDude.png",
+	},
+	
 	cards.MORNING_LIGHT: {
 		"InGameName": "Morning Light",
 		"CardType": Collections.card_types.SPELL,
@@ -1577,6 +1599,8 @@ func get_card_class(card_index: int) -> Variant:
 #
 		cards.GNOME_PROTECTOR:
 			card = GnomeProtector
+		cards.PATIENT_DUDE:
+			card = PatientDude
 		cards.BOTANO_GARDENER:
 			card = BotanoGardener
 		cards.MORNING_LIGHT:

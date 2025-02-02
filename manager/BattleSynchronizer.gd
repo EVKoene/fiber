@@ -47,9 +47,24 @@ func resolve_damage(card_owner_id, cip_index, value):
 	if min_value > 0:
 		card.shake()
 	
+	shield_damage(card, min_value)
+	reduce_health(card, min_value)
+
+
+func shield_damage(card: CardInPlay, value: int) -> int:
+	var damage_after_shield: int = max(0, card.shield - value)
+	
+	CardManipulation.change_battle_stat(
+		Collections.stats.SHIELD, card.card_owner_id, card.card_in_play_index, -value, -1
+	)
+	
+	return damage_after_shield
+
+
+func reduce_health(card: CardInPlay, value: int) -> void:
 	if card.health - value > 0:
 		CardManipulation.change_battle_stat(
-			Collections.stats.HEALTH, card_owner_id, cip_index,-min_value, -1
+			Collections.stats.HEALTH, card.card_owner_id, card.card_in_play_index,-value, -1
 		)
 	elif card.health - value <= 0:
 		if GameManager.is_single_player:

@@ -10,7 +10,7 @@ enum deck_ids {
 	IMAGINATION_STARTER, MOVEMENT_SHENANIGANS, IMAGINATION_MISSILES, SPELL_SLINGERS, SHALLAN, 
 	
 	### GROWTH ###
-	GROWTH_STARTER, GOLEMS, ELEMENTS, BEEFY_BOYS, GURU_LAGHIMA, 
+	GROWTH_STARTER, GOLEMS, ELEMENTS, BEEFY_BOYS, PATIENCE, FAST_GNOMES, FIRE, GURU_LAGHIMA, 
 	
 	### LOGIC ###
 	LOGIC_STARTER, 
@@ -324,6 +324,55 @@ var decks := {
 		},
 		
 		"ID": deck_ids.ELEMENTS,
+	},
+	
+	### START_OF_GROWTH ###
+	deck_ids.PATIENCE: {
+		"DeckName": "Patience",
+		"Cards": {
+			cards.PATIENT_DUDE: 10,  
+			cards.BOTANO_GARDENER: 15, 
+			cards.STUDENT_OF_KHONG: 15,
+			cards.PROTECTOR_OF_THE_FOREST: 10, 
+			cards.BRINGER_OF_ENLIGHTENMENT: 15, 
+		},
+		"StartingCards": {
+			cards.PATIENT_DUDE: 2,
+			cards.BOTANO_GARDENER: 1,
+		},
+		"ID": deck_ids.PATIENCE,
+	},
+	
+	deck_ids.FAST_GNOMES: {
+		"DeckName": "Fast Gnomes",
+		"Cards": {
+			cards.GNOME_PROTECTOR: 10,  
+			cards.MORNING_LIGHT: 15, 
+			cards.WIND_GOLEM: 15, 
+			cards.HEART_OF_THE_FOREST: 10, 
+			cards.PRANCING_VERDEN: 15,
+		},
+		"StartingCards": {
+			cards.PATIENT_DUDE: 2,
+			cards.BOTANO_GARDENER: 1,
+		},
+		"ID": deck_ids.FAST_GNOMES,
+	},
+	
+	deck_ids.FIRE: {
+		"DeckName": "FIRE",
+		"Cards": {
+			cards.FIRE_GOLEM: 20,  
+			cards.MORNING_LIGHT: 15, 
+			cards.WIND_GOLEM: 15, 
+			cards.EARTH_GOLEM: 10, 
+			cards.VOLCANIC_ERUPTION: 20,
+		},
+		"StartingCards": {
+			cards.PATIENT_DUDE: 2,
+			cards.FIRE_GOLEM: 1,
+		},
+		"ID": deck_ids.FAST_GNOMES,
 	},
 	
 	deck_ids.GURU_LAGHIMA: {
