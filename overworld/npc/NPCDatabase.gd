@@ -147,7 +147,7 @@ var npc_data: Dictionary = {
 	
 	npcs.KWEK: {
 		"Name": "KWEK",
-		"Dialogue": ["This shit is fire!"],
+		"Dialogue": ["This stuff is fire!"],
 		"Battle": true,
 		"CharacterModel": character_types.GENERIC_GUY_1,
 		"DeckID": DeckCollection.deck_ids.FIRE,

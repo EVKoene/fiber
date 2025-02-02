@@ -52,7 +52,8 @@ var areas := {
 		"AreaName": "Start Of Growth",
 		"ScenePath": "res://overworld/areas/StartOfGrowth.tscn",
 		"TransitionPosition": {
-			area_ids.START_OF_JOURNEY: Vector2(86, 134),
+			area_ids.START_OF_JOURNEY: Vector2(100, 170),
+			area_ids.GROWTH_LEVEL_1: Vector2(1300, 170),
 		},
 		"StartingPosition": Vector2(86, 134)
 	},

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dx6tng4hjulnv"
-path="res://.godot/imported/PatientMotherfucker.png-94e65c5ab70b7c2310aee2bf3b78483b.ctex"
+path="res://.godot/imported/PatientDude.png-0bb5abc573f7294b14a6cea5a2e8d5bf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_images/growth/PatientMotherfucker.png"
-dest_files=["res://.godot/imported/PatientMotherfucker.png-94e65c5ab70b7c2310aee2bf3b78483b.ctex"]
+source_file="res://assets/card_images/growth/PatientDude.png"
+dest_files=["res://.godot/imported/PatientDude.png-0bb5abc573f7294b14a6cea5a2e8d5bf.ctex"]
 
 [params]
 

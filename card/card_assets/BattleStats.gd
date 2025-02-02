@@ -140,7 +140,8 @@ func _get_movement() -> int:
 @rpc("any_peer", "call_local")
 func update_modifiers() -> void:
 	for modifier in [
-		max_attack_modifiers, min_attack_modifiers, health_modifiers, movement_modifiers
+		max_attack_modifiers, min_attack_modifiers, health_modifiers, movement_modifiers, 
+		shield_modifiers
 	]:
 		var modifiers_to_remove: Array = []
 		for m in range(len(modifier)):

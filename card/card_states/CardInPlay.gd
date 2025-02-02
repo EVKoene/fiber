@@ -275,7 +275,6 @@ func shake() -> void:
 	position.x += 10
 	await get_tree().create_timer(0.05).timeout
 	position.x -= 10
-	await get_tree().create_timer(0.05).timeout
 
 
 func update_stats() -> void:

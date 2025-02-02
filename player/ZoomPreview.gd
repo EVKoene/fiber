@@ -6,6 +6,7 @@ class_name ZoomPreview
 var max_attack: int
 var min_attack: int
 var health: int
+var shield: int
 var movement: int
 var passion_cost: int
 var imagination_cost: int
@@ -50,6 +51,7 @@ func preview_hand_card(
 		max_attack = card.max_attack
 		min_attack = card.min_attack
 		health = card.health
+		shield = 0
 		movement = card.movement
 		card_range = 0
 	else:
@@ -94,6 +96,7 @@ func preview_card_in_play(
 		max_attack = card.max_attack
 		min_attack = card.min_attack
 		health = card.health
+		shield = card.shield
 		movement = card.movement
 		card_range = 0
 	else:
@@ -101,6 +104,7 @@ func preview_card_in_play(
 		max_attack = 0
 		min_attack = 0
 		health = 0
+		shield = card.shield
 		movement = 0
 	
 	if len(card_text) == 0:
@@ -194,16 +198,21 @@ func _set_labels() -> void:
 	if card_type == Collections.card_types.UNIT:
 		$VBox/BotInfo/Movement.text = str(movement)
 		if max_attack == min_attack:
-			$VBox/BotInfo/BattleStats.text = str(max_attack, "/", health)
+			$VBox/BotInfo/HealthContainer/BattleStats.text = str(max_attack, "/", health)
 		else:
-			$VBox/BotInfo/BattleStats.text = str(max_attack, "-", min_attack, "/", health)
-		$VBox/BotInfo/BattleStats.show()
+			$VBox/BotInfo/HealthContainer/BattleStats.text = str(max_attack, "-", min_attack, "/", health)
+		if shield == 0:
+			$VBox/BotInfo/HealthContainer/Shield.hide()
+		else:
+			$VBox/BotInfo/HealthContainer/Shield.text = str(shield)
+		$VBox/BotInfo/HealthContainer/BattleStats.show()
+	
 	else:
 		if card_range != -1:
 			$VBox/BotInfo/Movement.text = str(card_range)
 		else:
 			$VBox/BotInfo/Movement.hide()
-		$VBox/BotInfo/BattleStats.hide()
+		$VBox/BotInfo/HealthContainer/BattleStats.hide()
 		
 	for f in [
 		{
@@ -269,11 +278,11 @@ func _set_card_text_font_size() -> void:
 	$VBox/TopInfo/CardNameBG/CardName.label_settings = LabelSettings.new()
 	$VBox/BotInfo/CardText.label_settings = LabelSettings.new()
 	$VBox/BotInfo/Movement.label_settings = LabelSettings.new()
-	$VBox/BotInfo/BattleStats.label_settings = LabelSettings.new()
+	$VBox/BotInfo/HealthContainer/BattleStats.label_settings = LabelSettings.new()
 	$VBox/TopInfo/CardNameBG/CardName.label_settings.font_size = max_font
 	$VBox/BotInfo/CardText.label_settings.font_size = card_text_font_size
 	$VBox/BotInfo/Movement.label_settings.font_size = max_font
-	$VBox/BotInfo/BattleStats.label_settings.font_size = max_font
+	$VBox/BotInfo/HealthContainer/BattleStats.label_settings.font_size = max_font
 	
 	for cost_label in [
 		[$VBox/TopInfo/Costs/CostLabels/Passion, Collections.fibers.PASSION],

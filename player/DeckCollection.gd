@@ -330,14 +330,14 @@ var decks := {
 	deck_ids.PATIENCE: {
 		"DeckName": "Patience",
 		"Cards": {
-			cards.PATIENT_MOTHERFUCKER: 10,  
+			cards.PATIENT_DUDE: 10,  
 			cards.BOTANO_GARDENER: 15, 
 			cards.STUDENT_OF_KHONG: 15,
 			cards.PROTECTOR_OF_THE_FOREST: 10, 
 			cards.BRINGER_OF_ENLIGHTENMENT: 15, 
 		},
 		"StartingCards": {
-			cards.PATIENT_MOTHERFUCKER: 2,
+			cards.PATIENT_DUDE: 2,
 			cards.BOTANO_GARDENER: 1,
 		},
 		"ID": deck_ids.PATIENCE,
@@ -353,7 +353,7 @@ var decks := {
 			cards.PRANCING_VERDEN: 15,
 		},
 		"StartingCards": {
-			cards.PATIENT_MOTHERFUCKER: 2,
+			cards.PATIENT_DUDE: 2,
 			cards.BOTANO_GARDENER: 1,
 		},
 		"ID": deck_ids.FAST_GNOMES,
@@ -369,7 +369,7 @@ var decks := {
 			cards.VOLCANIC_ERUPTION: 20,
 		},
 		"StartingCards": {
-			cards.PATIENT_MOTHERFUCKER: 2,
+			cards.PATIENT_DUDE: 2,
 			cards.FIRE_GOLEM: 1,
 		},
 		"ID": deck_ids.FAST_GNOMES,

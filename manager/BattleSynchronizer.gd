@@ -55,7 +55,7 @@ func shield_damage(card: CardInPlay, value: int) -> int:
 	var damage_after_shield: int = max(0, card.shield - value)
 	
 	CardManipulation.change_battle_stat(
-		Collections.stats.SHIELD, card.card_owner_id, card.card_in_play_index, value, -1
+		Collections.stats.SHIELD, card.card_owner_id, card.card_in_play_index, -value, -1
 	)
 	
 	return damage_after_shield

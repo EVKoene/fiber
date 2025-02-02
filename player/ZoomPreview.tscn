@@ -87,7 +87,13 @@ autowrap_mode = 3
 clip_text = true
 text_overrun_behavior = 4
 
-[node name="BattleStats" type="Label" parent="VBox/BotInfo"]
+[node name="HealthContainer" type="VBoxContainer" parent="VBox/BotInfo"]
+layout_mode = 2
+
+[node name="Shield" type="Label" parent="VBox/BotInfo/HealthContainer"]
+layout_mode = 2
+
+[node name="BattleStats" type="Label" parent="VBox/BotInfo/HealthContainer"]
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 8

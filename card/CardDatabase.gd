@@ -14,7 +14,7 @@ enum cards {
 	HYRSMIR_RULER_OF_PHYSICS, PSYCHIC_TAKEOVER,  
 	
 	### GROWTH ### (16)
-	GNOME_PROTECTOR, PATIENT_MOTHERFUCKER, BOTANO_GARDENER, MORNING_LIGHT, WIND_GOLEM, ICE_GOLEM, 
+	GNOME_PROTECTOR, PATIENT_DUDE, BOTANO_GARDENER, MORNING_LIGHT, WIND_GOLEM, ICE_GOLEM, 
 	FIRE_GOLEM, STUDENT_OF_KHONG, HAIL_STORM, EARTH_GOLEM, BRINGER_OF_ENLIGHTENMENT, PROTECTOR_OF_THE_FOREST, 
 	PRANCING_VERDEN, HEART_OF_THE_FOREST, MARCELLA_WHO_NURTURES_GROWTH, VOLCANIC_ERUPTION, 
 	
@@ -697,8 +697,8 @@ cards.FLOW_ACCELERATOR: {
 		"IMGPath": "res://assets/card_images/growth/GnomeProtector.png",
 	},
 	
-	cards.PATIENT_MOTHERFUCKER: {
-		"InGameName": "Patient Motherfucker",
+	cards.PATIENT_DUDE: {
+		"InGameName": "Patient Dude",
 		"fibers": [Collections.fibers.GROWTH],
 		"CardType": Collections.card_types.UNIT,
 		"MaxAttack": 1,
@@ -715,7 +715,7 @@ cards.FLOW_ACCELERATOR: {
 		"Text": "If this unit didn't move in your last turn, it gets +2 max attack, +2 min attack 
 		and +2 shield until your next turn",
 		"Purposes": [Collections.purposes.DEFEND_RESOURCE],
-		"IMGPath": "res://assets/card_images/growth/PatientMotherfucker.png",
+		"IMGPath": "res://assets/card_images/growth/PatientDude.png",
 	},
 	
 	cards.MORNING_LIGHT: {
@@ -1599,8 +1599,8 @@ func get_card_class(card_index: int) -> Variant:
 #
 		cards.GNOME_PROTECTOR:
 			card = GnomeProtector
-		cards.PATIENT_MOTHERFUCKER:
-			card = PatientMotherfucker
+		cards.PATIENT_DUDE:
+			card = PatientDude
 		cards.BOTANO_GARDENER:
 			card = BotanoGardener
 		cards.MORNING_LIGHT:
