@@ -10,7 +10,6 @@ client and server will create objects and execute functionality seperately.
 @onready var card_in_play_scene: PackedScene = preload("res://card/card_states/CardInPlay.tscn")
 @onready var card_in_hand_scene: PackedScene = preload("res://card/card_states/CardInHand.tscn")
 
-
 @rpc("any_peer", "call_local")
 func refresh_unit(card_owner_id: int, cip_index: int):
 	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
@@ -31,7 +30,7 @@ func resolve_damage(card_owner_id, cip_index, value):
 	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
 	var damage_number = Label.new()
 	card.add_child(damage_number)
-	damage_number.scale *= MapSettings.card_in_play_size * 0.9 / damage_number.size 
+	damage_number.scale *= MapSettings.card_in_play_size * 0.9 / damage_number.size
 	damage_number.text = str(min_value)
 	damage_number.label_settings = LabelSettings.new()
 	damage_number.label_settings.font_size = 100
@@ -41,30 +40,30 @@ func resolve_damage(card_owner_id, cip_index, value):
 	# cards to setup several scenarios
 	if !is_instance_valid(card):
 		return
-	
+
 	damage_number.queue_free()
-	
+
 	if min_value > 0:
 		card.shake()
-	
+
 	shield_damage(card, min_value)
 	reduce_health(card, min_value)
 
 
 func shield_damage(card: CardInPlay, value: int) -> int:
 	var damage_after_shield: int = max(0, card.shield - value)
-	
+
 	CardManipulation.change_battle_stat(
 		Collections.stats.SHIELD, card.card_owner_id, card.card_in_play_index, -value, -1
 	)
-	
+
 	return damage_after_shield
 
 
 func reduce_health(card: CardInPlay, value: int) -> void:
 	if card.health - value > 0:
 		CardManipulation.change_battle_stat(
-			Collections.stats.HEALTH, card.card_owner_id, card.card_in_play_index,-value, -1
+			Collections.stats.HEALTH, card.card_owner_id, card.card_in_play_index, -value, -1
 		)
 	elif card.health - value <= 0:
 		if GameManager.is_single_player:
@@ -90,9 +89,18 @@ func play_unit(card_index: int, card_owner_id: int, column: int, row: int) -> vo
 
 @rpc("any_peer", "call_local")
 func create_fabrication(
-	card_owner_id: int, column: int, row: int, ingame_name: String, max_attack: int, min_attack: int, 
-	health: int, movement: int, triggered_funcs: Array, img_path: String, fibers: Array,
-	costs: Dictionary, 
+	card_owner_id: int,
+	column: int,
+	row: int,
+	ingame_name: String,
+	max_attack: int,
+	min_attack: int,
+	health: int,
+	movement: int,
+	triggered_funcs: Array,
+	img_path: String,
+	fibers: Array,
+	costs: Dictionary,
 ) -> CardInPlay:
 	var fabrication = card_in_play_scene.instantiate()
 	fabrication.battle_stats = BattleStats.new(
@@ -107,15 +115,15 @@ func create_fabrication(
 	fabrication.img_path = img_path
 	fabrication.fabrication = true
 	fabrication.costs = Costs.new(
-			costs[Collections.fibers.PASSION],
-			costs[Collections.fibers.IMAGINATION],
-			costs[Collections.fibers.GROWTH],
-			costs[Collections.fibers.LOGIC],
-			fabrication
+		costs[Collections.fibers.PASSION],
+		costs[Collections.fibers.IMAGINATION],
+		costs[Collections.fibers.GROWTH],
+		costs[Collections.fibers.LOGIC],
+		fabrication
 	)
 	GameManager.cards_in_play[card_owner_id].append(fabrication)
 	GameManager.battle_map.add_child(fabrication)
-	
+
 	await get_tree().create_timer(0.1).timeout
 	return fabrication
 
@@ -163,10 +171,10 @@ func set_conquered_by(player_id: int, column: int, row: int) -> void:
 			play_space.get_theme_stylebox("panel").border_color = Styling.p1_color
 		GameManager.p2_id:
 			play_space.get_theme_stylebox("panel").border_color = Styling.p2_color
-	
+
 	if GameManager.is_single_player:
 		set_progress_bars()
-	
+
 	if !GameManager.is_single_player:
 		for p in GameManager.players:
 			set_progress_bars.rpc_id(p)
@@ -190,9 +198,9 @@ func set_progress_bars() -> void:
 				continue
 			if s.conquered_by == p_id:
 				conquered_victory_spaces += 1
-		
+
 		if (
-			conquered_victory_spaces >= MapSettings.n_progress_bars 
+			conquered_victory_spaces >= MapSettings.n_progress_bars
 			and GameManager.player_id == p_id
 		):
 			GameManager.ai_player.game_over = true
@@ -204,28 +212,30 @@ func set_progress_bars() -> void:
 			else:
 				for c in battle_rewards:
 					PlayerManager.add_card_to_collection(c)
-					reward_text.append(str(
-						"Congratulations! You receive ", CardDatabase.cards_info[c]["InGameName"]
-					))
+					reward_text.append(
+						str(
+							"Congratulations! You receive ",
+							CardDatabase.cards_info[c]["InGameName"]
+						)
+					)
 			OverworldManager.defeat_npc(GameManager.players[GameManager.ai_player_id]["NPCID"])
 			TransitionScene.transition_to_overworld_scene(
-				OverworldManager.saved_area_id, OverworldManager.saved_player_position, 
-				reward_text
+				OverworldManager.saved_area_id, OverworldManager.saved_player_position, reward_text
 			)
 			return
 		elif (
-			conquered_victory_spaces >= MapSettings.n_progress_bars 
+			conquered_victory_spaces >= MapSettings.n_progress_bars
 			and GameManager.player_id != p_id
 		):
 			if GameManager.is_single_player:
 				GameManager.ai_player.game_over = true
-			
+
 			GameManager.battle_map.show_text("You lose!")
 			TransitionScene.transition_to_overworld_scene(
 				OverworldManager.saved_area_ids, OverworldManager.saved_player_position
 			)
 			return
-		
+
 		for b in range(len(GameManager.progress_bars[p_id])):
 			if conquered_victory_spaces > b:
 				GameManager.progress_bars[p_id][b].value = 100
@@ -247,10 +257,10 @@ func move_to_play_space(
 ) -> void:
 	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][card_in_play_index]
 	assert(
-		!GameManager.ps_column_row[new_column][new_row].card_in_this_play_space, 
+		!GameManager.ps_column_row[new_column][new_row].card_in_this_play_space,
 		"tried to move to occupied space"
 	)
-	
+
 	card.current_play_space.card_in_this_play_space = null
 	card.column = new_column
 	card.row = new_row
@@ -269,21 +279,21 @@ func swap_cards(
 	var new_column_2 := card_1.column
 	var new_row_1 := card_2.row
 	var new_row_2 := card_1.row
-	
+
 	card_1.current_play_space.card_in_this_play_space = null
 	card_1.column = new_column_1
 	card_1.row = new_row_1
 	card_1.current_play_space.card_in_this_play_space = card_1
 	card_1.set_position_to_play_space()
 	card_1.update_stats()
-	
+
 	card_2.current_play_space.card_in_this_play_space = null
 	card_2.column = new_column_2
 	card_2.row = new_row_2
 	card_2.current_play_space.card_in_this_play_space = card_2
 	card_2.set_position_to_play_space()
 	card_2.update_stats()
-	
+
 
 @rpc("any_peer", "call_local")
 func set_hand_card_positions() -> void:
@@ -297,6 +307,7 @@ func set_hand_card_positions() -> void:
 func draw_card(card_owner_id: int) -> void:
 	await GameManager.decks[card_owner_id].draw_card()
 	return
+
 
 @rpc("any_peer", "call_local")
 func draw_type_put_rest_bottom(card_owner_id: int, card_type: int) -> void:
@@ -344,7 +355,7 @@ func resolve_spell(card_owner_id: int, hand_index: int) -> void:
 	@warning_ignore("redundant_await")
 	var succesfull_resolve: bool = await card.resolve_spell()
 	TargetSelection.end_selecting()
-	
+
 	var h_index = hand_index
 	if succesfull_resolve:
 		GameManager.resources[card_in_hand.card_owner_id].pay_costs(card_in_hand.costs)
@@ -355,7 +366,7 @@ func resolve_spell(card_owner_id: int, hand_index: int) -> void:
 			for p_id in GameManager.players:
 				BattleSynchronizer.reset_zoom_preview.rpc_id(p_id)
 				BattleSynchronizer.remove_card_from_hand.rpc_id(p_id, card_owner_id, h_index)
-	
+
 	GameManager.turn_manager.set_turn_actions_enabled(true)
 	call_triggered_funcs(Collections.triggers.SPELL_PLAYED, card)
 

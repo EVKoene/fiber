@@ -1,5 +1,6 @@
 extends OverworldArea
 
+
 func setup_npcs() -> void:
 	$Kwik.setup_npc(NPCDatabase.npcs.KWIK, Collections.directions.DOWN)
 	$Kwek.setup_npc(NPCDatabase.npcs.KWEK, Collections.directions.DOWN)

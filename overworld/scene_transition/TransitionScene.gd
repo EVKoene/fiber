@@ -13,7 +13,7 @@ func _ready():
 
 func transition_to_npc_battle(npc_id: int) -> void:
 	animation_player.play("fade_scene")
-	
+
 	await animation_player.animation_finished
 	GameManager.current_scene.queue_free()
 	GameManager.current_scene = null
@@ -29,7 +29,7 @@ func transition_to_overworld_scene(
 		GameManager.current_scene = null
 	animation_player.play("fade_scene")
 	await animation_player.animation_finished
-	
+
 	animation_player.play_backwards("fade_scene")
 	GameManager.testing = false
 	var area_scenepath := load(AreaDatabase.get_area_scene(area_id))
@@ -45,16 +45,19 @@ func transition_to_overworld_scene(
 	if len(text_after_transition) != 0:
 		GameManager.current_scene.call_deferred("read_text", text_after_transition)
 		await Events.dialogue_finished
-	
+
 	OverworldManager.call_deferred(
-		"save_player_position", OverworldManager.current_player_position, 
+		"save_player_position",
+		OverworldManager.current_player_position,
 		OverworldManager.current_area_id
 	)
 	OverworldManager.can_move = true
 
 
 func transition_to_deck_builder(deck_id: int) -> void:
-	OverworldManager.save_player_position(OverworldManager.current_player_position, OverworldManager.current_area_id)
+	OverworldManager.save_player_position(
+		OverworldManager.current_player_position, OverworldManager.current_area_id
+	)
 	GameManager.current_scene.queue_free()
 	GameManager.current_scene = null
 	var deck_builder = deck_builder_scene.instantiate()
@@ -73,22 +76,22 @@ func transition_to_start_journey() -> void:
 	OverworldManager.save_player_position(
 		OverworldManager.current_player_position, OverworldManager.current_area_id
 	)
-	
+
 	if GameManager.current_scene:
 		GameManager.current_scene.queue_free()
 		GameManager.current_scene = null
 	animation_player.play("fade_scene")
 	OverworldManager.create_overworld_file()
 	await animation_player.animation_finished
-	
+
 	GameManager.testing = false
 	OverworldManager.can_move = true
 	var start_journey = start_journey_scene.instantiate()
 	start_journey.new_game = true
 	GameManager.main_menu.hide_main_menu()
-	start_journey.player_position = AreaDatabase.areas[
-		AreaDatabase.area_ids.START_OF_JOURNEY
-	]["StartingPosition"]
+	start_journey.player_position = (
+		AreaDatabase.areas[AreaDatabase.area_ids.START_OF_JOURNEY]["StartingPosition"]
+	)
 	GameManager.add_child(start_journey)
 	GameManager.call_deferred("cleanup_game")
 	OverworldManager.can_move = false
@@ -106,8 +109,8 @@ func transition_to_tutorial() -> void:
 
 func transition_to_test_battle() -> void:
 	GameManager.add_player(
-			1, 1, "Player1", DeckCollection.decks[DeckCollection.deck_ids.PLAYER_TESTING]
-		)
+		1, 1, "Player1", DeckCollection.decks[DeckCollection.deck_ids.PLAYER_TESTING]
+	)
 	GameManager.player_id = 1
 
 	GameManager.add_player(

@@ -1,6 +1,5 @@
 extends PanelContainer
 
-
 var prompt_text: String
 var main_menu: MainMenu
 

@@ -1,6 +1,5 @@
 extends Node
 
-
 @export var address := "127.0.0.1"
 @export var port = 8910
 @export var server_address = "188.245.54.189"
@@ -43,7 +42,7 @@ func connection_failed() -> void:
 func join_random_game() -> void:
 	peer = ENetMultiplayerPeer.new()
 	peer.create_client(server_address, port)
-	
+
 	multiplayer.set_multiplayer_peer(peer)
 	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
 
@@ -59,7 +58,7 @@ func become_dedicated_server_host() -> void:
 	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
 	multiplayer.set_multiplayer_peer(peer)
 	print("Waiting for players")
-	
+
 	GameManager.is_server = true
 	GameManager.is_single_player = false
 	GameManager.testing = false
@@ -73,7 +72,7 @@ func become_lan_host() -> void:
 		print("Cannot host: " + str(error))
 		return
 	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
-	
+
 	multiplayer.set_multiplayer_peer(peer)
 	print("Waiting for players")
 	add_player(multiplayer.get_unique_id(), str(multiplayer.get_unique_id()), GameManager.deck)
@@ -85,7 +84,7 @@ func become_lan_host() -> void:
 func join_lan_game() -> void:
 	peer = ENetMultiplayerPeer.new()
 	peer.create_client(address, port)
-	
+
 	multiplayer.set_multiplayer_peer(peer)
 	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
 	GameManager.testing = false

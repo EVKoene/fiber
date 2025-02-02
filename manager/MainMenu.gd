@@ -2,7 +2,6 @@ extends Control
 
 class_name MainMenu
 
-
 @onready var prompt_container := $PromptContainer
 
 var prompt_scene := load("res://manager/YesNoPrompt.tscn")
@@ -40,15 +39,18 @@ func show_start_game_button() -> void:
 func _on_start_pressed():
 	GameManager.start_game.rpc()
 
+
 func _on_join_random_pressed():
 	MultiplayerManager.join_random_game()
+
 
 func _on_host_lan_pressed():
 	MultiplayerManager.become_lan_host()
 
+
 func _on_join_lan_pressed():
 	MultiplayerManager.join_lan_game()
-	
+
 
 func _on_testing_button_pressed():
 	if GameManager.testing:
@@ -75,17 +77,17 @@ func _on_single_player_pressed() -> void:
 	GameManager.testing = false
 	OverworldManager.can_move = false
 	PatchManager.check_version()
-	
+
 	if !FileAccess.file_exists(GameManager.collections_path):
 		TransitionScene.transition_to_start_journey()
 		return
-	
+
 	var config := ConfigFile.new()
 	config.load(GameManager.collections_path)
 	if config.get_value("start_journey", "starting_fiber", -1) == -1:
 		TransitionScene.transition_to_start_journey()
 		return
-	
+
 	TransitionScene.transition_to_overworld_scene(
 		OverworldManager.saved_area_id, OverworldManager.saved_player_position
 	)

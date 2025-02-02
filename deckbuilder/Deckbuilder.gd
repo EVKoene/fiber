@@ -1,6 +1,5 @@
 extends Control
 
-
 class_name DeckBuilder
 
 @onready var zoom_preview = $HBoxContainer/PanelContainer/DBZoomPreview
@@ -37,10 +36,10 @@ func _save_deck() -> void:
 	if !deck_name:
 		deck_name = "Custom deck " + str(deck_id)
 	var cards := {}
-	
+
 	for card_index in cards_in_deck:
 		cards[card_index] = cards_in_deck[card_index]["NCards"]
-	
+
 	if starting_cards == {}:
 		starting_cards = {cards_in_deck.keys()[0]: 3}
 	var deck := {
@@ -49,7 +48,7 @@ func _save_deck() -> void:
 		"StartingCards": starting_cards,
 		"ID": deck_id,
 	}
-	
+
 	decks[deck_id] = deck
 	config.save(collections_path)
 	is_saved = true
@@ -57,7 +56,7 @@ func _save_deck() -> void:
 
 func add_new_card_to_deck(card_index: int) -> void:
 	var db_card := deck_builder_card_scene.instantiate()
-	
+
 	cards_in_deck[card_index] = {}
 	cards_in_deck[card_index]["NCards"] = 1
 	cards_in_deck[card_index]["Card"] = db_card
@@ -68,7 +67,7 @@ func add_new_card_to_deck(card_index: int) -> void:
 
 func add_new_card_to_collection_options(card_index: int) -> void:
 	var db_card := deck_builder_card_scene.instantiate()
-	
+
 	card_collection_options[card_index] = {}
 	card_collection_options[card_index]["NCards"] = 1
 	card_collection_options[card_index]["Card"] = db_card
@@ -80,7 +79,7 @@ func add_new_card_to_collection_options(card_index: int) -> void:
 func add_to_starting_cards(card_index: int) -> void:
 	if n_selected_starting_cards >= 3:
 		return
-	
+
 	if card_index in starting_cards.keys():
 		# We don't want the user to add more of a card as starting card than they have the card
 		# currently in the deck, so we return if the number is equal
@@ -88,9 +87,8 @@ func add_to_starting_cards(card_index: int) -> void:
 			return
 		starting_cards[card_index] += 1
 	else:
-		
 		starting_cards[card_index] = 1
-	
+
 	n_selected_starting_cards += 1
 	cards_in_deck[card_index]["Card"].starting_cards_label.text = str(starting_cards[card_index])
 
@@ -98,15 +96,17 @@ func add_to_starting_cards(card_index: int) -> void:
 func remove_from_starting_cards(card_index: int) -> void:
 	if card_index not in starting_cards.keys():
 		return
-	
+
 	starting_cards[card_index] -= 1
-	
+
 	if starting_cards[card_index] == 0:
 		cards_in_deck[card_index]["Card"].starting_cards_label.text = "0"
 		starting_cards.erase(card_index)
 	else:
-		cards_in_deck[card_index]["Card"].starting_cards_label.text = str(starting_cards[card_index])
-	
+		cards_in_deck[card_index]["Card"].starting_cards_label.text = str(
+			starting_cards[card_index]
+		)
+
 	n_selected_starting_cards -= 1
 
 
@@ -116,7 +116,7 @@ func _setup_cards_from_card_collection() -> void:
 	var card_collection: Dictionary = config.get_value("card_collection", "cards")
 	for c in card_collection:
 		add_new_card_to_collection_options(c)
-		for i in card_collection[c] -1:
+		for i in card_collection[c] - 1:
 			card_collection_options[c]["Card"].add_to_card_collection_options()
 
 
@@ -151,11 +151,9 @@ func _set_deck_id(decks: Dictionary) -> void:
 
 
 func _set_zoom_preview_position_and_size() -> void:
-	var zoom_preview_size: Vector2 = Vector2(
-		size.x * 0.3, size.x * 0.3
-	)
+	var zoom_preview_size: Vector2 = Vector2(size.x * 0.3, size.x * 0.3)
 	# Multiplying the zoom_preview_size.x with 1.1 to adjust for border size
-	zoom_preview.position.x = MapSettings.total_screen.x - zoom_preview_size.x * 1.05 
+	zoom_preview.position.x = MapSettings.total_screen.x - zoom_preview_size.x * 1.05
 	zoom_preview.position.y = MapSettings.play_area_start.y
 	zoom_preview.custom_minimum_size.x = zoom_preview_size.x
 	zoom_preview.custom_minimum_size.y = zoom_preview_size.y
@@ -169,7 +167,7 @@ func _on_finish_button_pressed():
 		var prompt_answer_positive = await Events.prompt_answer_positive
 		if !prompt_answer_positive:
 			return
-	
+
 	TransitionScene.transition_to_overworld_scene(
 		OverworldManager.saved_area_id, OverworldManager.saved_player_position
 	)

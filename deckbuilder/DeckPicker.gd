@@ -2,12 +2,12 @@ extends ScrollContainer
 
 class_name DeckPicker
 
-
 @onready var deck_pick_container_scene := load("res://deckbuilder/DeckPickContainer.tscn")
 @onready var save_path := "user://savedata/"
 @onready var collections_path := str(save_path, "collections.ini")
 var decks = {}
 var deck_nodes := []
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

@@ -2,7 +2,6 @@ extends Card
 
 class_name CardInPlay
 
-
 @onready var card_action_menu_scene := preload("res://card/card_assets/CardActionMenu.tscn")
 
 var exhausted := false
@@ -10,7 +9,8 @@ var column := -1
 var row := -1
 
 var fabrication := false
-var current_play_space: PlaySpace: get = _get_play_space
+var current_play_space: PlaySpace:
+	get = _get_play_space
 var card_data: Dictionary
 var battle_stats: BattleStats
 var shield: int
@@ -19,11 +19,12 @@ var abilities: Array = []
 var triggered_funcs: Array = []
 var purposes: Array = []
 var move_through_units := false
-var card_in_play_index: int: get = _get_card_in_play_index
+var card_in_play_index: int:
+	get = _get_card_in_play_index
 
 
 func _ready():
-	scale *= MapSettings.card_in_play_size/size
+	scale *= MapSettings.card_in_play_size / size
 	_load_card_properties()
 	if !fabrication:
 		_create_battle_stats()
@@ -40,7 +41,9 @@ func _ready():
 		flip_card()
 	GameManager.ps_column_row[column][row].card_in_this_play_space = self
 	if GameManager.is_server:
-		BattleSynchronizer.call_deferred("call_triggered_funcs", Collections.triggers.CARD_CREATED, self)
+		BattleSynchronizer.call_deferred(
+			"call_triggered_funcs", Collections.triggers.CARD_CREATED, self
+		)
 	_connect_signals()
 	enter_battle.call_deferred()
 
@@ -71,23 +74,27 @@ func prepare_attack() -> void:
 
 func attack_card(target_card: CardInPlay) -> void:
 	prepare_attack()
-	if Tutorial.next_phase in [
-		Tutorial.tutorial_phases.EXHAUST, Tutorial.tutorial_phases.CONQUER_VICTORY_SPACES
-	]:
+	if (
+		Tutorial.next_phase
+		in [Tutorial.tutorial_phases.EXHAUST, Tutorial.tutorial_phases.CONQUER_VICTORY_SPACES]
+	):
 		Tutorial.continue_tutorial()
 	BattleSynchronizer.call_triggered_funcs(Collections.triggers.ATTACK, self)
 	if GameManager.is_single_player:
 		BattleAnimation.animate_attack(
-			card_owner_id, card_in_play_index, 
+			card_owner_id,
+			card_in_play_index,
 			target_card.current_play_space.direction_from_play_space(current_play_space)
 		)
 	if !GameManager.is_single_player:
 		for p_id in [GameManager.p1_id, GameManager.p2_id]:
 			BattleAnimation.animate_attack.rpc_id(
-				p_id, card_owner_id, card_in_play_index, 
+				p_id,
+				card_owner_id,
+				card_in_play_index,
 				target_card.current_play_space.direction_from_play_space(current_play_space)
 			)
-	
+
 	await deal_damage_to_card(target_card, int(randi_range(min_attack, max_attack)))
 	await BattleSynchronizer.call_triggered_funcs(Collections.triggers.ATTACK_FINISHED, self)
 
@@ -122,29 +129,30 @@ func swap_with_card(swap_card_owner_id: int, swap_cip_index: int) -> void:
 func move_to_play_space(new_column: int, new_row: int) -> void:
 	if Tutorial.next_phase == Tutorial.tutorial_phases.ATTACK_CARD:
 		Tutorial.continue_tutorial()
-	BattleSynchronizer.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, self)	
-	
+	BattleSynchronizer.call_triggered_funcs(Collections.triggers.CARD_MOVING_AWAY, self)
+
 	if GameManager.is_single_player:
-		BattleSynchronizer.move_to_play_space(card_owner_id, card_in_play_index, new_column, new_row)
+		BattleSynchronizer.move_to_play_space(
+			card_owner_id, card_in_play_index, new_column, new_row
+		)
 	if !GameManager.is_single_player:
 		for p_id in GameManager.players:
 			BattleSynchronizer.move_to_play_space.rpc_id(
-				p_id, card_owner_id, card_in_play_index, 
-				new_column, new_row
+				p_id, card_owner_id, card_in_play_index, new_column, new_row
 			)
-			
+
 	await BattleSynchronizer.call_triggered_funcs(Collections.triggers.CARD_MOVED, self)
 	return
 
 
 func move_over_path(path: PlaySpacePath) -> void:
 	GameManager.turn_manager.set_turn_actions_enabled(false)
-	
+
 	TargetSelection.clear_arrows()
 	TargetSelection.clear_arrows()
 	if path.path_length > 0:
 		for s in range(path.path_length):
-			# We ignore the first playspace in path because it's the space the card is in. We 
+			# We ignore the first playspace in path because it's the space the card is in. We
 			# also ignore spaces the cards move trough. TODO: Animate moving through them.
 			if s == 0:
 				continue
@@ -159,22 +167,21 @@ func move_over_path(path: PlaySpacePath) -> void:
 			else:
 				await get_tree().create_timer(0.25).timeout
 				await move_to_play_space(path.path_spaces[s].column, path.path_spaces[s].row)
-			
-	
+
 	TargetSelection.end_selecting()
-	
+
 	GameManager.turn_manager.set_turn_actions_enabled(true)
 
 
 func move_and_attack(target_card: CardInPlay) -> void:
 	if current_play_space.distance_to_play_space(target_card.current_play_space, false) == 1:
 		await attack_card(target_card)
-	
+
 	elif TargetSelection.current_path:
 		if TargetSelection.current_path.last_space in spaces_in_range_to_attack_card(target_card):
-			await(move_over_path(TargetSelection.current_path))
+			await (move_over_path(TargetSelection.current_path))
 			await attack_card(target_card)
-	
+
 	else:
 		var spaces_to_attack_from: Array = spaces_in_range_to_attack_card(target_card)
 		if len(spaces_to_attack_from) == 0:
@@ -182,7 +189,7 @@ func move_and_attack(target_card: CardInPlay) -> void:
 		var path_to_space: PlaySpacePath = current_play_space.find_play_space_path(
 			spaces_to_attack_from.pick_random(), move_through_units
 		)
-		await(move_over_path(path_to_space))
+		await (move_over_path(path_to_space))
 		await attack_card(target_card)
 
 
@@ -261,7 +268,7 @@ func destroy() -> void:
 
 func shake() -> void:
 	# Using the animation player for this might be better, but because we use texturerects
-	# to make the image fit nicely it's a bit of a bother, and because we don't really use 
+	# to make the image fit nicely it's a bit of a bother, and because we don't really use
 	# collision moving the card instead of only animating range seems fine for now.
 	position.x += 50
 	await get_tree().create_timer(0.05).timeout
@@ -271,7 +278,7 @@ func shake() -> void:
 	await get_tree().create_timer(0.05).timeout
 	position.x -= 30
 	await get_tree().create_timer(0.05).timeout
-	
+
 	position.x += 10
 	await get_tree().create_timer(0.05).timeout
 	position.x -= 10
@@ -283,7 +290,7 @@ func update_stats() -> void:
 	health = battle_stats.health
 	shield = battle_stats.shield
 	movement = battle_stats.movement
-	
+
 	_set_labels()
 
 
@@ -321,9 +328,13 @@ func spaces_in_range_to_attack_card(card: CardInPlay) -> Array:
 
 func resolve_spell() -> bool:
 	assert(
-		false, str(
-			"resolve spell not implemented for ", ingame_name, ", function must be overriden in ",
-			ingame_name, "script." 
+		false,
+		str(
+			"resolve spell not implemented for ",
+			ingame_name,
+			", function must be overriden in ",
+			ingame_name,
+			"script."
 		)
 	)
 	return false
@@ -338,14 +349,16 @@ func _set_labels() -> void:
 	if max_attack == min_attack:
 		$VBox/BotInfo/HealthContainer/BattleStats.text = str(max_attack, "/", health)
 	else:
-		$VBox/BotInfo/HealthContainer/BattleStats.text = str(max_attack, "-", min_attack,"/", health)
-	
+		$VBox/BotInfo/HealthContainer/BattleStats.text = str(
+			max_attack, "-", min_attack, "/", health
+		)
+
 	if shield == 0:
 		$VBox/BotInfo/HealthContainer/Shield.hide()
 	else:
 		$VBox/BotInfo/HealthContainer/Shield.show()
 		$VBox/BotInfo/HealthContainer/Shield.text = str(shield)
-	
+
 	for f in [
 		{
 			"Label": $VBox/TopInfo/Costs/CostLabels/Passion,
@@ -386,7 +399,7 @@ func unflip_card() -> void:
 
 func _is_resolve_spell_agreed() -> bool:
 	Events.show_instructions.emit("Awaiting opponent agreement to spell resolve...")
-	
+
 	return true
 
 
@@ -411,7 +424,7 @@ func _load_card_properties() -> void:
 	if !fabrication:
 		card_data = CardDatabase.cards_info[card_index]
 		ingame_name = card_data["InGameName"]
-		card_type= card_data["CardType"]
+		card_type = card_data["CardType"]
 		fibers = card_data["fibers"]
 		card_text = card_data["Text"]
 		img_path = card_data["IMGPath"]
@@ -428,32 +441,30 @@ func _set_card_text_visuals() -> void:
 		$VBox/BotInfo/CardText.custom_minimum_size.y = size.y * 0.4
 	else:
 		$VBox/BotInfo/CardText.custom_minimum_size.y = size.y * 0.6
-	
+
 	if len(card_text) == 0:
 		$VBox/BotInfo/CardText.hide()
 	if len(card_text) > 0:
 		$VBox/BotInfo/CardText.text = card_text
 		$VBox/BotInfo/CardText.show()
-	
+
 	$VBox/TopInfo/CardNameBG/CardName.text = ingame_name
 
 
 func _set_card_text_font_size() -> void:
 	if !$VBox/BotInfo/CardText.label_settings:
 		$VBox/BotInfo/CardText.label_settings = LabelSettings.new()
-	var min_font: float = round(MapSettings.play_space_size.x)/22
-	var max_font: float = round(MapSettings.play_space_size.x)/15
+	var min_font: float = round(MapSettings.play_space_size.x) / 22
+	var max_font: float = round(MapSettings.play_space_size.x) / 15
 	var max_line_count: float = 6
 	var font_range_diff: float = max_font - min_font
-	var font_change_per_line: float = font_range_diff/(max_line_count - 1)
+	var font_change_per_line: float = font_range_diff / (max_line_count - 1)
 	var card_text_font_size: float
 	if card_text == "":
 		card_text_font_size = max_font
-	else: 
-		card_text_font_size = (
-			max_font - CardHelper.calc_n_lines(card_text) * font_change_per_line
-		)
-	
+	else:
+		card_text_font_size = (max_font - CardHelper.calc_n_lines(card_text) * font_change_per_line)
+
 	$VBox/TopInfo/CardNameBG/CardName.label_settings.font_size = max_font
 	$VBox/BotInfo/CardText.label_settings.font_size = card_text_font_size
 
@@ -473,6 +484,7 @@ func _create_battle_stats() -> void:
 		card_data["Movement"],
 		self
 	)
+
 
 func _create_costs() -> void:
 	costs = Costs.new(
@@ -520,10 +532,10 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 
 func _on_mouse_entered():
 	GameManager.zoom_preview.preview_card_in_play(self, false)
-	
+
 	if !TargetSelection.card_selected_for_movement:
 		return
-	
+
 	if (
 		len(TargetSelection.card_selected_for_movement.spaces_in_range_to_attack_card(self)) > 0
 		and TargetSelection.card_selected_for_movement.card_owner_id != card_owner_id
@@ -537,17 +549,15 @@ func _on_mouse_exited():
 
 func _on_gui_input(event):
 	var left_mouse_button_pressed = (
-		event is InputEventMouseButton 
-		and event.button_index == MOUSE_BUTTON_LEFT 
-		and event.pressed
+		event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed
 	)
 	var right_mouse_button_pressed = (
-		event is InputEventMouseButton 
-		and event.button_index == MOUSE_BUTTON_RIGHT 
+		event is InputEventMouseButton
+		and event.button_index == MOUSE_BUTTON_RIGHT
 		and event.pressed
 	)
 	var card_sel_for_movement: CardInPlay = TargetSelection.card_selected_for_movement
-	
+
 	# These actions can be performed if the unit is exhausted (selecting the card for example)
 	if (
 		left_mouse_button_pressed
@@ -559,7 +569,7 @@ func _on_gui_input(event):
 			TargetSelection.space_selection_finished.emit()
 
 	elif (
-		left_mouse_button_pressed 
+		left_mouse_button_pressed
 		and TargetSelection.number_of_targets_to_select > 0
 		and current_play_space in TargetSelection.target_play_space_options
 		and card_owner_id in TargetSelection.players_to_select_targets_from
@@ -572,7 +582,7 @@ func _on_gui_input(event):
 			TargetSelection.target_selection_finished.emit()
 
 	elif (
-		left_mouse_button_pressed 
+		left_mouse_button_pressed
 		and GameManager.player_id == card_owner_id
 		and TargetSelection.number_of_targets_to_select > 0
 		and self in TargetSelection.selected_targets
@@ -587,16 +597,16 @@ func _on_gui_input(event):
 				)
 
 	elif (
-		left_mouse_button_pressed 
+		left_mouse_button_pressed
 		and GameManager.turn_manager.turn_owner_id == GameManager.player_id
 		and !exhausted
 		and GameManager.turn_manager.turn_actions_enabled
 		and TargetSelection.card_selected_for_movement == self
 	):
 		TargetSelection.end_selecting()
-	
+
 	elif (
-		left_mouse_button_pressed 
+		left_mouse_button_pressed
 		and GameManager.player_id == card_owner_id
 		and GameManager.turn_manager.turn_owner_id == GameManager.player_id
 		and !exhausted
@@ -605,24 +615,24 @@ func _on_gui_input(event):
 	):
 		TargetSelection.end_selecting()
 		select_for_movement()
-	
-	# If the player selects a card for movement and clicks the card again we want to clear the 
+
+	# If the player selects a card for movement and clicks the card again we want to clear the
 	# selections
 	elif (
-		left_mouse_button_pressed 
-		and card_sel_for_movement 
+		left_mouse_button_pressed
+		and card_sel_for_movement
 		and card_owner_id == GameManager.player_id
 	):
 		if card_sel_for_movement == self and !exhausted:
 			TargetSelection.end_selecting()
-	
+
 	elif (
-		right_mouse_button_pressed 
-		and card_owner_id == GameManager.player_id 
+		right_mouse_button_pressed
+		and card_owner_id == GameManager.player_id
 		and !exhausted
 		and !card_sel_for_movement
 		and (
-			len(abilities) > 0 
+			len(abilities) > 0
 			or Collections.play_space_attributes.VICTORY_SPACE in current_play_space.attributes
 		)
 		and GameManager.turn_manager.turn_actions_enabled
@@ -632,34 +642,33 @@ func _on_gui_input(event):
 		create_card_action_menu()
 
 	elif (
-		right_mouse_button_pressed 
+		right_mouse_button_pressed
 		and card_sel_for_movement
-		and GameManager.turn_manager.turn_actions_enabled 
+		and GameManager.turn_manager.turn_actions_enabled
 		and card_owner_id != GameManager.player_id
 	):
 		var ps_to_attack_from = card_sel_for_movement.spaces_in_range_to_attack_card(self)
 
 		if (
-			len(ps_to_attack_from) > 0 
+			len(ps_to_attack_from) > 0
 			and card_sel_for_movement.card_owner_id != card_owner_id
 			and !TargetSelection.card_to_be_attacked
 		):
 			TargetSelection.card_to_be_attacked = self
 
 		elif (
-				card_sel_for_movement.card_owner_id != card_owner_id
-				and TargetSelection.card_to_be_attacked == self
-			):
-				
-				GameManager.turn_manager.set_turn_actions_enabled(false)
-				
-				card_sel_for_movement.move_and_attack(self)
-				Input.set_custom_mouse_cursor(null)
-				card_sel_for_movement.exhaust()
-				TargetSelection.end_selecting()
-				
-				GameManager.turn_manager.set_turn_actions_enabled(true)
-	
+			card_sel_for_movement.card_owner_id != card_owner_id
+			and TargetSelection.card_to_be_attacked == self
+		):
+			GameManager.turn_manager.set_turn_actions_enabled(false)
+
+			card_sel_for_movement.move_and_attack(self)
+			Input.set_custom_mouse_cursor(null)
+			card_sel_for_movement.exhaust()
+			TargetSelection.end_selecting()
+
+			GameManager.turn_manager.set_turn_actions_enabled(true)
+
 	elif (
 		right_mouse_button_pressed
 		and GameManager.turn_manager.turn_actions_enabled
@@ -674,7 +683,6 @@ func _on_gui_input(event):
 			if card_path.path_length > 0 and card_path.path_length <= card.movement + 1:
 				current_play_space.select_path_to_play_space(card_path)
 
-	
 	elif (
 		right_mouse_button_pressed
 		and GameManager.turn_manager.turn_actions_enabled

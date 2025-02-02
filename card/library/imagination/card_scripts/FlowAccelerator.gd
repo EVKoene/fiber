@@ -18,5 +18,5 @@ func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 		CardManipulation.change_battle_stat(
 			Collections.stats.HEALTH, card_owner_id, card_in_play_index, spaces_moved, 2
 		)
-		
+
 		last_space = current_play_space

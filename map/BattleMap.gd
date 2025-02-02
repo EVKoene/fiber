@@ -40,14 +40,14 @@ func _ready():
 	# Because create_starting_territory() calls rpc funcs we wait a second for both players to setup
 	await get_tree().create_timer(1).timeout
 	_create_starting_territory()
-	
+
 	if GameManager.is_single_player:
 		GameManager.setup_game()
 	elif GameManager.is_player_1:
 		# To make sure the cards and card orders are always the same for both players, we only create
 		# the decks on the server
 		GameManager.setup_game.rpc_id(1)
-	
+
 	Events.show_instructions.connect(show_instructions)
 	Events.hide_instructions.connect(hide_instructions)
 
@@ -68,11 +68,9 @@ func pick_card_option(card_indices: Array) -> void:
 
 
 @rpc("any_peer", "call_local")
-func create_card_resolve(
-	card_owner_id: int, cih_index: int, column: int, row: int
-	) -> void:
+func create_card_resolve(card_owner_id: int, cih_index: int, column: int, row: int) -> void:
 	GameManager.turn_manager.set_turn_actions_enabled(false)
-	
+
 	var card_resolve = card_resolve_scene.instantiate()
 	var card_in_hand = GameManager.cards_in_hand[card_owner_id][cih_index]
 	card_resolve.card_index = card_in_hand.card_index
@@ -98,29 +96,33 @@ func _create_battle_map() -> void:
 	_set_area_sizes()
 	_set_play_space_size()
 	_create_play_spaces()
-	
+
 
 func _set_area_sizes() -> void:
 	MapSettings.play_area_size = MapSettings.total_screen * Vector2(0.8, 0.9)
 	MapSettings.opponent_area_start = Vector2(0, 0)
 	MapSettings.opponent_area_end = Vector2(
-		MapSettings.play_area_size.x, (
-			MapSettings.total_screen.y - MapSettings.play_area_size.y
-			) / 2
+		MapSettings.play_area_size.x,
+		(MapSettings.total_screen.y - MapSettings.play_area_size.y) / 2
 	)
-	
-	MapSettings.play_area_start = Vector2(0, (MapSettings.total_screen.y - MapSettings.play_area_size.y) / 2)
+
+	MapSettings.play_area_start = Vector2(
+		0, (MapSettings.total_screen.y - MapSettings.play_area_size.y) / 2
+	)
 	MapSettings.play_area_end = Vector2(
-		MapSettings.play_area_size.x, 
-		MapSettings.play_area_size.y + (
-			MapSettings.total_screen.y - MapSettings.play_area_size.y
-		) / 2
+		MapSettings.play_area_size.x,
+		(
+			MapSettings.play_area_size.y
+			+ (MapSettings.total_screen.y - MapSettings.play_area_size.y) / 2
+		)
 	)
-	
+
 	MapSettings.own_area_start = Vector2(
-		0, MapSettings.play_area_size.y + (
-			MapSettings.total_screen.y - MapSettings.play_area_size.y
-			) / 2
+		0,
+		(
+			MapSettings.play_area_size.y
+			+ (MapSettings.total_screen.y - MapSettings.play_area_size.y) / 2
+		)
 	)
 	MapSettings.own_area_end = Vector2(MapSettings.play_area_size.x, MapSettings.total_screen.y)
 
@@ -128,7 +130,7 @@ func _set_area_sizes() -> void:
 func _set_play_space_size() -> void:
 	var min_column_length: float = MapSettings.play_area_size.x / float(map_data["Columns"])
 	var min_row_length: float = MapSettings.play_area_size.y / float(map_data["Rows"])
-	
+
 	var ps_size: int = min(min_column_length, min_row_length)
 
 	MapSettings.play_space_size = Vector2(ps_size, ps_size)
@@ -192,8 +194,9 @@ func _set_finish_button() -> void:
 	finish_button_container.size.y = end_turn_button_container.size.y
 	finish_button_container.size.x = end_turn_button_container.size.x
 	finish_button_container.position.x = (
-		MapSettings.total_screen.x - end_turn_button_container.size.x
-		 - finish_button_container.size.x
+		MapSettings.total_screen.x
+		- end_turn_button_container.size.x
+		- finish_button_container.size.x
 	)
 	finish_button_container.get_theme_stylebox("panel").set_border_width_all(
 		finish_button_container.size.x / 15
@@ -220,7 +223,7 @@ func _set_zoom_preview_position_and_size() -> void:
 		MapSettings.total_screen.x * 0.2, MapSettings.total_screen.x * 0.2
 	)
 	# Multiplying the zoom_preview_size.x with 1.1 to adjust for border size
-	$BattleZoomPreview.position.x = MapSettings.total_screen.x - zoom_preview_size.x * 1.05 
+	$BattleZoomPreview.position.x = MapSettings.total_screen.x - zoom_preview_size.x * 1.05
 	$BattleZoomPreview.position.y = MapSettings.play_area_start.y
 	$BattleZoomPreview.scale.x *= zoom_preview_size.x / $BattleZoomPreview.size.x
 	$BattleZoomPreview.scale.y *= zoom_preview_size.x / $BattleZoomPreview.size.y
@@ -231,21 +234,23 @@ func _set_zoom_preview_position_and_size() -> void:
 func _set_resource_bars_position_and_size() -> void:
 	var rb_1 = resource_bar_scene.instantiate()
 	var rb_2 = resource_bar_scene.instantiate()
-	
+
 	match GameManager.is_player_1:
 		true:
 			rb_1.position.y = (
-				MapSettings.total_screen.y - MapSettings.resource_bar_size.y 
+				MapSettings.total_screen.y
+				- MapSettings.resource_bar_size.y
 				- MapSettings.end_turn_button_size.y
 			)
 			rb_2.position.y = 0
 		false:
 			rb_2.position.y = (
-				MapSettings.total_screen.y - MapSettings.resource_bar_size.y 
+				MapSettings.total_screen.y
+				- MapSettings.resource_bar_size.y
 				- MapSettings.end_turn_button_size.y
 			)
 			rb_1.position.y = 0
-	
+
 	for rb in [rb_1, rb_2]:
 		rb.position.x = MapSettings.total_screen.x - MapSettings.resource_bar_size.x
 		rb.scale.x *= MapSettings.resource_bar_size.x / rb.size.x
@@ -260,7 +265,7 @@ func _set_resource_bars_position_and_size() -> void:
 func _create_progress_bars() -> void:
 	GameManager.progress_bars[GameManager.p1_id] = []
 	GameManager.progress_bars[GameManager.p2_id] = []
-	
+
 	# In the future we probably want players to get all resource spaces on their half + the ones
 	# center. For now it's total number / 2 however.
 	for p_id in [GameManager.p1_id, GameManager.p2_id]:
@@ -305,8 +310,8 @@ func show_instructions(instruction_text: String) -> void:
 
 func set_tutorial_container() -> void:
 	tutorial_container = $TutorialContainer
-	$TutorialContainer.position.x = MapSettings.total_screen.x/2 - $TutorialContainer.size.x
-	$TutorialContainer.position.y = MapSettings.total_screen.y/2 - $TutorialContainer.size.y / 2
+	$TutorialContainer.position.x = MapSettings.total_screen.x / 2 - $TutorialContainer.size.x
+	$TutorialContainer.position.y = MapSettings.total_screen.y / 2 - $TutorialContainer.size.y / 2
 	$TutorialContainer.move_to_front()
 
 
@@ -330,13 +335,15 @@ func _set_gold_gained_container() -> void:
 	gold_gained_container = $GoldGainedContainer
 	$GoldGainedContainer.size.x = MapSettings.play_space_size.x * 2.5
 	$GoldGainedContainer.size.y = MapSettings.total_screen.y / 30
-	$GoldGainedContainer/GoldGained.label_settings.font_size = round(
-		MapSettings.play_space_size.x
-	)/15
+	$GoldGainedContainer/GoldGained.label_settings.font_size = (
+		round(MapSettings.play_space_size.x) / 15
+	)
 	$GoldGainedContainer.position.x = MapSettings.total_screen.x - $GoldGainedContainer.size.x
 	$GoldGainedContainer.position.y = (
-		MapSettings.total_screen.y - MapSettings.resource_bar_size.y - 
-		MapSettings.end_turn_button_size.y - $GoldGainedContainer.size.y
+		MapSettings.total_screen.y
+		- MapSettings.resource_bar_size.y
+		- MapSettings.end_turn_button_size.y
+		- $GoldGainedContainer.size.y
 	)
 	update_gold_container_text(0, 1)
 
@@ -349,14 +356,16 @@ func _set_instruction_container() -> void:
 	$InstructionContainer.size.y = MapSettings.total_screen.y / 5
 	$InstructionContainer.position.x = MapSettings.total_screen.x - $InstructionContainer.size.x
 	$InstructionContainer.position.y = (
-		MapSettings.total_screen.y - MapSettings.resource_bar_size.y - 
-		MapSettings.end_turn_button_size.y - $GoldGainedContainer.size.y - 
-		$InstructionContainer.size.y
+		MapSettings.total_screen.y
+		- MapSettings.resource_bar_size.y
+		- MapSettings.end_turn_button_size.y
+		- $GoldGainedContainer.size.y
+		- $InstructionContainer.size.y
 	)
 	$InstructionContainer/InstructionText.label_settings = LabelSettings.new()
-	$InstructionContainer/InstructionText.label_settings.font_size = round(
-		MapSettings.play_space_size.x
-	)/10
+	$InstructionContainer/InstructionText.label_settings.font_size = (
+		round(MapSettings.play_space_size.x) / 10
+	)
 	instruction_container = $InstructionContainer
 
 	instruction_container.get_theme_stylebox("panel").set_border_width_all(
@@ -377,7 +386,7 @@ func update_gold_container_text(gold_gained: int, turns_until_increase: int) -> 
 func _tween_highlight_instruction_container() -> void:
 	if !showing_instruction:
 		return
-	
+
 	if highlight_instruction_container_tween:
 		highlight_instruction_container_tween.kill()
 	highlight_instruction_container_tween = create_tween()
@@ -391,7 +400,7 @@ func _tween_highlight_instruction_container() -> void:
 func _tween_unhighlight_instruction_container() -> void:
 	if !showing_instruction:
 		return
-	
+
 	if highlight_instruction_container_tween:
 		highlight_instruction_container_tween.kill()
 	highlight_instruction_container_tween = create_tween()
@@ -405,7 +414,7 @@ func _tween_unhighlight_instruction_container() -> void:
 func _tween_highlight_finish_button() -> void:
 	if !showing_finish_button:
 		return
-	
+
 	if highlight_finish_button_tween:
 		highlight_finish_button_tween.kill()
 	highlight_finish_button_tween = create_tween()
@@ -419,7 +428,7 @@ func _tween_highlight_finish_button() -> void:
 func _tween_unhighlight_finish_button() -> void:
 	if !showing_finish_button:
 		return
-	
+
 	if highlight_finish_button_tween:
 		highlight_finish_button_tween.kill()
 	highlight_finish_button_tween = create_tween()
@@ -435,7 +444,7 @@ func _on_end_turn_button_pressed():
 		Tutorial.continue_tutorial()
 	if !GameManager.turn_manager.turn_actions_enabled:
 		return
-	
+
 	GameManager.turn_manager.end_turn.rpc_id(1, GameManager.player_id)
 
 
@@ -454,7 +463,7 @@ func _input(_event):
 	if !GameManager.turn_manager:
 		return
 	if (
-		Input.is_action_just_pressed("ui_accept") 
+		Input.is_action_just_pressed("ui_accept")
 		or Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
 	):
 		if Tutorial.is_awaiting_tutorial_input:
@@ -462,7 +471,7 @@ func _input(_event):
 			return
 		else:
 			$TextBox.hide()
-	
+
 		if awaiting_input:
 			Events.instruction_input_received.emit()
 		if GameManager.turn_manager.can_start_turn:
@@ -476,9 +485,9 @@ func _input(_event):
 func _unhandled_input(event):
 	if !GameManager.is_ready_to_play:
 		return
-	
+
 	if (
-		event is InputEventMouseButton 
+		event is InputEventMouseButton
 		and event.button_index == MOUSE_BUTTON_LEFT
 		and TargetSelection.can_drag_to_select
 	):
@@ -491,51 +500,62 @@ func _unhandled_input(event):
 			TargetSelection.dragging_to_select = false
 			queue_redraw()
 			TargetSelection.drag_end = event.position
-			TargetSelection.select_rect.extents = abs(
-				TargetSelection.drag_end - TargetSelection.drag_start
-			) / 2
+			TargetSelection.select_rect.extents = (
+				abs(TargetSelection.drag_end - TargetSelection.drag_start) / 2
+			)
 			for column in MapSettings.n_columns:
 				if (
-					MapSettings.get_column_end_x(column) >= TargetSelection.drag_start.x 
-					and MapSettings.get_column_start_x(column) <= TargetSelection.drag_end.x
-					and column not in TargetSelection.selected_columns
-				) or (
-					MapSettings.get_column_start_x(column) <= TargetSelection.drag_start.x 
-					and MapSettings.get_column_end_x(column) >= TargetSelection.drag_end.x
-					and column not in TargetSelection.selected_columns
+					(
+						MapSettings.get_column_end_x(column) >= TargetSelection.drag_start.x
+						and MapSettings.get_column_start_x(column) <= TargetSelection.drag_end.x
+						and column not in TargetSelection.selected_columns
+					)
+					or (
+						MapSettings.get_column_start_x(column) <= TargetSelection.drag_start.x
+						and MapSettings.get_column_end_x(column) >= TargetSelection.drag_end.x
+						and column not in TargetSelection.selected_columns
+					)
 				):
 					TargetSelection.selected_columns.append(column)
 			for row in MapSettings.n_rows:
 				if (
-					MapSettings.get_row_end_y(row) >= TargetSelection.drag_start.y 
-					and MapSettings.get_row_start_y(row) <= TargetSelection.drag_end.y
-					and row not in TargetSelection.selected_rows
-				) or (
-					MapSettings.get_row_start_y(row) <= TargetSelection.drag_start.y 
-					and MapSettings.get_row_end_y(row) >= TargetSelection.drag_end.y
-					and row not in TargetSelection.selected_rows
+					(
+						MapSettings.get_row_end_y(row) >= TargetSelection.drag_start.y
+						and MapSettings.get_row_start_y(row) <= TargetSelection.drag_end.y
+						and row not in TargetSelection.selected_rows
+					)
+					or (
+						MapSettings.get_row_start_y(row) <= TargetSelection.drag_start.y
+						and MapSettings.get_row_end_y(row) >= TargetSelection.drag_end.y
+						and row not in TargetSelection.selected_rows
+					)
 				):
 					TargetSelection.selected_rows.append(row)
-			
+
 			# Check if the selected area isn't too big
 			if (
 				(
-					len(TargetSelection.selected_columns) 
+					(
+						len(TargetSelection.selected_columns)
 						<= TargetSelection.n_highest_axis_to_select
-					and len(TargetSelection.selected_rows) 
+					)
+					and (
+						len(TargetSelection.selected_rows)
 						<= TargetSelection.n_lowest_axis_to_select
+					)
 				)
 				or (
-						len(TargetSelection.selected_columns) 
-						<= TargetSelection.n_lowest_axis_to_select
-					and len(TargetSelection.selected_rows) 
+					len(TargetSelection.selected_columns) <= TargetSelection.n_lowest_axis_to_select
+					and (
+						len(TargetSelection.selected_rows)
 						<= TargetSelection.n_highest_axis_to_select
+					)
 				)
 			):
 				# Add the spaces to selected spaces and check if at least one space is in range
 				for ps in GameManager.play_spaces:
 					if (
-						ps.column in TargetSelection.selected_columns 
+						ps.column in TargetSelection.selected_columns
 						and ps.row in TargetSelection.selected_rows
 					):
 						TargetSelection.selected_spaces.append(ps)
@@ -554,14 +574,11 @@ func _unhandled_input(event):
 					hide_finish_button()
 					TargetSelection.clear_selections()
 
-
 	elif event is InputEventMouseMotion and TargetSelection.dragging_to_select:
 		queue_redraw()
-	
+
 	elif (
-		event is InputEventMouseButton 
-		and event.button_index == MOUSE_BUTTON_LEFT 
-		and event.pressed
+		event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed
 	):
 		TargetSelection.end_selecting()
 
@@ -572,7 +589,9 @@ func _draw():
 			Rect2(
 				TargetSelection.drag_start, get_global_mouse_position() - TargetSelection.drag_start
 			),
-			Color.YELLOW, false, 2.0
+			Color.YELLOW,
+			false,
+			2.0
 		)
 
 

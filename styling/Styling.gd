@@ -1,6 +1,5 @@
 extends Node
 
-
 """Faction Colors"""
 var faction_colors := {
 	[Collections.fibers.PASSION]: Color("932011"),
@@ -16,7 +15,6 @@ var faction_colors := {
 }
 var gold_color := Color("6e6914")
 var multifaction_color := Color("e74c22")
-
 
 """Space Border colors"""
 var base_space_color = Color("3b3b3bdc")

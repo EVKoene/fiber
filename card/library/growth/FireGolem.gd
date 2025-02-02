@@ -1,15 +1,16 @@
 extends CardInPlay
 
-
 class_name FireGolem
 
 
 func _init():
-	abilities = [{
-		"FuncName": "burn",
-		"FuncText": "Burn",
-		"AbilityCosts": Costs.new(0, 0, 0, 0),
-	}]
+	abilities = [
+		{
+			"FuncName": "burn",
+			"FuncText": "Burn",
+			"AbilityCosts": Costs.new(0, 0, 0, 0),
+		}
+	]
 
 
 func burn() -> bool:

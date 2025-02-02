@@ -1,6 +1,5 @@
 extends PanelContainer
 
-
 class_name Card
 
 @onready var border := StyleBoxFlat.new()

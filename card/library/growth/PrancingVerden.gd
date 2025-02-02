@@ -1,6 +1,5 @@
 extends CardInPlay
 
-
 class_name PrancingVerden
 
 
@@ -13,7 +12,7 @@ func move_over_path(path: PlaySpacePath) -> void:
 	TargetSelection.clear_arrows()
 	if path.path_length > 0:
 		for s in range(path.path_length):
-			# We ignore the first playspace in path because it's the space the card is in. We 
+			# We ignore the first playspace in path because it's the space the card is in. We
 			# also ignore spaces the cards move trough. TODO: Animate moving through them.
 			if s == 0:
 				continue
@@ -28,10 +27,18 @@ func move_over_path(path: PlaySpacePath) -> void:
 					var card: CardInPlay = path.path_spaces[s].card_in_this_play_space
 					for p_id in GameManager.players:
 						CardManipulation.change_battle_stat(
-							Collections.stats.MOVEMENT, card.card_owner_id, card.card_in_play_index, 2, 1
+							Collections.stats.MOVEMENT,
+							card.card_owner_id,
+							card.card_in_play_index,
+							2,
+							1
 						)
 						CardManipulation.change_battle_stat(
-							Collections.stats.MIN_ATTACK, card.card_owner_id, card.card_in_play_index, 1, 1
+							Collections.stats.MIN_ATTACK,
+							card.card_owner_id,
+							card.card_in_play_index,
+							1,
+							1
 						)
 				z_index -= 50
 			else:

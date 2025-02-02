@@ -1,6 +1,5 @@
 extends CardInPlay
 
-
 class_name ZalogiMindOfMachines
 
 

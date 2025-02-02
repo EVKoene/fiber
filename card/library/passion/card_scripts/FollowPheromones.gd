@@ -1,7 +1,7 @@
 extends CardInPlay
 
-
 class_name FollowPheromones
+
 
 func resolve_spell() -> bool:
 	for i in range(2):
@@ -12,9 +12,9 @@ func resolve_spell() -> bool:
 				GameManager.p1_id, card_owner_id, Collections.card_types.UNIT
 			)
 		await GameManager.battle_map.get_tree().create_timer(0.25).timeout
-	
+
 	await GameManager.battle_map.get_tree().create_timer(0.25).timeout
-	
+
 	BattleSynchronizer.finish_resolve()
 	return true
 
@@ -30,5 +30,5 @@ func is_spell_to_play_now() -> bool:
 		if GameManager.resources[GameManager.ai_player_id].can_pay_costs(c.costs):
 			if c.costs.total() >= costs.total():
 				return true
-	
+
 	return false

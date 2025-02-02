@@ -1,6 +1,5 @@
 extends CardInPlay
 
-
 class_name JellyfishExtraordinaire
 
 
@@ -14,5 +13,5 @@ func call_triggered_funcs(trigger: int, _triggering_card: Card):
 			BattleSynchronizer.draw_card(card_owner_id)
 		if !GameManager.is_single_player:
 			BattleSynchronizer.draw_card.rpc_id(1, card_owner_id)
-		
+
 		GameManager.resources[card_owner_id].add_resource(Collections.fibers.IMAGINATION, 1)

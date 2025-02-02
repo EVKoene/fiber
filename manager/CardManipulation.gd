@@ -1,6 +1,5 @@
 extends Node
 
-
 @rpc("any_peer", "call_local")
 func destroy(card_owner_id: int, cip_index: int) -> void:
 	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
@@ -8,7 +7,6 @@ func destroy(card_owner_id: int, cip_index: int) -> void:
 	BattleSynchronizer.call_triggered_funcs(Collections.triggers.CARD_DESTROYED, card)
 	card.call_deferred("remove_from_cards_in_play")
 	card.call_deferred("queue_free")
-
 
 
 @rpc("any_peer", "call_local")
@@ -28,7 +26,7 @@ func change_battle_stat(
 		for p_id in GameManager.players:
 			MPCardManipulation.change_battle_stat.rpc_id(
 				p_id, battle_stat, card_owner_id, cip_index, value, duration
-)
+			)
 
 
 @rpc("any_peer", "call_local")

@@ -58,12 +58,11 @@ func _process(_delta):
 						picking_option = true
 						OverworldManager.mc_question_textbox.pick_from_options(question_options)
 						await OverworldManager.mc_question_textbox.option_picked
-			
+
 			elif Input.is_action_just_pressed("ui_accept"):
 				cleanup_textbox()
 				if stay_in_overworld:
 					OverworldManager.can_move = true
-				
 
 
 func _display_text() -> void:
@@ -75,14 +74,13 @@ func _display_text() -> void:
 	label.visible_ratio = 0.0
 	label.text = next_text
 	_change_state(State.READING)
-	tween.tween_property(
-		label, "visible_ratio", 1.0, len(next_text) * CHAR_READ_RATE
-	)
+	tween.tween_property(label, "visible_ratio", 1.0, len(next_text) * CHAR_READ_RATE)
 	tween.tween_callback(_finish_reading)
 
 
 func _queue_text(next_text) -> void:
 	text_queue.push_back(next_text)
+
 
 func _finish_reading() -> void:
 	_show_continue_symbol()

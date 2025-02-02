@@ -1,9 +1,7 @@
 extends Node
 
-
 var burn_scene := preload("res://styling/assets/fire/BurnAnimation.tscn")
 var hailstorm_scene := preload("res://styling/assets/hailstorm/HailAnimation.tscn")
-
 
 @rpc("any_peer", "call_local")
 func animate_attack(card_owner_id: int, card_in_play_index: int, direction: int) -> void:
