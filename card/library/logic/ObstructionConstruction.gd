@@ -1,4 +1,3 @@
 extends CardInPlay
 
-
 class_name ObstructionConstruction

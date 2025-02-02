@@ -15,8 +15,7 @@ func resolve_spell() -> bool:
 	else:
 		BattleSynchronizer.finish_resolve()
 		return false
-	
-	
+
 	selected_card.highlight_card(true)
 	selected_card.resolve_damage(4)
 	BattleSynchronizer.draw_card(card_owner_id)
@@ -30,7 +29,7 @@ func is_spell_to_play_now() -> bool:
 	):
 		if c.battle_stats.health <= 4:
 			return true
-		
+
 	return false
 
 
@@ -41,9 +40,9 @@ func resolve_spell_for_ai() -> void:
 	):
 		if c.battle_stats.health <= 4:
 			targets.append(c)
-	
+
 	assert(
-		len(targets) > 0, 
+		len(targets) > 0,
 		str("No targets to select, AI shouldn't have played this spell: ", ingame_name)
 	)
 	var target: CardInPlay = targets.pick_random()

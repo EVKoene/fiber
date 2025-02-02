@@ -1,13 +1,17 @@
 extends Node
 
-
 class_name BattleStats
 
-var max_attack: int: get = _get_max_attack
-var min_attack: int: get = _get_min_attack
-var health: int: get = _get_health
-var shield: int : get = _get_shield
-var movement: int: get = _get_movement
+var max_attack: int:
+	get = _get_max_attack
+var min_attack: int:
+	get = _get_min_attack
+var health: int:
+	get = _get_health
+var shield: int:
+	get = _get_shield
+var movement: int:
+	get = _get_movement
 
 var base_max_attack: int
 var base_min_attack: int
@@ -25,7 +29,10 @@ var movement_modifiers := []
 
 
 func _init(
-	_base_max_attack: int, _base_min_attack: int, _base_health: int, _base_movement: int, 
+	_base_max_attack: int,
+	_base_min_attack: int,
+	_base_health: int,
+	_base_movement: int,
 	_card: CardInPlay
 ):
 	base_max_attack = _base_max_attack
@@ -42,13 +49,13 @@ func change_battle_stat(battle_stat: int, value: int, turn_duration: int) -> voi
 				base_health += value
 			else:
 				health_modifiers.append([value, turn_duration])
-		
+
 		Collections.stats.MAX_ATTACK:
 			if turn_duration == -1:
 				base_max_attack += value
 			else:
 				max_attack_modifiers.append([value, turn_duration])
-		
+
 		Collections.stats.MIN_ATTACK:
 			if turn_duration == -1:
 				if base_min_attack < base_max_attack:
@@ -60,7 +67,7 @@ func change_battle_stat(battle_stat: int, value: int, turn_duration: int) -> voi
 					min_attack_modifiers.append([value, turn_duration])
 				else:
 					max_attack_modifiers.append([value, turn_duration])
-		
+
 		Collections.stats.SHIELD:
 			if turn_duration == -1:
 				base_shield += value
@@ -68,7 +75,7 @@ func change_battle_stat(battle_stat: int, value: int, turn_duration: int) -> voi
 				shield_modifiers.append([value, turn_duration])
 			if base_shield < 0:
 				base_shield = 0
-			
+
 		Collections.stats.MOVEMENT:
 			if turn_duration == -1:
 				base_movement += value
@@ -80,9 +87,9 @@ func change_battle_stat(battle_stat: int, value: int, turn_duration: int) -> voi
 
 func _get_max_attack() -> int:
 	var modified_attack = base_max_attack
-	modified_attack += card.current_play_space.stat_modifier[
-		card.card_owner_id
-	][Collections.stats.MAX_ATTACK]
+	modified_attack += card.current_play_space.stat_modifier[card.card_owner_id][
+		Collections.stats.MAX_ATTACK
+	]
 
 	for m in max_attack_modifiers:
 		modified_attack += m[0]
@@ -91,9 +98,9 @@ func _get_max_attack() -> int:
 
 func _get_min_attack() -> int:
 	var modified_attack = base_min_attack
-	modified_attack += card.current_play_space.stat_modifier[
-		card.card_owner_id
-	][Collections.stats.MIN_ATTACK]
+	modified_attack += card.current_play_space.stat_modifier[card.card_owner_id][
+		Collections.stats.MIN_ATTACK
+	]
 
 	for m in min_attack_modifiers:
 		modified_attack += m[0]
@@ -102,24 +109,24 @@ func _get_min_attack() -> int:
 
 func _get_health() -> int:
 	var modified_health = base_health
-	modified_health += card.current_play_space.stat_modifier[
-		card.card_owner_id
-	][Collections.stats.HEALTH]
+	modified_health += card.current_play_space.stat_modifier[card.card_owner_id][
+		Collections.stats.HEALTH
+	]
 
 	for m in health_modifiers:
 		modified_health += m[0]
 		if modified_health < 1:
 			modified_health = 1
 			base_health = 1
-	
+
 	return modified_health
 
 
 func _get_shield() -> int:
 	var modified_shield = base_shield
-	modified_shield += card.current_play_space.stat_modifier[
-		card.card_owner_id
-	][Collections.stats.SHIELD]
+	modified_shield += card.current_play_space.stat_modifier[card.card_owner_id][
+		Collections.stats.SHIELD
+	]
 
 	for m in shield_modifiers:
 		modified_shield += m[0]
@@ -128,9 +135,9 @@ func _get_shield() -> int:
 
 func _get_movement() -> int:
 	var modified_movement: int = base_movement
-	modified_movement += card.current_play_space.stat_modifier[
-		card.card_owner_id
-	][Collections.stats.MOVEMENT]
+	modified_movement += card.current_play_space.stat_modifier[card.card_owner_id][
+		Collections.stats.MOVEMENT
+	]
 
 	for m in movement_modifiers:
 		modified_movement += m[0]
@@ -140,7 +147,10 @@ func _get_movement() -> int:
 @rpc("any_peer", "call_local")
 func update_modifiers() -> void:
 	for modifier in [
-		max_attack_modifiers, min_attack_modifiers, health_modifiers, movement_modifiers, 
+		max_attack_modifiers,
+		min_attack_modifiers,
+		health_modifiers,
+		movement_modifiers,
 		shield_modifiers
 	]:
 		var modifiers_to_remove: Array = []

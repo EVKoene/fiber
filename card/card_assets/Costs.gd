@@ -9,7 +9,6 @@ var logic: int
 var card
 
 
-
 func _init(_passion: int, _imagination: int, _growth: int, _logic: int, _card: Card = null):
 	passion = _passion
 	imagination = _imagination
@@ -41,5 +40,5 @@ func change_cost(fiber: int, value: int) -> void:
 			growth += value
 		Collections.LOGIC:
 			logic += value
-		
+
 	card.set_card_properties()

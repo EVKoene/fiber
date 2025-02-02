@@ -3,7 +3,7 @@ extends Panel
 class_name CardPickScreen
 
 @onready var card_option_scene := preload("res://card/card_states/CardOption.tscn")
-var card_indices: Array 
+var card_indices: Array
 
 
 func _ready():

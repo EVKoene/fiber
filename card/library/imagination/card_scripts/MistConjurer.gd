@@ -1,7 +1,7 @@
 extends CardInPlay
 
-
 class_name MistConjurer
+
 
 func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 	if (
@@ -14,7 +14,7 @@ func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 			)
 	elif (
 		(
-			trigger == Collections.triggers.CARD_DESTROYED 
+			trigger == Collections.triggers.CARD_DESTROYED
 			or trigger == Collections.triggers.CARD_MOVING_AWAY
 		)
 		and triggering_card == self

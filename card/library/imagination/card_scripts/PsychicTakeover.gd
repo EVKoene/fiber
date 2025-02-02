@@ -1,6 +1,5 @@
 extends CardInPlay
 
-
 class_name PsychicTakeover
 
 
@@ -16,7 +15,7 @@ func resolve_spell() -> bool:
 	else:
 		BattleSynchronizer.finish_resolve()
 		return false
-	
+
 	selected_card.highlight_card(true)
 	selected_card.card_owner_id = card_owner_id
 	if (
@@ -26,7 +25,7 @@ func resolve_spell() -> bool:
 		selected_card.flip_card()
 	else:
 		selected_card.unflip_card()
-	
+
 	BattleSynchronizer.finish_resolve()
 	return true
 
@@ -37,7 +36,7 @@ func is_spell_to_play_now() -> bool:
 	):
 		if c.costs.total() >= 3:
 			return true
-		
+
 	return false
 
 
@@ -48,9 +47,9 @@ func resolve_spell_for_ai() -> void:
 	):
 		if c.costs.total() >= 3:
 			targets.append(c)
-	
+
 	assert(
-		len(targets) > 0, 
+		len(targets) > 0,
 		str("No targets to select, AI shouldn't have played this spell: ", ingame_name)
 	)
 	var target: CardInPlay = targets.pick_random()

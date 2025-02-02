@@ -5,14 +5,16 @@ class_name PlaySpace
 var column: int
 var row: int
 var stat_modifier := {
-	GameManager.p1_id: {
+	GameManager.p1_id:
+	{
 		Collections.stats.MAX_ATTACK: 0,
 		Collections.stats.MIN_ATTACK: 0,
 		Collections.stats.HEALTH: 0,
 		Collections.stats.SHIELD: 0,
 		Collections.stats.MOVEMENT: 0,
 	},
-	GameManager.p2_id: {
+	GameManager.p2_id:
+	{
 		Collections.stats.MAX_ATTACK: 0,
 		Collections.stats.MIN_ATTACK: 0,
 		Collections.stats.HEALTH: 0,
@@ -30,7 +32,7 @@ var territory: Territory
 
 
 func _ready():
-	scale *= MapSettings.play_space_size/size
+	scale *= MapSettings.play_space_size / size
 	position = _calc_position()
 	_set_play_space_attributes()
 	_add_border()
@@ -93,10 +95,9 @@ func distance_to_play_space(goal_space: PlaySpace, ignore_obstacles: bool) -> in
 			break
 
 		for adj_ps in ps.adjacent_play_spaces():
-			if adj_ps not in distance and (
-				!adj_ps.card_in_this_play_space 
-				or ignore_obstacles
-				or adj_ps == goal_space
+			if (
+				adj_ps not in distance
+				and (!adj_ps.card_in_this_play_space or ignore_obstacles or adj_ps == goal_space)
 			):
 				queue.append(adj_ps)
 				distance[adj_ps] = 1 + distance[ps]
@@ -112,7 +113,7 @@ func in_play_range(play_range: int, card_owner_id: int) -> bool:
 	for c in GameManager.cards_in_play[card_owner_id]:
 		if distance_to_play_space(c.current_play_space, true) <= play_range:
 			return true
-	
+
 	return false
 
 
@@ -122,19 +123,19 @@ func direction_from_play_space(play_space: PlaySpace) -> int:
 		if play_space.column > column:
 			direction = Collections.directions.LEFT
 		elif play_space.column < column:
-			direction =  Collections.directions.RIGHT
+			direction = Collections.directions.RIGHT
 		elif play_space.row > row:
 			direction = Collections.directions.UP
 		elif play_space.row < row:
 			direction = Collections.directions.DOWN
 		else:
 			assert(false, "Can't discern direction relative to playspace")
-	
+
 	else:
 		if play_space.column < column:
 			direction = Collections.directions.LEFT
 		elif play_space.column > column:
-			direction =  Collections.directions.RIGHT
+			direction = Collections.directions.RIGHT
 		elif play_space.row < row:
 			direction = Collections.directions.UP
 		elif play_space.row > row:
@@ -152,10 +153,10 @@ func play_space_direction_in_same_line(play_space: PlaySpace) -> int:
 	elif play_space.column < column and play_space.row == row:
 		return Collections.directions.LEFT
 	elif play_space.column == column and play_space.row > row:
-		return Collections.directions.DOWN 
+		return Collections.directions.DOWN
 	elif play_space.column == column and play_space.row < row:
 		return Collections.directions.UP
-	
+
 	return -1
 
 
@@ -164,7 +165,7 @@ func path_to_closest_movable_space(
 ) -> PlaySpacePath:
 	var queue: Array = [goal_space]
 	var tried_spaces: Array = []
-	
+
 	while len(queue) > 0:
 		var ps = queue.pop_front()
 		var path_to_ps = find_play_space_path(ps, ignore_obstacles)
@@ -174,12 +175,12 @@ func path_to_closest_movable_space(
 		else:
 			for adj_ps in ps.adjacent_play_spaces():
 				var path_to_adj_ps = find_play_space_path(adj_ps, ignore_obstacles)
-				if path_to_adj_ps.path_length > 0  and path_to_adj_ps.path_length < max_moves:
+				if path_to_adj_ps.path_length > 0 and path_to_adj_ps.path_length < max_moves:
 					return path_to_adj_ps
 				elif adj_ps not in tried_spaces and !adj_ps.card_in_this_play_space:
 					queue.append(adj_ps)
 					tried_spaces.append(adj_ps)
-	
+
 	return PlaySpacePath.new(goal_space, self, false)
 
 
@@ -188,13 +189,10 @@ func set_conquered_by(player_id: int) -> void:
 		Tutorial.continue_tutorial()
 	if GameManager.is_single_player:
 		BattleSynchronizer.set_conquered_by(player_id, column, row)
-		
+
 	if !GameManager.is_single_player:
 		for p_id in GameManager.players:
-			BattleSynchronizer.set_conquered_by.rpc_id(
-				p_id, player_id, column, row
-			)
-	
+			BattleSynchronizer.set_conquered_by.rpc_id(p_id, player_id, column, row)
 
 
 func set_border() -> void:
@@ -205,7 +203,7 @@ func set_border() -> void:
 			GameManager.p2_id:
 				get_theme_stylebox("panel").border_color = Styling.p2_conquered_color
 		return
-		
+
 	if Collections.play_space_attributes.VICTORY_SPACE in attributes:
 		get_theme_stylebox("panel").border_color = Styling.victory_space_color
 	else:
@@ -226,12 +224,12 @@ func _add_border() -> void:
 
 func is_in_starting_area(player_id: int) -> bool:
 	if (
-		player_id == GameManager.p1_id 
+		player_id == GameManager.p1_id
 		and Collections.play_space_attributes.P1_START_SPACE in attributes
 	):
 		return true
 	if (
-		player_id == GameManager.p2_id 
+		player_id == GameManager.p2_id
 		and Collections.play_space_attributes.P2_START_SPACE in attributes
 	):
 		return true
@@ -242,14 +240,14 @@ func is_in_starting_area(player_id: int) -> bool:
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 	if data.card_type == Collections.card_types.SPELL:
 		return true
-	
+
 	elif (
-		territory 
-		and territory.owner_id == data.card_owner_id 
+		territory
+		and territory.owner_id == data.card_owner_id
 		and data.card_type == Collections.card_types.UNIT
 	):
 		return true
-	
+
 	return false
 
 
@@ -270,9 +268,7 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 					BattleSynchronizer.play_unit.rpc_id(
 						p_id, data.card_index, data.card_owner_id, column, row
 					)
-					BattleSynchronizer.remove_card_from_hand.rpc_id(
-						p_id, c_owner_id, h_index
-					)
+					BattleSynchronizer.remove_card_from_hand.rpc_id(p_id, c_owner_id, h_index)
 			if len(data.fibers) == 1:
 				GameManager.resources[data.card_owner_id].add_resource(data.fibers[0], 1)
 		Collections.card_types.SPELL:
@@ -283,32 +279,27 @@ func _set_play_space_attributes() -> void:
 	# If we want to enable multiple maps, we should load id it as an export var in this script
 	attributes = MapDatabase.get_play_space_attributes(MapDatabase.maps.BASE_MAP, self)
 	if Collections.play_space_attributes.VICTORY_SPACE in attributes:
-		GameManager.victory_spaces.append(self) 
+		GameManager.victory_spaces.append(self)
 
 
 func _calc_position() -> Vector2:
-	return Vector2(
-		MapSettings.get_column_start_x(column), 
-		MapSettings.get_row_start_y(row)
-	)
+	return Vector2(MapSettings.get_column_start_x(column), MapSettings.get_row_start_y(row))
 
 
 func _on_gui_input(event):
 	if !GameManager.is_ready_to_play:
 		return
-	
+
 	var left_mouse_button_pressed = (
-		event is InputEventMouseButton 
-		and event.button_index == MOUSE_BUTTON_LEFT 
-		and event.pressed
+		event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed
 	)
-	
+
 	var right_mouse_button_pressed = (
-		event is InputEventMouseButton 
-		and event.button_index == MOUSE_BUTTON_RIGHT 
+		event is InputEventMouseButton
+		and event.button_index == MOUSE_BUTTON_RIGHT
 		and event.pressed
 	)
-	
+
 	if (
 		left_mouse_button_pressed
 		and TargetSelection.selecting_spaces
@@ -320,7 +311,7 @@ func _on_gui_input(event):
 
 	elif left_mouse_button_pressed and !TargetSelection.making_selection:
 		TargetSelection.end_selecting()
-	
+
 	if (
 		right_mouse_button_pressed
 		and GameManager.turn_manager.turn_actions_enabled
@@ -330,7 +321,7 @@ func _on_gui_input(event):
 	):
 		var card: CardInPlay = TargetSelection.card_selected_for_movement
 		var card_path = card.current_play_space.find_play_space_path(self, card.move_through_units)
-		
+
 		if card_path.path_length > 0 and card_path.path_length <= card.movement + 1:
 			select_path_to_play_space(card_path)
 
@@ -344,23 +335,25 @@ func _on_gui_input(event):
 	):
 		var card: CardInPlay = TargetSelection.card_selected_for_movement
 		TargetSelection.current_path.extend_path(self)
-		
+
 		if (
-			TargetSelection.current_path.path_length > 0 
+			TargetSelection.current_path.path_length > 0
 			and TargetSelection.current_path.path_length <= card.movement + 1
 		):
 			TargetSelection.current_path.show_path()
 			selected_for_movement = true
 			TargetSelection.play_space_selected_for_movement = self
 			TargetSelection.making_selection = true
-		
+
 		else:
 			TargetSelection.clear_paths()
-			var card_path = card.current_play_space.find_play_space_path(self, card.move_through_units)
-		
+			var card_path = card.current_play_space.find_play_space_path(
+				self, card.move_through_units
+			)
+
 			if card_path.path_length > 0 and card_path.path_length <= card.movement + 1:
 				select_path_to_play_space(card_path)
-			
+
 			else:
 				TargetSelection.end_selecting()
 				Events.clear_paths.emit()

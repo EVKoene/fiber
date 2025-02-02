@@ -5,9 +5,7 @@ class_name DeckPickContainer
 @onready var deck_name_border := StyleBoxFlat.new()
 @onready var save_path := "user://savedata/"
 @onready var collections_path := str(save_path, "collections.ini")
-var deck_info := {
-	"DeckName": "DeckName"
-}
+var deck_info := {"DeckName": "DeckName"}
 var deck_id := 0
 var deck_picker: DeckPicker
 

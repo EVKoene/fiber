@@ -1,18 +1,14 @@
 extends Control
 
-
-var is_paused: bool = false: set = _set_is_paused
+var is_paused: bool = false:
+	set = _set_is_paused
 
 
 func _unhandled_input(event):
 	if !GameManager.is_ready_to_play:
 		return
-	
-	if (
-		event is InputEventMouseButton 
-		and event.button_index == MOUSE_BUTTON_LEFT 
-		and event.pressed
-	):
+
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		TargetSelection.end_selecting()
 
 

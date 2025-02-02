@@ -37,7 +37,7 @@ func indicate_lower_option() -> void:
 		current_option_index = 0
 	else:
 		current_option_index += 1
-	
+
 	options[current_option_index].show_option_indicator()
 
 
@@ -47,7 +47,7 @@ func indicate_higher_option() -> void:
 		current_option_index = len(options) - 1
 	else:
 		current_option_index -= 1
-	
+
 	options[current_option_index].show_option_indicator()
 
 
@@ -63,15 +63,14 @@ func _cleanup_options() -> void:
 func _input(_event):
 	if !picking_options:
 		return
-	
+
 	if Input.is_action_just_pressed("ui_accept"):
 		OverworldManager.overworld_textbox.cleanup_textbox()
 		option_picked.emit(current_option_index)
 		_cleanup_options()
-	
+
 	elif Input.is_action_just_pressed("ui_down"):
 		indicate_lower_option()
-	
+
 	elif Input.is_action_just_pressed("ui_up"):
 		indicate_higher_option()
-		 

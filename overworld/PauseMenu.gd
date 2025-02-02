@@ -1,7 +1,7 @@
 extends Control
 
-
-var is_paused: bool = false: set = _set_is_paused
+var is_paused: bool = false:
+	set = _set_is_paused
 
 
 func show_pick_deck() -> void:
@@ -17,10 +17,7 @@ func show_pause_menu() -> void:
 
 
 func _input(event):
-	if (
-		(Input.is_action_just_pressed("ui_cancel")) 
-		and TargetSelection.making_selection
-	):
+	if (Input.is_action_just_pressed("ui_cancel")) and TargetSelection.making_selection:
 		TargetSelection.end_selecting()
 		Events.clear_paths.emit()
 

@@ -1,7 +1,7 @@
 extends CardInPlay
 
-
 class_name GorillaBattlecaller
+
 
 func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 	if (
@@ -12,7 +12,10 @@ func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 			ps.update_stat_modifier(card_owner_id, Collections.stats.MAX_ATTACK, 2)
 			ps.update_stat_modifier(card_owner_id, Collections.stats.MOVEMENT, 1)
 	elif (
-		(trigger == Collections.triggers.CARD_DESTROYED or trigger == Collections.triggers.CARD_MOVING_AWAY)
+		(
+			trigger == Collections.triggers.CARD_DESTROYED
+			or trigger == Collections.triggers.CARD_MOVING_AWAY
+		)
 		and triggering_card == self
 	):
 		for ps in current_play_space.adjacent_play_spaces():

@@ -28,8 +28,8 @@ func get_column_start_x(column) -> float:
 		return MapSettings.play_area_start.x + MapSettings.play_space_size.x * column
 	else:
 		return (
-			MapSettings.play_area_start.x + 
-			MapSettings.play_space_size.x * MapSettings.n_columns
+			MapSettings.play_area_start.x
+			+ MapSettings.play_space_size.x * MapSettings.n_columns
 			- MapSettings.play_space_size.x * (column + 1)
 		)
 
@@ -39,8 +39,8 @@ func get_row_start_y(row) -> float:
 		return MapSettings.play_area_start.y + MapSettings.play_space_size.y * row
 	else:
 		return (
-			MapSettings.play_area_start.y + 
-			MapSettings.play_space_size.y * MapSettings.n_rows
+			MapSettings.play_area_start.y
+			+ MapSettings.play_space_size.y * MapSettings.n_rows
 			- MapSettings.play_space_size.y * (row + 1)
 		)
 
@@ -50,17 +50,18 @@ func get_column_end_x(column) -> float:
 		return MapSettings.play_area_start.x + MapSettings.play_space_size.x * (column + 1)
 	else:
 		return (
-			MapSettings.play_area_start.x + 
-			MapSettings.play_space_size.x * MapSettings.n_columns
+			MapSettings.play_area_start.x
+			+ MapSettings.play_space_size.x * MapSettings.n_columns
 			- MapSettings.play_space_size.x * column
 		)
+
 
 func get_row_end_y(row) -> float:
 	if multiplayer.get_unique_id() == GameManager.p1_id:
 		return MapSettings.play_area_start.y + MapSettings.play_space_size.y * (row + 1)
 	else:
 		return (
-			MapSettings.play_area_start.y + 
-			MapSettings.play_space_size.y * MapSettings.n_rows
+			MapSettings.play_area_start.y
+			+ MapSettings.play_space_size.y * MapSettings.n_rows
 			- MapSettings.play_space_size.y * row
 		)

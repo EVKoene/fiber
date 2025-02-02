@@ -2,13 +2,12 @@ extends CardInPlay
 
 class_name ProtectorOfTheForest
 
-
 var has_moved: bool = false
 
 
 func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 	if (
-		trigger == Collections.triggers.TURN_STARTED 
+		trigger == Collections.triggers.TURN_STARTED
 		and GameManager.turn_manager.turn_owner_id == card_owner_id
 	):
 		if !has_moved:

@@ -1,6 +1,5 @@
 extends StaticBody2D
 
-
 class_name Sign
 
 @export var sign_text: Array

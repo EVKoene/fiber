@@ -9,7 +9,10 @@ extends Node
 
 
 func cards_in_range(
-	player_id: int, card_range: int, target_restrictions: int, ignore_obstacles := true, 
+	player_id: int,
+	card_range: int,
+	target_restrictions: int,
+	ignore_obstacles := true,
 ) -> Array:
 	var cards := []
 	for card in GameManager.cards_in_play[player_id]:
@@ -22,7 +25,10 @@ func cards_in_range(
 
 
 func cards_in_range_of_card(
-	card: CardInPlay, card_range: int, target_restrictions: int, ignore_obstacles := true,
+	card: CardInPlay,
+	card_range: int,
+	target_restrictions: int,
+	ignore_obstacles := true,
 	include_self := false
 ) -> Array:
 	var cards := []
@@ -32,27 +38,36 @@ func cards_in_range_of_card(
 				continue
 			match target_restrictions:
 				TargetSelection.target_restrictions.ANY_UNITS:
-					if card.current_play_space.distance_to_play_space(
-						c.current_play_space, ignore_obstacles
-					) <= card_range:
+					if (
+						card.current_play_space.distance_to_play_space(
+							c.current_play_space, ignore_obstacles
+						)
+						<= card_range
+					):
 						cards.append(c)
 				TargetSelection.target_restrictions.OWN_UNITS:
 					if (
-						card.current_play_space.distance_to_play_space(
-						c.current_play_space, ignore_obstacles
-						) <= card_range 
-						and card.card_owner_id == c.card_owner_id 
+						(
+							card.current_play_space.distance_to_play_space(
+								c.current_play_space, ignore_obstacles
+							)
+							<= card_range
+						)
+						and card.card_owner_id == c.card_owner_id
 					):
 						cards.append(c)
 				TargetSelection.target_restrictions.OPPONENT_UNITS:
 					if (
-						card.current_play_space.distance_to_play_space(
-						c.current_play_space, ignore_obstacles
-						) <= card_range 
-						and card.card_owner_id != c.card_owner_id 
+						(
+							card.current_play_space.distance_to_play_space(
+								c.current_play_space, ignore_obstacles
+							)
+							<= card_range
+						)
+						and card.card_owner_id != c.card_owner_id
 					):
 						cards.append(c)
-	
+
 	return cards
 
 
@@ -73,19 +88,17 @@ func distance_to_closest_enemy_unit(card: CardInPlay) -> int:
 			shortest_distance = distance_to_unit
 		elif shortest_distance != -1 and distance_to_unit < shortest_distance:
 			shortest_distance = distance_to_unit
-	
+
 	return shortest_distance
 
 
-func closest_spaces_within_movement(
-	card: CardInPlay, goal_space: PlaySpace
-) -> Array: 
+func closest_spaces_within_movement(card: CardInPlay, goal_space: PlaySpace) -> Array:
 	var closest_spaces := []
 	var closest_distance := -1
 	var distance_to_goal_space := card.current_play_space.distance_to_play_space(
 		goal_space, card.ignore_obstacles
 	)
-	if distance_to_goal_space  -1:
+	if distance_to_goal_space - 1:
 		return [goal_space]
 	for ps in GameManager.play_spaces:
 		var distance_to_ps: int = ps.distance_to_play_space(goal_space, card.ignore_obstacles)
@@ -98,7 +111,7 @@ func closest_spaces_within_movement(
 		elif distance_to_ps < closest_distance:
 			closest_distance = distance_to_ps
 			closest_spaces = ps
-	
+
 	return closest_spaces
 
 
@@ -117,7 +130,7 @@ func closest_enemy_units(card: CardInPlay) -> Array:
 		elif shortest_distance != -1 and distance_to_unit < shortest_distance:
 			shortest_distance = distance_to_unit
 			closest_cards = [c]
-	
+
 	return closest_cards
 
 
@@ -138,7 +151,7 @@ func closest_conquerable_space(player_id: int, card: CardInPlay) -> Array:
 		elif shortest_distance != -1 and distance_to_space < shortest_distance:
 			shortest_distance = distance_to_space
 			closest_spaces = [ps]
-	
+
 	return closest_spaces
 
 
@@ -162,9 +175,11 @@ func n_cards_in_adjacent_play_spaces(card: CardInPlay, target_restrictions: int)
 func calc_n_lines(text: String) -> int:
 	assert(
 		len(text) <= 180,
-		 str(
-			"Card text too large for text box. Max text length: 180. Text length: ", len(text),
-			". Card text: ", text
+		str(
+			"Card text too large for text box. Max text length: 180. Text length: ",
+			len(text),
+			". Card text: ",
+			text
 		)
 	)
 	if len(text) == 0:

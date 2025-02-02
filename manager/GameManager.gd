@@ -1,6 +1,5 @@
 extends Node
 
-
 #TODO: This file desperately needs to be split into several smaller files, but I can't find a
 # setup that makes sense.
 ### SCENES ###
@@ -24,8 +23,8 @@ var p2_id: int
 var players := {}
 var is_single_player := true
 var player_id: int  # The player's own id
-@onready var deck: Dictionary : get = _get_current_deck
-
+@onready var deck: Dictionary:
+	get = _get_current_deck
 
 #### BATTLE ###
 var is_ready_to_play := false
@@ -40,7 +39,7 @@ var progress_bars := {}
 var resources := {}
 # Decks should only be visible to the server
 var decks := {}
-# cards_in_hand and cards_in_play contain the two player ids as keys with an array containing all 
+# cards_in_hand and cards_in_play contain the two player ids as keys with an array containing all
 # the the current card nodes beloning to them. They use the card_in_play_index (cip_index) and
 # hand_index.
 var cards_in_hand := {}
@@ -54,17 +53,14 @@ var ai_player_id: int
 ### OVERWORLD ###
 var current_scene: Variant
 
-
 ### DECKBUILDER ###
 @onready var save_path := "user://savedata/"
 @onready var collections_path := str(save_path, "collections.ini")
 var deck_builder: DeckBuilder
 
-
 @rpc("any_peer", "call_local")
 func add_player(
-	player_number: int, p_id: int, player_name: String, p_deck: Dictionary,
-	npc_id: int = -1
+	player_number: int, p_id: int, player_name: String, p_deck: Dictionary, npc_id: int = -1
 ) -> void:
 	if !players.has(p_id):
 		players[p_id] = {
@@ -80,27 +76,27 @@ func add_player(
 				is_player_1 = true
 		if player_number == 2:
 			p2_id = p_id
-	
+
 	if is_server and player_number == 2 and !is_single_player:
 		for i in players:
 			add_player.rpc_id(
 				p2_id,
-				players[i]["PlayerNumber"], 
-				players[i]["ID"], 
-				players[i]["Name"], 
+				players[i]["PlayerNumber"],
+				players[i]["ID"],
+				players[i]["Name"],
 				players[i]["Deck"],
 				players[i]["NPCID"]
 			)
 			if MultiplayerManager.dedicated_server:
 				add_player.rpc_id(
 					p1_id,
-					players[i]["PlayerNumber"], 
-					players[i]["ID"], 
-					players[i]["Name"], 
+					players[i]["PlayerNumber"],
+					players[i]["ID"],
+					players[i]["Name"],
 					players[i]["Deck"],
 					players[i]["NPCID"]
 				)
-		
+
 		main_menu.show_start_game_button.rpc()
 
 
@@ -118,10 +114,10 @@ func setup_starter_deck(fiber: int) -> void:
 			starter_deck_id = DeckCollection.deck_ids.GROWTH_STARTER
 		Collections.fibers.LOGIC:
 			starter_deck_id = DeckCollection.deck_ids.LOGIC_STARTER
-	
+
 	for c in DeckCollection.decks[starter_deck_id]["Cards"].keys():
 		cards[c] = DeckCollection.decks[starter_deck_id]["Cards"][c]
-	
+
 	config.set_value("card_collection", "cards", cards)
 	config.set_value("deck_data", "decks", {starter_deck_id: DeckCollection.decks[starter_deck_id]})
 	config.set_value("deck_data", "current_deck_id", starter_deck_id)
@@ -139,20 +135,16 @@ func start_game() -> void:
 	main_menu.add_child(b_map, true)
 
 
-
 func start_single_player_battle(npc_id: int) -> void:
 	ai_player = null
 	ai_player_id = -1
 	var npc_data: Dictionary = NPCDatabase.npc_data[npc_id]
 	if !players.has(1):
-		add_player(
-			1, 1, "Player1", deck
-		)
+		add_player(1, 1, "Player1", deck)
 	player_id = 1
 
 	add_player(2, 2, npc_data["Name"], DeckCollection.decks[npc_data["DeckID"]], npc_id)
 	start_game()
-
 
 
 func opposing_player_id(p_id: int) -> int:
@@ -213,13 +205,11 @@ func _start_first_turn() -> void:
 		else:
 			turn_manager.hide_end_turn_button()
 			ai_player.ai_turn_manager.start_turn()
-	
+
 	else:
 		for p_id in players:
 			set_ready_to_play.rpc_id(p_id, true)
-		turn_manager.hide_end_turn_button.rpc_id(
-			opposing_player_id(first_player_id)
-		)
+		turn_manager.hide_end_turn_button.rpc_id(opposing_player_id(first_player_id))
 		turn_manager.show_start_turn_text.rpc_id(first_player_id)
 
 
@@ -247,7 +237,7 @@ func set_ready_to_play(is_ready: bool) -> void:
 func _get_current_deck() -> Dictionary:
 	if testing:
 		return DeckCollection.decks[DeckCollection.deck_ids.PLAYER_TESTING]
-	
+
 	var config := ConfigFile.new()
 	config.load(collections_path)
 	var deck_collection: Dictionary = config.get_value("deck_data", "decks")

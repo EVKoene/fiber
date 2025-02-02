@@ -12,13 +12,9 @@ func _init(_player_deck: Dictionary, _npc: int):
 
 func start_battle() -> void:
 	GameManager.testing = false
-	GameManager.add_player_to_GameManager(
-		1, "Player1", player_deck
-	)
-	
-	GameManager.add_player_to_GameManager(
-			2, "AIOpponent", npc_data["DeckID"]
-		)
+	GameManager.add_player_to_GameManager(1, "Player1", player_deck)
+
+	GameManager.add_player_to_GameManager(2, "AIOpponent", npc_data["DeckID"])
 	GameManager.is_single_player = true
 	var battle_map_scene: PackedScene = load("res://map/BattleMap.tscn")
 	var battle_map = battle_map_scene.instantiate()

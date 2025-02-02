@@ -6,10 +6,10 @@ func find_cards_with_stat_from_options(
 ) -> Array:
 	var cards: Array = []
 	var lowest_stat: int = 0
-	
+
 	for c in card_options:
 		var card_stat: int
-		
+
 		match stat:
 			Collections.stats.HEALTH:
 				card_stat = c.battle_stats.health
@@ -21,7 +21,7 @@ func find_cards_with_stat_from_options(
 				card_stat = c.battle_stats.movement
 			Collections.stats.TOTAL_COST:
 				card_stat = c.costs.total()
-		
+
 		match stat_param:
 			Collections.stat_params.LOWEST:
 				if card_stat == lowest_stat:
@@ -34,9 +34,7 @@ func find_cards_with_stat_from_options(
 				var highest_stat = 0
 				if card_stat == highest_stat:
 					cards.append(c)
-				elif (
-					card_stat > highest_stat 
-				):
+				elif card_stat > highest_stat:
 					cards = [c]
 					highest_stat = card_stat
 
@@ -65,7 +63,7 @@ func cards_to_swap_with(card) -> Array:
 			beneficial_swap = true
 		elif is_wanting_to_swap_with_card(c, card) and card_costs_minus_c_costs < 0:
 			beneficial_swap = true
-	
+
 		if beneficial_swap and highest_cost_swap == -1:
 			highest_cost_swap = max(card.costs.total(), c.costs.total())
 			swap_cards = [c]
@@ -74,7 +72,6 @@ func cards_to_swap_with(card) -> Array:
 			swap_cards = [c]
 		elif beneficial_swap and highest_cost_swap == max(card.costs.total(), c.costs.total()):
 			swap_cards.append(c)
-		
 
 	return swap_cards
 
@@ -87,7 +84,8 @@ func is_wanting_to_swap_with_card(card: CardInPlay, card_swap: CardInPlay) -> bo
 				if (
 					CardHelper.n_cards_in_adjacent_play_spaces(
 						card_swap, TargetSelection.target_restrictions.OWN_UNITS
-					) > CardHelper.n_cards_in_adjacent_play_spaces(
+					)
+					> CardHelper.n_cards_in_adjacent_play_spaces(
 						card, TargetSelection.target_restrictions.OWN_UNITS
 					)
 				):
@@ -96,30 +94,27 @@ func is_wanting_to_swap_with_card(card: CardInPlay, card_swap: CardInPlay) -> bo
 				if (
 					CardHelper.n_cards_in_adjacent_play_spaces(
 						card_swap, TargetSelection.target_restrictions.OPPONENT_UNITS
-					) > CardHelper.n_cards_in_adjacent_play_spaces(
+					)
+					> CardHelper.n_cards_in_adjacent_play_spaces(
 						card, TargetSelection.target_restrictions.OPPONENT_UNITS
 					)
 				):
 					want = true
 			Collections.purposes.DEFEND_RESOURCE:
-				if (
-					CardHelper.on_victory_space(card_swap) 
-					and !CardHelper.on_victory_space(card)
-				):
+				if CardHelper.on_victory_space(card_swap) and !CardHelper.on_victory_space(card):
 					want = true
 			Collections.purposes.BATTLE:
 				if (
-					CardHelper.distance_to_closest_enemy_unit(card_swap) < 
-					CardHelper.distance_to_closest_enemy_unit(card)
+					CardHelper.distance_to_closest_enemy_unit(card_swap)
+					< CardHelper.distance_to_closest_enemy_unit(card)
 				):
 					want = true
 			Collections.purposes.REAR:
 				if (
-					CardHelper.distance_to_closest_enemy_unit(card_swap) > 
-					CardHelper.distance_to_closest_enemy_unit(card)
+					CardHelper.distance_to_closest_enemy_unit(card_swap)
+					> CardHelper.distance_to_closest_enemy_unit(card)
 				):
 					want = true
-	
 
 	return want
 
@@ -129,25 +124,25 @@ func conquer_space(card: CardInPlay) -> bool:
 	for s in GameManager.victory_spaces:
 		if !s.conquered_by:
 			continue
-		
+
 		if s.conquered_by == GameManager.ai_player_id:
 			n_conquered_victory_spaces += 1
 	if n_conquered_victory_spaces >= MapSettings.n_progress_bars:
 		GameManager.ai_player.game_over = true
-	
+
 	card.conquer_space()
-	
+
 	return true
 
 
 func attack_adjacent_enemies(card: CardInPlay) -> bool:
 	var enemies_in_attack_range := CardHelper.cards_in_range_of_card(
-			card, 1, TargetSelection.target_restrictions.OPPONENT_UNITS
-		)
+		card, 1, TargetSelection.target_restrictions.OPPONENT_UNITS
+	)
 	if len(enemies_in_attack_range) > 0:
 		await card.attack_card(enemies_in_attack_range.pick_random())
 		return true
-	
+
 	return false
 
 
@@ -156,12 +151,12 @@ func horizontal_area(area_column: int, area_row: int, max_axis: int, min_axis: i
 	for c in range(min_axis):
 		if area_column + c > MapSettings.n_columns:
 			break
-		
+
 		for r in range(max_axis):
 			if area_row + r > MapSettings.n_rows:
 				break
 			area.append(GameManager.ps_column_row[area_column + c][area_row + r])
-	
+
 	return area
 
 
@@ -170,18 +165,20 @@ func vertical_area(area_column: int, area_row: int, max_axis: int, min_axis: int
 	for c in range(max_axis):
 		if area_column + c > MapSettings.n_columns:
 			break
-		
+
 		for r in range(min_axis):
 			if area_row + r > MapSettings.n_rows:
 				break
 			area.append(GameManager.ps_column_row[area_column + c][area_row + r])
-	
+
 	return area
 
 
-func areas_in_range_with_most_enemy_units(range_to_check: int, max_axis: int, min_axis: int) -> Array:
+func areas_in_range_with_most_enemy_units(
+	range_to_check: int, max_axis: int, min_axis: int
+) -> Array:
 	var areas := []
-	var play_spaces_in_range: Array= PlaySpaceHelper.spaces_in_range(
+	var play_spaces_in_range: Array = PlaySpaceHelper.spaces_in_range(
 		range_to_check, GameManager.ai_player_id
 	)
 	var highest_n_enemies := 0
@@ -194,7 +191,7 @@ func areas_in_range_with_most_enemy_units(range_to_check: int, max_axis: int, mi
 				if ps in play_spaces_in_range:
 					is_area_in_range = true
 				if (
-					ps.card_in_this_play_space 
+					ps.card_in_this_play_space
 					and ps.card_in_this_play_space.card_owner_id == GameManager.p1_id
 				):
 					n_enemies += 1
@@ -209,10 +206,10 @@ func areas_in_range_with_most_enemy_units(range_to_check: int, max_axis: int, mi
 			if n_enemies > highest_n_enemies:
 				areas = [area]
 				highest_n_enemies = n_enemies
-	
+
 	if max_axis == min_axis:
 		return areas
-	
+
 	for c in range(MapSettings.n_columns - max_axis):
 		for r in range(MapSettings.n_rows - min_axis):
 			var area := vertical_area(c, r, max_axis, min_axis)
@@ -222,7 +219,7 @@ func areas_in_range_with_most_enemy_units(range_to_check: int, max_axis: int, mi
 				if ps in play_spaces_in_range:
 					is_area_in_range = true
 				if (
-					ps.card_in_this_play_space 
+					ps.card_in_this_play_space
 					and ps.card_in_this_play_space.card_owner_id == GameManager.p1_id
 				):
 					n_enemies += 1
@@ -237,5 +234,5 @@ func areas_in_range_with_most_enemy_units(range_to_check: int, max_axis: int, mi
 			if n_enemies > highest_n_enemies:
 				areas = [area]
 				highest_n_enemies = n_enemies
-	
+
 	return areas

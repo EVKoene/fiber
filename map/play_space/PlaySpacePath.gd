@@ -1,16 +1,17 @@
 extends Node
 
-
 class_name PlaySpacePath
 
-@onready var play_space_arrow_scene: PackedScene = preload("res://map/play_space/PlaySpaceArrow.tscn")
+@onready
+var play_space_arrow_scene: PackedScene = preload("res://map/play_space/PlaySpaceArrow.tscn")
 
 var path_spaces: Array
 var last_space: PlaySpace
 var first_space: PlaySpace
 var goal_space_occupied: bool
 var ignore_obstacles: bool = false
-var path_length: int: get = _get_path_length
+var path_length: int:
+	get = _get_path_length
 
 
 func _init(_last_space: PlaySpace, _first_space: PlaySpace, _ignore_obstacles := false):
@@ -23,19 +24,18 @@ func _ready():
 	path_spaces = find_path(first_space, last_space)
 
 
-
 func extend_path(goal_space: PlaySpace) -> PlaySpacePath:
 	last_space = goal_space
 	# Trying to extend an empty path should return an empty path rather than giving an error
 	if path_length == 0:
 		path_spaces = []
 		return self
-	
+
 	var extended_path: Array = find_path(path_spaces.back(), goal_space)
 	# Remove the first index so it isn't added twice
 	extended_path.remove_at(0)
 	path_spaces += extended_path
-	
+
 	return self
 
 
@@ -55,9 +55,7 @@ func find_path(starting_space: PlaySpace, goal_space: PlaySpace) -> Array:
 			break
 
 		for adj_ps in ps.adjacent_play_spaces():
-			if adj_ps not in distance and (
-				!adj_ps.card_in_this_play_space or ignore_obstacles
-			):
+			if adj_ps not in distance and (!adj_ps.card_in_this_play_space or ignore_obstacles):
 				queue.append(adj_ps)
 				came_from[adj_ps] = ps
 				distance[adj_ps] = 1 + distance[ps]
@@ -71,7 +69,7 @@ func find_path(starting_space: PlaySpace, goal_space: PlaySpace) -> Array:
 			for ps in distance:
 				if came_from[play_spaces[0]] == ps and distance[play_spaces[0]] == distance[ps] + 1:
 					play_spaces.push_front(ps)
-	
+
 	return play_spaces
 
 
@@ -82,12 +80,12 @@ func show_path() -> void:
 		arrow.position.y = path_spaces[index].position.y
 		arrow.scale *= MapSettings.play_space_size / arrow.size
 		GameManager.battle_map.add_child(arrow)
-		
+
 		var next_column_higher: bool = path_spaces[index + 1].column > path_spaces[index].column
 		var next_column_lower: bool = path_spaces[index + 1].column < path_spaces[index].column
 		var next_row_higher: bool = path_spaces[index + 1].row > path_spaces[index].row
 		var next_row_lower: bool = path_spaces[index + 1].row < path_spaces[index].row
-		
+
 		# TODO: Setting the position after rotating should be done with pivot_offset, but I
 		# can't figure it out so I'm leaving it for later
 		if (

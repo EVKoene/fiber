@@ -1,6 +1,5 @@
 extends Button
 
-
 class_name CardMenuActionButton
 
 var cip_index: int
@@ -14,7 +13,7 @@ func _ready():
 	var label := Label.new()
 	label.set_anchors_and_offsets_preset(Control.PRESET_HCENTER_WIDE)
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	var button_font_size: int = round(MapSettings.play_space_size.x)/15
+	var button_font_size: int = round(MapSettings.play_space_size.x) / 15
 	label.label_settings = LabelSettings.new()
 	label.label_settings.font_size = button_font_size
 	label.text = func_text

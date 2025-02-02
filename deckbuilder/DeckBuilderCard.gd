@@ -2,7 +2,6 @@ extends HBoxContainer
 
 class_name DeckBuilderCard
 
-
 @onready var border := StyleBoxFlat.new()
 @onready var deck_builder = GameManager.deck_builder
 @onready var n_label := $NLabel
@@ -42,16 +41,19 @@ func add_to_deck() -> void:
 		deck_builder.cards_in_deck[card_index]["Card"].set_n_label()
 	else:
 		deck_builder.add_new_card_to_deck(card_index)
-	
+
 	set_n_label()
 
 
 func remove_from_deck() -> void:
 	deck_builder.cards_in_deck[card_index]["NCards"] -= 1
 	if card_index in deck_builder.starting_cards.keys():
-		if deck_builder.starting_cards[card_index] > deck_builder.cards_in_deck[card_index]["NCards"]:
+		if (
+			deck_builder.starting_cards[card_index]
+			> deck_builder.cards_in_deck[card_index]["NCards"]
+		):
 			deck_builder.remove_from_starting_cards(card_index)
-	
+
 	if deck_builder.cards_in_deck[card_index]["NCards"] == 0:
 		queue_free()
 		GameManager.deck_builder.cards_in_deck.erase(card_index)
@@ -88,19 +90,21 @@ func set_n_label() -> void:
 func set_card_properties():
 	$CardContainer/Vbox/TopInfo/CardNameBG/CardName.text = ingame_name
 	_set_card_cost_visuals()
-	
+
 	if card_type == Collections.card_types.UNIT:
 		if max_attack == min_attack:
 			$CardContainer/Vbox/BotInfo/BattleStats.text = str(max_attack, " / ", health)
 		else:
-			$CardContainer/Vbox/BotInfo/BattleStats.text = str(max_attack, "-", min_attack, " / ", health)
+			$CardContainer/Vbox/BotInfo/BattleStats.text = str(
+				max_attack, "-", min_attack, " / ", health
+			)
 		$CardContainer/Vbox/BotInfo/CardRange.text = str(movement)
 	elif card_type == Collections.card_types.SPELL:
 		$CardContainer/Vbox/BotInfo/BattleStats.hide()
 		$CardContainer/Vbox/BotInfo/CardRange.text = str(card_range)
-	
+
 	$CardContainer.get_theme_stylebox("panel").border_color = Styling.faction_colors[fibers]
-	
+
 	if !is_in_deck:
 		$StartCardBox/PlusButton.hide()
 		$StartCardBox/NStartCards.hide()
@@ -108,46 +112,35 @@ func set_card_properties():
 
 
 func _set_card_cost_visuals() -> void:
-		if costs.passion > 0:
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Passion.show()
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Passion.text = str(
-				costs.passion
-			)
-		else:
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Passion.hide()
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Passion.text = "0"
-			
-		if costs.imagination > 0:
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Imagination.show()
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Imagination.text = str(
-				costs.imagination
-			)
-		else:
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Imagination.hide()
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Imagination.text = "0"
-
-		if costs.growth > 0:
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Growth.show()
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Growth.text = str(
-				costs.growth
-			)
-		else:
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Growth.hide()
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Growth.text = "0"
-			
-		if costs.logic > 0:
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Logic.show()
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Logic.text = str(
-				costs.logic
-			)
-		else:
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Logic.hide()
-			$CardContainer/Vbox/TopInfo/Costs/CostLabels/Logic.text = "0"
+	if costs.passion > 0:
+		$CardContainer/Vbox/TopInfo/Costs/CostLabels/Passion.show()
+		$CardContainer/Vbox/TopInfo/Costs/CostLabels/Passion.text = str(costs.passion)
+	else:
+		$CardContainer/Vbox/TopInfo/Costs/CostLabels/Passion.hide()
+		$CardContainer/Vbox/TopInfo/Costs/CostLabels/Passion.text = "0"
+	if costs.imagination > 0:
+		$CardContainer/Vbox/TopInfo/Costs/CostLabels/Imagination.show()
+		$CardContainer/Vbox/TopInfo/Costs/CostLabels/Imagination.text = str(costs.imagination)
+	else:
+		$CardContainer/Vbox/TopInfo/Costs/CostLabels/Imagination.hide()
+		$CardContainer/Vbox/TopInfo/Costs/CostLabels/Imagination.text = "0"
+	if costs.growth > 0:
+		$CardContainer/Vbox/TopInfo/Costs/CostLabels/Growth.show()
+		$CardContainer/Vbox/TopInfo/Costs/CostLabels/Growth.text = str(costs.growth)
+	else:
+		$CardContainer/Vbox/TopInfo/Costs/CostLabels/Growth.hide()
+		$CardContainer/Vbox/TopInfo/Costs/CostLabels/Growth.text = "0"
+	if costs.logic > 0:
+		$CardContainer/Vbox/TopInfo/Costs/CostLabels/Logic.show()
+		$CardContainer/Vbox/TopInfo/Costs/CostLabels/Logic.text = str(costs.logic)
+	else:
+		$CardContainer/Vbox/TopInfo/Costs/CostLabels/Logic.hide()
+		$CardContainer/Vbox/TopInfo/Costs/CostLabels/Logic.text = "0"
 
 
 func _load_card_properties() -> void:
 	var card_info: Dictionary = CardDatabase.cards_info[card_index]
-	
+
 	ingame_name = card_info["InGameName"]
 	img_path = card_info["IMGPath"]
 	card_type = card_info["CardType"]
@@ -174,16 +167,14 @@ func _load_card_properties() -> void:
 func _set_card_text_font_size() -> void:
 	if !$CardContainer/Vbox/TopInfo/CardNameBG/CardName.label_settings:
 		$CardContainer/Vbox/TopInfo/CardNameBG/CardName.label_settings = LabelSettings.new()
-	var min_font: float = round(size.x)/30
-	var max_font: float = round(size.x)/20
+	var min_font: float = round(size.x) / 30
+	var max_font: float = round(size.x) / 20
 	var max_chars := 30
 	var font_range_diff: float = max_font - min_font
-	var font_change_per_char: float = font_range_diff/(max_chars)
+	var font_change_per_char: float = font_range_diff / (max_chars)
 	var card_font_size: float
-	card_font_size = (
-		max_font - len(ingame_name) * font_change_per_char
-	)
-	
+	card_font_size = (max_font - len(ingame_name) * font_change_per_char)
+
 	$CardContainer/Vbox/TopInfo/CardNameBG/CardName.label_settings.font_size = card_font_size
 
 
@@ -206,17 +197,12 @@ func _on_card_container_mouse_entered():
 	highlight_card()
 
 
-
 func _on_card_container_mouse_exited():
 	$CardContainer.get_theme_stylebox("panel").border_color = Styling.faction_colors[fibers]
 
 
 func _on_card_container_gui_input(event):
-	if (
-	event is InputEventMouseButton 
-	and event.button_index == MOUSE_BUTTON_LEFT 
-	and event.pressed
-):
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		if !is_in_deck:
 			add_to_deck()
 			remove_from_card_collection_options()

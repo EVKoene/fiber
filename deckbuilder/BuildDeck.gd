@@ -1,9 +1,9 @@
 extends Node
 
-
 class_name BuildDeck
 
 var cards := {}
+
 
 func add_card(card: DeckBuilderCard) -> void:
 	if card.card_index in cards.values:
@@ -14,8 +14,8 @@ func add_card(card: DeckBuilderCard) -> void:
 
 func remove_card(card: DeckBuilderCard) -> void:
 	assert(
-		card.card_index in cards.values, str(
-			"Tried to remove card that is not currently in deck: ", card.card_name)
+		card.card_index in cards.values,
+		str("Tried to remove card that is not currently in deck: ", card.card_name)
 	)
 	if cards[card.card_index] == 1:
 		cards.erase(card.card_index)

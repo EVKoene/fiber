@@ -1,6 +1,5 @@
 extends CharacterBody2D
 
-
 const SPEED: int = 200
 var current_direction: int
 var movement_paused: bool = false
@@ -13,14 +12,14 @@ func _ready():
 
 func _physics_process(_delta):
 	_player_movement()
-	
+
 
 func _player_movement():
 	if !OverworldManager.can_move:
 		return
-	
+
 	if (
-		Input.is_action_pressed("ui_down") 
+		Input.is_action_pressed("ui_down")
 		and current_direction == Collections.directions.DOWN
 		and !movement_paused
 	):
@@ -28,7 +27,7 @@ func _player_movement():
 		velocity.x = 0
 		velocity.y = SPEED
 	elif (
-		Input.is_action_pressed("ui_down") 
+		Input.is_action_pressed("ui_down")
 		and current_direction != Collections.directions.DOWN
 		and !movement_paused
 	):
@@ -37,7 +36,7 @@ func _player_movement():
 		velocity.x = 0
 		velocity.y = 0
 	elif (
-		Input.is_action_pressed("ui_left") 
+		Input.is_action_pressed("ui_left")
 		and current_direction == Collections.directions.LEFT
 		and !movement_paused
 	):
@@ -45,7 +44,7 @@ func _player_movement():
 		velocity.x = -SPEED
 		velocity.y = 0
 	elif (
-		Input.is_action_pressed("ui_left") 
+		Input.is_action_pressed("ui_left")
 		and current_direction != Collections.directions.LEFT
 		and !movement_paused
 	):
@@ -54,7 +53,7 @@ func _player_movement():
 		velocity.x = 0
 		velocity.y = 0
 	elif (
-		Input.is_action_pressed("ui_right") 
+		Input.is_action_pressed("ui_right")
 		and current_direction == Collections.directions.RIGHT
 		and !movement_paused
 	):
@@ -62,7 +61,7 @@ func _player_movement():
 		velocity.x = SPEED
 		velocity.y = 0
 	elif (
-		Input.is_action_pressed("ui_right") 
+		Input.is_action_pressed("ui_right")
 		and current_direction != Collections.directions.RIGHT
 		and !movement_paused
 	):
@@ -71,7 +70,7 @@ func _player_movement():
 		velocity.y = 0
 		current_direction = Collections.directions.RIGHT
 	elif (
-		Input.is_action_pressed("ui_up") 
+		Input.is_action_pressed("ui_up")
 		and current_direction == Collections.directions.UP
 		and !movement_paused
 	):
@@ -79,7 +78,7 @@ func _player_movement():
 		velocity.x = 0
 		velocity.y = -SPEED
 	elif (
-		Input.is_action_pressed("ui_up") 
+		Input.is_action_pressed("ui_up")
 		and current_direction != Collections.directions.UP
 		and !movement_paused
 	):
@@ -91,7 +90,7 @@ func _player_movement():
 		play_animation(0)
 		velocity.x = 0
 		velocity.y = 0
-		
+
 	move_and_slide()
 
 
@@ -101,7 +100,7 @@ func pause_movement() -> void:
 
 func play_animation(movement: int):
 	var animation: Object = $AnimatedSprite2D
-	
+
 	match current_direction:
 		Collections.directions.DOWN:
 			animation.flip_h = false

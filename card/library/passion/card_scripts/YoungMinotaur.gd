@@ -5,7 +5,7 @@ class_name YoungDrivenMinotaur
 
 func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 	if (
-		trigger == Collections.triggers.ATTACK 
+		trigger == Collections.triggers.ATTACK
 		and triggering_card.card_owner_id == card_owner_id
 		and triggering_card.current_play_space in spaces_in_range(2, true)
 	):

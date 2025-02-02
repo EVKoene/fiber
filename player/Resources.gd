@@ -2,7 +2,6 @@ extends Panel
 
 class_name Resources
 
-
 var gold := 0
 var passion := 0
 var imagination := 0
@@ -22,31 +21,33 @@ func _ready():
 func can_pay_costs(costs: Costs) -> bool:
 	if GameManager.testing:
 		return true
-	
+
 	var deficiency: int = 0
-	
+
 	for faction in Collections.faction_names:
 		var resources_minus_costs: int = get_resources()[faction] - costs.get_costs()[faction]
 		if resources_minus_costs < 0:
 			deficiency -= resources_minus_costs
-			
+
 	if deficiency > gold:
 		return false
-	
+
 	return true
 
 
 func pay_costs(costs: Costs) -> void:
 	if GameManager.testing:
 		return
-	
+
 	if gold >= costs.total():
 		gold -= costs.total()
 		_update_resources()
 		return
-	
+
 	for f in [
-		Collections.fibers.PASSION, Collections.fibers.IMAGINATION, Collections.fibers.GROWTH, 
+		Collections.fibers.PASSION,
+		Collections.fibers.IMAGINATION,
+		Collections.fibers.GROWTH,
 		Collections.fibers.LOGIC
 	]:
 		var cost: int = costs.get_costs()[f]
@@ -70,7 +71,7 @@ func add_resource(faction: int, amount: int) -> void:
 			growth += amount
 		Collections.fibers.LOGIC:
 			logic += amount
-	
+
 	_update_resources()
 
 
@@ -89,14 +90,14 @@ func spend_resource(faction: Collections.fibers, value: int) -> void:
 			growth -= value
 		Collections.fibers.LOGIC:
 			logic -= value
-	
+
 	_update_resources()
 
 
 @rpc("call_remote")
 func refresh(gold_gained: int) -> void:
 	gold = gold_gained
-	
+
 	_update_resources()
 
 
