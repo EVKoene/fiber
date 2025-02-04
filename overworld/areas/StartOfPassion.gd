@@ -10,4 +10,4 @@ func setup_npcs() -> void:
 
 func set_transition_tile_ids() -> void:
 	$TransitionPassionLevel1.scene_id = AreaDatabase.area_ids.PASSION_LEVEL_1
-	$TransitionStartOfJourney.scene_id = AreaDatabase.area_ids.START_OF_JOURNEY
+	$TransitionGrowthLevel1.scene_id = AreaDatabase.area_ids.GROWTH_LEVEL_1
