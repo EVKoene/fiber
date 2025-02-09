@@ -63,7 +63,7 @@ var areas := {
 		"ScenePath": "res://overworld/areas/StartOfGrowth.tscn",
 		"TransitionPosition":
 		{
-			area_ids.START_OF_JOURNEY: Vector2(100, 170),
+			area_ids.IMAGINATION_LEVEL_1: Vector2(100, 170),
 			area_ids.GROWTH_LEVEL_1: Vector2(1300, 170),
 		},
 		"StartingPosition": Vector2(86, 134)
@@ -75,6 +75,7 @@ var areas := {
 		"TransitionPosition":
 		{
 			area_ids.START_OF_JOURNEY: Vector2(-290, 20),
+			area_ids.IMAGINATION_LEVEL_1: Vector2(1630, 100),
 		},
 		"StartingPosition": Vector2(86, 134)
 	},
@@ -84,8 +85,8 @@ var areas := {
 		"ScenePath": "res://overworld/areas/ImaginationLevel1.tscn",
 		"TransitionPosition":
 		{
-			area_ids.START_OF_JOURNEY: Vector2(-650, 0),
-			area_ids.START_OF_IMAGINATION: Vector2(1000, 0),
+			area_ids.START_OF_IMAGINATION: Vector2(-650, 0),
+			area_ids.START_OF_GROWTH: Vector2(1000, 0),
 		},
 		"StartingPosition": Vector2(0, 0)
 	},

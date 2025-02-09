@@ -2,12 +2,11 @@ extends OverworldArea
 
 
 func setup_npcs() -> void:
-	$GuruTrong.setup_npc(NPCDatabase.npcs.GURU_TRONG, Collections.directions.DOWN)
-	$GuruKal.setup_npc(NPCDatabase.npcs.GURU_KAL, Collections.directions.LEFT)
-	$GuruFlappie.setup_npc(NPCDatabase.npcs.GURU_FLAPPIE, Collections.directions.LEFT)
-	$GuruLahima.setup_npc(NPCDatabase.npcs.GURU_LAGHIMA, Collections.directions.DOWN)
+	$Adolin.setup_npc(NPCDatabase.npcs.ADOLIN, Collections.directions.DOWN)
+	$Kaladin.setup_npc(NPCDatabase.npcs.KALADIN, Collections.directions.LEFT)
+	$Dalinar.setup_npc(NPCDatabase.npcs.DALINAR, Collections.directions.LEFT)
 
 
 func set_transition_tile_ids() -> void:
-	$TransitionStartOfJourney.scene_id = AreaDatabase.area_ids.START_OF_JOURNEY
+	$TransitionStartOfGrowth.scene_id = AreaDatabase.area_ids.START_OF_GROWTH
 	$TransitionStartOfImagination.scene_id = AreaDatabase.area_ids.START_OF_IMAGINATION

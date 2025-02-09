@@ -429,6 +429,10 @@ func _load_card_properties() -> void:
 		card_text = card_data["Text"]
 		img_path = card_data["IMGPath"]
 	$CardImage.texture = load(img_path)
+	set_card_properties()
+
+
+func set_card_properties() -> void:
 	_set_card_text_visuals()
 	set_border_to_faction()
 

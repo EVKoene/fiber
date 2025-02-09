@@ -13,9 +13,12 @@ enum deck_ids {
 	STAY_AWAY,
 	### IMAGINATION ###
 	IMAGINATION_STARTER,
+	FLOW_AND_INSPIRE,
 	MOVEMENT_SHENANIGANS,
+	SPELLS_WHAT_ELSE,
 	IMAGINATION_MISSILES,
 	SPELL_SLINGERS,
+	TAKE_OVER,
 	SHALLAN,
 	### GROWTH ###
 	GROWTH_STARTER,
@@ -280,6 +283,27 @@ var decks := {
 		},
 		"ID": deck_ids.MOVEMENT_SHENANIGANS,
 	},
+	
+	deck_ids.FLOW_AND_INSPIRE:
+	{
+		"DeckName": "Flow and Inspire",
+		"Cards":
+		{
+			cards.WIZARD_SCOUT: 8,
+			cards.SWITCHEROO: 4,
+			cards.INSPIRING_ARTIST: 10,
+			cards.FLOW_ACCELERATOR: 10,
+			cards.OVERSTIMULATION_FIEND: 6,
+			cards.EPHEMERAL_ASSASSIN: 6,
+		},
+		"StartingCards":
+		{
+			cards.WIZARD_SCOUT: 2,
+			cards.INSPIRING_ARTIST: 1,
+		},
+		"ID": deck_ids.FLOW_AND_INSPIRE,
+	},
+	
 	deck_ids.SPELL_SLINGERS:
 	{
 		"DeckName": "Spell Slingers",
@@ -298,6 +322,47 @@ var decks := {
 			cards.SWITCHEROO: 1,
 		},
 		"ID": deck_ids.SPELL_SLINGERS,
+	},
+	
+	deck_ids.TAKE_OVER:
+	{
+		"DeckName": "Take Over",
+		"Cards":
+		{
+			cards.IMAGINARY_FRIEND: 15,
+			cards.FIREBALL_SHOOTER: 10,
+			cards.ARCANE_ARROW: 15,
+			cards.DREAMFINDER: 10,
+			cards.OVERSTIMULATION_FIEND: 15,
+			cards.JELLYFISH_EXTRAORDINAIRE: 10,
+			cards.PSYCHIC_TAKEOVER: 15,
+		},
+		"StartingCards":
+		{
+			cards.IMAGINARY_FRIEND: 2,
+			cards.DREAMFINDER: 1,
+		},
+		"ID": deck_ids.TAKE_OVER,
+	},
+	
+	deck_ids.SPELLS_WHAT_ELSE:
+	{
+		"DeckName": "Spells what else",
+		"Cards":
+		{
+			cards.IMAGINARY_FRIEND: 15,
+			cards.ARCANE_ARROW: 10,
+			cards.DREAMFINDER: 10,
+			cards.HOMUNCULUS: 10,
+			cards.STREAM_OF_THOUGHT: 15,
+			cards.PSYCHIC_TAKEOVER: 5,
+		},
+		"StartingCards":
+		{
+			cards.IMAGINARY_FRIEND: 2,
+			cards.DREAMFINDER: 1,
+		},
+		"ID": deck_ids.SPELLS_WHAT_ELSE,
 	},
 	deck_ids.SHALLAN:
 	{

@@ -1600,7 +1600,7 @@ func get_card_class(card_index: int) -> Variant:
 		cards.GNOME_PROTECTOR:
 			card = GnomeProtector
 		cards.PATIENT_DUDE:
-			card = PatientDude<<
+			card = PatientDude
 		cards.BOTANO_GARDENER:
 			card = BotanoGardener
 		cards.MORNING_LIGHT:
