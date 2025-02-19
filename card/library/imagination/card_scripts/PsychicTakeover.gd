@@ -55,6 +55,8 @@ func resolve_spell_for_ai() -> void:
 	var target: CardInPlay = targets.pick_random()
 	target.highlight_card(true)
 	target.card_owner_id = card_owner_id
+	GameManager.cards_in_play[GameManager.player_id].erase(target)
+	GameManager.cards_in_play[card_owner_id].append(target)
 	if (
 		(GameManager.is_player_1 and card_owner_id == GameManager.p2_id)
 		or (!GameManager.is_player_1 and card_owner_id == GameManager.p1_id)

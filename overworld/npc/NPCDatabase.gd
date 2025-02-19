@@ -13,6 +13,10 @@ enum npcs {
 	MASHA,
 	JACQUES,
 	GARY,
+	### IMAGINATION_LEVEL_1 ###
+	ADOLIN,
+	KALADIN,
+	DALINAR,
 	### START_OF_IMAGINATION ###
 	STUDENT_DAL,
 	STUDENT_MAC,
@@ -160,12 +164,40 @@ var npc_data: Dictionary = {
 	npcs.SHALLAN:
 	{
 		"Name": "Shallan",
-		"Dialogue": ["If you open your mind, anything is possible"],
+		"Dialogue": ["If you open your mind, anything is possible."],
 		"SpecialRules": [special_rules.IMAGINATION_SPELLS_1_CHEAPER],
 		"Battle": true,
 		"CharacterModel": character_types.SHALLAN,
 		"DeckID": DeckCollection.deck_ids.IMAGINATION_MISSILES
 	},
+	### IMAGINATION_LEVEL_1 ###
+	npcs.ADOLIN:
+	{
+		"Name": "Adolin",
+		"Dialogue": ["Welcome to the party!"],
+		"Battle": true,
+		"CharacterModel": character_types.GENERIC_GUY_2,
+		"DeckID": DeckCollection.deck_ids.FLOW_AND_INSPIRE
+	},
+	
+	npcs.KALADIN:
+	{
+		"Name": "Kaladin",
+		"Dialogue": ["I will protect those who cannot protect themselves."],
+		"Battle": true,
+		"CharacterModel": character_types.GENERIC_GUY_1,
+		"DeckID": DeckCollection.deck_ids.SPELLS_WHAT_ELSE,
+	},
+	
+	npcs.DALINAR:
+	{
+		"Name": "Kaladin",
+		"Dialogue": ["Journey before destination. It cannot be a journey if it doesn't have a beginning."],
+		"Battle": true,
+		"CharacterModel": character_types.GENERIC_GUY_3,
+		"DeckID": DeckCollection.deck_ids.TAKE_OVER,
+	},
+	
 	### GROWTH_LEVEL_1 ###
 	npcs.KWIK:
 	{

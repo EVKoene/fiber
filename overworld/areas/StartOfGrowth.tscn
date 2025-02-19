@@ -270,7 +270,7 @@ sources/2 = SubResource("TileSetAtlasSource_2ym27")
 [node name="StartOfGrowth" instance=ExtResource("1_wmdwy")]
 script = ExtResource("2_cv0bq")
 
-[node name="TransitionToStartOfJourney" parent="." index="3" instance=ExtResource("4_13cap")]
+[node name="TransitionImaginationLevel1" parent="." index="3" instance=ExtResource("4_13cap")]
 position = Vector2(-329, -7)
 scale = Vector2(7, 7)
 
