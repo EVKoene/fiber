@@ -220,7 +220,7 @@ var cards_info = {
 		},
 		"MaxAttack": 2,
 		"MinAttack": 2,
-		"Health": 3,
+		"Health": 2,
 		"Movement": 1,
 		"Lord": false,
 		"Text": "When one of your other units in range 2 attacks, add 1 max attack and 1 health to 
