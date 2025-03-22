@@ -524,7 +524,10 @@ func _add_border() -> void:
 
 
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
-	if GameManager.resources[data.card_owner_id].can_pay_costs(data.costs):
+	if (
+		GameManager.resources[data.card_owner_id].can_pay_costs(data.costs) 
+		and data.card_type == Collections.card_types.SPELL
+	):
 		return true
 	else:
 		return false
