@@ -8,7 +8,7 @@ var battle_map_scene: PackedScene = load("res://map/BattleMap.tscn")
 
 ### GENERAL ###
 var version := "0.0.4"
-var testing := true
+var testing := false
 var main_menu: MainMenu
 var is_server := false
 
@@ -237,7 +237,9 @@ func set_ready_to_play(is_ready: bool) -> void:
 func _get_current_deck() -> Dictionary:
 	if testing:
 		return DeckCollection.decks[DeckCollection.deck_ids.PLAYER_TESTING]
-
+	if !FileAccess.file_exists(collections_path):
+		return DeckCollection.decks[DeckCollection.pick_random_starter_deck()]
+	
 	var config := ConfigFile.new()
 	config.load(collections_path)
 	var deck_collection: Dictionary = config.get_value("deck_data", "decks")

@@ -642,6 +642,9 @@ var starter_decks := {
 }
 
 
+func pick_random_starter_deck() -> Dictionary:
+	return decks[random_starter_deck_id]
+
 func random_starter_deck_id() -> int:
 	var rand_deck: int = starter_decks[starter_decks.keys().pick_random()]["ID"]
 	return rand_deck
