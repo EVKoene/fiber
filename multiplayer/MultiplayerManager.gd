@@ -94,6 +94,7 @@ func join_lan_game() -> void:
 func add_player(p_id: int, player_name: String, p_deck: Dictionary) -> void:
 	n_connected_players += 1
 	GameManager.add_player.rpc_id(1, n_connected_players, p_id, player_name, p_deck)
+	print("Added player with deck ", p_deck)
 	await get_tree().create_timer(1).timeout
 	if n_connected_players == 2:
 		GameManager.start_game.rpc()
