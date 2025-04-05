@@ -8,6 +8,7 @@ class_name DeckPickContainer
 var deck_info := {"DeckName": "DeckName"}
 var deck_id := 0
 var deck_picker: DeckPicker
+var is_multiplayer_dp_container := false
 
 
 func _ready():
@@ -32,7 +33,11 @@ func _add_deckname_border() -> void:
 
 
 func _on_deck_name_button_pressed():
-	GameManager.set_current_deck(deck_id)
+	if is_multiplayer_dp_container:
+		GameManager.set_current_multiplayer_deck(deck_id)
+	else:
+		GameManager.set_current_deck(deck_id)
+	
 	for d in deck_picker.deck_nodes:
 		d._unhighlight_deckname()
 	_highlight_deckname()

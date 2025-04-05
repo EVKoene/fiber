@@ -7,6 +7,7 @@ class_name DeckPicker
 @onready var collections_path := str(save_path, "collections.ini")
 var decks = {}
 var deck_nodes := []
+@export var is_multiplayer_deck_picker := false
 
 
 # Called when the node enters the scene tree for the first time.
@@ -23,6 +24,7 @@ func set_current_decks() -> void:
 		dp_container.deck_info = decks[d]
 		dp_container.deck_id = decks[d]["ID"]
 		dp_container.deck_picker = self
+		dp_container.is_multiplayer_dp_container = is_multiplayer_deck_picker
 		deck_nodes.append(dp_container)
 		$VBoxContainer.add_child(dp_container)
 
@@ -41,4 +43,7 @@ func _on_new_deck_pressed():
 
 
 func _on_return_button_pressed():
-	GameManager.current_scene.pause_menu.show_pause_menu()
+	if is_multiplayer_deck_picker:
+		GameManager.main_menu.hide_deck_picker()
+	else:
+		GameManager.current_scene.pause_menu.show_pause_menu()

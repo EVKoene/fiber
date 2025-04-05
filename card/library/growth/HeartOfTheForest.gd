@@ -27,3 +27,5 @@ func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 		for ps in spaces_in_range(1, true):
 			if ps != current_play_space:
 				ps.update_stat_modifier(card_owner_id, Collections.stats.HEALTH, -2)
+	
+	return

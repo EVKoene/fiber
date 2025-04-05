@@ -33,6 +33,8 @@ func call_triggered_funcs(trigger: int, _triggering_card: Card) -> void:
 		CardManipulation.change_battle_stat(
 			Collections.stats.MOVEMENT, card_owner_id, card_in_play_index, 1, 2
 		)
+	
+	return
 
 
 func attack_card(target_card: CardInPlay) -> void:

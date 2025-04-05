@@ -21,3 +21,6 @@ func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 		for ps in current_play_space.adjacent_play_spaces():
 			ps.update_stat_modifier(card_owner_id, Collections.stats.MAX_ATTACK, -2)
 			ps.update_stat_modifier(card_owner_id, Collections.stats.MOVEMENT, -1)
+	
+	return
+	

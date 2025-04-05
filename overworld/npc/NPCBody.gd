@@ -8,7 +8,7 @@ var npc_id: int
 
 func setup_npc(id_to_set: int, direction_to_set: int) -> void:
 	npc_id = id_to_set
-	direction_to_set
+	direction = direction_to_set
 	play_animation(npc_id, direction, Collections.animation_types.IDLE)
 
 

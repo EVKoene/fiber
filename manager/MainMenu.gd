@@ -12,6 +12,18 @@ func _ready():
 	GameManager.main_menu = self
 
 
+func show_pick_deck() -> void:
+	$DeckPicker.find_decks()
+	$DeckPicker.show()
+	$DeckPicker.set_current_decks()
+	hide_main_menu()
+
+
+func hide_deck_picker() -> void:
+	$DeckPicker.hide()
+	show_main_menu()
+
+
 func show_prompt(prompt_text: String) -> void:
 	var prompt = prompt_scene.instantiate()
 	prompt.prompt_text = prompt_text
@@ -111,3 +123,7 @@ func _on_test_game_pressed():
 	GameManager.testing = true
 	GameManager.is_server = true
 	TransitionScene.transition_to_test_battle()
+
+
+func _on_pick_mp_deck_pressed() -> void:
+	show_pick_deck()

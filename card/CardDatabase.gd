@@ -495,7 +495,7 @@ cards.FLOW_ACCELERATOR: {
 		"Health": 3,
 		"Movement": 1,
 		"Lord": false,
-		"Text": "When this unit moves, it gets +1 max attack and health for each space it moved until your next turn",
+		"Text": "When this unit moves, it gets +1 max attack and shield for each space it moved until your next turn",
 		"Purposes": [Collections.purposes.REAR],
 		"IMGPath": "res://assets/card_images/imagination/FlowAccelerator.png",
 	},
@@ -634,7 +634,7 @@ cards.FLOW_ACCELERATOR: {
 		"CardFuncs": [],
 		"Lord": false,
 		"Purposes": [Collections.purposes.DEFEND_RESOURCE],
-		"Text": "At the start of your turn, if this unit is in a resource space that is not in 
+		"Text": "At the start of your turn, if this unit is in a Victory space that is not in 
 		your starting area, draw a card and add <M>.",
 		"IMGPath": "res://assets/card_images/imagination/JellyfishExtraordinaire.jpg",
 	},

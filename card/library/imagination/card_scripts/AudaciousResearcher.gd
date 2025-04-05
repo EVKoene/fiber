@@ -18,3 +18,6 @@ func call_triggered_funcs(trigger: int, _triggering_card: Card) -> void:
 			and current_play_space.row >= floor(float(MapSettings.n_rows) / 2.0)
 		):
 			GameManager.decks[card_owner_id].draw_type_put_rest_bottom(Collections.card_types.SPELL)
+	
+	return
+	

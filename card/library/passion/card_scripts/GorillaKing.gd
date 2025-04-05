@@ -49,3 +49,5 @@ func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 			-1
 		)
 		n_adj_units[c] = count
+	
+	return

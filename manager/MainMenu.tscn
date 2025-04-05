@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://b2yg0ei03er3j"]
+[gd_scene load_steps=3 format=3 uid="uid://b2yg0ei03er3j"]
 
 [ext_resource type="Script" path="res://manager/MainMenu.gd" id="1_7xchd"]
+[ext_resource type="PackedScene" uid="uid://bwvclmkccbdtc" path="res://deckbuilder/DeckPicker.tscn" id="2_38ppn"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -56,16 +57,6 @@ text = "Host LAN game"
 layout_mode = 2
 text = "Join LAN game"
 
-[node name="IPAddress" type="LineEdit" parent="MainMenuContainer/VBoxContainer"]
-visible = false
-layout_mode = 2
-placeholder_text = "IP Address"
-
-[node name="ShowIPAdress" type="Button" parent="MainMenuContainer/VBoxContainer"]
-visible = false
-layout_mode = 2
-text = "Show your IP Adress"
-
 [node name="Tutorial" type="Button" parent="MainMenuContainer/VBoxContainer"]
 layout_mode = 2
 text = "Tutorial"
@@ -74,13 +65,26 @@ text = "Tutorial"
 layout_mode = 2
 text = "Testing game"
 
+[node name="PickMPDeck" type="Button" parent="MainMenuContainer/VBoxContainer"]
+layout_mode = 2
+text = "Pick Multiplayer deck"
+
 [node name="Exit" type="Button" parent="MainMenuContainer/VBoxContainer"]
 layout_mode = 2
 text = "Exit"
 
-[node name="DedicatedServer" type="Button" parent="MainMenuContainer/VBoxContainer"]
+[node name="DeckPicker" parent="." instance=ExtResource("2_38ppn")]
+visible = false
+custom_minimum_size = Vector2(400, 400)
 layout_mode = 2
-text = "Dedicated Server"
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 376.0
+offset_top = 124.0
+offset_right = 776.0
+offset_bottom = 524.0
+is_multiplayer_deck_picker = true
 
 [node name="TestingButton" type="Button" parent="."]
 layout_mode = 1
@@ -111,9 +115,8 @@ grow_vertical = 0
 [connection signal="pressed" from="MainMenuContainer/VBoxContainer/JoinRandom" to="." method="_on_join_random_pressed"]
 [connection signal="pressed" from="MainMenuContainer/VBoxContainer/HostLan" to="." method="_on_host_lan_pressed"]
 [connection signal="pressed" from="MainMenuContainer/VBoxContainer/JoinLan" to="." method="_on_join_lan_pressed"]
-[connection signal="pressed" from="MainMenuContainer/VBoxContainer/ShowIPAdress" to="." method="_on_show_ip_adress_pressed"]
 [connection signal="pressed" from="MainMenuContainer/VBoxContainer/Tutorial" to="." method="_on_tutorial_pressed"]
 [connection signal="pressed" from="MainMenuContainer/VBoxContainer/TestGame" to="." method="_on_test_game_pressed"]
+[connection signal="pressed" from="MainMenuContainer/VBoxContainer/PickMPDeck" to="." method="_on_pick_mp_deck_pressed"]
 [connection signal="pressed" from="MainMenuContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
-[connection signal="pressed" from="MainMenuContainer/VBoxContainer/DedicatedServer" to="." method="_on_dedicated_server_pressed"]
 [connection signal="pressed" from="TestingButton" to="." method="_on_testing_button_pressed"]
