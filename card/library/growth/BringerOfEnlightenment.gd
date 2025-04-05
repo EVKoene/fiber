@@ -23,3 +23,5 @@ func call_triggered_funcs(trigger: int, _triggering_card: Card) -> void:
 			CardManipulation.change_battle_stat(
 				Collections.stats.MAX_ATTACK, card.card_owner_id, card.card_in_play_index, 3, 1
 			)
+	
+	return

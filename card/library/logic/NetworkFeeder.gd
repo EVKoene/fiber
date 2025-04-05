@@ -32,3 +32,5 @@ func call_triggered_funcs(trigger: int, _triggering_card: Card) -> void:
 		)
 
 		n_allies_in_adjacent_spaces = new_n_allies
+	
+	return

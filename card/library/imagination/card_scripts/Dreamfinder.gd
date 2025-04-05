@@ -35,3 +35,5 @@ func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 				and c.card_type == Collections.card_types.SPELL
 			):
 				triggering_card.costs.change_cost(Collections.fibers.IMAGINATION, 1)
+	
+	return

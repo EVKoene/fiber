@@ -33,6 +33,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="DeckPicker" parent="CenterContainer" instance=ExtResource("2_46goj")]
+visible = false
+custom_minimum_size = Vector2(400, 400)
+layout_mode = 2
+
 [node name="PauseButtons" type="VBoxContainer" parent="CenterContainer"]
 layout_mode = 2
 
@@ -59,11 +64,6 @@ text = "Deck"
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Quit"
-
-[node name="DeckPicker" parent="CenterContainer" instance=ExtResource("2_46goj")]
-visible = false
-custom_minimum_size = Vector2(400, 300)
-layout_mode = 2
 
 [connection signal="pressed" from="CenterContainer/PauseButtons/Resume" to="." method="_on_resume_button_pressed"]
 [connection signal="pressed" from="CenterContainer/PauseButtons/PickDeck" to="." method="_on_pick_deck_pressed"]

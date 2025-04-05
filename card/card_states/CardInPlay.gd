@@ -299,6 +299,7 @@ func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 		await TriggeredCardFuncs.call(
 			f["FuncName"], self, trigger, triggering_card, f["FuncArguments"]
 		)
+	return
 
 
 func spaces_in_range(range_to_check: int, ignore_obstacles := false) -> Array:

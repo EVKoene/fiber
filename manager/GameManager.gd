@@ -25,6 +25,7 @@ var is_single_player := true
 var player_id: int  # The player's own id
 @onready var deck: Dictionary:
 	get = _get_current_deck
+var multiplayer_deck := {}
 
 #### BATTLE ###
 var is_ready_to_play := false
@@ -154,6 +155,13 @@ func opposing_player_id(p_id: int) -> int:
 		return p1_id
 
 
+func set_current_multiplayer_deck(deck_id: int) -> void:
+	var config := ConfigFile.new()
+	config.load(collections_path)
+	var deck_collection: Dictionary = config.get_value("deck_data", "decks")
+	multiplayer_deck = deck_collection[deck_id]
+
+
 func set_current_deck(deck_id: int) -> void:
 	var config := ConfigFile.new()
 	config.load(collections_path)
@@ -234,20 +242,6 @@ func set_ready_to_play(is_ready: bool) -> void:
 	is_ready_to_play = is_ready
 
 
-func _get_current_deck() -> Dictionary:
-	if testing:
-		return DeckCollection.decks[DeckCollection.deck_ids.PLAYER_TESTING]
-	if !FileAccess.file_exists(collections_path):
-		return DeckCollection.decks[DeckCollection.pick_random_starter_deck()]
-	
-	var config := ConfigFile.new()
-	config.load(collections_path)
-	var deck_collection: Dictionary = config.get_value("deck_data", "decks")
-	var current_deck_id: int = config.get_value("deck_data", "current_deck_id")
-	var current_deck: Dictionary = deck_collection[current_deck_id]
-	return current_deck
-
-
 func cleanup_game() -> void:
 	is_ready_to_play = false
 	battle_map = null
@@ -268,3 +262,19 @@ func cleanup_game() -> void:
 	### SINGLEPLAYER ###
 	ai_player = null
 	ai_player_id = -1
+
+
+func _get_current_deck() -> Dictionary:
+	if testing:
+		return DeckCollection.decks[DeckCollection.deck_ids.PLAYER_TESTING]
+	if multiplayer_deck != {}:
+		return multiplayer_deck
+	if !FileAccess.file_exists(collections_path):
+		return DeckCollection.decks[DeckCollection.pick_random_starter_deck()]
+	
+	var config := ConfigFile.new()
+	config.load(collections_path)
+	var deck_collection: Dictionary = config.get_value("deck_data", "decks")
+	var current_deck_id: int = config.get_value("deck_data", "current_deck_id")
+	var current_deck: Dictionary = deck_collection[current_deck_id]
+	return current_deck

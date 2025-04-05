@@ -17,3 +17,5 @@ func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 			has_moved = false
 		elif trigger == Collections.triggers.CARD_MOVED and triggering_card == self:
 			has_moved = true
+	
+	return

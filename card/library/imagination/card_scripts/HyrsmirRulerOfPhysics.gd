@@ -30,6 +30,8 @@ func call_triggered_funcs(trigger: int, _triggering_card: Card) -> void:
 				for c in TargetSelection.selected_targets:
 					c.set_border_to_faction()
 				TargetSelection.clear_selections()
+	
+	return
 
 
 func finish_swapping() -> void:

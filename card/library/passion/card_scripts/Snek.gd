@@ -13,3 +13,5 @@ func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 		and is_instance_valid(triggering_card)
 	):
 		triggering_card.resolve_damage(1)
+	
+	return

@@ -380,7 +380,6 @@ func finish_resolve() -> void:
 
 
 func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
-	var is_all_triggers_handled := false
 	for p_id in GameManager.players:
 		for card in GameManager.cards_in_play[p_id]:
 			await card.call_triggered_funcs(trigger, triggering_card)

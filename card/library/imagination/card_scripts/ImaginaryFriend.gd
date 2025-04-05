@@ -16,3 +16,5 @@ func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 		CardManipulation.change_battle_stat(
 			stat_to_increase, card_owner_id, card_in_play_index, 1, -1
 		)
+	return
+	

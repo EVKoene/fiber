@@ -23,3 +23,5 @@ func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 			ps.update_stat_modifier(
 				GameManager.opposing_player_id(card_owner_id), Collections.stats.MAX_ATTACK, 1
 			)
+	
+	return
