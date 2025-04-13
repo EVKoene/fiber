@@ -130,7 +130,12 @@ func use_card_action(card: CardInPlay) -> bool:
 		if !is_instance_valid(c):
 			continue
 
-		if len(card.spaces_in_range_to_attack_card(c)) > 0:
+		if c.is_space_in_range_of_ranged_attack(card.current_play_space):
+			card.exhaust()
+			card.attack_card(c)
+			return true
+			
+		if len(card.spaces_in_range_to_melee_attack_card(c)) > 0:
 			card.exhaust()
 			await card.move_and_attack(c)
 			return true

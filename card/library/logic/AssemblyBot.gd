@@ -35,7 +35,7 @@ func enter_battle() -> void:
 func _assemble_robot(fab_column: int, fab_row: int) -> void:
 	if GameManager.is_single_player:
 		BattleSynchronizer.create_fabrication(
-			card_owner_id, fab_column, fab_row, "Robot", 1, 0, 1, 1, [], 
+			card_owner_id, fab_column, fab_row, "Robot", 1, 0, 1, 1, 1, [], 
 			"res://assets/card_images/logic/Robot.png", [Collections.fibers.LOGIC], {
 						Collections.fibers.PASSION: 0,
 						Collections.fibers.IMAGINATION: 0,
@@ -46,7 +46,7 @@ func _assemble_robot(fab_column: int, fab_row: int) -> void:
 	if !GameManager.is_single_player:
 		for p_id in GameManager.players:
 			BattleSynchronizer.create_fabrication.rpc_id(
-				p_id, card_owner_id, fab_column, fab_row, "Robot", 1, 0, 1, 1, [], 
+				p_id, card_owner_id, fab_column, fab_row, "Robot", 1, 0, 1, 1, 1, [], 
 				"res://assets/card_images/logic/Robot.png", [Collections.fibers.LOGIC], {
 							Collections.fibers.PASSION: 0,
 							Collections.fibers.IMAGINATION: 0,

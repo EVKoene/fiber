@@ -97,6 +97,7 @@ func create_fabrication(
 	min_attack: int,
 	health: int,
 	movement: int,
+	attack_range: int,
 	triggered_funcs: Array,
 	img_path: String,
 	fibers: Array,
@@ -104,7 +105,7 @@ func create_fabrication(
 ) -> CardInPlay:
 	var fabrication = card_in_play_scene.instantiate()
 	fabrication.battle_stats = BattleStats.new(
-		max_attack, min_attack, health, movement, fabrication
+		max_attack, min_attack, health, movement, attack_range, fabrication
 	)
 	fabrication.fibers = fibers
 	fabrication.ingame_name = ingame_name

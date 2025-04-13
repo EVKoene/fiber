@@ -178,12 +178,12 @@ func move_and_attack(target_card: CardInPlay) -> void:
 		await attack_card(target_card)
 
 	elif TargetSelection.current_path:
-		if TargetSelection.current_path.last_space in spaces_in_range_to_attack_card(target_card):
+		if TargetSelection.current_path.last_space in spaces_in_range_to_melee_attack_card(target_card):
 			await (move_over_path(TargetSelection.current_path))
 			await attack_card(target_card)
 
 	else:
-		var spaces_to_attack_from: Array = spaces_in_range_to_attack_card(target_card)
+		var spaces_to_attack_from: Array = spaces_in_range_to_melee_attack_card(target_card)
 		if len(spaces_to_attack_from) == 0:
 			assert(false, str(ingame_name, " tried to attack unit that is not in range"))
 		var path_to_space: PlaySpacePath = current_play_space.find_play_space_path(
@@ -314,7 +314,17 @@ func spaces_in_range(range_to_check: int, ignore_obstacles := false) -> Array:
 	return spaces
 
 
-func spaces_in_range_to_attack_card(card: CardInPlay) -> Array:
+func is_space_in_range_of_ranged_attack(play_space: PlaySpace) -> bool:
+	var path_to_space: PlaySpacePath = current_play_space.find_play_space_path(
+			play_space, true
+		)
+	if path_to_space.path_length > battle_stats.attack_range + 1 or path_to_space.path_length == 0:
+		return false
+	
+	return true
+
+
+func spaces_in_range_to_melee_attack_card(card: CardInPlay) -> Array:
 	"""Returns an array of spaces where self can attack card from"""
 	var spaces_to_attack_from: Array = []
 	for ps in card.current_play_space.adjacent_play_spaces():
@@ -487,6 +497,7 @@ func _create_battle_stats() -> void:
 		card_data["MinAttack"],
 		card_data["Health"],
 		card_data["Movement"],
+		card_data["AttackRange"],
 		self
 	)
 
@@ -543,10 +554,23 @@ func _on_mouse_entered():
 
 	if !TargetSelection.card_selected_for_movement:
 		return
-
+	if TargetSelection.card_selected_for_movement.card_owner_id == card_owner_id:
+		return
+	
 	if (
-		len(TargetSelection.card_selected_for_movement.spaces_in_range_to_attack_card(self)) > 0
-		and TargetSelection.card_selected_for_movement.card_owner_id != card_owner_id
+		TargetSelection.play_space_selected_for_movement 
+		in current_play_space.adjacent_play_spaces()
+	):
+		Input.set_custom_mouse_cursor(load("res://assets/CursorMiniAttackRed.png"))
+	
+	elif TargetSelection.card_selected_for_movement.is_space_in_range_of_ranged_attack(
+		current_play_space
+	):
+		Input.set_custom_mouse_cursor(load("res://assets/RangedAttackPointer.png"))
+	elif (
+		TargetSelection.card_selected_for_movement.is_space_in_range_of_ranged_attack(
+			current_play_space
+		)
 	):
 		Input.set_custom_mouse_cursor(load("res://assets/CursorMiniAttackRed.png"))
 
@@ -655,7 +679,7 @@ func _on_gui_input(event):
 		and GameManager.turn_manager.turn_actions_enabled
 		and card_owner_id != GameManager.player_id
 	):
-		var ps_to_attack_from = card_sel_for_movement.spaces_in_range_to_attack_card(self)
+		var ps_to_attack_from = card_sel_for_movement.spaces_in_range_to_melee_attack_card(self)
 
 		if (
 			len(ps_to_attack_from) > 0
@@ -664,6 +688,35 @@ func _on_gui_input(event):
 		):
 			TargetSelection.card_to_be_attacked = self
 
+		elif (
+			card_sel_for_movement.card_owner_id != card_owner_id
+			and TargetSelection.card_to_be_attacked == self
+			and (
+				TargetSelection.play_space_selected_for_movement 
+				in current_play_space.adjacent_play_spaces()
+			)
+		):
+			GameManager.turn_manager.set_turn_actions_enabled(false)
+
+			card_sel_for_movement.move_and_attack(self)
+			Input.set_custom_mouse_cursor(null)
+			card_sel_for_movement.exhaust()
+			TargetSelection.end_selecting()
+
+			GameManager.turn_manager.set_turn_actions_enabled(true)
+
+		elif (
+			card_sel_for_movement.card_owner_id != card_owner_id
+			and TargetSelection.card_to_be_attacked == self
+			and card_sel_for_movement.is_space_in_range_of_ranged_attack(current_play_space)
+		):
+			GameManager.turn_manager.set_turn_actions_enabled(false)
+			card_sel_for_movement.attack_card(self)
+			Input.set_custom_mouse_cursor(null)
+			card_sel_for_movement.exhaust()
+			TargetSelection.end_selecting()
+			GameManager.turn_manager.set_turn_actions_enabled(true)
+		
 		elif (
 			card_sel_for_movement.card_owner_id != card_owner_id
 			and TargetSelection.card_to_be_attacked == self

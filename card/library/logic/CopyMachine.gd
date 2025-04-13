@@ -74,6 +74,7 @@ func create_copy(card_to_copy: CardInPlay, ps: PlaySpace) -> void:
 				card_to_copy.min_attack,
 				card_to_copy.health,
 				card_to_copy.movement,
+				card_to_copy.attack_range,
 				card_to_copy.triggered_funcs,
 				card_to_copy.img_path,
 				card_to_copy.fibers,
