@@ -621,14 +621,11 @@ var decks := {
 		"DeckName": "Player testing",
 		"Cards":
 		{
-			cards.IMAGINARY_FRIEND: 20,
-			cards.ARCANE_ARROW: 10,
+			cards.GOBLIN_ARCHER: 20,
 		},
 		"StartingCards":
 		{
-			cards.WIZARD_SCOUT: 1,
-			cards.ATTACK_COMMAND: 1,
-			cards.HAIL_STORM: 1,
+			cards.GOBLIN_ARCHER: 3,
 		},
 		"ID": deck_ids.PLAYER_TESTING,
 	},

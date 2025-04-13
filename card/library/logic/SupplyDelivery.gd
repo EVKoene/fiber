@@ -42,7 +42,7 @@ func resolve_spell() -> bool:
 func _assemble_battle_bot(fab_column: int, fab_row: int) -> void:
 	if GameManager.is_single_player:
 		BattleSynchronizer.create_fabrication(
-			card_owner_id, fab_column, fab_row, "Battle Bot", 3, 3, 3, 1, [], 
+			card_owner_id, fab_column, fab_row, "Battle Bot", 3, 3, 3, 1, 1, [], 
 			"res://assets/card_images/logic/SupplyDelivery.png", [Collections.fibers.LOGIC],
 			 {
 				Collections.fibers.PASSION: 0,
@@ -54,7 +54,7 @@ func _assemble_battle_bot(fab_column: int, fab_row: int) -> void:
 	if !GameManager.is_single_player:
 		for p_id in GameManager.players:
 			BattleSynchronizer.create_fabrication.rpc_id(
-				p_id, card_owner_id, fab_column, fab_row, "Robot", 3, 3, 3, 1, [], 
+				p_id, card_owner_id, fab_column, fab_row, "Robot", 3, 3, 3, 1, 1, [], 
 				"res://assets/card_images/logic/SupplyDelivery.png", 
 				[Collections.fibers.LOGIC], {
 					Collections.fibers.PASSION: 0,

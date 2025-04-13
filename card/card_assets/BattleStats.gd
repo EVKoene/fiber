@@ -12,12 +12,15 @@ var shield: int:
 	get = _get_shield
 var movement: int:
 	get = _get_movement
+var attack_range: int:
+	get = _get_attack_range
 
 var base_max_attack: int
 var base_min_attack: int
 var base_health: int
 var base_shield := 0
 var base_movement: int
+var base_attack_range: int
 
 var card: CardInPlay
 
@@ -26,6 +29,7 @@ var min_attack_modifiers := []
 var health_modifiers := []
 var shield_modifiers := []
 var movement_modifiers := []
+var attack_range_modifiers := []
 
 
 func _init(
@@ -33,12 +37,14 @@ func _init(
 	_base_min_attack: int,
 	_base_health: int,
 	_base_movement: int,
+	_base_attack_range: int,
 	_card: CardInPlay
 ):
 	base_max_attack = _base_max_attack
 	base_min_attack = _base_min_attack
 	base_health = _base_health
 	base_movement = _base_movement
+	base_attack_range = _base_attack_range
 	card = _card
 
 
@@ -81,7 +87,13 @@ func change_battle_stat(battle_stat: int, value: int, turn_duration: int) -> voi
 				base_movement += value
 			else:
 				movement_modifiers.append([value, turn_duration])
-
+		
+		Collections.stats.ATTACK_RANGE:
+			if turn_duration == -1:
+				base_attack_range += value
+			else:
+				attack_range_modifiers.append([value, turn_duration])
+	
 	card.update_stats()
 
 
@@ -144,6 +156,17 @@ func _get_movement() -> int:
 	return modified_movement
 
 
+func _get_attack_range() -> int:
+	var modified_attack_range: int = base_attack_range
+	modified_attack_range += card.current_play_space.stat_modifier[card.card_owner_id][
+		Collections.stats.MOVEMENT
+	]
+
+	for m in attack_range_modifiers:
+		modified_attack_range += m[0]
+	return modified_attack_range
+
+
 @rpc("any_peer", "call_local")
 func update_modifiers() -> void:
 	for modifier in [
@@ -151,6 +174,7 @@ func update_modifiers() -> void:
 		min_attack_modifiers,
 		health_modifiers,
 		movement_modifiers,
+		attack_range_modifiers,
 		shield_modifiers
 	]:
 		var modifiers_to_remove: Array = []

@@ -16,7 +16,7 @@ var faction_names: Dictionary = {
 }
 enum card_types { SPELL, UNIT }
 enum stat_params { LOWEST, HIGHEST, OVER_VALUE, UNDER_VALUE }
-enum stats { MAX_ATTACK, MIN_ATTACK, HEALTH, MOVEMENT, SHIELD, TOTAL_COST }
+enum stats { MAX_ATTACK, MIN_ATTACK, HEALTH, MOVEMENT, SHIELD, ATTACK_RANGE, TOTAL_COST }
 enum triggers {
 	ATTACK,
 	ATTACK_FINISHED,
@@ -43,10 +43,11 @@ enum play_space_attributes {
 enum purposes {
 	BUFF_ADJACENT,
 	CONQUER_SPACES,
+	DEBUFF_ADJACENT,
 	DEFEND_RESOURCE,
 	BATTLE,
+	RANGED_BATTLE,
 	REAR,
-	DEBUFF_ADJACENT,
 }
 enum hint_types { NECESSARY, SUFFICIENT }
 enum turn_stages { CARD_PLAYS, END_TURN, START_TURN }

@@ -17,6 +17,7 @@ offset_bottom = -0.23201
 script = ExtResource("1_r7o1p")
 
 [node name="CardImage" type="TextureRect" parent="."]
+texture_filter = 1
 layout_mode = 2
 expand_mode = 3
 

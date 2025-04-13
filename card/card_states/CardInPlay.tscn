@@ -28,6 +28,7 @@ offset_bottom = -0.23201
 script = ExtResource("1_nshbd")
 
 [node name="CardImage" type="TextureRect" parent="."]
+texture_filter = 1
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("2_otdqy")
