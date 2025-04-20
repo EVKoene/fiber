@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dbx0x8sbifulo"
-path="res://.godot/imported/Gorilla.png-4010e107692e70a00433fc9490d4d4fb.ctex"
+uid="uid://byltaax40k6wb"
+path="res://.godot/imported/AttackRangeIcon.png-b1ff4b7139e0ebc60135a4d6997e0148.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_images/passion/Gorilla.png"
-dest_files=["res://.godot/imported/Gorilla.png-4010e107692e70a00433fc9490d4d4fb.ctex"]
+source_file="res://assets/icons/AttackRangeIcon.png"
+dest_files=["res://.godot/imported/AttackRangeIcon.png-b1ff4b7139e0ebc60135a4d6997e0148.ctex"]
 
 [params]
 

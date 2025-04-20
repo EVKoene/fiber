@@ -100,7 +100,6 @@ func update_modifiers() -> void:
 	for p in GameManager.players:
 		for c in GameManager.cards_in_play[p]:
 			c.battle_stats.update_modifiers()
-			c.update_stats()
 
 
 @rpc("any_peer", "call_local")

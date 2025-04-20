@@ -267,7 +267,6 @@ func move_to_play_space(
 	card.row = new_row
 	card.current_play_space.card_in_this_play_space = card
 	card.set_position_to_play_space()
-	card.update_stats()
 
 
 @rpc("any_peer", "call_local")

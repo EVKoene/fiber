@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dbx0x8sbifulo"
-path="res://.godot/imported/Gorilla.png-4010e107692e70a00433fc9490d4d4fb.ctex"
+uid="uid://cqsdumjs821pl"
+path="res://.godot/imported/MinAttackIcon.png-0ede3e9dd8539105acdfb62b06fe232d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_images/passion/Gorilla.png"
-dest_files=["res://.godot/imported/Gorilla.png-4010e107692e70a00433fc9490d4d4fb.ctex"]
+source_file="res://assets/icons/MinAttackIcon.png"
+dest_files=["res://.godot/imported/MinAttackIcon.png-0ede3e9dd8539105acdfb62b06fe232d.ctex"]
 
 [params]
 

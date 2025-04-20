@@ -1,0 +1,99 @@
+[gd_scene load_steps=9 format=3 uid="uid://c32bmd2ws8smt"]
+
+[ext_resource type="Texture2D" uid="uid://doqnvigay1l1v" path="res://assets/icons/MovementIcon.png" id="1_risu1"]
+[ext_resource type="Script" path="res://card/card_assets/BattleStatsContainer.gd" id="1_uruw3"]
+[ext_resource type="Texture2D" uid="uid://byltaax40k6wb" path="res://assets/icons/AttackRangeIcon.png" id="2_grmhn"]
+[ext_resource type="Texture2D" uid="uid://dx56xipu2utsu" path="res://assets/icons/MaxAttackIcon.png" id="3_2pwh3"]
+[ext_resource type="Texture2D" uid="uid://cqsdumjs821pl" path="res://assets/icons/MinAttackIcon.png" id="4_n3wf7"]
+[ext_resource type="Texture2D" uid="uid://dns67kh3x8ooq" path="res://assets/icons/HealthIcon.png" id="5_40q8e"]
+[ext_resource type="Texture2D" uid="uid://blry58513hhwr" path="res://assets/icons/ShieldIcon.png" id="6_cfxt0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7f86b"]
+bg_color = Color(0.737193, 0.737193, 0.737193, 1)
+
+[node name="BattleStatsContainer" type="PanelContainer"]
+custom_minimum_size = Vector2(200, 40)
+offset_right = 200.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_7f86b")
+script = ExtResource("1_uruw3")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="MovementContainer" type="HBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="MovementIcon" type="TextureRect" parent="HBoxContainer/MovementContainer"]
+custom_minimum_size = Vector2(12, 12)
+layout_mode = 2
+texture = ExtResource("1_risu1")
+expand_mode = 1
+
+[node name="MovementLabel" type="Label" parent="HBoxContainer/MovementContainer"]
+layout_mode = 2
+text = "1"
+
+[node name="AttackRangeContainer" type="HBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="AttackRangeIcon" type="TextureRect" parent="HBoxContainer/AttackRangeContainer"]
+custom_minimum_size = Vector2(12, 12)
+layout_mode = 2
+texture = ExtResource("2_grmhn")
+expand_mode = 1
+
+[node name="AttackRangeLabel" type="Label" parent="HBoxContainer/AttackRangeContainer"]
+layout_mode = 2
+text = "1"
+
+[node name="MaxAttackContainer" type="HBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="MaxAttackIcon" type="TextureRect" parent="HBoxContainer/MaxAttackContainer"]
+custom_minimum_size = Vector2(12, 12)
+layout_mode = 2
+texture = ExtResource("3_2pwh3")
+expand_mode = 1
+
+[node name="MaxAttackLabel" type="Label" parent="HBoxContainer/MaxAttackContainer"]
+layout_mode = 2
+text = "1"
+
+[node name="MinAttackContainer" type="HBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="MinAttackIcon" type="TextureRect" parent="HBoxContainer/MinAttackContainer"]
+custom_minimum_size = Vector2(12, 12)
+layout_mode = 2
+texture = ExtResource("4_n3wf7")
+
+[node name="MinAttackLabel" type="Label" parent="HBoxContainer/MinAttackContainer"]
+layout_mode = 2
+text = "1"
+
+[node name="HealthContainer" type="HBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="HealthIcon" type="TextureRect" parent="HBoxContainer/HealthContainer"]
+custom_minimum_size = Vector2(12, 12)
+layout_mode = 2
+texture = ExtResource("5_40q8e")
+expand_mode = 1
+
+[node name="HealthLabel" type="Label" parent="HBoxContainer/HealthContainer"]
+layout_mode = 2
+text = "1"
+
+[node name="ShieldContainer" type="HBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="ShieldIcon" type="TextureRect" parent="HBoxContainer/ShieldContainer"]
+custom_minimum_size = Vector2(12, 12)
+layout_mode = 2
+texture = ExtResource("6_cfxt0")
+expand_mode = 1
+
+[node name="ShieldLabel" type="Label" parent="HBoxContainer/ShieldContainer"]
+layout_mode = 2
+text = "-"

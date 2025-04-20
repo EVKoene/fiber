@@ -2,11 +2,6 @@ extends PanelContainer
 
 class_name ZoomPreview
 
-var max_attack: int
-var min_attack: int
-var health: int
-var shield: int
-var movement: int
 var passion_cost: int
 var imagination_cost: int
 var growth_cost: int
@@ -14,9 +9,7 @@ var logic_cost: int
 var ingame_name: String
 var card_type: int
 var fibers: Array
-var card_text: String
 var img_path: String
-var card_range: int
 var border_style: StyleBox
 var locked := false
 
@@ -41,16 +34,16 @@ func preview_hand_card(card: CardInHand, lock_card: bool) -> void:
 	ingame_name = card.ingame_name
 	card_type = card.card_type
 	fibers = card.fibers
-	card_text = card.card_text
 	img_path = card.img_path
 
 	if card_type == Collections.card_types.UNIT:
-		max_attack = card.max_attack
-		min_attack = card.min_attack
-		health = card.health
-		shield = 0
-		movement = card.movement
-		card_range = 0
+		$VBox/BattleStatsContainer.update_stat(Collections.stats.ATTACK_RANGE, card.attack_range)
+		$VBox/BattleStatsContainer.update_stat(Collections.stats.HEALTH, card.health)
+		$VBox/BattleStatsContainer.update_stat(Collections.stats.MAX_ATTACK, card.max_attack)
+		$VBox/BattleStatsContainer.update_stat(Collections.stats.MIN_ATTACK, card.min_attack)
+		$VBox/BattleStatsContainer.update_stat(Collections.stats.MOVEMENT, card.movement)
+		$VBox/BattleStatsContainer.update_stat(Collections.stats.SHIELD, card.shield)
+		
 	else:
 		card_range = card.card_range
 		max_attack = 0

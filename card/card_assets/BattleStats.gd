@@ -2,34 +2,36 @@ extends Node
 
 class_name BattleStats
 
+var card: CardInPlay
+var battle_stats_container: BattleStatsContainer
+
+var attack_range: int:
+	get = _get_attack_range
+var health: int:
+	get = _get_health
 var max_attack: int:
 	get = _get_max_attack
 var min_attack: int:
 	get = _get_min_attack
-var health: int:
-	get = _get_health
-var shield: int:
-	get = _get_shield
 var movement: int:
 	get = _get_movement
-var attack_range: int:
-	get = _get_attack_range
+var shield: int:
+	get = _get_shield
 
+var base_attack_range: int
+var base_health: int
 var base_max_attack: int
 var base_min_attack: int
-var base_health: int
-var base_shield := 0
 var base_movement: int
-var base_attack_range: int
+var base_shield := 0
 
-var card: CardInPlay
 
+var attack_range_modifiers := []
 var max_attack_modifiers := []
 var min_attack_modifiers := []
 var health_modifiers := []
 var shield_modifiers := []
 var movement_modifiers := []
-var attack_range_modifiers := []
 
 
 func _init(
@@ -46,6 +48,16 @@ func _init(
 	base_movement = _base_movement
 	base_attack_range = _base_attack_range
 	card = _card
+
+
+
+func set_base_stats() -> void:
+	battle_stats_container.update_stat(Collections.stats.ATTACK_RANGE, base_attack_range)
+	battle_stats_container.update_stat(Collections.stats.HEALTH, base_health)
+	battle_stats_container.update_stat(Collections.stats.MAX_ATTACK, base_max_attack)
+	battle_stats_container.update_stat(Collections.stats.MIN_ATTACK, base_min_attack)
+	battle_stats_container.update_stat(Collections.stats.MOVEMENT, base_movement)
+	battle_stats_container.update_stat(Collections.stats.SHIELD, base_shield)
 
 
 func change_battle_stat(battle_stat: int, value: int, turn_duration: int) -> void:
@@ -94,7 +106,7 @@ func change_battle_stat(battle_stat: int, value: int, turn_duration: int) -> voi
 			else:
 				attack_range_modifiers.append([value, turn_duration])
 	
-	card.update_stats()
+	battle_stats_container.update_stats(battle_stat, value)
 
 
 func _get_max_attack() -> int:

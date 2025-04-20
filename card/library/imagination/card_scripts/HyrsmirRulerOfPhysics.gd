@@ -28,7 +28,7 @@ func call_triggered_funcs(trigger: int, _triggering_card: Card) -> void:
 					TargetSelection.selected_targets[1].card_in_play_index, 
 				)
 				for c in TargetSelection.selected_targets:
-					c.set_border_to_faction()
+					c.hide_border()
 				TargetSelection.clear_selections()
 	
 	return
