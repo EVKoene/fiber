@@ -29,22 +29,18 @@ layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_c565y")
 
-[node name="Vbox" type="VBoxContainer" parent="."]
-layout_mode = 2
-mouse_filter = 2
-
-[node name="TopInfo" type="HBoxContainer" parent="Vbox"]
+[node name="Hbox" type="HBoxContainer" parent="."]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="CardNameBG" type="Panel" parent="Vbox/TopInfo"]
+[node name="CardNameBG" type="Panel" parent="Hbox"]
 show_behind_parent = true
 custom_minimum_size = Vector2(80, 30)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="CardName" type="Label" parent="Vbox/TopInfo/CardNameBG"]
+[node name="CardName" type="Label" parent="Hbox/CardNameBG"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -54,7 +50,7 @@ grow_vertical = 2
 text = "Animal"
 autowrap_mode = 3
 
-[node name="Costs" type="Panel" parent="Vbox/TopInfo"]
+[node name="Costs" type="Panel" parent="Hbox"]
 show_behind_parent = true
 custom_minimum_size = Vector2(60, 20)
 layout_mode = 2
@@ -63,7 +59,7 @@ size_flags_vertical = 0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_pqrmm")
 
-[node name="CostLabels" type="HBoxContainer" parent="Vbox/TopInfo/Costs"]
+[node name="CostLabels" type="HBoxContainer" parent="Hbox/Costs"]
 custom_minimum_size = Vector2(60, 20)
 layout_mode = 1
 anchors_preset = 15
@@ -73,40 +69,25 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Passion" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
+[node name="Passion" type="Label" parent="Hbox/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
 label_settings = ExtResource("4_clsir")
 
-[node name="Imagination" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
+[node name="Imagination" type="Label" parent="Hbox/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
 label_settings = ExtResource("5_ea3q3")
 
-[node name="Growth" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
+[node name="Growth" type="Label" parent="Hbox/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
 label_settings = ExtResource("6_7vlm4")
 
-[node name="Logic" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
+[node name="Logic" type="Label" parent="Hbox/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
 label_settings = ExtResource("7_67vjm")
-
-[node name="BotInfo" type="HBoxContainer" parent="Vbox"]
-layout_mode = 2
-mouse_filter = 2
-
-[node name="CardRange" type="Label" parent="Vbox/BotInfo"]
-layout_mode = 2
-size_flags_horizontal = 0
-text = "1"
-
-[node name="BattleStats" type="Label" parent="Vbox/BotInfo"]
-layout_mode = 2
-size_flags_horizontal = 10
-size_flags_vertical = 8
-text = "1/1"
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

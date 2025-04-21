@@ -151,6 +151,14 @@ offset_bottom = 40.0
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 
+[node name="CardTextContainer" type="PanelContainer" parent="."]
+offset_right = 100.0
+offset_bottom = 100.0
+
+[node name="CardText" type="Label" parent="CardTextContainer"]
+layout_mode = 2
+autowrap_mode = 2
+
 [connection signal="pressed" from="ResolveSpellButton" to="." method="_on_resolve_spell_button_pressed"]
 [connection signal="pressed" from="FinishButtonContainer/FinishButton" to="." method="_on_finish_button_pressed"]
 [connection signal="pressed" from="EndTurnButtonContainer/EndTurnButton" to="." method="_on_end_turn_button_pressed"]

@@ -156,7 +156,7 @@ func move_to_conquer_space(card: CardInPlay) -> bool:
 	if card_path.path_length == 0:
 		return await AIHelper.attack_adjacent_enemies(card)
 
-	if card_path.path_length <= card.movement:
+	if card_path.path_length <= card.battle_stats.movement:
 		card.move_to_play_space(space_to_move_to.column, space_to_move_to.row)
 		card.exhaust()
 		await AIHelper.attack_adjacent_enemies(card)

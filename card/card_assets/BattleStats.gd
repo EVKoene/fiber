@@ -6,17 +6,17 @@ var card: CardInPlay
 var battle_stats_container: BattleStatsContainer
 
 var attack_range: int:
-	get = _get_attack_range
+	get = get_attack_range
 var health: int:
-	get = _get_health
+	get = get_health
 var max_attack: int:
-	get = _get_max_attack
+	get = get_max_attack
 var min_attack: int:
-	get = _get_min_attack
+	get = get_min_attack
 var movement: int:
-	get = _get_movement
+	get = get_movement
 var shield: int:
-	get = _get_shield
+	get = get_shield
 
 var base_attack_range: int
 var base_health: int
@@ -58,6 +58,15 @@ func set_base_stats() -> void:
 	battle_stats_container.update_stat(Collections.stats.MIN_ATTACK, base_min_attack)
 	battle_stats_container.update_stat(Collections.stats.MOVEMENT, base_movement)
 	battle_stats_container.update_stat(Collections.stats.SHIELD, base_shield)
+
+
+func update_all_stats() -> void:
+	battle_stats_container.update_stat(Collections.stats.ATTACK_RANGE, attack_range)
+	battle_stats_container.update_stat(Collections.stats.HEALTH, health)
+	battle_stats_container.update_stat(Collections.stats.MAX_ATTACK, max_attack)
+	battle_stats_container.update_stat(Collections.stats.MIN_ATTACK, min_attack)
+	battle_stats_container.update_stat(Collections.stats.MOVEMENT, movement)
+	battle_stats_container.update_stat(Collections.stats.SHIELD, shield)
 
 
 func change_battle_stat(battle_stat: int, value: int, turn_duration: int) -> void:
@@ -106,10 +115,10 @@ func change_battle_stat(battle_stat: int, value: int, turn_duration: int) -> voi
 			else:
 				attack_range_modifiers.append([value, turn_duration])
 	
-	battle_stats_container.update_stats(battle_stat, value)
+	battle_stats_container.update_stat(battle_stat, value)
 
 
-func _get_max_attack() -> int:
+func get_max_attack() -> int:
 	var modified_attack = base_max_attack
 	modified_attack += card.current_play_space.stat_modifier[card.card_owner_id][
 		Collections.stats.MAX_ATTACK
@@ -120,7 +129,7 @@ func _get_max_attack() -> int:
 	return modified_attack
 
 
-func _get_min_attack() -> int:
+func get_min_attack() -> int:
 	var modified_attack = base_min_attack
 	modified_attack += card.current_play_space.stat_modifier[card.card_owner_id][
 		Collections.stats.MIN_ATTACK
@@ -131,7 +140,7 @@ func _get_min_attack() -> int:
 	return modified_attack
 
 
-func _get_health() -> int:
+func get_health() -> int:
 	var modified_health = base_health
 	modified_health += card.current_play_space.stat_modifier[card.card_owner_id][
 		Collections.stats.HEALTH
@@ -146,7 +155,7 @@ func _get_health() -> int:
 	return modified_health
 
 
-func _get_shield() -> int:
+func get_shield() -> int:
 	var modified_shield = base_shield
 	modified_shield += card.current_play_space.stat_modifier[card.card_owner_id][
 		Collections.stats.SHIELD
@@ -157,7 +166,7 @@ func _get_shield() -> int:
 	return modified_shield
 
 
-func _get_movement() -> int:
+func get_movement() -> int:
 	var modified_movement: int = base_movement
 	modified_movement += card.current_play_space.stat_modifier[card.card_owner_id][
 		Collections.stats.MOVEMENT
@@ -168,7 +177,7 @@ func _get_movement() -> int:
 	return modified_movement
 
 
-func _get_attack_range() -> int:
+func get_attack_range() -> int:
 	var modified_attack_range: int = base_attack_range
 	modified_attack_range += card.current_play_space.stat_modifier[card.card_owner_id][
 		Collections.stats.MOVEMENT
@@ -197,3 +206,5 @@ func update_modifiers() -> void:
 
 		for r in modifiers_to_remove:
 			modifier.remove_at(r)
+	
+	update_all_stats()

@@ -5,19 +5,22 @@ class_name BattleStatsContainer
 
 
 func update_stat(battle_stat: int, value: int) -> void:
+	var value_text: String
+	if value > 0:
+		value_text = str(value)
+	else:
+		value_text = "-"
+	
 	match battle_stat:
 		Collections.stats.ATTACK_RANGE:
-			$HBoxContainer/AttackRangeContainer/AttackRangeLabel.text = str(value)
+			$HBoxContainer/AttackRangeContainer/AttackRangeLabel.text = value_text
 		Collections.stats.HEALTH:
-			$HBoxContainer/HealthContainer/HealthLabel.text = str(value)
+			$HBoxContainer/HealthContainer/HealthLabel.text = value_text
 		Collections.stats.MAX_ATTACK:
-			$HBoxContainer/MaxAttackContainer/MaxAttackLabel.text = str(value)
+			$HBoxContainer/MaxAttackContainer/MaxAttackLabel.text = value_text
 		Collections.stats.MIN_ATTACK:
-			$HBoxContainer/MinAttackContainer/MinAttackLabel.text = str(value)
+			$HBoxContainer/MinAttackContainer/MinAttackLabel.text = value_text
 		Collections.stats.MOVEMENT:
-			$HBoxContainer/MovementContainer/MovementLabel.text = str(value)
+			$HBoxContainer/MovementContainer/MovementLabel.text = value_text
 		Collections.stats.SHIELD:
-			if value == 0:
-				$HBoxContainer/ShieldContainer/ShieldLabel.text = "-"
-			else:
-				$HBoxContainer/ShieldContainer/ShieldLabel.text = str(value)
+			$HBoxContainer/ShieldContainer/ShieldLabel.text = value_text

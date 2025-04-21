@@ -2,6 +2,14 @@ extends PanelContainer
 
 class_name ZoomPreview
 
+var attack_range: int
+var card_range: int
+var max_attack: int
+var min_attack: int
+var movement: int
+var health: int
+var shield: int
+
 var passion_cost: int
 var imagination_cost: int
 var growth_cost: int
@@ -13,6 +21,8 @@ var img_path: String
 var border_style: StyleBox
 var locked := false
 
+var card_text_container: PanelContainer
+var card_text_container_label: Label
 
 func _ready():
 	_add_border()
@@ -37,6 +47,7 @@ func preview_hand_card(card: CardInHand, lock_card: bool) -> void:
 	img_path = card.img_path
 
 	if card_type == Collections.card_types.UNIT:
+		$VBox/BattleStatsContainer.show()
 		$VBox/BattleStatsContainer.update_stat(Collections.stats.ATTACK_RANGE, card.attack_range)
 		$VBox/BattleStatsContainer.update_stat(Collections.stats.HEALTH, card.health)
 		$VBox/BattleStatsContainer.update_stat(Collections.stats.MAX_ATTACK, card.max_attack)
@@ -45,22 +56,14 @@ func preview_hand_card(card: CardInHand, lock_card: bool) -> void:
 		$VBox/BattleStatsContainer.update_stat(Collections.stats.SHIELD, card.shield)
 		
 	else:
-		card_range = card.card_range
-		max_attack = 0
-		min_attack = 0
-		health = 0
-		movement = 0
-
-	if len(card_text) == 0:
-		$VBox/BotInfo/CardText.hide()
-	else:
-		$VBox/BotInfo/CardText.show()
+		$VBox/BattleStatsContainer.hide()
+	
 	$CardImage.show()
 	$VBox.show()
-	_set_labels()
+	_set_costs_labels()
 	_set_border_to_faction()
-	_set_card_text_visuals()
 	$CardImage.texture = load(img_path)
+	set_card_text(card.card_text)
 
 
 func preview_card_in_play(card: CardInPlay, lock_card: bool) -> void:
@@ -77,34 +80,26 @@ func preview_card_in_play(card: CardInPlay, lock_card: bool) -> void:
 	ingame_name = card.ingame_name
 	card_type = card.card_type
 	fibers = card.fibers
-	card_text = card.card_text
 	img_path = card.img_path
 
 	if card_type == Collections.card_types.UNIT:
-		max_attack = card.max_attack
-		min_attack = card.min_attack
-		health = card.health
-		shield = card.shield
-		movement = card.movement
-		card_range = 0
+		$VBox/BattleStatsContainer.show()
+		$VBox/BattleStatsContainer.update_stat(Collections.stats.ATTACK_RANGE, card.battle_stats.attack_range)
+		$VBox/BattleStatsContainer.update_stat(Collections.stats.HEALTH, card.battle_stats.health)
+		$VBox/BattleStatsContainer.update_stat(Collections.stats.MAX_ATTACK, card.battle_stats.max_attack)
+		$VBox/BattleStatsContainer.update_stat(Collections.stats.MIN_ATTACK, card.battle_stats.min_attack)
+		$VBox/BattleStatsContainer.update_stat(Collections.stats.MOVEMENT, card.battle_stats.movement)
+		$VBox/BattleStatsContainer.update_stat(Collections.stats.SHIELD, card.battle_stats.shield)
+		
 	else:
-		card_range = card.card_range
-		max_attack = 0
-		min_attack = 0
-		health = 0
-		shield = card.shield
-		movement = 0
+		$VBox/BattleStatsContainer.hide()
 
-	if len(card_text) == 0:
-		$VBox/BotInfo/CardText.hide()
-	else:
-		$VBox/BotInfo/CardText.show()
 	$CardImage.show()
 	$VBox.show()
-	_set_labels()
+	_set_costs_labels()
 	_set_border_to_faction()
-	_set_card_text_visuals()
 	$CardImage.texture = load(img_path)
+	set_card_text(card.card_text)
 
 
 func preview_card_index(card_index, lock_card: bool) -> void:
@@ -122,39 +117,28 @@ func preview_card_index(card_index, lock_card: bool) -> void:
 	ingame_name = card_data["InGameName"]
 	card_type = card_data["CardType"]
 	fibers = card_data["fibers"]
-	card_text = card_data["Text"]
 	img_path = card_data["IMGPath"]
 
 	if card_type == Collections.card_types.UNIT:
-		max_attack = card_data["MaxAttack"]
-		min_attack = card_data["MinAttack"]
-		health = card_data["Health"]
-		movement = card_data["Movement"]
-		card_range = 0
+		$VBox/BattleStatsContainer.show()
+		$VBox/BattleStatsContainer.update_stat(Collections.stats.ATTACK_RANGE, card_data["AttackRange"])
+		$VBox/BattleStatsContainer.update_stat(Collections.stats.MAX_ATTACK, card_data["MaxAttack"])
+		$VBox/BattleStatsContainer.update_stat(Collections.stats.MIN_ATTACK, card_data["MinAttack"])
+		$VBox/BattleStatsContainer.update_stat(Collections.stats.MOVEMENT, card_data["Movement"])
+		$VBox/BattleStatsContainer.update_stat(Collections.stats.HEALTH, card_data["Health"])
+		$VBox/BattleStatsContainer.update_stat(Collections.stats.SHIELD, 0)
 	else:
-		card_range = card_data["CardRange"]
-		max_attack = 0
-		min_attack = 0
-		health = 0
-		movement = 0
-
-	if len(card_text) == 0:
-		$VBox/BotInfo/CardText.hide()
-	else:
-		$VBox/BotInfo/CardText.show()
+		$VBox/BattleStatsContainer.hide()
+	
 	$CardImage.show()
 	$VBox.show()
-	_set_labels()
+	_set_costs_labels()
 	_set_border_to_faction()
-	_set_card_text_visuals()
 	$CardImage.texture = load(img_path)
+	set_card_text(card_data["CardText"])
 
 
 func reset_zoom_preview() -> void:
-	max_attack = 0
-	min_attack = 0
-	health = 0
-	movement = 0
 	passion_cost = 0
 	imagination_cost = 0
 	growth_cost = 0
@@ -162,48 +146,45 @@ func reset_zoom_preview() -> void:
 	ingame_name = ""
 	card_type = 0
 	fibers = []
-	card_text = ""
 	img_path = ""
-	card_range = 0
 	$CardImage.hide()
 	$VBox.hide()
-	_set_labels()
+	_set_costs_labels()
 	get_theme_stylebox("panel").set_border_width_all(0)
 
-	_set_card_text_visuals()
 	$CardImage.texture = null
 	locked = false
+	set_card_text("")
+
+
+func set_card_text(card_text: String) -> void:
+	_set_card_text_font_size(card_text)
+	if len(card_text) == 0:
+		card_text_container.hide()
+	else:
+		card_text_container.show()
+	card_text_container_label.text = card_text
+
+
+func _set_card_text_font_size(card_text: String) -> void:
+	var min_font: float = round(card_text_container.size.x) / 25
+	var max_font: float = round(card_text_container.size.x) / 19
+	var max_line_count: float = 6
+	var font_range_diff: float = max_font - min_font
+	var font_change_per_line: float = font_range_diff / (max_line_count - 1)
+	var card_text_font_size: float
+	card_text_font_size = (max_font - CardHelper.calc_n_lines(card_text) * font_change_per_line)
+	card_text_container_label.label_settings = LabelSettings.new()
+	card_text_container_label.label_settings.font_size = card_text_font_size
 
 
 func _set_container_sizes() -> void:
 	$VBox/TopInfo/CardNameBG.custom_minimum_size.x = size.x * 0.6
 	$VBox/TopInfo/CardNameBG.custom_minimum_size.y = size.y * 0.15
-	$VBox/BotInfo/CardText.custom_minimum_size.x = size.x * 0.6
 	$VBox/TopInfo/Costs.custom_minimum_size.x = size.x * 0.3
 
 
-func _set_labels() -> void:
-	if card_type == Collections.card_types.UNIT:
-		$VBox/BotInfo/Movement.text = str(movement)
-		if max_attack == min_attack:
-			$VBox/BotInfo/HealthContainer/BattleStats.text = str(max_attack, "/", health)
-		else:
-			$VBox/BotInfo/HealthContainer/BattleStats.text = str(
-				max_attack, "-", min_attack, "/", health
-			)
-		if shield == 0:
-			$VBox/BotInfo/HealthContainer/Shield.hide()
-		else:
-			$VBox/BotInfo/HealthContainer/Shield.text = str(shield)
-		$VBox/BotInfo/HealthContainer/BattleStats.show()
-
-	else:
-		if card_range != -1:
-			$VBox/BotInfo/Movement.text = str(card_range)
-		else:
-			$VBox/BotInfo/Movement.hide()
-		$VBox/BotInfo/HealthContainer/BattleStats.hide()
-
+func _set_costs_labels() -> void:
 	for f in [
 		{
 			"Label": $VBox/TopInfo/Costs/CostLabels/Passion,
@@ -232,55 +213,6 @@ func _set_labels() -> void:
 func _set_border_to_faction():
 	get_theme_stylebox("panel").set_border_width_all(size.y / 10)
 	get_theme_stylebox("panel").border_color = Styling.faction_colors[fibers]
-
-
-func _set_card_text_visuals() -> void:
-	_set_card_text_font_size()
-	$VBox/BotInfo/CardText.custom_minimum_size.x = size.x * 0.6
-	if len(card_text) <= 50:
-		$VBox/BotInfo/CardText.custom_minimum_size.y = size.y * 0.2
-	elif len(card_text) <= 100:
-		$VBox/BotInfo/CardText.custom_minimum_size.y = size.y * 0.4
-	else:
-		$VBox/BotInfo/CardText.custom_minimum_size.y = size.y * 0.6
-
-	if len(card_text) > 0:
-		$VBox/BotInfo/CardText.text = card_text
-		$VBox/BotInfo/CardText.show()
-	if len(card_text) == 0:
-		$VBox/BotInfo/CardText.hide()
-	$VBox/TopInfo/CardNameBG/CardName.text = ingame_name
-
-
-func _set_card_text_font_size() -> void:
-	var min_font: float = round(size.x) / 25
-	var max_font: float = round(size.x) / 19
-	var max_line_count: float = 6
-	var font_range_diff: float = max_font - min_font
-	var font_change_per_line: float = font_range_diff / (max_line_count - 1)
-	var card_text_font_size: float
-	if card_text == "":
-		card_text_font_size = max_font
-	else:
-		card_text_font_size = (max_font - CardHelper.calc_n_lines(card_text) * font_change_per_line)
-	$VBox/TopInfo/CardNameBG/CardName.label_settings = LabelSettings.new()
-	$VBox/BotInfo/CardText.label_settings = LabelSettings.new()
-	$VBox/BotInfo/Movement.label_settings = LabelSettings.new()
-	$VBox/BotInfo/HealthContainer/BattleStats.label_settings = LabelSettings.new()
-	$VBox/TopInfo/CardNameBG/CardName.label_settings.font_size = max_font
-	$VBox/BotInfo/CardText.label_settings.font_size = card_text_font_size
-	$VBox/BotInfo/Movement.label_settings.font_size = max_font
-	$VBox/BotInfo/HealthContainer/BattleStats.label_settings.font_size = max_font
-
-	for cost_label in [
-		[$VBox/TopInfo/Costs/CostLabels/Passion, Collections.fibers.PASSION],
-		[$VBox/TopInfo/Costs/CostLabels/Imagination, Collections.fibers.IMAGINATION],
-		[$VBox/TopInfo/Costs/CostLabels/Growth, Collections.fibers.GROWTH],
-		[$VBox/TopInfo/Costs/CostLabels/Logic, Collections.fibers.LOGIC],
-	]:
-		cost_label[0].label_settings = LabelSettings.new()
-		cost_label[0].label_settings.font_size = max_font
-		cost_label[0].label_settings.font_color = Styling.faction_colors[[cost_label[1]]]
 
 
 func _add_border() -> void:

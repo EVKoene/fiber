@@ -3,7 +3,6 @@ extends Card
 class_name CardInPlay
 
 @onready var card_action_menu_scene := preload("res://card/card_assets/CardActionMenu.tscn")
-@onready var battle_stat_container_scene := preload("res://card/card_assets/BattleStatsContainer.tscn")
 
 var exhausted := false
 var column := -1
@@ -14,7 +13,6 @@ var current_play_space: PlaySpace:
 	get = _get_play_space
 var card_data: Dictionary
 var battle_stats: BattleStats
-var shield: int
 var lord: bool
 var abilities: Array = []
 var triggered_funcs: Array = []
@@ -97,7 +95,9 @@ func attack_card(target_card: CardInPlay) -> void:
 				target_card.current_play_space.direction_from_play_space(current_play_space)
 			)
 
-	await deal_damage_to_card(target_card, int(randi_range(min_attack, max_attack)))
+	await deal_damage_to_card(target_card, int(randi_range(
+		battle_stats.min_attack, battle_stats.max_attack
+	)))
 	await BattleSynchronizer.call_triggered_funcs(Collections.triggers.ATTACK_FINISHED, self)
 
 
@@ -171,7 +171,7 @@ func move_over_path(path: PlaySpacePath) -> void:
 				await move_to_play_space(path.path_spaces[s].column, path.path_spaces[s].row)
 
 	TargetSelection.end_selecting()
-
+	update_stats()
 	GameManager.turn_manager.set_turn_actions_enabled(true)
 
 
@@ -242,6 +242,7 @@ func highlight_card(show_highlight: bool):
 		border = StyleBoxFlat.new()
 		add_theme_stylebox_override("panel", border)
 		border.bg_color = Color(99999900)
+		border.border_color = Styling.gold_color
 
 		get_theme_stylebox("panel").set_border_width_all(size.y / 10)
 
@@ -331,7 +332,7 @@ func spaces_in_range_to_melee_attack_card(card: CardInPlay) -> Array:
 		if ps.card_in_this_play_space:
 			if ps.card_in_this_play_space != self:
 				continue
-		if ps in spaces_in_range(movement, false):
+		if ps in spaces_in_range(battle_stats.movement, false):
 			spaces_to_attack_from.append(ps)
 
 	return spaces_to_attack_from
@@ -353,6 +354,10 @@ func resolve_spell() -> bool:
 
 func hide_border():
 	remove_theme_stylebox_override("panel")
+
+
+func update_stats() -> void:
+	battle_stats.update_all_stats()
 
 
 func _set_cost_container() -> void:
@@ -382,8 +387,8 @@ func _set_cost_container() -> void:
 
 
 func flip_card() -> void:
-	$Vbox.move_child($VBox/BattleStatsContainer, 0)
-	battle_stats.battle_stats_container.size_flags_vertical = SIZE_SHRINK_BEGIN
+	$VBox.move_child($VBox/BattleStatsContainer, 0)
+	$VBox/BattleStatsContainer.size_flags_vertical = SIZE_SHRINK_BEGIN
 	$VBox/TopInfo.size_flags_vertical = SIZE_EXPAND | SIZE_SHRINK_END
 	$CardImage.flip_v = true
 
@@ -437,7 +442,7 @@ func set_card_name() -> void:
 	var font_size: float
 	font_size = round(MapSettings.play_space_size.x) / (
 		len($VBox/TopInfo/CardNameBG/CardName.text) * 0.05
-	) * 0.05
+	) * 0.04
 
 	$VBox/TopInfo/CardNameBG/CardName.label_settings.font_size = font_size
 	$VBox/TopInfo/CardNameBG/CardName.text = ingame_name
@@ -731,7 +736,7 @@ func _on_gui_input(event):
 			var card_path = card.current_play_space.find_play_space_path(
 				current_play_space, card.move_through_units
 			)
-			if card_path.path_length > 0 and card_path.path_length <= card.movement + 1:
+			if card_path.path_length > 0 and card_path.path_length <= card.battle_stats.movement + 1:
 				current_play_space.select_path_to_play_space(card_path)
 
 	elif (
