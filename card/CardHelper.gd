@@ -104,7 +104,7 @@ func closest_spaces_within_movement(card: CardInPlay, goal_space: PlaySpace) -> 
 		var distance_to_ps: int = ps.distance_to_play_space(goal_space, card.ignore_obstacles)
 		if distance_to_ps == -1:
 			continue
-		elif distance_to_ps < card.movement:
+		elif distance_to_ps < card.battle_stats.movement:
 			continue
 		elif distance_to_ps == closest_distance:
 			closest_spaces.append(ps)

@@ -57,7 +57,9 @@ func attack_card(target_card: CardInPlay) -> void:
 	var adjacent_cards: Array = CardHelper.cards_in_range_of_card(
 		target_card, 1, TargetSelection.target_restrictions.OWN_UNITS
 	)
-	deal_damage_to_card(target_card, int(randi_range(min_attack, max_attack)))
+	deal_damage_to_card(target_card, int(randi_range(
+		battle_stats.min_attack, battle_stats.max_attack
+		)))
 
 	if charged:
 		for c in adjacent_cards:

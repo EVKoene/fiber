@@ -36,13 +36,13 @@ func highlight_card(card_owner_id: int, cip_index: int):
 
 
 @rpc("any_peer", "call_local")
-func set_all_borders_to_faction() -> void:
+func hide_all_borders() -> void:
 	for p_id in GameManager.players:
 		for c in GameManager.cards_in_play[p_id]:
-			c.set_border_to_faction()
+			c.hide_border()
 
 
 @rpc("any_peer", "call_local")
-func set_border_to_faction(card_owner_id: int, cip_index: int):
+func hide_border(card_owner_id: int, cip_index: int):
 	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
-	card.set_border_to_faction()
+	card.hide_border()

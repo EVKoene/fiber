@@ -322,7 +322,7 @@ func _on_gui_input(event):
 		var card: CardInPlay = TargetSelection.card_selected_for_movement
 		var card_path = card.current_play_space.find_play_space_path(self, card.move_through_units)
 
-		if card_path.path_length > 0 and card_path.path_length <= card.movement + 1:
+		if card_path.path_length > 0 and card_path.path_length <= card.battle_stats.movement + 1:
 			select_path_to_play_space(card_path)
 
 	elif (
@@ -338,7 +338,7 @@ func _on_gui_input(event):
 
 		if (
 			TargetSelection.current_path.path_length > 0
-			and TargetSelection.current_path.path_length <= card.movement + 1
+			and TargetSelection.current_path.path_length <= card.battle_stats.movement + 1
 		):
 			TargetSelection.current_path.show_path()
 			selected_for_movement = true
@@ -351,7 +351,7 @@ func _on_gui_input(event):
 				self, card.move_through_units
 			)
 
-			if card_path.path_length > 0 and card_path.path_length <= card.movement + 1:
+			if card_path.path_length > 0 and card_path.path_length <= card.battle_stats.movement + 1:
 				select_path_to_play_space(card_path)
 
 			else:

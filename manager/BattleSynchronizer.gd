@@ -51,7 +51,7 @@ func resolve_damage(card_owner_id, cip_index, value):
 
 
 func shield_damage(card: CardInPlay, value: int) -> int:
-	var damage_after_shield: int = max(0, card.shield - value)
+	var damage_after_shield: int = max(0, card.battle_stats.shield - value)
 
 	CardManipulation.change_battle_stat(
 		Collections.stats.SHIELD, card.card_owner_id, card.card_in_play_index, -value, -1
@@ -61,11 +61,11 @@ func shield_damage(card: CardInPlay, value: int) -> int:
 
 
 func reduce_health(card: CardInPlay, value: int) -> void:
-	if card.health - value > 0:
+	if card.battle_stats.health - value > 0:
 		CardManipulation.change_battle_stat(
 			Collections.stats.HEALTH, card.card_owner_id, card.card_in_play_index, -value, -1
 		)
-	elif card.health - value <= 0:
+	elif card.battle_stats.health - value <= 0:
 		if GameManager.is_single_player:
 			CardManipulation.destroy(card.card_owner_id, card.card_in_play_index)
 		if !GameManager.is_single_player:
@@ -143,9 +143,8 @@ func update_play_space_stat_modifier(
 ) -> void:
 	var play_space: PlaySpace = GameManager.ps_column_row[column][row]
 	play_space.stat_modifier[card_owner_id][stat] += value
-	for p in GameManager.players:
-		for c in GameManager.cards_in_play[p]:
-			c.update_stats()
+	if play_space.card_in_this_play_space:
+		play_space.card_in_this_play_space.update_stats()
 
 
 @rpc("any_peer", "call_local")
@@ -267,7 +266,6 @@ func move_to_play_space(
 	card.row = new_row
 	card.current_play_space.card_in_this_play_space = card
 	card.set_position_to_play_space()
-	card.update_stats()
 
 
 @rpc("any_peer", "call_local")

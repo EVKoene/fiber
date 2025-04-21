@@ -2,6 +2,13 @@ extends Card
 
 class_name CardInHand
 
+var attack_range: int
+var card_range: int
+var max_attack: int
+var min_attack: int
+var movement: int
+var health: int
+var shield: int
 var hand_index: int:
 	get = _get_hand_index
 
@@ -47,7 +54,10 @@ func set_card_position() -> void:
 		GameManager.cards_in_hand[card_owner_id].find(self)
 		* ((MapSettings.own_area_end.x - MapSettings.own_area_start.x) / 7)
 	)
-
+	
+	if card_owner_id not in [GameManager.p1_id, GameManager.p2_id]:
+		assert(false, str("Card owner id not recognized: ", str(card_owner_id)))
+	
 	match [GameManager.is_player_1, card_owner_id]:
 		[true, GameManager.p1_id]:
 			position.y = MapSettings.own_area_start.y
@@ -57,60 +67,39 @@ func set_card_position() -> void:
 			position.y = MapSettings.own_area_start.y
 		[false, GameManager.p1_id]:
 			position.y = MapSettings.opponent_area_start.y
-		_:
-			assert(
-				false,
-				str(
-					"Unable to assert is_player_1 - card_owner_id combination. is_player_1: ",
-					GameManager.battle_map.is_player_1(),
-					", card_owner_id: ",
-					card_owner_id
-				)
-			)
 
 
 func set_card_properties():
-	$Vbox/TopInfo/CardNameBG/CardName.text = ingame_name
+	$Hbox/CardNameBG/CardName.text = ingame_name
 	_set_card_cost_visuals()
-
-	if card_type == Collections.card_types.UNIT:
-		if max_attack == min_attack:
-			$Vbox/BotInfo/BattleStats.text = str(max_attack, " / ", health)
-		else:
-			$Vbox/BotInfo/BattleStats.text = str(max_attack, "-", min_attack, " / ", health)
-		$Vbox/BotInfo/CardRange.text = str(movement)
-	elif card_type == Collections.card_types.SPELL:
-		$Vbox/BotInfo/BattleStats.hide()
-		$Vbox/BotInfo/CardRange.text = str(card_range)
-
 	get_theme_stylebox("panel").border_color = Styling.faction_colors[fibers]
 
 
 func _set_card_cost_visuals() -> void:
 	if costs.passion > 0:
-		$Vbox/TopInfo/Costs/CostLabels/Passion.show()
-		$Vbox/TopInfo/Costs/CostLabels/Passion.text = str(costs.passion)
+		$Hbox/Costs/CostLabels/Passion.show()
+		$Hbox/Costs/CostLabels/Passion.text = str(costs.passion)
 	else:
-		$Vbox/TopInfo/Costs/CostLabels/Passion.hide()
-		$Vbox/TopInfo/Costs/CostLabels/Passion.text = "0"
+		$Hbox/Costs/CostLabels/Passion.hide()
+		$Hbox/Costs/CostLabels/Passion.text = "0"
 	if costs.imagination > 0:
-		$Vbox/TopInfo/Costs/CostLabels/Imagination.show()
-		$Vbox/TopInfo/Costs/CostLabels/Imagination.text = str(costs.imagination)
+		$Hbox/Costs/CostLabels/Imagination.show()
+		$Hbox/Costs/CostLabels/Imagination.text = str(costs.imagination)
 	else:
-		$Vbox/TopInfo/Costs/CostLabels/Imagination.hide()
-		$Vbox/TopInfo/Costs/CostLabels/Imagination.text = "0"
+		$Hbox/Costs/CostLabels/Imagination.hide()
+		$Hbox/Costs/CostLabels/Imagination.text = "0"
 	if costs.growth > 0:
-		$Vbox/TopInfo/Costs/CostLabels/Growth.show()
-		$Vbox/TopInfo/Costs/CostLabels/Growth.text = str(costs.growth)
+		$Hbox/Costs/CostLabels/Growth.show()
+		$Hbox/Costs/CostLabels/Growth.text = str(costs.growth)
 	else:
-		$Vbox/TopInfo/Costs/CostLabels/Growth.hide()
-		$Vbox/TopInfo/Costs/CostLabels/Growth.text = "0"
+		$Hbox/Costs/CostLabels/Growth.hide()
+		$Hbox/Costs/CostLabels/Growth.text = "0"
 	if costs.logic > 0:
-		$Vbox/TopInfo/Costs/CostLabels/Logic.show()
-		$Vbox/TopInfo/Costs/CostLabels/Logic.text = str(costs.logic)
+		$Hbox/Costs/CostLabels/Logic.show()
+		$Hbox/Costs/CostLabels/Logic.text = str(costs.logic)
 	else:
-		$Vbox/TopInfo/Costs/CostLabels/Logic.hide()
-		$Vbox/TopInfo/Costs/CostLabels/Logic.text = "0"
+		$Hbox/Costs/CostLabels/Logic.hide()
+		$Hbox/Costs/CostLabels/Logic.text = "0"
 
 
 func set_card_size() -> void:
@@ -137,18 +126,24 @@ func _load_card_properties() -> void:
 	costs.card = self
 
 	if card_info["CardType"] == Collections.card_types.UNIT:
+		attack_range = card_info["AttackRange"]
 		max_attack = card_info["MaxAttack"]
 		min_attack = card_info["MinAttack"]
-		health = card_info["Health"]
 		movement = card_info["Movement"]
+		health = card_info["Health"]
+		if card_info.has("Shield"):
+			shield = card_info["Shield"]
+		else:
+			shield = 0
+	
 	else:
 		card_range = card_info["CardRange"]
 	_set_card_text_font_size()
 
 
 func _set_card_text_font_size() -> void:
-	if !$Vbox/TopInfo/CardNameBG/CardName.label_settings:
-		$Vbox/TopInfo/CardNameBG/CardName.label_settings = LabelSettings.new()
+	if !$Hbox/CardNameBG/CardName.label_settings:
+		$Hbox/CardNameBG/CardName.label_settings = LabelSettings.new()
 	var min_font: float = round(MapSettings.play_space_size.x) / 22
 	var max_font: float = round(MapSettings.play_space_size.x) / 13
 	var max_chars := 30
@@ -157,7 +152,7 @@ func _set_card_text_font_size() -> void:
 	var card_font_size: float
 	card_font_size = (max_font - len(ingame_name) * font_change_per_char)
 
-	$Vbox/TopInfo/CardNameBG/CardName.label_settings.font_size = card_font_size
+	$Hbox/CardNameBG/CardName.label_settings.font_size = card_font_size
 
 
 func _add_border() -> void:

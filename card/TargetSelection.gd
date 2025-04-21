@@ -134,12 +134,12 @@ func clear_selections() -> void:
 	selecting_spaces = false
 	number_of_spaces_to_select = 0
 	if GameManager.is_single_player:
-		CardManipulation.set_all_borders_to_faction()
+		CardManipulation.hide_all_borders()
 		BattleAnimation.unhighlight_all_spaces()
 
 	if !GameManager.is_single_player:
 		for p_id in GameManager.players:
-			CardManipulation.set_all_borders_to_faction.rpc_id(p_id)
+			CardManipulation.hide_all_borders.rpc_id(p_id)
 			BattleAnimation.unhighlight_all_spaces.rpc_id(p_id)
 
 

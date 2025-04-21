@@ -12,8 +12,11 @@ var map = MapDatabase.maps.BASE_MAP
 var map_data = MapDatabase.map_data[map]
 var end_turn_button_container: PanelContainer
 var instruction_container: PanelContainer
+var card_text_container: PanelContainer
+var card_text_container_label: Label
 var tutorial_container: PanelContainer
 var gold_gained_container: PanelContainer
+var battle_zoom_preview: ZoomPreview
 var text_box: Panel
 var finish_button_container: PanelContainer
 var is_tutorial := false
@@ -229,6 +232,7 @@ func _set_zoom_preview_position_and_size() -> void:
 	$BattleZoomPreview.scale.y *= zoom_preview_size.x / $BattleZoomPreview.size.y
 	MapSettings.zoom_preview_size = zoom_preview_size
 	GameManager.zoom_preview = $BattleZoomPreview
+	battle_zoom_preview = $BattleZoomPreview
 
 
 func _set_resource_bars_position_and_size() -> void:
@@ -275,7 +279,7 @@ func _create_progress_bars() -> void:
 			add_child(progress_bar)
 			progress_bar.custom_minimum_size.x = MapSettings.play_space_size.x / 4
 			progress_bar.custom_minimum_size.y = progress_bar_y_size
-			progress_bar.position.x = MapSettings.play_area_size.x + b * progress_bar_y_size
+			progress_bar.position.x = MapSettings.get_column_end_x(MapSettings.n_columns) + b * progress_bar_y_size
 			progress_bar.rotation_degrees = 90
 			progress_bar.show_percentage = false
 			var sb = StyleBoxFlat.new()
@@ -329,6 +333,7 @@ func _set_text_containers() -> void:
 	text_box = $TextBox
 	_set_gold_gained_container()
 	_set_instruction_container()
+	_set_card_text_container()
 
 
 func _set_gold_gained_container() -> void:
@@ -352,8 +357,6 @@ func _set_instruction_container() -> void:
 	assert(gold_gained_container != null, "Gold Gained container size not set yet")
 	$InstructionContainer.size.x = gold_gained_container.size.x
 	$InstructionContainer.size.y = gold_gained_container.size.y * 6
-	$InstructionContainer.size.x = MapSettings.play_space_size.x * 2.5
-	$InstructionContainer.size.y = MapSettings.total_screen.y / 5
 	$InstructionContainer.position.x = MapSettings.total_screen.x - $InstructionContainer.size.x
 	$InstructionContainer.position.y = (
 		MapSettings.total_screen.y
@@ -371,6 +374,17 @@ func _set_instruction_container() -> void:
 	instruction_container.get_theme_stylebox("panel").set_border_width_all(
 		instruction_container.size.x / 15
 	)
+
+
+func _set_card_text_container() -> void:
+	assert(battle_zoom_preview != null, "ZoomPreview container size not set yet")
+	card_text_container = $CardTextContainer
+	card_text_container.size.x = battle_zoom_preview.size.x
+	card_text_container.size.y = battle_zoom_preview.size.y
+	card_text_container.position.x = battle_zoom_preview.position.x
+	card_text_container.position.y = battle_zoom_preview.position.y + battle_zoom_preview.size.y + card_text_container.size.y
+	battle_zoom_preview.card_text_container = card_text_container
+	battle_zoom_preview.card_text_container_label = $CardTextContainer/CardText
 
 
 @rpc("call_local")
