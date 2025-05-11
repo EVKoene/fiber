@@ -25,6 +25,7 @@ var highlight_instruction_container_tween: Tween
 var highlight_finish_button_tween: Tween
 var showing_instruction := false
 var showing_finish_button := false
+var npc_id := -1
 
 
 func _ready():
@@ -56,7 +57,13 @@ func _ready():
 
 
 func _create_ai_player() -> void:
-	GameManager.ai_player = AIPlayer.new()
+	var ai_player := AIPlayer.new()
+	if npc_id != -1:
+		var npc_data: Dictionary = NPCDatabase.npc_data[npc_id]
+		if npc_data.has("CustomScript"):
+			ai_player = load(npc_data["CustomScript"]).new()
+	
+	GameManager.ai_player = ai_player
 	GameManager.ai_player_id = GameManager.p2_id
 	GameManager.ai_player.player_id = GameManager.p2_id
 	GameManager.ai_player.ai_turn_manager = AITurnManager.new()

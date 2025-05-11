@@ -7,6 +7,7 @@ var row: int
 var stat_modifier := {
 	GameManager.p1_id:
 	{
+		Collections.stats.ATTACK_RANGE: 0,
 		Collections.stats.MAX_ATTACK: 0,
 		Collections.stats.MIN_ATTACK: 0,
 		Collections.stats.HEALTH: 0,
@@ -15,6 +16,7 @@ var stat_modifier := {
 	},
 	GameManager.p2_id:
 	{
+		Collections.stats.ATTACK_RANGE: 0,
 		Collections.stats.MAX_ATTACK: 0,
 		Collections.stats.MIN_ATTACK: 0,
 		Collections.stats.HEALTH: 0,
@@ -83,7 +85,7 @@ func adjacent_play_spaces() -> Array:
 	return a_spaces
 
 
-func distance_to_play_space(goal_space: PlaySpace, ignore_obstacles: bool) -> int:
+func distance_to_play_space(goal_space: PlaySpace, ignore_obstacles: bool = false) -> int:
 	var queue: Array = [self]
 
 	var distance: Dictionary = {

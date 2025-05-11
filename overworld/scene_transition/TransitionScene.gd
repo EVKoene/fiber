@@ -72,32 +72,6 @@ func reload_scene() -> void:
 	animation_player.play_backwards("fade_scene")
 
 
-func transition_to_start_journey() -> void:
-	OverworldManager.save_player_position(
-		OverworldManager.current_player_position, OverworldManager.current_area_id
-	)
-
-	if GameManager.current_scene:
-		GameManager.current_scene.queue_free()
-		GameManager.current_scene = null
-	animation_player.play("fade_scene")
-	OverworldManager.create_overworld_file()
-	await animation_player.animation_finished
-
-	GameManager.testing = false
-	OverworldManager.can_move = true
-	var start_journey = start_journey_scene.instantiate()
-	start_journey.new_game = true
-	GameManager.main_menu.hide_main_menu()
-	start_journey.player_position = (
-		AreaDatabase.areas[AreaDatabase.area_ids.START_OF_JOURNEY]["StartingPosition"]
-	)
-	GameManager.add_child(start_journey)
-	GameManager.call_deferred("cleanup_game")
-	OverworldManager.can_move = false
-	animation_player.play_backwards("fade_scene")
-
-
 func transition_to_tutorial() -> void:
 	animation_player.play("fade_scene")
 	await animation_player.animation_finished

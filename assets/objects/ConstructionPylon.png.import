@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b5je7cf4fd7nc"
-path="res://.godot/imported/GorillaKing.png-5e2417cc3692b97caff8e9e574047086.ctex"
+uid="uid://xfvvldj05vxk"
+path="res://.godot/imported/ConstructionPylon.png-6d864016f889b6d91eeea832714abfca.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_images/passion/GorillaKing.png"
-dest_files=["res://.godot/imported/GorillaKing.png-5e2417cc3692b97caff8e9e574047086.ctex"]
+source_file="res://assets/objects/ConstructionPylon.png"
+dest_files=["res://.godot/imported/ConstructionPylon.png-6d864016f889b6d91eeea832714abfca.ctex"]
 
 [params]
 

@@ -135,7 +135,7 @@ func preview_card_index(card_index, lock_card: bool) -> void:
 	_set_costs_labels()
 	_set_border_to_faction()
 	$CardImage.texture = load(img_path)
-	set_card_text(card_data["CardText"])
+	set_card_text(card_data["Text"])
 
 
 func reset_zoom_preview() -> void:
@@ -167,12 +167,12 @@ func set_card_text(card_text: String) -> void:
 
 
 func _set_card_text_font_size(card_text: String) -> void:
-	var min_font: float = round(card_text_container.size.x) / 25
-	var max_font: float = round(card_text_container.size.x) / 19
-	var max_line_count: float = 6
-	var font_range_diff: float = max_font - min_font
-	var font_change_per_line: float = font_range_diff / (max_line_count - 1)
-	var card_text_font_size: float
+	var min_font: int = round(card_text_container.size.x) / 25
+	var max_font: int = round(card_text_container.size.x) / 19
+	var max_line_count: int = 6
+	var font_range_diff: int = max_font - min_font
+	var font_change_per_line: int = font_range_diff / (max_line_count - 1)
+	var card_text_font_size: int
 	card_text_font_size = (max_font - CardHelper.calc_n_lines(card_text) * font_change_per_line)
 	card_text_container_label.label_settings = LabelSettings.new()
 	card_text_container_label.label_settings.font_size = card_text_font_size

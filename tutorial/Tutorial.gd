@@ -3,9 +3,10 @@ extends Node
 
 enum tutorial_phases {
 	INSTRUCTION_START, BATTLEMAP_EXPLANATION, BLUE_RED_SPACES, HOVER_CARD, PREVIEW_CARD, CARD_COST,
-	CARD_MOVEMENT, CARD_ATTACK, CARD_HEALTH, RESOURCES, RESOURCE_REFRESH, PLAY_CARD, 
-	FACTION_RESOURCES, MOVE_CARD, ATTACK_CARD, EXHAUST, ATTACK_FURTHER, CONQUER_VICTORY_SPACES, 
-	PROGRESS_BAR, USE_ABILITIES, SPELLS, USE_ATTACK_COMMAND, END_TURN, FINISH_TUTORIAL
+	CARD_MOVEMENT, CARD_ATTACK_RANGE, CARD_MAX_ATTACK, CARD_HEALTH, CARD_SHIELD, 
+	RESOURCES, RESOURCE_REFRESH, PLAY_CARD, FACTION_RESOURCES, MOVE_CARD, ATTACK_CARD, EXHAUST, 
+	ATTACK_FURTHER, CONQUER_VICTORY_SPACES, PROGRESS_BAR, USE_ABILITIES, SPELLS, 
+	USE_ATTACK_COMMAND, END_TURN, FINISH_TUTORIAL
 }
 
 @onready var play_space_arrow_scene: PackedScene = preload("res://map/play_space/PlaySpaceArrow.tscn")
@@ -57,7 +58,7 @@ func _battlemap_explanation() -> void:
 		"This is the battlefield, consisting of 5 rows and 7 columns.\n\n(Click to continue)"
 	)
 	var arrow_position := Vector2(
-		MapSettings.play_area_end.x - arrow_size.x * 0.5,
+		MapSettings.play_area_size.x - arrow_size.x * 1.5,
 		MapSettings.total_screen.y / 2
 	)
 	_create_arrow(arrow_position, 180)
@@ -72,7 +73,7 @@ func _blue_red_spaces() -> void:
 		"You can play your units on the blue spaces.\n Your opponent can play their units on the 
 		red spaces.\n\n(Click to continue)"
 	)
-	var arrow_position_x := MapSettings.get_column_start_x(5) + arrow_size.x * 1.5
+	var arrow_position_x := MapSettings.get_column_start_x(5) + arrow_size.x * 2.5
 	var blue_arrow_position := Vector2(arrow_position_x, MapSettings.card_in_hand_size.y * 3)
 	var red_arrow_position := Vector2(
 		arrow_position_x, MapSettings.total_screen.y - MapSettings.card_in_hand_size.y
@@ -121,7 +122,7 @@ func _card_cost() -> void:
 		passion (red) resource to play.\n\n(Click to continue)"
 	)
 	var arrow_position := Vector2(
-		GameManager.zoom_preview.position.x + GameManager.zoom_preview.size.x * 1.25,
+		GameManager.zoom_preview.position.x + GameManager.zoom_preview.size.x,
 		GameManager.zoom_preview.position.y + GameManager.zoom_preview.size.y
 	)
 	_create_arrow(arrow_position, 270)
@@ -137,28 +138,43 @@ func _card_movement() -> void:
 		to move 1 space each turn.\n\n(Click to continue)"
 	)
 	var arrow_position := Vector2(
-		GameManager.zoom_preview.position.x + GameManager.zoom_preview.size.x * 0.4,
-		GameManager.zoom_preview.position.y + GameManager.zoom_preview.size.y
+		GameManager.zoom_preview.position.x + GameManager.zoom_preview.size.x * 0.7,
+		GameManager.zoom_preview.position.y + GameManager.zoom_preview.size.y * 1.9
 	)
-	_create_arrow(arrow_position, 90)
+	_create_arrow(arrow_position, 180)
 	pause_battlemap()
-	next_phase = tutorial_phases.CARD_ATTACK
+	next_phase = tutorial_phases.CARD_ATTACK_RANGE
 	is_awaiting_tutorial_input = true
 
 
-func _card_attack() -> void:
+func _card_attack_range() -> void:
 	is_awaiting_tutorial_input = false
 	battle_map.show_tutorial_text(
-		"In the lower right corner of a card, before the slash, you'll find its attack values.\n
-		The left number is its maximum attack and the right number is its minimum attack.\n
-		Whenever this unit attacks, it damage will be a random number in between those two.
+		"After the movement value you will find the attack range. This Gorilla will be able 
+		to attack units within a range of 1 space.\n\n(Click to continue)"
+	)
+	var arrow_position := Vector2(
+		GameManager.zoom_preview.position.x + GameManager.zoom_preview.size.x * 0.9,
+		GameManager.zoom_preview.position.y + GameManager.zoom_preview.size.y * 1.9
+	)
+	_create_arrow(arrow_position, 180)
+	pause_battlemap()
+	next_phase = tutorial_phases.CARD_MAX_ATTACK
+	is_awaiting_tutorial_input = true
+
+
+func _card_max_and_min_attack() -> void:
+	is_awaiting_tutorial_input = false
+	battle_map.show_tutorial_text(
+		"After the attack range you will find it's max attack (the sword) and it's min attack (the 
+		dagger). \nWhenever this unit attacks, it damage will be a random number in between those two.
 		\n\n(Click to continue)"
 	)
 	var arrow_position := Vector2(
-		GameManager.zoom_preview.position.x + GameManager.zoom_preview.size.x * 1.75,
-		GameManager.zoom_preview.position.y + GameManager.zoom_preview.size.y
+		GameManager.zoom_preview.position.x + GameManager.zoom_preview.size.x * 1.3,
+		GameManager.zoom_preview.position.y + GameManager.zoom_preview.size.y * 1.9
 	)
-	_create_arrow(arrow_position, 90)
+	_create_arrow(arrow_position, 180)
 	pause_battlemap()
 	next_phase = tutorial_phases.CARD_HEALTH
 	is_awaiting_tutorial_input = true
@@ -167,21 +183,35 @@ func _card_attack() -> void:
 func _card_health() -> void:
 	is_awaiting_tutorial_input = false
 	battle_map.show_tutorial_text(
-		"In the lower right corner of a card after the slash, you'll find its health values.\n
-		Any damage this unit receives will reduce its health. Once its health reaches 0 it will
-		die and leave the battlefield.
-		\n\n(Click to continue)"
+		"After the max and min attack you'll find the card's health. When this reaches 0 the unit 
+		will die.\n\n(Click to continue)"
 	)
 	var arrow_position := Vector2(
-		GameManager.zoom_preview.position.x + GameManager.zoom_preview.size.x * 1.9,
-		GameManager.zoom_preview.position.y + GameManager.zoom_preview.size.y
+		GameManager.zoom_preview.position.x + GameManager.zoom_preview.size.x * 1.5,
+		GameManager.zoom_preview.position.y + GameManager.zoom_preview.size.y * 1.9
 	)
-	_create_arrow(arrow_position, 90)
+	_create_arrow(arrow_position, 180)
 	pause_battlemap()
-	next_phase = tutorial_phases.RESOURCES
+	next_phase = tutorial_phases.CARD_SHIELD
 	is_awaiting_tutorial_input = true
 
 
+func _card_shield() -> void:
+	is_awaiting_tutorial_input = false
+	battle_map.show_tutorial_text(
+		"The final number is the card's shield. Attack that hit a unit will deplete it's shield 
+		first before subtracting from health.\n\n(Click to continue)"
+	)
+	var arrow_position := Vector2(
+		GameManager.zoom_preview.position.x + GameManager.zoom_preview.size.x * 1.7,
+		GameManager.zoom_preview.position.y + GameManager.zoom_preview.size.y * 1.9
+	)
+	_create_arrow(arrow_position, 180)
+	pause_battlemap()
+	next_phase = tutorial_phases.RESOURCES
+	is_awaiting_tutorial_input = true
+	
+	
 func _resources() -> void:
 	is_awaiting_tutorial_input = false
 	battle_map.show_tutorial_text(
@@ -500,10 +530,14 @@ func continue_tutorial() -> void:
 			_card_cost()
 		tutorial_phases.CARD_MOVEMENT:
 			_card_movement()
-		tutorial_phases.CARD_ATTACK:
-			_card_attack()
+		tutorial_phases.CARD_ATTACK_RANGE:
+			_card_attack_range()
+		tutorial_phases.CARD_MAX_ATTACK:
+			_card_max_and_min_attack()
 		tutorial_phases.CARD_HEALTH:
 			_card_health()
+		tutorial_phases.CARD_SHIELD:
+			_card_shield()
 		tutorial_phases.RESOURCES:
 			_resources()
 		tutorial_phases.RESOURCE_REFRESH:

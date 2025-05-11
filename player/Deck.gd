@@ -46,8 +46,9 @@ func shuffle() -> void:
 
 func draw_card() -> void:
 	GameManager.turn_manager.set_turn_actions_enabled(false)
-	create_hand_card(deck_order[0])
-	deck_order.remove_at(0)
+	if len(deck_order) > 0:
+		create_hand_card(deck_order[0])
+		deck_order.remove_at(0)
 	GameManager.turn_manager.set_turn_actions_enabled(true)
 
 

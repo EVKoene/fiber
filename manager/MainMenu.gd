@@ -91,13 +91,15 @@ func _on_single_player_pressed() -> void:
 	PatchManager.check_version()
 
 	if !FileAccess.file_exists(GameManager.collections_path):
-		TransitionScene.transition_to_start_journey()
+		OverworldManager.create_overworld_file()
+		TransitionScene.transition_to_overworld_scene(AreaDatabase.area_ids.START_OF_JOURNEY)
 		return
 
 	var config := ConfigFile.new()
 	config.load(GameManager.collections_path)
 	if config.get_value("start_journey", "starting_fiber", -1) == -1:
-		TransitionScene.transition_to_start_journey()
+		OverworldManager.create_overworld_file()
+		TransitionScene.transition_to_overworld_scene(AreaDatabase.area_ids.START_OF_JOURNEY)
 		return
 
 	TransitionScene.transition_to_overworld_scene(

@@ -2,6 +2,9 @@ extends Node
 
 enum npcs {
 	### START_OF_JOURNEY ###
+	ALPHONSO,
+	BETTY,
+	GAMZA,
 	WISE_MAN,
 	### PASSION_LEVEL_1 ###
 	TRUDY,
@@ -70,6 +73,41 @@ enum special_rules {
 }
 
 var npc_data: Dictionary = {
+	### START_OF_JOURNEY ###
+	npcs.WISE_MAN:
+	{
+		"Name": "Wise Man",
+		"Dialogue": ["Good luck."],
+		"Battle": false,
+		"CharacterModel": character_types.WISE_MAN,
+	},
+	npcs.ALPHONSO:
+	{
+		"Name": "Alphonso",
+		"Dialogue": ["Let's go nerd."],
+		"Battle": true,
+		"DeckID": DeckCollection.deck_ids.CUSTOM_SCRIPT,
+		"CustomScript": "res://singleplayer/ai/opponents/Alphonso.gd",
+		"CharacterModel": character_types.GENERIC_GUY_1,
+	},
+	npcs.BETTY:
+	{
+		"Name": "Betty",
+		"Dialogue": ["Round 2, here we go!"],
+		"Battle": true,
+		"DeckID": DeckCollection.deck_ids.CUSTOM_SCRIPT,
+		"CustomScript": "res://singleplayer/ai/opponents/Betty.gd",
+		"CharacterModel": character_types.GENERIC_GIRL_2,
+	},
+	npcs.GAMZA:
+	{
+		"Name": "Gamza",
+		"Dialogue": ["Your adventure stops with me."],
+		"Battle": false,
+		"CustomScript": "res://singleplayer/ai/opponents/Gamza.gd",
+		"DeckID": DeckCollection.deck_ids.CUSTOM_SCRIPT,
+		"CharacterModel": character_types.GENERIC_GIRL_1,
+	},
 	### PASION_LEVEL_1 ###
 	npcs.TRUDY:
 	{
@@ -290,14 +328,6 @@ var npc_data: Dictionary = {
 		"SpecialRules": [special_rules.CREATE_ROBOT_FABRICATION],
 		"CharacterModel": character_types.BILL_GATES,
 		"DeckID": DeckCollection.deck_ids.BILL_GATES,
-	},
-	### START_OF_JOURNEY ###
-	npcs.WISE_MAN:
-	{
-		"Name": "Wise Man",
-		"Dialogue": ["Good luck."],
-		"Battle": false,
-		"CharacterModel": character_types.WISE_MAN,
 	},
 }
 

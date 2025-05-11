@@ -129,9 +129,10 @@ func setup_starter_deck(fiber: int) -> void:
 
 
 @rpc("any_peer", "call_local")
-func start_game() -> void:
+func start_game(npc_id: int = -1) -> void:
 	main_menu.hide_main_menu()
 	var b_map = battle_map_scene.instantiate()
+	b_map.npc_id = npc_id
 	GameManager.current_scene = b_map
 	main_menu.add_child(b_map, true)
 
@@ -145,7 +146,7 @@ func start_single_player_battle(npc_id: int) -> void:
 	player_id = 1
 
 	add_player(2, 2, npc_data["Name"], DeckCollection.decks[npc_data["DeckID"]], npc_id)
-	start_game()
+	start_game(npc_id)
 
 
 func opposing_player_id(p_id: int) -> int:

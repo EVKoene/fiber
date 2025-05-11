@@ -36,9 +36,10 @@ enum deck_ids {
 	STRENGTH_IN_NUMBERS,
 	BILL_GATES,
 	### MISC ###
-	TUTORIAL_DECK,
+	CUSTOM_SCRIPT,
 	OPPONENT_TESTING,
 	PLAYER_TESTING,
+	TUTORIAL_DECK,
 }
 
 var decks := {
@@ -628,6 +629,14 @@ var decks := {
 			cards.GOBLIN_ARCHER: 3,
 		},
 		"ID": deck_ids.PLAYER_TESTING,
+	},
+	deck_ids.CUSTOM_SCRIPT: 
+	# Custom scripts get an empty deck because they won't draw and play cards the normal way.
+	{
+		"DeckName": "Custom script",
+		"Cards": {},
+		"StartingCards": {},
+		"ID": deck_ids.CUSTOM_SCRIPT,
 	},
 }
 

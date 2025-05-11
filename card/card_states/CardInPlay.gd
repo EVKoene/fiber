@@ -159,7 +159,7 @@ func move_over_path(path: PlaySpacePath) -> void:
 			if s == 0:
 				continue
 			elif path.path_spaces[s].card_in_this_play_space and move_through_units:
-				await get_tree().create_timer(0.25).timeout
+				await get_tree().create_timer(0.1).timeout
 				# We increase and decrease the z index to make sure the card will move over the card
 				# it passes through
 				z_index += 50
@@ -167,7 +167,7 @@ func move_over_path(path: PlaySpacePath) -> void:
 				position.y = path.path_spaces[s].position.y + MapSettings.play_space_size.y * 0.05
 				z_index -= 50
 			else:
-				await get_tree().create_timer(0.25).timeout
+				await get_tree().create_timer(0.1).timeout
 				await move_to_play_space(path.path_spaces[s].column, path.path_spaces[s].row)
 
 	TargetSelection.end_selecting()
