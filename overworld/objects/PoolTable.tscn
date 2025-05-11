@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dtiyse5avdtfl"]
 
-[ext_resource type="Texture2D" uid="uid://7jiinvij538f" path="res://assets/objects/pool_table.png" id="1_d4lsv"]
-[ext_resource type="Texture2D" uid="uid://dqfhj7b5ajd43" path="res://assets/objects/pool_balls.png" id="2_3613s"]
+[ext_resource type="Texture2D" uid="uid://dve8u16b0oqk1" path="res://assets/objects/pool_table.png" id="1_d4lsv"]
+[ext_resource type="Texture2D" uid="uid://bhf3udvhdrd" path="res://assets/objects/pool_balls.png" id="2_3613s"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pku3g"]
 size = Vector2(99, 110)

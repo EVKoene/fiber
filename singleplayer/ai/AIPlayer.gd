@@ -4,6 +4,7 @@ class_name AIPlayer
 
 @onready var card_resolve_scene := load("res://card/card_states/CardResolve.tscn")
 var ai_turn_manager: AITurnManager
+var ai_turns := 0
 var player_id: int
 var moving_cards := false
 var turn_finished := false
@@ -91,7 +92,6 @@ func use_cards_in_play() -> void:
 			if !c.exhausted and !game_over:
 				using_actions = await use_card_action(c)
 				if using_actions and !game_over:
-					await GameManager.battle_map.get_tree().create_timer(0.25).timeout
 					await GameManager.battle_map.get_tree().process_frame
 
 
@@ -199,3 +199,24 @@ func resolve_spell_for_ai(spell: CardInHand) -> void:
 	card_resolve.size = MapSettings.total_screen
 	GameManager.battle_map.add_child(card_resolve)
 	BattleSynchronizer.remove_card_from_hand(player_id, spell.hand_index)
+
+
+func play_to_closest_available_space(card_index: int, column: int, row: int) -> bool:
+	var play_space: PlaySpace = GameManager.ps_column_row[column][row]
+	if !play_space.card_in_this_play_space:
+		BattleSynchronizer.play_unit(card_index, player_id, column, row)
+		return true
+		
+	var closest_ps: PlaySpace
+	var smallest_distance := 0
+	for ps in GameManager.play_spaces:
+		var distance: int = play_space.distance_to_play_space(ps, true)
+		if distance > 0 and distance < smallest_distance:
+			smallest_distance = distance
+			closest_ps = ps
+	
+	if smallest_distance > 0:
+		BattleSynchronizer.play_unit(card_index, player_id, closest_ps.column, closest_ps.row)
+		return true
+	
+	return false

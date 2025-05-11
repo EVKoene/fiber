@@ -39,11 +39,12 @@ func start_npc_interaction(npc_id: int) -> void:
 	var npc_properties: Dictionary = NPCDatabase.npc_data[npc_id]
 	read_text(npc_properties["Dialogue"])
 	await Events.dialogue_finished
-	if npc_properties.has("DeckID"):
-		OverworldManager.save_player_position($PlayerBody.position, scene_id)
-		TransitionScene.transition_to_npc_battle(npc_id)
-	else:
+	if !npc_properties["Battle"]:
 		OverworldManager.can_move = true
+		return
+		
+	OverworldManager.save_player_position($PlayerBody.position, scene_id)
+	TransitionScene.transition_to_npc_battle(npc_id)
 
 
 func read_text(text_to_read: Array, is_question := false, question_options := []) -> void:

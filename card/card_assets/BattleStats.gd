@@ -180,7 +180,7 @@ func get_movement() -> int:
 func get_attack_range() -> int:
 	var modified_attack_range: int = base_attack_range
 	modified_attack_range += card.current_play_space.stat_modifier[card.card_owner_id][
-		Collections.stats.MOVEMENT
+		Collections.stats.ATTACK_RANGE
 	]
 
 	for m in attack_range_modifiers:

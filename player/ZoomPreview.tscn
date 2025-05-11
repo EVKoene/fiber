@@ -1,15 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://c6a7g6p6nipw5"]
+[gd_scene load_steps=7 format=3 uid="uid://c6a7g6p6nipw5"]
 
 [ext_resource type="Script" path="res://player/ZoomPreview.gd" id="1_r7o1p"]
+[ext_resource type="LabelSettings" uid="uid://dq5kctg5dkitl" path="res://styling/labels/PassionLabel.tres" id="2_74eys"]
 [ext_resource type="PackedScene" uid="uid://c32bmd2ws8smt" path="res://card/card_assets/BattleStatsContainer.tscn" id="2_i0p7x"]
+[ext_resource type="LabelSettings" uid="uid://nx6f46ywtswa" path="res://styling/labels/ImaginationLabel.tres" id="3_3pj2f"]
+[ext_resource type="LabelSettings" uid="uid://ihox33scd0t8" path="res://styling/labels/GrowthLabel.tres" id="4_2frst"]
+[ext_resource type="LabelSettings" uid="uid://bpbd72h7s4e60" path="res://styling/labels/LogicLabel.tres" id="5_7mw88"]
 
 [node name="ZoomPreview" type="PanelContainer"]
 custom_minimum_size = Vector2(200, 200)
 anchors_preset = -1
 anchor_right = 0.174
 anchor_bottom = 0.309
-offset_right = -0.448013
-offset_bottom = -0.23201
+offset_right = -0.447998
+offset_bottom = -0.231995
 script = ExtResource("1_r7o1p")
 
 [node name="CardImage" type="TextureRect" parent="."]
@@ -18,7 +22,6 @@ layout_mode = 2
 expand_mode = 3
 
 [node name="VBox" type="VBoxContainer" parent="."]
-custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 
 [node name="TopInfo" type="HBoxContainer" parent="VBox"]
@@ -39,30 +42,37 @@ grow_vertical = 2
 text = "Animal"
 
 [node name="Costs" type="Panel" parent="VBox/TopInfo"]
-custom_minimum_size = Vector2(30, 0)
+custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 size_flags_horizontal = 10
 
 [node name="CostLabels" type="HBoxContainer" parent="VBox/TopInfo/Costs"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Passion" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
+label_settings = ExtResource("2_74eys")
 
 [node name="Imagination" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
+label_settings = ExtResource("3_3pj2f")
 
 [node name="Growth" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
+label_settings = ExtResource("4_2frst")
 
 [node name="Logic" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
+label_settings = ExtResource("5_7mw88")
 
 [node name="BattleStatsContainer" parent="VBox" instance=ExtResource("2_i0p7x")]
 layout_mode = 2

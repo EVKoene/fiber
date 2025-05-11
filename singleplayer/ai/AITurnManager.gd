@@ -4,6 +4,7 @@ class_name AITurnManager
 
 
 func start_turn() -> void:
+	GameManager.ai_player.ai_turns += 1
 	GameManager.battle_map.show_text("Playing opponents turn")
 	await GameManager.battle_map.get_tree().create_timer(0.5).timeout
 	GameManager.battle_map.hide_text()

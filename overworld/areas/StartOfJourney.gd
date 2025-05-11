@@ -4,6 +4,7 @@ extends "res://overworld/areas/OverworldArea.gd"
 const WISE_MAN_WALKING_RATE = 1.5
 
 @onready var save_path := "user://savedata/"
+@onready var overworld_file := str(save_path, "overworld.ini")
 @onready var collections_path := str(save_path, "collections.ini")
 @onready var wise_man_position := Vector2(300, 320)
 
@@ -30,8 +31,7 @@ func _ready() -> void:
 	pause_menu = $GUI/PauseMenu
 	player_body = $PlayerBody
 	$PlayerBody.position = player_position
-	wise_man = $WiseMan
-	wise_man_id = NPCDatabase.npcs.WISE_MAN
+	setup_npcs()
 	if new_game:
 		OverworldManager.can_move = false
 		player_body.current_direction = Collections.directions.UP
@@ -40,11 +40,34 @@ func _ready() -> void:
 		_walk_to_player_and_start_conversation()
 	else:
 		OverworldManager.can_move = true
-	setup_npcs()
 	set_transition_tile_ids()
 
 
 func setup_npcs() -> void:
+	wise_man = $WiseMan
+	wise_man_id = NPCDatabase.npcs.WISE_MAN
+	$Alphonso.setup_npc(NPCDatabase.npcs.ALPHONSO, Collections.directions.LEFT)
+	$Betty.setup_npc(NPCDatabase.npcs.BETTY, Collections.directions.RIGHT)
+	$Gamza.setup_npc(NPCDatabase.npcs.GAMZA, Collections.directions.DOWN)
+	
+	var config := ConfigFile.new()
+	assert(FileAccess.file_exists(overworld_file), "Couldn't access save file. Please restart the game")
+	
+	config.load(overworld_file)
+	if !config.has_section("progress"):
+		new_game = true
+	
+	var current_defeated_npc_ids: Array = config.get_value("progress", "defeated_npcs", [])
+	if !new_game:
+		$Alphonso.show()
+	if NPCDatabase.npcs.ALPHONSO in current_defeated_npc_ids:
+		$Betty.show()
+	if NPCDatabase.npcs.BETTY in current_defeated_npc_ids:
+		$Gamza.show()
+	if NPCDatabase.npcs.GAMZA in current_defeated_npc_ids:
+		$BlockPassion.hide()
+	
+	
 	$WiseMan.setup_npc(NPCDatabase.npcs.WISE_MAN, Collections.directions.DOWN)
 
 
@@ -79,10 +102,12 @@ func _start_of_journey_conversation() -> void:
 	_pick_deck(fiber)
 	read_text(finishing_dialogue, true, tutorial_options)
 	var play_tutorial = await OverworldManager.mc_question_textbox.option_picked
+	_set_intro_talk_completed()
 	if play_tutorial == 0:
 		TransitionScene.transition_to_tutorial()
 	else:
 		OverworldManager.can_move = true
+		setup_npcs()
 		return
 
 
@@ -104,3 +129,12 @@ func _create_savefile() -> void:
 	var save_error := config.save(collections_path)
 	if save_error:
 		print("Error creating collections file: ", error_string(save_error))
+
+
+func _set_intro_talk_completed() -> void:
+	new_game = false
+	var config := ConfigFile.new()
+	assert(FileAccess.file_exists(overworld_file), "Couldn't access save file. Please restart the game")
+	config.load(overworld_file)
+	config.set_value("progress", "completed_intro", true)
+	config.save(overworld_file)

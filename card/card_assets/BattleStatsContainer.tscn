@@ -13,22 +13,27 @@ bg_color = Color(0.737193, 0.737193, 0.737193, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_8yy7x"]
 line_spacing = 2.0
+font_size = 15
 
 [node name="BattleStatsContainer" type="PanelContainer"]
-custom_minimum_size = Vector2(180, 40)
-offset_right = 182.0
-offset_bottom = 40.0
+custom_minimum_size = Vector2(100, 10)
+offset_right = 200.0
+offset_bottom = 22.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_7f86b")
 script = ExtResource("1_uruw3")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
 
 [node name="MovementContainer" type="HBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
 
 [node name="MovementIcon" type="TextureRect" parent="HBoxContainer/MovementContainer"]
-custom_minimum_size = Vector2(10, 10)
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture = ExtResource("1_risu1")
 expand_mode = 1
@@ -40,9 +45,11 @@ label_settings = SubResource("LabelSettings_8yy7x")
 
 [node name="AttackRangeContainer" type="HBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
 
 [node name="AttackRangeIcon" type="TextureRect" parent="HBoxContainer/AttackRangeContainer"]
-custom_minimum_size = Vector2(10, 10)
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture = ExtResource("2_grmhn")
 expand_mode = 1
@@ -54,9 +61,11 @@ label_settings = SubResource("LabelSettings_8yy7x")
 
 [node name="MaxAttackContainer" type="HBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
 
 [node name="MaxAttackIcon" type="TextureRect" parent="HBoxContainer/MaxAttackContainer"]
-custom_minimum_size = Vector2(10, 10)
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture = ExtResource("3_2pwh3")
 expand_mode = 1
@@ -68,11 +77,14 @@ label_settings = SubResource("LabelSettings_8yy7x")
 
 [node name="MinAttackContainer" type="HBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
 
 [node name="MinAttackIcon" type="TextureRect" parent="HBoxContainer/MinAttackContainer"]
-custom_minimum_size = Vector2(10, 10)
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture = ExtResource("4_n3wf7")
+expand_mode = 1
 
 [node name="MinAttackLabel" type="Label" parent="HBoxContainer/MinAttackContainer"]
 layout_mode = 2
@@ -81,9 +93,11 @@ label_settings = SubResource("LabelSettings_8yy7x")
 
 [node name="HealthContainer" type="HBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
 
 [node name="HealthIcon" type="TextureRect" parent="HBoxContainer/HealthContainer"]
-custom_minimum_size = Vector2(10, 10)
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture = ExtResource("5_40q8e")
 expand_mode = 1
@@ -95,9 +109,11 @@ label_settings = SubResource("LabelSettings_8yy7x")
 
 [node name="ShieldContainer" type="HBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
 
 [node name="ShieldIcon" type="TextureRect" parent="HBoxContainer/ShieldContainer"]
-custom_minimum_size = Vector2(10, 10)
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 texture = ExtResource("6_cfxt0")
 expand_mode = 1
