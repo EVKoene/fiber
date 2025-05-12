@@ -13,6 +13,7 @@ enum deck_ids {
 	STAY_AWAY,
 	### IMAGINATION ###
 	IMAGINATION_STARTER,
+	IMAGINARY_FRIENDS,
 	FLOW_AND_INSPIRE,
 	MOVEMENT_SHENANIGANS,
 	SPELLS_WHAT_ELSE,
@@ -36,7 +37,6 @@ enum deck_ids {
 	STRENGTH_IN_NUMBERS,
 	BILL_GATES,
 	### MISC ###
-	CUSTOM_SCRIPT,
 	OPPONENT_TESTING,
 	PLAYER_TESTING,
 	TUTORIAL_DECK,
@@ -134,6 +134,10 @@ var decks := {
 		{
 			cards.GORILLA: 3,
 		},
+		"AIDrawOrder": [
+			cards.GORILLA, cards.GORILLA, cards.GORILLA_BATTLECALLER, cards.GORILLA_BATTLECALLER,
+			cards.GORILLA_KING, cards.GORILLA_KING,
+		],
 		"ID": deck_ids.GORILLA,
 	},
 	deck_ids.BIG_ATTACK:
@@ -249,6 +253,28 @@ var decks := {
 		"ID": deck_ids.GARY,
 	},
 	### IMAGINATION ###
+	deck_ids.IMAGINARY_FRIENDS:
+	{
+		"DeckName": "ImaginaryFriends",
+		"Cards":
+		{
+			cards.IMAGINARY_FRIEND: 15,
+			cards.SUDDEN_BOON: 10,
+			cards.AUDACIOUS_RESEARCHER: 15,
+			cards.STREAM_OF_THOUGHT: 5,
+		},
+		"StartingCards":
+		{
+			cards.IMAGINARY_FRIEND: 2,
+			cards.SUDDEN_BOON: 1,
+		},
+		"AIDrawOrder": [
+			cards.IMAGINARY_FRIEND, cards.SUDDEN_BOON, cards.AUDACIOUS_RESEARCHER, 
+			cards.STREAM_OF_THOUGHT,
+		],
+		"ID": deck_ids.IMAGINARY_FRIENDS,
+	},
+	
 	deck_ids.IMAGINATION_MISSILES:
 	{
 		"DeckName": "ImaginationMissiles",
@@ -266,6 +292,7 @@ var decks := {
 		},
 		"ID": deck_ids.IMAGINATION_MISSILES,
 	},
+	
 	deck_ids.MOVEMENT_SHENANIGANS:
 	{
 		"DeckName": "MovementShenanigans",
@@ -526,8 +553,10 @@ var decks := {
 		},
 		"StartingCards":
 		{
-			cards.ASSEMBLY_BOT: 3,
+			cards.ASSEMBLY_BOT: 2,
+			cards.NETWORK_FEEDER: 1,
 		},
+		"AIDrawOrder": [cards.ASSEMBLY_BOT, cards.NETWORK_FEEDER, cards.FURNACE_BOT],
 		"ID": deck_ids.LOGIC_FACTORY,
 	},
 	deck_ids.RESOURCE_EXTRAVAGANZA:
@@ -629,14 +658,6 @@ var decks := {
 			cards.GOBLIN_ARCHER: 3,
 		},
 		"ID": deck_ids.PLAYER_TESTING,
-	},
-	deck_ids.CUSTOM_SCRIPT: 
-	# Custom scripts get an empty deck because they won't draw and play cards the normal way.
-	{
-		"DeckName": "Custom script",
-		"Cards": {},
-		"StartingCards": {},
-		"ID": deck_ids.CUSTOM_SCRIPT,
 	},
 }
 
