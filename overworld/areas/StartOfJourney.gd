@@ -26,6 +26,7 @@ var tutorial_options := ["Yes", "No"]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	OverworldManager.can_move = false
 	Events.npc_interaction_started.connect(start_npc_interaction)
 	GameManager.current_scene = self
 	pause_menu = $GUI/PauseMenu
@@ -33,7 +34,6 @@ func _ready() -> void:
 	$PlayerBody.position = player_position
 	setup_npcs()
 	if new_game:
-		OverworldManager.can_move = false
 		player_body.current_direction = Collections.directions.UP
 		player_body.play_animation(0)
 		await get_tree().create_timer(1).timeout

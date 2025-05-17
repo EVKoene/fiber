@@ -27,12 +27,12 @@ func draw_start_of_turn_card() -> void:
 		BattleSynchronizer.draw_card(player_id)
 		return
 	
-	if len(ai_turns) > len(GameManager.players[player_id]["Deck"]["AIDrawOrder"]):
+	if ai_turns > len(GameManager.players[player_id]["Deck"]["AIDrawOrder"]):
 		BattleSynchronizer.draw_card(player_id)
 		return
 	
 	BattleSynchronizer.create_hand_card(
-		player_id, GameManager.players[player_id]["Deck"]["AIDrawOrder"][ai_turns]
+		player_id, GameManager.players[player_id]["Deck"]["AIDrawOrder"][ai_turns - 1]
 	)
 
 

@@ -20,7 +20,6 @@ var is_saved := false
 func _ready():
 	GameManager.deck_builder = self
 	GameManager.current_scene = self
-	zoom_preview.preview_card_index(1, false)
 	_set_zoom_preview_position_and_size()
 	_setup_cards_from_card_collection()
 	if deck_id != 0:
@@ -157,7 +156,12 @@ func _set_zoom_preview_position_and_size() -> void:
 	zoom_preview.position.y = MapSettings.play_area_start.y
 	zoom_preview.custom_minimum_size.x = zoom_preview_size.x
 	zoom_preview.custom_minimum_size.y = zoom_preview_size.y
-
+	$HBoxContainer/PanelContainer/CardTextContainer.custom_minimum_size.x = zoom_preview_size.x
+	$HBoxContainer/PanelContainer/CardTextContainer.custom_minimum_size.y = zoom_preview_size.y / 2
+	zoom_preview.card_text_container = $HBoxContainer/PanelContainer/CardTextContainer
+	zoom_preview.card_text_container_label = $HBoxContainer/PanelContainer/CardTextContainer/CardTextContainerLabel
+	zoom_preview.preview_card_index(1, false)
+	
 
 func _on_finish_button_pressed():
 	if !is_saved:

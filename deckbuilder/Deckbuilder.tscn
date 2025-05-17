@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dn5qmomg70bsw"]
 
 [ext_resource type="Script" path="res://deckbuilder/Deckbuilder.gd" id="1_ny61o"]
-[ext_resource type="PackedScene" uid="uid://c6a7g6p6nipw5" path="res://battle/player/ZoomPreview.tscn" id="2_cwaqj"]
+[ext_resource type="PackedScene" uid="uid://c6a7g6p6nipw5" path="res://player/ZoomPreview.tscn" id="2_cwaqj"]
 
 [node name="Deckbuilder" type="Control"]
 layout_mode = 3
@@ -52,11 +52,28 @@ text = "Deck"
 custom_minimum_size = Vector2(300, 200)
 layout_mode = 2
 size_flags_horizontal = 3
+alignment = 1
 
 [node name="DBZoomPreview" parent="HBoxContainer/PanelContainer" instance=ExtResource("2_cwaqj")]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/PanelContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="CardTextContainer" type="PanelContainer" parent="HBoxContainer/PanelContainer"]
+custom_minimum_size = Vector2(200, 150)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="CardTextContainerLabel" type="Label" parent="HBoxContainer/PanelContainer/CardTextContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+autowrap_mode = 2
+clip_text = true
 
 [node name="DeckNameInput" type="TextEdit" parent="HBoxContainer/PanelContainer"]
 custom_minimum_size = Vector2(200, 50)

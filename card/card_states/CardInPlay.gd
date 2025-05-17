@@ -243,7 +243,7 @@ func highlight_card(show_highlight: bool):
 		add_theme_stylebox_override("panel", border)
 		border.bg_color = Color(99999900)
 		border.border_color = Styling.gold_color
-
+		
 		get_theme_stylebox("panel").set_border_width_all(size.y / 10)
 
 
@@ -553,7 +553,7 @@ func _on_mouse_entered():
 		return
 	
 	if (
-		TargetSelection.play_space_selected_for_movement 
+		TargetSelection.card_selected_for_movement 
 		in current_play_space.adjacent_play_spaces()
 	):
 		Input.set_custom_mouse_cursor(load("res://assets/CursorMiniAttackRed.png"))

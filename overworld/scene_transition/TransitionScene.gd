@@ -51,7 +51,6 @@ func transition_to_overworld_scene(
 		OverworldManager.current_player_position,
 		OverworldManager.current_area_id
 	)
-	OverworldManager.can_move = true
 
 
 func transition_to_deck_builder(deck_id: int) -> void:
