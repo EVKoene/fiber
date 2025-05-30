@@ -22,6 +22,20 @@ func play_turn() -> void:
 		ai_turn_manager.end_turn()
 
 
+func draw_start_of_turn_card() -> void:
+	if !GameManager.players[player_id]["Deck"].has("AIDrawOrder"):
+		BattleSynchronizer.draw_card(player_id)
+		return
+	
+	if ai_turns > len(GameManager.players[player_id]["Deck"]["AIDrawOrder"]):
+		BattleSynchronizer.draw_card(player_id)
+		return
+	
+	BattleSynchronizer.create_hand_card(
+		player_id, GameManager.players[player_id]["Deck"]["AIDrawOrder"][ai_turns - 1]
+	)
+
+
 func discard_card() -> void:
 	var card: CardInHand
 	card = GameManager.cards_in_hand[player_id].pick_random()

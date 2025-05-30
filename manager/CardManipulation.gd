@@ -32,7 +32,12 @@ func change_battle_stat(
 @rpc("any_peer", "call_local")
 func highlight_card(card_owner_id: int, cip_index: int):
 	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
-	card.get_theme_stylebox("panel").border_color = Styling.gold_color
+	card.border = StyleBoxFlat.new()
+	card.add_theme_stylebox_override("panel", card.border)
+	card.border.bg_color = Color(99999900)
+	card.border.border_color = Styling.gold_color
+	card.get_theme_stylebox("panel").set_border_width_all(card.size.y / 11)
+		
 
 
 @rpc("any_peer", "call_local")

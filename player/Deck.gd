@@ -96,10 +96,12 @@ func draw_starting_cards() -> void:
 
 func create_hand_card(card_index: int) -> void:
 	if len(GameManager.cards_in_hand[deck_owner_id]) >= 7:
-		if GameManager.is_single_player:
-			TargetSelection.select_card_to_discard()
 		if !GameManager.is_single_player:
 			TargetSelection.select_card_to_discard.rpc_id(deck_owner_id)
+		elif GameManager.is_single_player and deck_owner_id == GameManager.p1_id:
+			TargetSelection.select_card_to_discard()
+		elif GameManager.is_single_player and deck_owner_id == GameManager.ai_player_id:
+			GameManager.ai_player.discard_card()
 	
 	if GameManager.is_single_player:
 		BattleSynchronizer.create_hand_card(deck_owner_id, card_index)

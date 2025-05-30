@@ -17,14 +17,13 @@ func _ready():
 	GameManager.cards_in_hand[card_owner_id].append(self)
 	_load_card_properties()
 	set_card_position()
-	_add_border()
 	set_card_properties()
 	set_card_size()
 	_set_drag_node_properties()
 	BattleSynchronizer.call_triggered_funcs(Collections.triggers.CARD_ADDED_TO_HAND, self)
 
 
-func highlight_card():
+func highlight_card(_show_highlight: bool = false) -> void:
 	get_theme_stylebox("panel").border_color = Styling.gold_color
 
 
@@ -153,12 +152,6 @@ func _set_card_text_font_size() -> void:
 	card_font_size = (max_font - len(ingame_name) * font_change_per_char)
 
 	$Hbox/CardNameBG/CardName.label_settings.font_size = card_font_size
-
-
-func _add_border() -> void:
-	add_theme_stylebox_override("panel", border)
-
-	border.set_border_width_all(int(size.y / 10))
 
 
 func _set_drag_node_properties() -> void:

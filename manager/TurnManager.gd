@@ -82,7 +82,7 @@ func start_turn(player_id: int) -> void:
 	
 	if turn_count >= 2:
 		if player_id == GameManager.ai_player_id:
-			GameManager.decks[player_id].draw_card()
+			GameManager.ai_player.draw_start_of_turn_card()
 		else:
 			GameManager.decks[player_id].pick_card_option()
 	

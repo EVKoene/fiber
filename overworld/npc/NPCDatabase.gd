@@ -86,8 +86,7 @@ var npc_data: Dictionary = {
 		"Name": "Alphonso",
 		"Dialogue": ["Let's go nerd."],
 		"Battle": true,
-		"DeckID": DeckCollection.deck_ids.CUSTOM_SCRIPT,
-		"CustomScript": "res://singleplayer/ai/opponents/Alphonso.gd",
+		"DeckID": DeckCollection.deck_ids.GORILLA,
 		"CharacterModel": character_types.GENERIC_GUY_1,
 	},
 	npcs.BETTY:
@@ -95,8 +94,7 @@ var npc_data: Dictionary = {
 		"Name": "Betty",
 		"Dialogue": ["Round 2, here we go!"],
 		"Battle": true,
-		"DeckID": DeckCollection.deck_ids.CUSTOM_SCRIPT,
-		"CustomScript": "res://singleplayer/ai/opponents/Betty.gd",
+		"DeckID": DeckCollection.deck_ids.IMAGINARY_FRIENDS,
 		"CharacterModel": character_types.GENERIC_GIRL_2,
 	},
 	npcs.GAMZA:
@@ -105,7 +103,7 @@ var npc_data: Dictionary = {
 		"Dialogue": ["Your adventure stops with me."],
 		"Battle": false,
 		"CustomScript": "res://singleplayer/ai/opponents/Gamza.gd",
-		"DeckID": DeckCollection.deck_ids.CUSTOM_SCRIPT,
+		"DeckID": DeckCollection.deck_ids.LOGIC_FACTORY,
 		"CharacterModel": character_types.GENERIC_GIRL_1,
 	},
 	### PASION_LEVEL_1 ###

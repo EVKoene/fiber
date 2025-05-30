@@ -15,14 +15,14 @@
 [ext_resource type="Texture2D" uid="uid://cr7n2ln1ixvff" path="res://assets/character_sheets/business_person_3.png" id="8_67ty1"]
 [ext_resource type="Texture2D" uid="uid://y4snrvb14gr3" path="res://assets/character_sheets/guru_2.png" id="8_mo7vt"]
 [ext_resource type="Texture2D" uid="uid://cugi8qc2ce8is" path="res://assets/character_sheets/guru_3.png" id="9_q7k8y"]
-[ext_resource type="Texture2D" uid="uid://rwfyuww61ncj" path="res://assets/character_sheets/generic_girl_1.png" id="11_o5518"]
-[ext_resource type="Texture2D" uid="uid://issh5gbfcig2" path="res://assets/character_sheets/generic_girl_2.png" id="12_5ldl0"]
+[ext_resource type="Texture2D" uid="uid://cram63n3y3yi6" path="res://assets/character_sheets/generic_girl_1.png" id="11_o5518"]
+[ext_resource type="Texture2D" uid="uid://dor2rt42wpwgs" path="res://assets/character_sheets/generic_girl_2.png" id="12_5ldl0"]
 [ext_resource type="Texture2D" uid="uid://c73htvo1kbob7" path="res://assets/character_sheets/shallan.png" id="13_6o7dl"]
-[ext_resource type="Texture2D" uid="uid://qpd1ovpagy85" path="res://assets/character_sheets/generic_girl_3.png" id="13_nnbu8"]
-[ext_resource type="Texture2D" uid="uid://c2ir36o0xj7xm" path="res://assets/character_sheets/generic_guy_1.png" id="14_g802i"]
+[ext_resource type="Texture2D" uid="uid://dawniaid42m0l" path="res://assets/character_sheets/generic_girl_3.png" id="13_nnbu8"]
+[ext_resource type="Texture2D" uid="uid://y4jdt0vtvm4i" path="res://assets/character_sheets/generic_guy_1.png" id="14_g802i"]
 [ext_resource type="Texture2D" uid="uid://ijj17s5i8xf" path="res://assets/character_sheets/guru_laghima.png" id="14_nasm2"]
-[ext_resource type="Texture2D" uid="uid://bw84jg3b4fkni" path="res://assets/character_sheets/generic_guy_2.png" id="15_sror6"]
-[ext_resource type="Texture2D" uid="uid://yjsuvwjefjv1" path="res://assets/character_sheets/generic_guy_3.png" id="16_vmwtx"]
+[ext_resource type="Texture2D" uid="uid://divrw5dxfnrlr" path="res://assets/character_sheets/generic_guy_2.png" id="15_sror6"]
+[ext_resource type="Texture2D" uid="uid://ch7sqwwiluh0j" path="res://assets/character_sheets/generic_guy_3.png" id="16_vmwtx"]
 [ext_resource type="Texture2D" uid="uid://imtiudqu4i2g" path="res://assets/character_sheets/wise_man.png" id="18_rxatj"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b4lh1"]
@@ -5825,5 +5825,5 @@ shape = SubResource("CapsuleShape2D_b4lh1")
 y_sort_enabled = true
 position = Vector2(0, 1)
 sprite_frames = SubResource("SpriteFrames_xjyfs")
-animation = &"generic_girl_1_side_walk"
+animation = &"generic_girl_1_front_idle"
 offset = Vector2(0, -30)

@@ -8,10 +8,8 @@ var exhausted := false
 var column := -1
 var row := -1
 
-var fabrication := false
 var current_play_space: PlaySpace:
 	get = _get_play_space
-var card_data: Dictionary
 var battle_stats: BattleStats
 var lord: bool
 var abilities: Array = []
@@ -24,14 +22,14 @@ var card_in_play_index: int:
 
 func _ready():
 	scale *= MapSettings.card_in_play_size / size
-	_load_card_properties()
+	load_card_properties()
 	if !fabrication:
 		_create_battle_stats()
-		_create_costs()
+		create_costs()
 	else:
 		pass
 	set_position_to_play_space()
-	_set_cost_container()
+	set_cost_container()
 	border.bg_color = Color(99999900)
 	
 	if (
@@ -231,7 +229,7 @@ func conquer_space() -> void:
 	current_play_space.set_conquered_by(card_owner_id)
 
 
-func highlight_card(show_highlight: bool):
+func highlight_card(show_highlight: bool = false) -> void:
 	if show_highlight:
 		if GameManager.is_single_player:
 			CardManipulation.highlight_card(card_owner_id, card_in_play_index)
@@ -243,13 +241,13 @@ func highlight_card(show_highlight: bool):
 		add_theme_stylebox_override("panel", border)
 		border.bg_color = Color(99999900)
 		border.border_color = Styling.gold_color
-
-		get_theme_stylebox("panel").set_border_width_all(size.y / 10)
+		
+		get_theme_stylebox("panel").set_border_width_all(size.y / 11)
 
 
 func reset_card_stats():
 	refresh()
-	_load_card_properties()
+	load_card_properties()
 
 
 func resolve_damage(value: int) -> void:
@@ -360,32 +358,6 @@ func update_stats() -> void:
 	battle_stats.update_all_stats()
 
 
-func _set_cost_container() -> void:
-	for f in [
-		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Passion,
-			"Cost": costs.passion,
-		},
-		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Imagination,
-			"Cost": costs.imagination,
-		},
-		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Growth,
-			"Cost": costs.growth,
-		},
-		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Logic,
-			"Cost": costs.logic,
-		},
-	]:
-		f["Label"].text = str(f["Cost"])
-		if f["Cost"] == 0:
-			f["Label"].hide()
-		else:
-			f["Label"].show()
-
-
 func flip_card() -> void:
 	$VBox.move_child($VBox/BattleStatsContainer, 0)
 	$VBox/BattleStatsContainer.size_flags_vertical = SIZE_SHRINK_BEGIN
@@ -422,18 +394,6 @@ func create_card_action_menu() -> void:
 	ca_menu.size.y = MapSettings.play_space_size.y / (5 - len(abilities) + 1)
 	ca_menu.z_index = 100
 	GameManager.battle_map.add_child(ca_menu)
-
-
-func _load_card_properties() -> void:
-	if !fabrication:
-		card_data = CardDatabase.cards_info[card_index]
-		ingame_name = card_data["InGameName"]
-		card_type = card_data["CardType"]
-		fibers = card_data["fibers"]
-		card_text = card_data["Text"]
-		img_path = card_data["IMGPath"]
-	$CardImage.texture = load(img_path)
-	set_card_name()
 
 
 func set_card_name() -> void:
@@ -505,16 +465,6 @@ func _create_battle_stats() -> void:
 	battle_stats.set_base_stats()
 
 
-func _create_costs() -> void:
-	costs = Costs.new(
-		card_data["Costs"][Collections.fibers.PASSION],
-		card_data["Costs"][Collections.fibers.IMAGINATION],
-		card_data["Costs"][Collections.fibers.GROWTH],
-		card_data["Costs"][Collections.fibers.LOGIC],
-		self
-	)
-
-
 func _get_play_space() -> PlaySpace:
 	if column == -1:
 		assert(false, "Column not set")
@@ -553,8 +503,13 @@ func _on_mouse_entered():
 		return
 	
 	if (
-		TargetSelection.play_space_selected_for_movement 
+		TargetSelection.card_selected_for_movement 
 		in current_play_space.adjacent_play_spaces()
+	):
+		Input.set_custom_mouse_cursor(load("res://assets/CursorMiniAttackRed.png"))
+	
+	elif (
+		TargetSelection.play_space_selected_for_movement in current_play_space.adjacent_play_spaces()
 	):
 		Input.set_custom_mouse_cursor(load("res://assets/CursorMiniAttackRed.png"))
 	

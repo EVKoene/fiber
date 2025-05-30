@@ -129,10 +129,9 @@ func setup_starter_deck(fiber: int) -> void:
 
 
 @rpc("any_peer", "call_local")
-func start_game(npc_id: int = -1) -> void:
+func start_game(_npc_id: int = -1) -> void:
 	main_menu.hide_main_menu()
 	var b_map = battle_map_scene.instantiate()
-	b_map.npc_id = npc_id
 	GameManager.current_scene = b_map
 	main_menu.add_child(b_map, true)
 

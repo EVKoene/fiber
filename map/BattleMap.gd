@@ -25,7 +25,6 @@ var highlight_instruction_container_tween: Tween
 var highlight_finish_button_tween: Tween
 var showing_instruction := false
 var showing_finish_button := false
-var npc_id := -1
 
 
 func _ready():
@@ -57,13 +56,7 @@ func _ready():
 
 
 func _create_ai_player() -> void:
-	var ai_player := AIPlayer.new()
-	if npc_id != -1:
-		var npc_data: Dictionary = NPCDatabase.npc_data[npc_id]
-		if npc_data.has("CustomScript"):
-			ai_player = load(npc_data["CustomScript"]).new()
-	
-	GameManager.ai_player = ai_player
+	GameManager.ai_player = AIPlayer.new()
 	GameManager.ai_player_id = GameManager.p2_id
 	GameManager.ai_player.player_id = GameManager.p2_id
 	GameManager.ai_player.ai_turn_manager = AITurnManager.new()
@@ -386,12 +379,11 @@ func _set_instruction_container() -> void:
 func _set_card_text_container() -> void:
 	assert(battle_zoom_preview != null, "ZoomPreview container size not set yet")
 	card_text_container = $CardTextContainer
+	battle_zoom_preview.card_text_container = card_text_container
 	card_text_container.size.x = battle_zoom_preview.size.x
 	card_text_container.size.y = battle_zoom_preview.size.y
 	card_text_container.position.x = battle_zoom_preview.position.x
 	card_text_container.position.y = battle_zoom_preview.position.y + battle_zoom_preview.size.y + card_text_container.size.y
-	battle_zoom_preview.card_text_container = card_text_container
-	battle_zoom_preview.card_text_container_label = $CardTextContainer/CardText
 
 
 @rpc("call_local")

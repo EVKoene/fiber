@@ -21,8 +21,7 @@ var img_path: String
 var border_style: StyleBox
 var locked := false
 
-var card_text_container: PanelContainer
-var card_text_container_label: Label
+var card_text_container: CardTextContainer
 
 func _ready():
 	_add_border()
@@ -158,24 +157,11 @@ func reset_zoom_preview() -> void:
 
 
 func set_card_text(card_text: String) -> void:
-	_set_card_text_font_size(card_text)
 	if len(card_text) == 0:
 		card_text_container.hide()
 	else:
 		card_text_container.show()
-	card_text_container_label.text = card_text
-
-
-func _set_card_text_font_size(card_text: String) -> void:
-	var min_font: int = round(card_text_container.size.x) / 25
-	var max_font: int = round(card_text_container.size.x) / 19
-	var max_line_count: int = 6
-	var font_range_diff: int = max_font - min_font
-	var font_change_per_line: int = font_range_diff / (max_line_count - 1)
-	var card_text_font_size: int
-	card_text_font_size = (max_font - CardHelper.calc_n_lines(card_text) * font_change_per_line)
-	card_text_container_label.label_settings = LabelSettings.new()
-	card_text_container_label.label_settings.font_size = card_text_font_size
+	card_text_container.set_card_text(card_text)
 
 
 func _set_container_sizes() -> void:

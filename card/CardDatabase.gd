@@ -7,8 +7,8 @@ enum cards {
 	GORILLA_BATTLECALLER, SNEK, FOLLOW_PHEROMONES, YOUNG_DRIVEN_MINOTAUR, STAMPEDE, 
 	FELOS_EXPEDITIONIST, CHEETAH, GORILLA_KING, SKON_INSECT_FATHER, 
 	
-	### IMAGINATION ### (17)
-	WIZARD_SCOUT, IMAGINARY_FRIEND, SWITCHEROO, ARCANE_ARROW, INSPIRING_ARTIST, MIST_CONJURER, 
+	### IMAGINATION ### (18)
+	WIZARD_SCOUT, IMAGINARY_FRIEND, SUDDEN_BOON, SWITCHEROO, ARCANE_ARROW, INSPIRING_ARTIST, MIST_CONJURER, 
 	DREAMFINDER, FLOW_ACCELERATOR, EPHEMERAL_ASSASSIN, FIREBALL_SHOOTER, HOMUNCULUS, 
 	JELLYFISH_EXTRAORDINAIRE, AUDACIOUS_RESEARCHER, OVERSTIMULATION_FIEND, STREAM_OF_THOUGHT, 
 	HYRSMIR_RULER_OF_PHYSICS, PSYCHIC_TAKEOVER,  
@@ -19,10 +19,10 @@ enum cards {
 	EARTH_GOLEM, BRINGER_OF_ENLIGHTENMENT, PROTECTOR_OF_THE_FOREST, PRANCING_VERDEN, 
 	HEART_OF_THE_FOREST, MARCELLA_WHO_NURTURES_GROWTH, VOLCANIC_ERUPTION, 
 	
-	### LOGIC ### (15)
+	### LOGIC ### (16)
 	FACTORY_WORKER, OBSTRUCTION_CONSTRUCTION, SHOCK_CHARGE, ASSEMBLY_BOT, FUEL_DISTRIBUTER, 
 	NETWORK_FEEDER, RESOURCE_EXTRACTOR, FURNACE_BOT, EXTERMINATE, PLUG_BUDDY, COMPUTING_BOT, 
-	ZOLOI_CHARGER, COPY_MACHINE, ZALOGI_MIND_OF_MACHINES, SUPPLY_DELIVERY, 
+	ZOLOI_CHARGER, COPY_MACHINE, ZALOGI_MIND_OF_MACHINES, SUPPLY_DELIVERY, SENTRY_DEFENDER,
 	
 	### MULTIFIBER ###
 	PLUTO_MUSICAL_GUIDE, MIDAVES_RESEARCHER_OF_LIFE, 
@@ -360,7 +360,6 @@ var cards_info = {
 	},
 	
 	### IMAGINATION ###
-	
 	cards.WIZARD_SCOUT: {
 		"InGameName": "Wizard Scout",
 		"fibers": [Collections.fibers.IMAGINATION],
@@ -418,6 +417,22 @@ var cards_info = {
 		"TargetRestrictions": TargetSelection.target_restrictions.ANY_UNITS,
 		"Text": "Pick two units with the same owner and swap them.",
 		"IMGPath": "res://assets/card_images/imagination/Switcheroo.png",
+	},
+	
+	cards.SUDDEN_BOON: {
+		"InGameName": "Sudden Boon",
+		"CardType": Collections.card_types.SPELL,
+		"fibers": [Collections.fibers.IMAGINATION],
+		"Costs": {
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 1,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 0,
+		},
+		"CardRange": -1,
+		"TargetRestrictions": TargetSelection.target_restrictions.ANY_UNITS,
+		"Text": "Target unit gets +1 max attack and +1 shield. Draw a card.",
+		"IMGPath": "res://assets/card_images/imagination/SuddenBoon.png",
 	},
 	
 	cards.MIST_CONJURER: {
@@ -545,9 +560,9 @@ cards.FLOW_ACCELERATOR: {
 		"InGameName": "Audacious Researcher",
 		"CardType": Collections.card_types.UNIT,
 		"fibers": [Collections.fibers.IMAGINATION],
-		"MaxAttack": 4,
-		"MinAttack": 2,
-		"Health": 4,
+		"MaxAttack": 3,
+		"MinAttack": 1,
+		"Health": 3,
 		"Movement": 1,
 		"AttackRange": 1,
 		"Costs": {
@@ -558,8 +573,7 @@ cards.FLOW_ACCELERATOR: {
 		},
 		"Lord": false,
 		"Purposes": [Collections.purposes.BATTLE],
-		"Text": "At the start of your turn, if this unit is in a row that's at least halfway towards
-		your opponent: draw the top spell in your deck.",
+		"Text": "At the start of your turn draw the top spell in your deck.",
 		"IMGPath": "res://assets/card_images/imagination/AudaciousResearcher.png",
 	},
 	
@@ -720,7 +734,7 @@ cards.FLOW_ACCELERATOR: {
 			Collections.fibers.LOGIC: 0,
 		},
 		"Lord": false,
-		"Text": "Your units in adjacent spaces have +1 health",
+		"Text": "Your units in adjacent spaces have +1 shield",
 		"Purposes": [Collections.purposes.BUFF_ADJACENT],
 		"IMGPath": "res://assets/card_images/growth/GnomeProtector.png",
 	},
@@ -1087,7 +1101,7 @@ cards.FLOW_ACCELERATOR: {
 			Collections.fibers.LOGIC: 1,
 		},
 		"MaxAttack": 0,
-		"MinAttack": 0,
+		"MinAt<><<tack": 0,
 		"Health": 4,
 		"Movement": 1,
 		"AttackRange": 1,
@@ -1154,6 +1168,27 @@ cards.FLOW_ACCELERATOR: {
 		"Text": "<R>, Exhaust: Add 1 movement, 1 min attack, 1 max attack and 1 health to each 
 		adjacent unit until your next turn",
 		"IMGPath": "res://assets/card_images/logic/FuelDistributer.png",
+	},
+	
+	cards.SENTRY_DEFENDER: {
+		"InGameName": "Sentry Defender",
+		"CardType": Collections.card_types.UNIT,
+		"fibers": [Collections.fibers.LOGIC],
+		"Costs": {
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 0,
+			Collections.fibers.LOGIC: 2,
+		},
+		"MaxAttack": 4,
+		"MinAttack": 1,
+		"Health": 2,
+		"Movement": 0,
+		"AttackRange": 3,
+		"Purposes": [Collections.purposes.BUFF_ADJACENT],
+		"Lord": false,
+		"Text": "",
+		"IMGPath": "res://assets/card_images/logic/SentryDefender.png",
 	},
 	
 	cards.NETWORK_FEEDER: {
@@ -1642,6 +1677,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = WizardScout
 		cards.IMAGINARY_FRIEND:
 			card = ImaginaryFriend
+		cards.SUDDEN_BOON:
+			card = SuddenBoon
 		cards.SWITCHEROO:
 			card = Switcheroo
 		cards.FLOW_ACCELERATOR:
@@ -1742,5 +1779,7 @@ func get_card_class(card_index: int) -> Variant:
 			card = ZalogiMindOfMachines
 		cards.SUPPLY_DELIVERY:
 			card = SupplyDelivery
+		cards.SENTRY_DEFENDER:
+			card = SentryDefender
 	
 	return card

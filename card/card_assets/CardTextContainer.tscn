@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://63xn5b7fycva"]
+
+[ext_resource type="Script" path="res://card/card_assets/CardTextContainer.gd" id="1_a24iq"]
+
+[node name="CardTextContainer" type="PanelContainer"]
+script = ExtResource("1_a24iq")
+
+[node name="CardText" type="Label" parent="."]
+layout_mode = 2
+autowrap_mode = 2

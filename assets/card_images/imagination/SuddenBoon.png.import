@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://3mmb52cj8rc6"
-path="res://.godot/imported/SkonInsectFather.png-aae35b7599a1d52e4b7c6764c58d78d2.ctex"
+uid="uid://cpearqibpewlg"
+path="res://.godot/imported/SuddenBoon.png-58b7b2d6c3736e1262a9ce92c1a188ae.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_images/passion/SkonInsectFather.png"
-dest_files=["res://.godot/imported/SkonInsectFather.png-aae35b7599a1d52e4b7c6764c58d78d2.ctex"]
+source_file="res://assets/card_images/imagination/SuddenBoon.png"
+dest_files=["res://.godot/imported/SuddenBoon.png-58b7b2d6c3736e1262a9ce92c1a188ae.ctex"]
 
 [params]
 
