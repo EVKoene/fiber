@@ -40,7 +40,7 @@ func _init(
 	_base_health: int,
 	_base_movement: int,
 	_base_attack_range: int,
-	_card: CardInPlay
+	_card: Card
 ):
 	base_max_attack = _base_max_attack
 	base_min_attack = _base_min_attack

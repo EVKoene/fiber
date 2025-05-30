@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bofg12ihrwg5c"
-path="res://.godot/imported/Rhinoceros.png-f933ddc7187b05d9dadd2a9483edd64a.ctex"
+uid="uid://naoid7p8ule4"
+path="res://.godot/imported/SuddenBoon.png-319221e3ef70f41757e6d8f04f1b5ce7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_images/passion/Rhinoceros.png"
-dest_files=["res://.godot/imported/Rhinoceros.png-f933ddc7187b05d9dadd2a9483edd64a.ctex"]
+source_file="res://card/library/imagination/imagination/SuddenBoon.png"
+dest_files=["res://.godot/imported/SuddenBoon.png-319221e3ef70f41757e6d8f04f1b5ce7.ctex"]
 
 [params]
 

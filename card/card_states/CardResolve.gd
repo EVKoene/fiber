@@ -2,8 +2,8 @@ extends Panel
 
 class_name CardResolve
 
-@onready var zoom_preview_scene := load("res://player/ZoomPreview.tscn")
-@onready var card_resolve_scene := load("res://card/card_states/CardResolve.tscn")
+@onready var card_scene := load("res://card/card_states/Card.tscn")
+@onready var card_text_container_scene := load("res://card/card_assets/CardTextContainer.tscn")
 var ai_player := false
 var card_index: int
 var card_in_hand_index
@@ -11,13 +11,34 @@ var column: int
 var row: int
 var card_owner_id: int
 var resolved := false
+var card: PanelContainer
+var card_text_container: PanelContainer
+var card_text_label: Label
+var vbox: VBoxContainer
 
 
 func _ready():
-	var preview = zoom_preview_scene.instantiate()
-	$CenterContainer.add_child(preview)
-	preview.custom_minimum_size = MapSettings.card_in_play_size * 3
-	preview.preview_card_index(card_index, true)
+	vbox = VBoxContainer.new()
+	$CenterContainer.add_child(vbox)
+	_setup_card()
+
+
+func _setup_card() -> void:
+	card = card_scene.instantiate()
+	card_text_container = card_text_container_scene.instantiate()
+	vbox.add_child(card)
+	vbox.add_child(card_text_container)
+	card.card_index = card_index
+	card.load_card_properties()
+	card.create_costs()
+	card.set_cost_container()
+	card.card_data = CardDatabase.cards_info[card_index]
+	card.custom_minimum_size = MapSettings.card_in_play_size * 3
+	card_text_container.custom_minimum_size.x = card.size.x
+	card_text_container.size.x = card.size.x
+	card_text_container.custom_minimum_size.y = card.size.y / 2
+	card_text_container.size.y = card.size.y / 2
+	card_text_container.set_card_text(card.card_data["Text"])
 
 
 func continue_resolve() -> void:

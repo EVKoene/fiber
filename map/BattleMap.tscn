@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://dwqensucdc5ig"]
+[gd_scene load_steps=13 format=3 uid="uid://dwqensucdc5ig"]
 
 [ext_resource type="Script" path="res://map/BattleMap.gd" id="1_tqi70"]
 [ext_resource type="PackedScene" uid="uid://b1p3drjd83db6" path="res://player/BattlePauseMenu.tscn" id="2_03bps"]
 [ext_resource type="PackedScene" uid="uid://c6a7g6p6nipw5" path="res://player/ZoomPreview.tscn" id="2_8tgqr"]
 [ext_resource type="Script" path="res://player/ResourceBar.gd" id="3_ox48p"]
 [ext_resource type="AudioStream" uid="uid://dfejbhr8ex8yv" path="res://assets/music/BattleSong.mp3" id="5_b0dsh"]
+[ext_resource type="PackedScene" uid="uid://63xn5b7fycva" path="res://card/card_assets/CardTextContainer.tscn" id="6_ayigf"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lndr4"]
 bg_color = Color(0.694118, 0.694118, 0.694118, 0.470588)
@@ -151,13 +152,7 @@ offset_bottom = 40.0
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 
-[node name="CardTextContainer" type="PanelContainer" parent="."]
-offset_right = 100.0
-offset_bottom = 100.0
-
-[node name="CardText" type="Label" parent="CardTextContainer"]
-layout_mode = 2
-autowrap_mode = 2
+[node name="CardTextContainer" parent="." instance=ExtResource("6_ayigf")]
 
 [connection signal="pressed" from="ResolveSpellButton" to="." method="_on_resolve_spell_button_pressed"]
 [connection signal="pressed" from="FinishButtonContainer/FinishButton" to="." method="_on_finish_button_pressed"]

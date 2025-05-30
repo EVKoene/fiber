@@ -379,12 +379,11 @@ func _set_instruction_container() -> void:
 func _set_card_text_container() -> void:
 	assert(battle_zoom_preview != null, "ZoomPreview container size not set yet")
 	card_text_container = $CardTextContainer
+	battle_zoom_preview.card_text_container = card_text_container
 	card_text_container.size.x = battle_zoom_preview.size.x
 	card_text_container.size.y = battle_zoom_preview.size.y
 	card_text_container.position.x = battle_zoom_preview.position.x
 	card_text_container.position.y = battle_zoom_preview.position.y + battle_zoom_preview.size.y + card_text_container.size.y
-	battle_zoom_preview.card_text_container = card_text_container
-	battle_zoom_preview.card_text_container_label = $CardTextContainer/CardText
 
 
 @rpc("call_local")
