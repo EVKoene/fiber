@@ -28,7 +28,7 @@ var stat_modifier := {
 var attributes: Array = []
 var contest_space: bool
 var card_in_this_play_space: CardInPlay
-var conquered_by: int
+var conquered_by: int  # player_id
 var selected_for_movement := false
 var territory: Territory
 

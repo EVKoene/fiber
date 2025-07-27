@@ -144,7 +144,7 @@ func use_card_action(card: CardInPlay) -> bool:
 		if !is_instance_valid(c):
 			continue
 
-		if c.is_space_in_range_of_ranged_attack(card.current_play_space):
+		if card.is_space_in_range_of_ranged_attack(c.current_play_space):
 			card.exhaust()
 			card.attack_card(c)
 			return true

@@ -159,7 +159,6 @@ func _set_zoom_preview_position_and_size() -> void:
 	$HBoxContainer/PanelContainer/CardTextContainer.custom_minimum_size.x = zoom_preview_size.x
 	$HBoxContainer/PanelContainer/CardTextContainer.custom_minimum_size.y = zoom_preview_size.y / 2
 	zoom_preview.card_text_container = $HBoxContainer/PanelContainer/CardTextContainer
-	zoom_preview.card_text_container_label = $HBoxContainer/PanelContainer/CardTextContainer/CardTextContainerLabel
 	zoom_preview.preview_card_index(1, false)
 	
 
