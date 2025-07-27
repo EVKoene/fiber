@@ -44,6 +44,7 @@ func set_card_name() -> void:
 func load_card_properties() -> void:
 	if !fabrication:
 		card_data = CardDatabase.cards_info[card_index]
+		img_path = card_data["IMGPath"]
 		ingame_name = card_data["InGameName"]
 		card_type = card_data["CardType"]
 		fibers = card_data["fibers"]
@@ -53,7 +54,6 @@ func load_card_properties() -> void:
 
 
 func set_card_image() -> void:
-	img_path = card_data["IMGPath"]
 	$CardImage.texture = load(img_path)
 
 

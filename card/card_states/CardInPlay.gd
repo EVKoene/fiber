@@ -23,8 +23,8 @@ var card_in_play_index: int:
 func _ready():
 	scale *= MapSettings.card_in_play_size / size
 	load_card_properties()
+	_create_battle_stats()
 	if !fabrication:
-		_create_battle_stats()
 		create_costs()
 	else:
 		pass
@@ -452,14 +452,15 @@ func set_position_to_play_space() -> void:
 
 
 func _create_battle_stats() -> void:
-	battle_stats = BattleStats.new(
-		card_data["MaxAttack"],
-		card_data["MinAttack"],
-		card_data["Health"],
-		card_data["Movement"],
-		card_data["AttackRange"],
-		self
-	)
+	if !fabrication:
+		battle_stats = BattleStats.new(
+			card_data["MaxAttack"],
+			card_data["MinAttack"],
+			card_data["Health"],
+			card_data["Movement"],
+			card_data["AttackRange"],
+			self
+		)
 	
 	battle_stats.battle_stats_container = $VBox/BattleStatsContainer
 	battle_stats.set_base_stats()
@@ -615,7 +616,10 @@ func _on_gui_input(event):
 		and !card_sel_for_movement
 		and (
 			len(abilities) > 0
-			or Collections.play_space_attributes.VICTORY_SPACE in current_play_space.attributes
+			or (
+				Collections.play_space_attributes.VICTORY_SPACE in current_play_space.attributes
+				and current_play_space.conquered_by != card_owner_id
+			)
 		)
 		and GameManager.turn_manager.turn_actions_enabled
 		and GameManager.turn_manager.turn_owner_id == card_owner_id
@@ -640,7 +644,6 @@ func _on_gui_input(event):
 
 		elif (
 			card_sel_for_movement.card_owner_id != card_owner_id
-			and TargetSelection.card_to_be_attacked == self
 			and (
 				TargetSelection.play_space_selected_for_movement 
 				in current_play_space.adjacent_play_spaces()

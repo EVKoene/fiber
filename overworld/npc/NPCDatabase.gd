@@ -101,8 +101,7 @@ var npc_data: Dictionary = {
 	{
 		"Name": "Gamza",
 		"Dialogue": ["Your adventure stops with me."],
-		"Battle": false,
-		"CustomScript": "res://singleplayer/ai/opponents/Gamza.gd",
+		"Battle": true,
 		"DeckID": DeckCollection.deck_ids.LOGIC_FACTORY,
 		"CharacterModel": character_types.GENERIC_GIRL_1,
 	},
