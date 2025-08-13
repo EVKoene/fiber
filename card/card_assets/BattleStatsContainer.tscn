@@ -1,12 +1,12 @@
 [gd_scene load_steps=10 format=3 uid="uid://c32bmd2ws8smt"]
 
-[ext_resource type="Texture2D" uid="uid://doqnvigay1l1v" path="res://assets/icons/MovementIcon.png" id="1_risu1"]
+[ext_resource type="Texture2D" uid="uid://dk0ywo02p3awg" path="res://assets/icons/MovementIcon.png" id="1_risu1"]
 [ext_resource type="Script" path="res://card/card_assets/BattleStatsContainer.gd" id="1_uruw3"]
-[ext_resource type="Texture2D" uid="uid://byltaax40k6wb" path="res://assets/icons/AttackRangeIcon.png" id="2_grmhn"]
-[ext_resource type="Texture2D" uid="uid://dx56xipu2utsu" path="res://assets/icons/MaxAttackIcon.png" id="3_2pwh3"]
-[ext_resource type="Texture2D" uid="uid://cqsdumjs821pl" path="res://assets/icons/MinAttackIcon.png" id="4_n3wf7"]
-[ext_resource type="Texture2D" uid="uid://dns67kh3x8ooq" path="res://assets/icons/HealthIcon.png" id="5_40q8e"]
-[ext_resource type="Texture2D" uid="uid://blry58513hhwr" path="res://assets/icons/ShieldIcon.png" id="6_cfxt0"]
+[ext_resource type="Texture2D" uid="uid://byv3n4y2vkvu3" path="res://assets/icons/AttackRangeIcon.png" id="2_grmhn"]
+[ext_resource type="Texture2D" uid="uid://cmc2yttj6yclr" path="res://assets/icons/MaxAttackIcon.png" id="3_2pwh3"]
+[ext_resource type="Texture2D" uid="uid://wieylo1oiol6" path="res://assets/icons/MinAttackIcon.png" id="4_n3wf7"]
+[ext_resource type="Texture2D" uid="uid://c3b3gp4lf2i5t" path="res://assets/icons/HealthIcon.png" id="5_40q8e"]
+[ext_resource type="Texture2D" uid="uid://hg8bbf6ht5vk" path="res://assets/icons/ShieldIcon.png" id="6_cfxt0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7f86b"]
 bg_color = Color(0.737193, 0.737193, 0.737193, 1)
