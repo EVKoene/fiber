@@ -1,4 +1,5 @@
 name: patch-to-live
+run-name: Build and deploy headless server
 on:
   push:
     branches:
@@ -14,11 +15,11 @@ jobs:
 
       - name: Export game using Godot Export Action
         id: export
-        uses: firebelley/godot-export@v6.0.0  # Use latest version
+        uses: firebelley/godot-export@v6.0.0
         with:
           godot_executable_download_url: https://downloads.tuxfamily.org/godotengine/4.3/Godot_v4.3-stable_linux.x86_64.zip
           godot_export_templates_download_url: https://downloads.tuxfamily.org/godotengine/4.3/Godot_v4.3-stable_export_templates.tpz
-          relative_project_path: ./
+          relative_project_path: ./fiber
           archive_output: true
           cache: true
 
@@ -35,6 +36,7 @@ jobs:
             pkill -i -f fiber_server.x86_64 || true &&
             cd /root/fiber &&
             unzip -o *.zip &&
+            rm -f *.zip &&
             chmod +x fiber_server.x86_64 &&
-            ./fiber_server.x86_64 --headless &
+            nohup ./fiber_server.x86_64 --headless > server.log 2>&1 &
           "
