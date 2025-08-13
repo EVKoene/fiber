@@ -1,5 +1,4 @@
 name: patch-to-live
-run-name: Build and deploy headless server
 on:
   push:
     branches:
@@ -13,15 +12,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Export game using Godot Export Action
-        id: export
-        uses: firebelley/godot-export@v6.0.0
-        with:
-          godot_executable_download_url: https://downloads.tuxfamily.org/godotengine/4.3/Godot_v4.3-stable_linux.x86_64.zip
-          godot_export_templates_download_url: https://downloads.tuxfamily.org/godotengine/4.3/Godot_v4.3-stable_export_templates.tpz
-          relative_project_path: ./
-          archive_output: true
-          cache: true
+      - name: Download Godot Headless + Templates
+        run: |
+          GODOT_VERSION=4.3
+          wget https://downloads.tuxfamily.org/godotengine/$GODOT_VERSION/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip
+          unzip Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip
+          mv Godot_v${GODOT_VERSION}-stable_linux.x86_64 godot
+          chmod +x godot
+          wget https://downloads.tuxfamily.org/godotengine/$GODOT_VERSION/Godot_v${GODOT_VERSION}-stable_export_templates.tpz
+          mkdir -p ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+          unzip Godot_v${GODOT_VERSION}-stable_export_templates.tpz -d ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+
+      - name: Verify project files
+        run: |
+          ls -l project.godot
+          ls -l export_presets.cfg
+
+      - name: Export Linux Headless build
+        run: |
+          ./godot --headless --path . --export-release "Linux/X11 Headless (Runnable)"
+          ls -lh ../fiber_server.x86_64*
 
       - name: Install SSH key
         run: |
@@ -31,12 +41,10 @@ jobs:
 
       - name: Deploy to server
         run: |
-          scp ${{ steps.export.outputs.archive_directory }}/* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/root/fiber/
+          scp ../fiber_server.x86_64* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/root/fiber/
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
             pkill -i -f fiber_server.x86_64 || true &&
             cd /root/fiber &&
-            unzip -o *.zip &&
-            rm -f *.zip &&
             chmod +x fiber_server.x86_64 &&
             nohup ./fiber_server.x86_64 --headless > server.log 2>&1 &
           "
