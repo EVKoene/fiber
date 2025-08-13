@@ -12,23 +12,27 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Download Godot Headless + Templates
+      - name: Download Godot Headless + Export Templates
         run: |
           GODOT_VERSION=4.3
-          # Download Godot headless binary from GitHub releases
+          # Download Godot headless binary
           wget https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip
           unzip Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip
           mv Godot_v${GODOT_VERSION}-stable_linux.x86_64 godot
           chmod +x godot
+          
           # Download export templates
           wget https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_export_templates.tpz
           mkdir -p ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
           unzip Godot_v${GODOT_VERSION}-stable_export_templates.tpz -d ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
 
+          # Verify templates exist
+          ls -lh ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+
       - name: Verify project files
         run: |
-          ls -l project.godot
-          ls -l export_presets.cfg
+          ls -lh project.godot
+          ls -lh export_presets.cfg
 
       - name: Export Linux Headless build
         run: |
