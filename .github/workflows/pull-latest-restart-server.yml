@@ -15,11 +15,13 @@ jobs:
       - name: Download Godot Headless + Templates
         run: |
           GODOT_VERSION=4.3
-          wget https://downloads.tuxfamily.org/godotengine/$GODOT_VERSION/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip
+          # Download Godot headless binary from GitHub releases
+          wget https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip
           unzip Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip
           mv Godot_v${GODOT_VERSION}-stable_linux.x86_64 godot
           chmod +x godot
-          wget https://downloads.tuxfamily.org/godotengine/$GODOT_VERSION/Godot_v${GODOT_VERSION}-stable_export_templates.tpz
+          # Download export templates
+          wget https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}/Godot_v${GODOT_VERSION}-stable_export_templates.tpz
           mkdir -p ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
           unzip Godot_v${GODOT_VERSION}-stable_export_templates.tpz -d ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
 
