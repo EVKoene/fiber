@@ -20,13 +20,17 @@ jobs:
           unzip Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip
           mv Godot_v${GODOT_VERSION}-stable_linux.x86_64 godot
           chmod +x godot
-          
+
           # Download export templates
           wget https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_export_templates.tpz
+          
+          # Create Godot export template folder
           mkdir -p ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
-          unzip Godot_v${GODOT_VERSION}-stable_export_templates.tpz -d ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+          
+          # Extract only the files inside 'templates' directly into the version folder
+          unzip -j Godot_v${GODOT_VERSION}-stable_export_templates.tpz "templates/*" -d ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
 
-          # Verify templates exist
+          # Verify the expected binaries exist
           ls -lh ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
 
       - name: Verify project files
