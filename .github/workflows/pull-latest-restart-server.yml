@@ -1,5 +1,4 @@
 name: patch-to-live
-run-name: Build and deploy headless server
 on:
   push:
     branches:
@@ -10,21 +9,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out code
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Download Godot Headless
-        run: |
-          GODOT_VERSION=4.3
-          wget https://downloads.tuxfamily.org/godotengine/$GODOT_VERSION/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip
-          unzip Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip
-          mv Godot_v${GODOT_VERSION}-stable_linux.x86_64 godot
-          chmod +x godot
-
-      - name: Export Linux Headless build
-        run: |
-          ./godot --headless --export-release "Linux/X11 Headless (Runnable)"
-          ls -lh ../fiber_server.x86_64*
+      - name: Export game using Godot Export Action
+        id: export
+        uses: firebelley/godot-export@v6.0.0  # Use latest version
+        with:
+          godot_executable_download_url: https://downloads.tuxfamily.org/godotengine/4.3/Godot_v4.3-stable_linux.x86_64.zip
+          godot_export_templates_download_url: https://downloads.tuxfamily.org/godotengine/4.3/Godot_v4.3-stable_export_templates.tpz
+          relative_project_path: ./
+          archive_output: true
+          cache: true
 
       - name: Install SSH key
         run: |
@@ -32,15 +28,13 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
 
-      - name: Copy build to server
+      - name: Deploy to server
         run: |
-          scp ../fiber_server.x86_64* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/root/fiber/
-
-      - name: Restart server process
-        run: |
+          scp ${{ steps.export.outputs.archive_directory }}/* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/root/fiber/
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
-          pkill -i -f Fiber || true &&
-          cd /root/fiber &&
-          chmod +x fiber_server.x86_64 &&
-          ./fiber_server.x86_64 --headless &
+            pkill -i -f fiber_server.x86_64 || true &&
+            cd /root/fiber &&
+            unzip -o *.zip &&
+            chmod +x fiber_server.x86_64 &&
+            ./fiber_server.x86_64 --headless &
           "
