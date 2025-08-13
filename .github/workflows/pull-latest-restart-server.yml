@@ -1,26 +1,46 @@
 name: patch-to-live
-run-name: Pulling latest patch and restarting server
+run-name: Build and deploy headless server
 on:
   push:
     branches:
-      main
+      - main
 
 jobs:
-  pull-latest-restart:
-    name: Pull latest version and restart
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Install ssh keys
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Download Godot Headless
+        run: |
+          GODOT_VERSION=4.3
+          wget https://downloads.tuxfamily.org/godotengine/$GODOT_VERSION/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip
+          unzip Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip
+          mv Godot_v${GODOT_VERSION}-stable_linux.x86_64 godot
+          chmod +x godot
+
+      - name: Export Linux Headless build
+        run: |
+          ./godot --headless --export-release "Linux/X11 Headless (Runnable)"
+          ls -lh ../fiber_server.x86_64*
+
+      - name: Install SSH key
         run: |
           install -m 600 -D /dev/null ~/.ssh/id_rsa
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
-      - name: Connect and pull
-        run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ~/fiber && \
-          git checkout main && git pull && \
-          /root/fiber/deploy_executable.sh && \
-          pkill -i -f "Fiber" && \
-          ./Fiber_server.x86_64"
 
+      - name: Copy build to server
+        run: |
+          scp ../fiber_server.x86_64* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/root/fiber/
+
+      - name: Restart server process
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
+          pkill -i -f Fiber || true &&
+          cd /root/fiber &&
+          chmod +x fiber_server.x86_64 &&
+          ./fiber_server.x86_64 --headless &
+          "
