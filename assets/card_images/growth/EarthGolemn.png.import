@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://fhpthe4mwyg6"
-path="res://.godot/imported/WindGolem.png-a65ebd16eae0c9d57ab93cd9c05bddd6.ctex"
+uid="uid://v5le60qp8oor"
+path="res://.godot/imported/EarthGolemn.png-c96415e29cd021041e32268603831998.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_images/growth/WindGolem.png"
-dest_files=["res://.godot/imported/WindGolem.png-a65ebd16eae0c9d57ab93cd9c05bddd6.ctex"]
+source_file="res://assets/card_images/growth/EarthGolemn.png"
+dest_files=["res://.godot/imported/EarthGolemn.png-c96415e29cd021041e32268603831998.ctex"]
 
 [params]
 

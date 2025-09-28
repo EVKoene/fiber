@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://b1p3drjd83db6" path="res://player/BattlePauseMenu.tscn" id="2_03bps"]
 [ext_resource type="PackedScene" uid="uid://c6a7g6p6nipw5" path="res://player/ZoomPreview.tscn" id="2_8tgqr"]
 [ext_resource type="Script" path="res://player/ResourceBar.gd" id="3_ox48p"]
-[ext_resource type="AudioStream" uid="uid://dfejbhr8ex8yv" path="res://assets/music/BattleSong.mp3" id="5_b0dsh"]
+[ext_resource type="AudioStream" uid="uid://beispojfb18jv" path="res://assets/music/BattleSong.mp3" id="5_b0dsh"]
 [ext_resource type="PackedScene" uid="uid://63xn5b7fycva" path="res://card/card_assets/CardTextContainer.tscn" id="6_ayigf"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lndr4"]

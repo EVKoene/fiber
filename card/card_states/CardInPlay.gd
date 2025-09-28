@@ -636,13 +636,6 @@ func _on_gui_input(event):
 		var ps_to_attack_from = card_sel_for_movement.spaces_in_range_to_melee_attack_card(self)
 
 		if (
-			len(ps_to_attack_from) > 0
-			and card_sel_for_movement.card_owner_id != card_owner_id
-			and !TargetSelection.card_to_be_attacked
-		):
-			TargetSelection.card_to_be_attacked = self
-
-		elif (
 			card_sel_for_movement.card_owner_id != card_owner_id
 			and (
 				TargetSelection.play_space_selected_for_movement 
@@ -650,13 +643,21 @@ func _on_gui_input(event):
 			)
 		):
 			GameManager.turn_manager.set_turn_actions_enabled(false)
-
+			
 			card_sel_for_movement.move_and_attack(self)
 			Input.set_custom_mouse_cursor(null)
 			card_sel_for_movement.exhaust()
 			TargetSelection.end_selecting()
-
+		
 			GameManager.turn_manager.set_turn_actions_enabled(true)
+		
+		
+		elif (
+			len(ps_to_attack_from) > 0
+			and card_sel_for_movement.card_owner_id != card_owner_id
+			and !TargetSelection.card_to_be_attacked
+		):
+			TargetSelection.card_to_be_attacked = self
 
 		elif (
 			card_sel_for_movement.card_owner_id != card_owner_id
