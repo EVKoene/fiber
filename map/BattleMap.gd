@@ -30,7 +30,7 @@ var showing_finish_button := false
 func _ready():
 	if GameManager.is_single_player:
 		_create_ai_player()
-	$AudioStreamPlayer2D.play()
+	#$AudioStreamPlayer2D.play()
 	GameManager.battle_map = self
 	_create_battle_map()
 	_set_zoom_preview_position_and_size()

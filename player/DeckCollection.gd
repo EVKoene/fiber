@@ -4,7 +4,7 @@ var cards = load("res://card/CardDatabase.gd").cards
 enum deck_ids {
 	### PASSION ###
 	PASSION_STARTER,
-	GORILLA,
+	CONQUER_AND_HOLD,
 	FRENZY_START,
 	SMELLY_JACQUES,
 	GARY,
@@ -121,24 +121,24 @@ var decks := {
 		"ID": deck_ids.LOGIC_STARTER,
 	},
 	### PASSION_LEVEL_1 ###
-	deck_ids.GORILLA:
+	deck_ids.CONQUER_AND_HOLD:
 	{
 		"DeckName": "Gorilla",
 		"Cards":
 		{
-			cards.GORILLA: 20,
-			cards.GORILLA_BATTLECALLER: 10,
-			cards.GORILLA_KING: 20,
+			cards.FANATIC_FOLLOWER: 20,
+			cards.SNEK: 20,
+			cards.FELOS_EXPEDITIONIST: 20,
 		},
 		"StartingCards":
 		{
-			cards.GORILLA: 3,
+			cards.FANATIC_FOLLOWER: 3,
 		},
 		"AIDrawOrder": [
-			cards.GORILLA, cards.GORILLA, cards.GORILLA_BATTLECALLER, cards.GORILLA_BATTLECALLER,
-			cards.GORILLA_KING, cards.GORILLA_KING,
+			cards.FANATIC_FOLLOWER, cards.FANATIC_FOLLOWER, cards.SNEK, cards.SNEK,
+			cards.FELOS_EXPEDITIONIST, cards.FELOS_EXPEDITIONIST,
 		],
-		"ID": deck_ids.GORILLA,
+		"ID": deck_ids.CONQUER_AND_HOLD,
 	},
 	deck_ids.BIG_ATTACK:
 	{

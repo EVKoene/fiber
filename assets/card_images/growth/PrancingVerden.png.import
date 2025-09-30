@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxmrtbep271rd"
-path="res://.godot/imported/WizardApprentice.png-0134e79e6bb5080e66ac335d10b22d37.ctex"
+uid="uid://fknqe633ubbp"
+path="res://.godot/imported/PrancingVerden.png-c531518350c64bc29ebb8d9f7dfe2f3b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_images/imagination/WizardApprentice.png"
-dest_files=["res://.godot/imported/WizardApprentice.png-0134e79e6bb5080e66ac335d10b22d37.ctex"]
+source_file="res://assets/card_images/growth/PrancingVerden.png"
+dest_files=["res://.godot/imported/PrancingVerden.png-c531518350c64bc29ebb8d9f7dfe2f3b.ctex"]
 
 [params]
 

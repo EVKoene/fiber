@@ -503,27 +503,38 @@ func _on_mouse_entered():
 	if TargetSelection.card_selected_for_movement.card_owner_id == card_owner_id:
 		return
 	
+	if len(
+		TargetSelection.card_selected_for_movement.spaces_in_range_to_melee_attack_card(self)
+	) >= 1:
+		Input.set_custom_mouse_cursor(load("res://assets/CursorMiniAttackRed.png"))
+		return
+	
 	if (
-		TargetSelection.card_selected_for_movement 
+		TargetSelection.card_selected_for_movement 	
 		in current_play_space.adjacent_play_spaces()
 	):
 		Input.set_custom_mouse_cursor(load("res://assets/CursorMiniAttackRed.png"))
+		return
 	
 	elif (
 		TargetSelection.play_space_selected_for_movement in current_play_space.adjacent_play_spaces()
 	):
 		Input.set_custom_mouse_cursor(load("res://assets/CursorMiniAttackRed.png"))
+		return
 	
 	elif TargetSelection.card_selected_for_movement.is_space_in_range_of_ranged_attack(
 		current_play_space
 	):
 		Input.set_custom_mouse_cursor(load("res://assets/RangedAttackPointer.png"))
+		return
+		
 	elif (
 		TargetSelection.card_selected_for_movement.is_space_in_range_of_ranged_attack(
 			current_play_space
 		)
 	):
 		Input.set_custom_mouse_cursor(load("res://assets/CursorMiniAttackRed.png"))
+		return
 
 
 func _on_mouse_exited():
@@ -644,24 +655,16 @@ func _on_gui_input(event):
 		):
 			GameManager.turn_manager.set_turn_actions_enabled(false)
 			
+			TargetSelection.end_selecting()
 			card_sel_for_movement.move_and_attack(self)
 			Input.set_custom_mouse_cursor(null)
 			card_sel_for_movement.exhaust()
-			TargetSelection.end_selecting()
 		
 			GameManager.turn_manager.set_turn_actions_enabled(true)
 		
 		
 		elif (
-			len(ps_to_attack_from) > 0
-			and card_sel_for_movement.card_owner_id != card_owner_id
-			and !TargetSelection.card_to_be_attacked
-		):
-			TargetSelection.card_to_be_attacked = self
-
-		elif (
 			card_sel_for_movement.card_owner_id != card_owner_id
-			and TargetSelection.card_to_be_attacked == self
 			and card_sel_for_movement.is_space_in_range_of_ranged_attack(current_play_space)
 		):
 			GameManager.turn_manager.set_turn_actions_enabled(false)
@@ -673,7 +676,6 @@ func _on_gui_input(event):
 		
 		elif (
 			card_sel_for_movement.card_owner_id != card_owner_id
-			and TargetSelection.card_to_be_attacked == self
 		):
 			GameManager.turn_manager.set_turn_actions_enabled(false)
 

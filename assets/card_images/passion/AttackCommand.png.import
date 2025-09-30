@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxmrtbep271rd"
-path="res://.godot/imported/WizardApprentice.png-0134e79e6bb5080e66ac335d10b22d37.ctex"
+uid="uid://bu7bjrpsoflfn"
+path="res://.godot/imported/AttackCommand.png-17606372152e3135eb014ee194e42db3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_images/imagination/WizardApprentice.png"
-dest_files=["res://.godot/imported/WizardApprentice.png-0134e79e6bb5080e66ac335d10b22d37.ctex"]
+source_file="res://assets/card_images/passion/AttackCommand.png"
+dest_files=["res://.godot/imported/AttackCommand.png-17606372152e3135eb014ee194e42db3.ctex"]
 
 [params]
 

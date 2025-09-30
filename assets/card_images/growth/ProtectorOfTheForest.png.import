@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxmrtbep271rd"
-path="res://.godot/imported/WizardApprentice.png-0134e79e6bb5080e66ac335d10b22d37.ctex"
+uid="uid://lm5pixxvuk1q"
+path="res://.godot/imported/ProtectorOfTheForest.png-52cc4767f7e554f9cce0f73b5eda1241.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_images/imagination/WizardApprentice.png"
-dest_files=["res://.godot/imported/WizardApprentice.png-0134e79e6bb5080e66ac335d10b22d37.ctex"]
+source_file="res://assets/card_images/growth/ProtectorOfTheForest.png"
+dest_files=["res://.godot/imported/ProtectorOfTheForest.png-52cc4767f7e554f9cce0f73b5eda1241.ctex"]
 
 [params]
 

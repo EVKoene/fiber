@@ -21,7 +21,6 @@ var play_space_arrows := []
 
 var card_selected_for_movement: CardInPlay
 var play_space_selected_for_movement: PlaySpace
-var card_to_be_attacked: CardInPlay
 
 var selected_spaces := []
 var number_of_spaces_to_select := 0
@@ -116,7 +115,6 @@ func end_selecting() -> void:
 	current_path = null
 	card_selected_for_movement = null
 	play_space_selected_for_movement = null
-	card_to_be_attacked = null
 	discarding = false
 	clear_paths()
 	clear_arrows()

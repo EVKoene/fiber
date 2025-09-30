@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxmrtbep271rd"
-path="res://.godot/imported/WizardApprentice.png-0134e79e6bb5080e66ac335d10b22d37.ctex"
+uid="uid://bicpotgp5b7w1"
+path="res://.godot/imported/HailStorm.png-e7ecd6c335a17777c95003eb560d419c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_images/imagination/WizardApprentice.png"
-dest_files=["res://.godot/imported/WizardApprentice.png-0134e79e6bb5080e66ac335d10b22d37.ctex"]
+source_file="res://assets/card_images/growth/HailStorm.png"
+dest_files=["res://.godot/imported/HailStorm.png-e7ecd6c335a17777c95003eb560d419c.ctex"]
 
 [params]
 
