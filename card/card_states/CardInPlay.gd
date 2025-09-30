@@ -510,7 +510,7 @@ func _on_mouse_entered():
 		return
 	
 	if (
-		TargetSelection.card_selected_for_movement 
+		TargetSelection.card_selected_for_movement 	
 		in current_play_space.adjacent_play_spaces()
 	):
 		Input.set_custom_mouse_cursor(load("res://assets/CursorMiniAttackRed.png"))
@@ -672,7 +672,6 @@ func _on_gui_input(event):
 		
 		elif (
 			card_sel_for_movement.card_owner_id != card_owner_id
-			and TargetSelection.card_to_be_attacked == self
 			and card_sel_for_movement.is_space_in_range_of_ranged_attack(current_play_space)
 		):
 			GameManager.turn_manager.set_turn_actions_enabled(false)
@@ -684,7 +683,6 @@ func _on_gui_input(event):
 		
 		elif (
 			card_sel_for_movement.card_owner_id != card_owner_id
-			and TargetSelection.card_to_be_attacked == self
 		):
 			GameManager.turn_manager.set_turn_actions_enabled(false)
 
