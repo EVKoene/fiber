@@ -166,8 +166,8 @@ func _card_attack_range() -> void:
 func _card_max_and_min_attack() -> void:
 	is_awaiting_tutorial_input = false
 	battle_map.show_tutorial_text(
-		"After the attack range you will find it's max attack (the sword) and it's min attack (the 
-		dagger). \nWhenever this unit attacks, it damage will be a random number in between those two.
+		"After the attack range you will find its max attack (the sword) and its min attack (the 
+		dagger). \nWhenever this unit attacks, its damage will be a random number in between those two.
 		\n\n(Click to continue)"
 	)
 	var arrow_position := Vector2(
@@ -183,7 +183,7 @@ func _card_max_and_min_attack() -> void:
 func _card_health() -> void:
 	is_awaiting_tutorial_input = false
 	battle_map.show_tutorial_text(
-		"After the max and min attack you'll find the card's health. When this reaches 0 the unit 
+		"After the max and min attack you'll find the cards health. When this reaches 0 the unit 
 		will die.\n\n(Click to continue)"
 	)
 	var arrow_position := Vector2(
@@ -199,7 +199,7 @@ func _card_health() -> void:
 func _card_shield() -> void:
 	is_awaiting_tutorial_input = false
 	battle_map.show_tutorial_text(
-		"The final number is the card's shield. Attack that hit a unit will deplete it's shield 
+		"The final number is the cards shield. Attack that hit a unit will deplete its shield 
 		first before subtracting from health.\n\n(Click to continue)"
 	)
 	var arrow_position := Vector2(
@@ -363,7 +363,7 @@ func _conquer_victory_spaces() -> void:
 		for c in GameManager.cards_in_play[GameManager.p2_id]:
 			c.call_deferred("destroy")
 	var player_card: CardInPlay = GameManager.cards_in_play[GameManager.player_id][0]
-	if !(player_card.column == 3 and player_card.row == 2):
+	if !(player_card.column == 4 and player_card.row == 3):
 		player_card.move_to_play_space(4, 3)
 	
 	battle_map.show_tutorial_text(
@@ -379,7 +379,7 @@ func _show_progress_bar() -> void:
 	is_awaiting_tutorial_input = false
 	battle_map.show_tutorial_text(
 		"Whoever is the first to conquer 4 victory spaces will win the game. You can see each
-		player's progress by checking the progress bars on the right side of the battlefield.
+		players progress by checking the progress bars on the right side of the battlefield.
 		\n\n(Click to continue)"
 	)
 	var arrow_position := Vector2(

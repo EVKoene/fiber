@@ -86,7 +86,7 @@ var npc_data: Dictionary = {
 		"Name": "Alphonso",
 		"Dialogue": ["Let's go nerd."],
 		"Battle": true,
-		"DeckID": DeckCollection.deck_ids.GORILLA,
+		"DeckID": DeckCollection.deck_ids.CONQUER_AND_HOLD,
 		"CharacterModel": character_types.GENERIC_GUY_1,
 	},
 	npcs.BETTY:
@@ -112,7 +112,7 @@ var npc_data: Dictionary = {
 		"Dialogue": ["You think you can handle me?", "My gorillas will fucking tear you to shreds"],
 		"Battle": true,
 		"CharacterModel": character_types.GENERIC_GIRL_1,
-		"DeckID": DeckCollection.deck_ids.GORILLA
+		"DeckID": DeckCollection.deck_ids.CONQUER_AND_HOLD
 	},
 	npcs.RAMBO:
 	{

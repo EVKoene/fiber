@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bb1fc45t5lm3e"
-path="res://.godot/imported/ProtectorOfTheForest.jpg-fb85059f7255bab7f8beb604eba699c3.ctex"
+uid="uid://cy7qrs4320gut"
+path="res://.godot/imported/JellyfishExtraordinaire.png-30d33b61188b96b00a537934db1d2935.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_images/growth/ProtectorOfTheForest.jpg"
-dest_files=["res://.godot/imported/ProtectorOfTheForest.jpg-fb85059f7255bab7f8beb604eba699c3.ctex"]
+source_file="res://assets/card_images/imagination/JellyfishExtraordinaire.png"
+dest_files=["res://.godot/imported/JellyfishExtraordinaire.png-30d33b61188b96b00a537934db1d2935.ctex"]
 
 [params]
 

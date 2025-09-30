@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c44yf0p3cwlqu"
-path="res://.godot/imported/PrancingVerden.jpg-d15c7b2d90a2a13a2defcc23ddac3003.ctex"
+uid="uid://d2i7lorq2es8m"
+path="res://.godot/imported/WizardScout.png-458bbc64e2d127d73f8b36b36b4887e7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_images/growth/PrancingVerden.jpg"
-dest_files=["res://.godot/imported/PrancingVerden.jpg-d15c7b2d90a2a13a2defcc23ddac3003.ctex"]
+source_file="res://assets/card_images/imagination/WizardScout.png"
+dest_files=["res://.godot/imported/WizardScout.png-458bbc64e2d127d73f8b36b36b4887e7.ctex"]
 
 [params]
 

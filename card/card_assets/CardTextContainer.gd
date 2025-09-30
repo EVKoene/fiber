@@ -16,8 +16,8 @@ func set_card_text(new_text: String) -> void:
 func set_card_text_font_size() -> void:
 	if !$CardText.label_settings:
 		$CardText.label_settings = LabelSettings.new()
-	var min_font: float = size.x / 22
-	var max_font: float = size.x / 15
+	var min_font: float = size.x / 19
+	var max_font: float = size.x / 14
 	var max_line_count: float = 6.0
 	var font_range_diff: float = max_font - min_font
 	var font_change_per_line: float = font_range_diff / (max_line_count - 1)

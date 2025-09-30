@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dg3epsxs47ne1"
-path="res://.godot/imported/HeartOfTheForest.jpg-c08af87e310172e53059c8a345a8c41c.ctex"
+uid="uid://obkwcrb5yabp"
+path="res://.godot/imported/FollowPheromones.png-e37bf85a6d541fa2e76021e9be09d6af.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_images/growth/HeartOfTheForest.jpg"
-dest_files=["res://.godot/imported/HeartOfTheForest.jpg-c08af87e310172e53059c8a345a8c41c.ctex"]
+source_file="res://assets/card_images/passion/FollowPheromones.png"
+dest_files=["res://.godot/imported/FollowPheromones.png-e37bf85a6d541fa2e76021e9be09d6af.ctex"]
 
 [params]
 

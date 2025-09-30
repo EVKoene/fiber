@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ctq2rtmnmejdt"
-path="res://.godot/imported/VolcanicEruption.jpg-7f7a4aaf898fa01b2ed4aca6e72c89e9.ctex"
+uid="uid://fknqe633ubbp"
+path="res://.godot/imported/PrancingVerden.png-c531518350c64bc29ebb8d9f7dfe2f3b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_images/growth/VolcanicEruption.jpg"
-dest_files=["res://.godot/imported/VolcanicEruption.jpg-7f7a4aaf898fa01b2ed4aca6e72c89e9.ctex"]
+source_file="res://assets/card_images/growth/PrancingVerden.png"
+dest_files=["res://.godot/imported/PrancingVerden.png-c531518350c64bc29ebb8d9f7dfe2f3b.ctex"]
 
 [params]
 

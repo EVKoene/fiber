@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dd6pxym32pmvv"
-path="res://.godot/imported/MorningLight.jpg-0349b2645d3bc06c3c720ac2476aa5a4.ctex"
+uid="uid://dihoitfxj7i2a"
+path="res://.godot/imported/AudaciousResearcher.png-bd93cecc9fe5a81141063be9f5cca9cf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_images/growth/MorningLight.jpg"
-dest_files=["res://.godot/imported/MorningLight.jpg-0349b2645d3bc06c3c720ac2476aa5a4.ctex"]
+source_file="res://assets/card_images/growth/AudaciousResearcher.png"
+dest_files=["res://.godot/imported/AudaciousResearcher.png-bd93cecc9fe5a81141063be9f5cca9cf.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://fdmr2lfmj6ka"
-path="res://.godot/imported/PatientMonk.jpg-4c640638d769acbdeb89975c93183f37.ctex"
+uid="uid://basafxfa0bmsy"
+path="res://.godot/imported/Snek.jpg-077bed63462db5be3ac89acdf2f37c2b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://library/growth/images/PatientMonk.jpg"
-dest_files=["res://.godot/imported/PatientMonk.jpg-4c640638d769acbdeb89975c93183f37.ctex"]
+source_file="res://assets/card_images/passion/Snek.jpg"
+dest_files=["res://.godot/imported/Snek.jpg-077bed63462db5be3ac89acdf2f37c2b.ctex"]
 
 [params]
 

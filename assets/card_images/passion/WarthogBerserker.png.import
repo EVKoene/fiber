@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bhbvsu7p1dsnn"
-path="res://.godot/imported/Nature.png-1f741a9bb7684749b4e0046d7d1edb95.ctex"
+uid="uid://c8pb8f2omacgo"
+path="res://.godot/imported/WarthogBerserker.png-fc062a3b3723c5c40d0a5164d7424bdb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_images/growth/Nature.png"
-dest_files=["res://.godot/imported/Nature.png-1f741a9bb7684749b4e0046d7d1edb95.ctex"]
+source_file="res://assets/card_images/passion/WarthogBerserker.png"
+dest_files=["res://.godot/imported/WarthogBerserker.png-fc062a3b3723c5c40d0a5164d7424bdb.ctex"]
 
 [params]
 
