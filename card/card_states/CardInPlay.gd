@@ -10,7 +10,6 @@ var row := -1
 
 var current_play_space: PlaySpace:
 	get = _get_play_space
-var battle_stats: BattleStats
 var lord: bool
 var abilities: Array = []
 var triggered_funcs: Array = []
@@ -23,7 +22,6 @@ var card_in_play_index: int:
 func _ready():
 	scale *= MapSettings.card_in_play_size / size
 	load_card_properties()
-	_create_battle_stats()
 	if !fabrication:
 		create_costs()
 	else:
@@ -449,21 +447,6 @@ func set_position_to_play_space() -> void:
 	position.x = MapSettings.get_column_start_x(column) + MapSettings.play_space_size.x * 0.05
 	position.y = MapSettings.get_row_start_y(row) + MapSettings.play_space_size.y * 0.05
 	z_index = current_play_space.z_index - 1
-
-
-func _create_battle_stats() -> void:
-	if !fabrication:
-		battle_stats = BattleStats.new(
-			card_data["MaxAttack"],
-			card_data["MinAttack"],
-			card_data["Health"],
-			card_data["Movement"],
-			card_data["AttackRange"],
-			self
-		)
-	
-	battle_stats.battle_stats_container = $VBox/BattleStatsContainer
-	battle_stats.set_base_stats()
 
 
 func _get_play_space() -> PlaySpace:

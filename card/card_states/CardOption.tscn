@@ -2,15 +2,11 @@
 
 [ext_resource type="Script" path="res://card/card_states/CardOption.gd" id="1_4dpuv"]
 
-[node name="CardOption" type="Panel"]
+[node name="CardOption" type="PanelContainer"]
 custom_minimum_size = Vector2(300, 300)
 offset_right = 400.0
 offset_bottom = 400.0
 script = ExtResource("1_4dpuv")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+layout_mode = 2

@@ -4,6 +4,7 @@ class_name Card
 
 @onready var border := StyleBoxFlat.new()
 
+var battle_stats: BattleStats
 var card_data: Dictionary
 var card_index: int = 1
 var card_owner_id: int
@@ -51,6 +52,25 @@ func load_card_properties() -> void:
 		card_text = card_data["Text"]
 	set_card_image()
 	set_card_name()
+	if card_type == Collections.card_types.UNIT:
+		_create_battle_stats()
+	else:
+		hide()
+	
+
+
+func _create_battle_stats() -> void:
+	battle_stats = BattleStats.new(
+		card_data["MaxAttack"],
+		card_data["MinAttack"],
+		card_data["Health"],
+		card_data["Movement"],
+		card_data["AttackRange"],
+		self
+	)
+	
+	battle_stats.battle_stats_container = $VBox/BattleStatsContainer
+	battle_stats.set_base_stats()
 
 
 func set_card_image() -> void:

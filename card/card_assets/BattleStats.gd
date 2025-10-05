@@ -2,7 +2,7 @@ extends Node
 
 class_name BattleStats
 
-var card: CardInPlay
+var card: Card
 var battle_stats_container: BattleStatsContainer
 
 var attack_range: int:
@@ -52,6 +52,8 @@ func _init(
 
 
 func set_base_stats() -> void:
+	if card.card_type == Collections.card_types.SPELL:
+		battle_stats_container.hide()
 	battle_stats_container.update_stat(Collections.stats.ATTACK_RANGE, base_attack_range)
 	battle_stats_container.update_stat(Collections.stats.HEALTH, base_health)
 	battle_stats_container.update_stat(Collections.stats.MAX_ATTACK, base_max_attack)
