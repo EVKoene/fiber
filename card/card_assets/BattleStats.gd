@@ -18,6 +18,7 @@ var movement: int:
 var shield: int:
 	get = get_shield
 
+var avg_attack := (base_max_attack + base_min_attack) / 2
 var base_attack_range: int
 var base_health: int
 var base_max_attack: int
@@ -52,8 +53,6 @@ func _init(
 
 
 func set_base_stats() -> void:
-	if card.card_type == Collections.card_types.SPELL:
-		battle_stats_container.hide()
 	battle_stats_container.update_stat(Collections.stats.ATTACK_RANGE, base_attack_range)
 	battle_stats_container.update_stat(Collections.stats.HEALTH, base_health)
 	battle_stats_container.update_stat(Collections.stats.MAX_ATTACK, base_max_attack)

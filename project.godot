@@ -43,6 +43,7 @@ CardDatabase="*res://card/CardDatabase.gd"
 DeckCollection="*res://player/DeckCollection.gd"
 CardHelper="*res://card/CardHelper.gd"
 TriggeredCardFuncs="*res://card/TriggeredCardFuncs.gd"
+CardActionDecider="*res://singleplayer/ai/CardActionDecider.gd"
 
 [display]
 

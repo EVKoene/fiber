@@ -2,7 +2,7 @@ extends Panel
 
 class_name CardResolve
 
-@onready var card_scene := load("res://card/card_states/Card.tscn")
+@onready var card_scene := load("res://card/card_classes/Card.tscn")
 @onready var card_text_container_scene := load("res://card/card_assets/CardTextContainer.tscn")
 var ai_player := false
 var card_index: int

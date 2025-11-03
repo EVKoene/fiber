@@ -5,7 +5,7 @@ for cards can be put here.
 
 extends Node
 
-@onready var card_scene = preload("res://card/card_states/CardInPlay.tscn")
+@onready var card_scene = preload("res://card/card_classes/CardInPlay.tscn")
 
 
 func cards_in_range(

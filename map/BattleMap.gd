@@ -3,10 +3,10 @@ extends Node2D
 class_name BattleMap
 
 @onready var play_space_scene: PackedScene = preload("res://map/play_space/PlaySpace.tscn")
-@onready var card_scene: PackedScene = preload("res://card/card_states/CardInPlay.tscn")
+@onready var card_scene: PackedScene = preload("res://card/card_classes/CardInPlay.tscn")
 @onready var resource_bar_scene: PackedScene = preload("res://player/ResourceBar.tscn")
 @onready var card_pick_scene: PackedScene = preload("res://card/CardPickScreen.tscn")
-@onready var card_resolve_scene := load("res://card/card_states/CardResolve.tscn")
+@onready var card_resolve_scene := load("res://card/card_classes/CardResolve.tscn")
 
 var map = MapDatabase.maps.BASE_MAP
 var map_data = MapDatabase.map_data[map]

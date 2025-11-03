@@ -2,7 +2,7 @@ extends Card
 
 class_name CardOption
 
-@onready var card_scene := load("res://card/card_states/Card.tscn")
+@onready var card_scene := load("res://card/card_classes/Card.tscn")
 @onready var card_text_container_scene := load("res://card/card_assets/CardTextContainer.tscn")
 
 var card: Card
@@ -15,6 +15,7 @@ var card_pick_screen: CardPickScreen
 
 
 func _ready():
+	card_class = Collections.card_classes.CARD_OPTION
 	vbox = VBoxContainer.new()
 	$CenterContainer.add_child(vbox)
 	_setup_card()
@@ -29,7 +30,6 @@ func _setup_card() -> void:
 	card.load_card_properties()
 	card.create_costs()
 	card.set_cost_container()
-	card.card_data = CardDatabase.cards_info[card_index]
 	card.custom_minimum_size = MapSettings.card_in_play_size * 3
 	card_text_container.custom_minimum_size.x = card.size.x
 	card_text_container.size.x = card.size.x

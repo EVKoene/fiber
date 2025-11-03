@@ -7,6 +7,8 @@ class_name CardInPlay
 var exhausted := false
 var column := -1
 var row := -1
+var state := Collections.card_in_play_states.NEUTRAL
+var is_awaiting_ai_decision := false
 
 var current_play_space: PlaySpace:
 	get = _get_play_space
@@ -20,15 +22,10 @@ var card_in_play_index: int:
 
 
 func _ready():
+	card_class = Collections.card_classes.CARD_IN_PLAY
 	scale *= MapSettings.card_in_play_size / size
 	load_card_properties()
-	if !fabrication:
-		create_costs()
-	else:
-		pass
 	set_position_to_play_space()
-	set_cost_container()
-	border.bg_color = Color(99999900)
 	
 	if (
 		(GameManager.is_player_1 and card_owner_id == GameManager.p2_id)
@@ -176,12 +173,16 @@ func move_and_attack(target_card: CardInPlay) -> void:
 		await attack_card(target_card)
 
 	elif TargetSelection.current_path:
-		if TargetSelection.current_path.last_space in spaces_in_range_to_melee_attack_card(target_card):
+		if TargetSelection.current_path.last_space in spaces_in_range_to_melee_attack_space(
+			target_card.current_play_space
+		):
 			await (move_over_path(TargetSelection.current_path))
 			await attack_card(target_card)
 
 	else:
-		var spaces_to_attack_from: Array = spaces_in_range_to_melee_attack_card(target_card)
+		var spaces_to_attack_from: Array = spaces_in_range_to_melee_attack_space(
+			target_card.current_play_space
+		)
 		if len(spaces_to_attack_from) == 0:
 			assert(false, str(ingame_name, " tried to attack unit that is not in range"))
 		var path_to_space: PlaySpacePath = current_play_space.find_play_space_path(
@@ -225,22 +226,6 @@ func conquer_space() -> void:
 	for ps in current_play_space.adjacent_play_spaces():
 		ps.add_to_territory(card_owner_id)
 	current_play_space.set_conquered_by(card_owner_id)
-
-
-func highlight_card(show_highlight: bool = false) -> void:
-	if show_highlight:
-		if GameManager.is_single_player:
-			CardManipulation.highlight_card(card_owner_id, card_in_play_index)
-		if !GameManager.is_single_player:
-			for p_id in GameManager.players:
-				CardManipulation.highlight_card.rpc_id(p_id, card_owner_id, card_in_play_index)
-	else:
-		border = StyleBoxFlat.new()
-		add_theme_stylebox_override("panel", border)
-		border.bg_color = Color(99999900)
-		border.border_color = Styling.gold_color
-		
-		get_theme_stylebox("panel").set_border_width_all(size.y / 11)
 
 
 func reset_card_stats():
@@ -306,30 +291,38 @@ func spaces_in_range(range_to_check: int, ignore_obstacles := false) -> Array:
 	return spaces
 
 
-func is_space_in_range_of_ranged_attack(target_ps: PlaySpace) -> bool:
+func is_space_in_range_of_attack(target_ps: PlaySpace, include_movement: bool = false) -> bool:
 	if (
 		target_ps.row == current_play_space.row 
+		and !include_movement
 		and (abs(target_ps.column - current_play_space.column)) <= battle_stats.attack_range
 	):
 		return true
 	
 	if (
 		target_ps.column == current_play_space.column
+		and !include_movement
 		and (abs(target_ps.row - current_play_space.row)) <= battle_stats.attack_range
+	):
+		return true
+	
+	if (
+		include_movement 
+		and len(spaces_in_range_to_melee_attack_space(target_ps)) > 0
 	):
 		return true
 	
 	return false
 
-func spaces_in_range_to_melee_attack_card(card: CardInPlay) -> Array:
+func spaces_in_range_to_melee_attack_space(ps: PlaySpace) -> Array:
 	"""Returns an array of spaces where self can attack card from"""
 	var spaces_to_attack_from: Array = []
-	for ps in card.current_play_space.adjacent_play_spaces():
-		if ps.card_in_this_play_space:
-			if ps.card_in_this_play_space != self:
+	for space in ps.adjacent_play_spaces():
+		if space.card_in_this_play_space:
+			if space.card_in_this_play_space != self:
 				continue
-		if ps in spaces_in_range(battle_stats.movement, false):
-			spaces_to_attack_from.append(ps)
+		if space in spaces_in_range(battle_stats.movement, false):
+			spaces_to_attack_from.append(space)
 
 	return spaces_to_attack_from
 
@@ -406,42 +399,6 @@ func set_card_name() -> void:
 	$VBox/TopInfo/CardNameBG/CardName.text = ingame_name
 	
 
-func _set_card_text_visuals() -> void:
-	_set_card_text_font_size()
-	if len(card_text) <= 50:
-		$VBox/BotInfo/CardText.custom_minimum_size.y = size.y * 0.2
-	elif len(card_text) <= 100:
-		$VBox/BotInfo/CardText.custom_minimum_size.y = size.y * 0.4
-	else:
-		$VBox/BotInfo/CardText.custom_minimum_size.y = size.y * 0.6
-
-	if len(card_text) == 0:
-		$VBox/BotInfo/CardText.hide()
-	if len(card_text) > 0:
-		$VBox/BotInfo/CardText.text = card_text
-		$VBox/BotInfo/CardText.show()
-
-	$VBox/TopInfo/CardNameBG/CardName.text = ingame_name
-
-
-func _set_card_text_font_size() -> void:
-	if !$VBox/BotInfo/CardText.label_settings:
-		$VBox/BotInfo/CardText.label_settings = LabelSettings.new()
-	var min_font: float = round(MapSettings.play_space_size.x) / 22
-	var max_font: float = round(MapSettings.play_space_size.x) / 15
-	var max_line_count: float = 6
-	var font_range_diff: float = max_font - min_font
-	var font_change_per_line: float = font_range_diff / (max_line_count - 1)
-	var card_text_font_size: float
-	if card_text == "":
-		card_text_font_size = max_font
-	else:
-		card_text_font_size = (max_font - CardHelper.calc_n_lines(card_text) * font_change_per_line)
-
-	$VBox/TopInfo/CardNameBG/CardName.label_settings.font_size = max_font
-	$VBox/BotInfo/CardText.label_settings.font_size = card_text_font_size
-
-
 func set_position_to_play_space() -> void:
 	# TODO: Calculate an exact position while adjusting for the border
 	position.x = MapSettings.get_column_start_x(column) + MapSettings.play_space_size.x * 0.05
@@ -487,7 +444,7 @@ func _on_mouse_entered():
 		return
 	
 	if len(
-		TargetSelection.card_selected_for_movement.spaces_in_range_to_melee_attack_card(self)
+		TargetSelection.card_selected_for_movement.spaces_in_range_to_melee_attack_space(current_play_space)
 	) >= 1:
 		Input.set_custom_mouse_cursor(load("res://assets/CursorMiniAttackRed.png"))
 		return
@@ -505,16 +462,17 @@ func _on_mouse_entered():
 		Input.set_custom_mouse_cursor(load("res://assets/CursorMiniAttackRed.png"))
 		return
 	
-	elif TargetSelection.card_selected_for_movement.is_space_in_range_of_ranged_attack(
+	elif TargetSelection.card_selected_for_movement.is_space_in_range_of_attack(
 		current_play_space
 	):
 		Input.set_custom_mouse_cursor(load("res://assets/RangedAttackPointer.png"))
 		return
 		
 	elif (
-		TargetSelection.card_selected_for_movement.is_space_in_range_of_ranged_attack(
+		TargetSelection.card_selected_for_movement.is_space_in_range_of_attack(
 			current_play_space
-		)
+		) and current_play_space not in 
+		TargetSelection.card_selected_for_movement.current_play_space.adjacent_play_spaces()
 	):
 		Input.set_custom_mouse_cursor(load("res://assets/CursorMiniAttackRed.png"))
 		return
@@ -525,6 +483,9 @@ func _on_mouse_exited():
 
 
 func _on_gui_input(event):
+	if state != Collections.card_in_play_states.NEUTRAL:
+		return
+	
 	var left_mouse_button_pressed = (
 		event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed
 	)
@@ -627,8 +588,6 @@ func _on_gui_input(event):
 		and GameManager.turn_manager.turn_actions_enabled
 		and card_owner_id != GameManager.player_id
 	):
-		var ps_to_attack_from = card_sel_for_movement.spaces_in_range_to_melee_attack_card(self)
-
 		if (
 			len(ps_to_attack_from) > 0
 			and card_sel_for_movement.card_owner_id != card_owner_id
@@ -655,7 +614,7 @@ func _on_gui_input(event):
 		
 		elif (
 			card_sel_for_movement.card_owner_id != card_owner_id
-			and card_sel_for_movement.is_space_in_range_of_ranged_attack(current_play_space)
+			and card_sel_for_movement.is_space_in_range_attack(current_play_space)
 		):
 			GameManager.turn_manager.set_turn_actions_enabled(false)
 			card_sel_for_movement.attack_card(self)
