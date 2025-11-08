@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bn28vo4ber4h7"
-path="res://.godot/imported/Animal.png-03fa77ac3680e71bdd37f14c9d0c99b3.ctex"
+uid="uid://cmhgfnns40c3u"
+path="res://.godot/imported/BringerOfEnlightenment.png-057716c09f02698d5d9d8abde95247ef.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_images/passion/Animal.png"
-dest_files=["res://.godot/imported/Animal.png-03fa77ac3680e71bdd37f14c9d0c99b3.ctex"]
+source_file="res://assets/card_images/growth/BringerOfEnlightenment.png"
+dest_files=["res://.godot/imported/BringerOfEnlightenment.png-057716c09f02698d5d9d8abde95247ef.ctex"]
 
 [params]
 
