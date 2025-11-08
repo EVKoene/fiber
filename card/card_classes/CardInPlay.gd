@@ -292,6 +292,10 @@ func spaces_in_range(range_to_check: int, ignore_obstacles := false) -> Array:
 
 
 func is_space_in_range_of_attack(target_ps: PlaySpace, include_movement: bool = false) -> bool:
+	"""
+	Calculates if target space is in range for self to attack. If include_movement = true, the
+	func will add own movement to the range.
+	"""
 	if (
 		target_ps.row == current_play_space.row 
 		and !include_movement
@@ -339,10 +343,6 @@ func resolve_spell() -> bool:
 		)
 	)
 	return false
-
-
-func hide_border():
-	remove_theme_stylebox_override("panel")
 
 
 func update_stats() -> void:
@@ -403,7 +403,7 @@ func set_position_to_play_space() -> void:
 	# TODO: Calculate an exact position while adjusting for the border
 	position.x = MapSettings.get_column_start_x(column) + MapSettings.play_space_size.x * 0.05
 	position.y = MapSettings.get_row_start_y(row) + MapSettings.play_space_size.y * 0.05
-	z_index = current_play_space.z_index - 1
+	z_index = current_play_space.z_index + 1
 
 
 func _get_play_space() -> PlaySpace:
@@ -527,7 +527,7 @@ func _on_gui_input(event):
 	):
 		TargetSelection.selected_targets.erase(self)
 		if GameManager.is_single_player:
-			CardManipulation.hide_border(card_owner_id, card_in_play_index)
+			hide_border()
 		else:
 			for p_id in [GameManager.p1_id, GameManager.p2_id]:
 				CardManipulation.hide_border.rpc_id(
@@ -614,7 +614,7 @@ func _on_gui_input(event):
 		
 		elif (
 			card_sel_for_movement.card_owner_id != card_owner_id
-			and card_sel_for_movement.is_space_in_range_attack(current_play_space)
+			and card_sel_for_movement.is_space_in_range_of_attack(current_play_space, false)
 		):
 			GameManager.turn_manager.set_turn_actions_enabled(false)
 			card_sel_for_movement.attack_card(self)

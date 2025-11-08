@@ -10,6 +10,7 @@ var card_data: Dictionary
 var card_index: int = 1
 var card_owner_id: int
 var fabrication := false
+var has_border := false
 var ingame_name: String
 var card_type: int
 var costs: Costs
@@ -20,13 +21,22 @@ var img_path: String
 
 
 func highlight_card(_show_highlight: bool = false) -> void:
+	if has_border:
+		return
+	
+	border.border_color = Styling.gold_color
+	var border_width := size.x * 0.1
+	border.set_border_width_all(border_width)
+	border.set_content_margin_all(1)
+	border.set_expand_margin_all(border_width)
 	add_theme_stylebox_override("panel", border)
-	get_theme_stylebox("panel").border_color = Styling.gold_color
-	get_theme_stylebox("panel").set_border_width_all(size.y / 11)
-	add_theme_stylebox_override("panel", border)
+	has_border = true
 
 
 func hide_border():
+	if !has_border:
+		return
+	has_border = false
 	remove_theme_stylebox_override("panel")
 
 

@@ -15,7 +15,6 @@ var card_pick_screen: CardPickScreen
 
 
 func _ready():
-	card_class = Collections.card_classes.CARD_OPTION
 	vbox = VBoxContainer.new()
 	$CenterContainer.add_child(vbox)
 	_setup_card()
@@ -23,6 +22,7 @@ func _ready():
 
 func _setup_card() -> void:
 	card = card_scene.instantiate()
+	card.card_class = Collections.card_classes.CARD_OPTION
 	card_text_container = card_text_container_scene.instantiate()
 	vbox.add_child(card)
 	vbox.add_child(card_text_container)
