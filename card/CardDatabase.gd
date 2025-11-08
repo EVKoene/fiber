@@ -676,7 +676,7 @@ cards.FLOW_ACCELERATOR: {
 		"Purposes": [Collections.purposes.DEFEND_RESOURCE],
 		"Text": "At the start of your turn, if this unit is in a Victory space that is not in 
 		your starting area, draw a card and add <M>.",
-		"IMGPath": "res://assets/card_images/imagination/JellyfishExtraordinaire.jpg",
+		"IMGPath": "res://assets/card_images/imagination/JellyfishExtraordinaire.png",
 	},
 	
 	cards.HYRSMIR_RULER_OF_PHYSICS: {

@@ -157,6 +157,7 @@ func reset_zoom_preview() -> void:
 
 
 func set_card_text(card_text: String) -> void:
+	$VBox/TopInfo/CardNameBG/CardName.text = ingame_name
 	if len(card_text) == 0:
 		card_text_container.hide()
 	else:

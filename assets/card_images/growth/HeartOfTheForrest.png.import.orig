@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://be8km02hbnbyn"
-path="res://.godot/imported/ArcaneArrow.png-39f0d627c4f264d410c3b5128ce740b5.ctex"
+uid="uid://ckxj5851iu5eo"
+path="res://.godot/imported/HeartOfTheForrest.png-d7326bec729403604c822285494e682c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_images/growth/ArcaneArrow.png"
-dest_files=["res://.godot/imported/ArcaneArrow.png-39f0d627c4f264d410c3b5128ce740b5.ctex"]
+source_file="res://assets/card_images/growth/HeartOfTheForrest.png"
+dest_files=["res://.godot/imported/HeartOfTheForrest.png-d7326bec729403604c822285494e682c.ctex"]
 
 [params]
 

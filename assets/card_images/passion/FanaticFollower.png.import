@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dul5gw4tkr1eo"
-path="res://.godot/imported/EphemeralAssassin.png-bb1e3f897801a91b3d4dedc44e501be2.ctex"
+uid="uid://bmmswjcn7fovt"
+path="res://.godot/imported/FanaticFollower.png-9aa27c47f08b9e096472ebdae6f53569.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_images/growth/EphemeralAssassin.png"
-dest_files=["res://.godot/imported/EphemeralAssassin.png-bb1e3f897801a91b3d4dedc44e501be2.ctex"]
+source_file="res://assets/card_images/passion/FanaticFollower.png"
+dest_files=["res://.godot/imported/FanaticFollower.png-9aa27c47f08b9e096472ebdae6f53569.ctex"]
 
 [params]
 

@@ -2,7 +2,7 @@ extends Panel
 
 class_name CardResolve
 
-@onready var card_scene := load("res://card/card_states/Card.tscn")
+@onready var card_scene := load("res://card/card_classes/Card.tscn")
 @onready var card_text_container_scene := load("res://card/card_assets/CardTextContainer.tscn")
 var ai_player := false
 var card_index: int
@@ -25,6 +25,7 @@ func _ready():
 
 func _setup_card() -> void:
 	card = card_scene.instantiate()
+	card.card_class = Collections.card_classes.CARD_RESOLVE
 	card_text_container = card_text_container_scene.instantiate()
 	vbox.add_child(card)
 	vbox.add_child(card_text_container)

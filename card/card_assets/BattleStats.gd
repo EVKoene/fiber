@@ -2,7 +2,7 @@ extends Node
 
 class_name BattleStats
 
-var card: CardInPlay
+var card: Card
 var battle_stats_container: BattleStatsContainer
 
 var attack_range: int:
@@ -18,6 +18,7 @@ var movement: int:
 var shield: int:
 	get = get_shield
 
+var avg_attack := (base_max_attack + base_min_attack) / 2
 var base_attack_range: int
 var base_health: int
 var base_max_attack: int

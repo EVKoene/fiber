@@ -4,10 +4,13 @@ class_name Card
 
 @onready var border := StyleBoxFlat.new()
 
+var battle_stats: BattleStats
+var card_class: int
 var card_data: Dictionary
 var card_index: int = 1
 var card_owner_id: int
 var fabrication := false
+var has_border := false
 var ingame_name: String
 var card_type: int
 var costs: Costs
@@ -18,14 +21,22 @@ var img_path: String
 
 
 func highlight_card(_show_highlight: bool = false) -> void:
-	border = StyleBoxFlat.new()
+	if has_border:
+		return
+	
+	border.border_color = Styling.gold_color
+	var border_width := size.x * 0.1
+	border.set_border_width_all(border_width)
+	border.set_content_margin_all(1)
+	border.set_expand_margin_all(border_width)
 	add_theme_stylebox_override("panel", border)
-	get_theme_stylebox("panel").border_color = Styling.gold_color
-	get_theme_stylebox("panel").set_border_width_all(size.y / 11)
-	add_theme_stylebox_override("panel", border)
+	has_border = true
 
 
 func hide_border():
+	if !has_border:
+		return
+	has_border = false
 	remove_theme_stylebox_override("panel")
 
 
@@ -34,7 +45,7 @@ func set_card_name() -> void:
 		$VBox/TopInfo/CardNameBG/CardName.label_settings = LabelSettings.new()
 	var font_size: float
 	font_size = round(size.x) / (
-		len($VBox/TopInfo/CardNameBG/CardName.text) * 0.05
+		len($VBox/TopInfo/CardNameBG/CardName.text) * 0.1
 	) * 0.04
 
 	$VBox/TopInfo/CardNameBG/CardName.label_settings.font_size = font_size
@@ -49,8 +60,34 @@ func load_card_properties() -> void:
 		card_type = card_data["CardType"]
 		fibers = card_data["fibers"]
 		card_text = card_data["Text"]
-	set_card_image()
+	
+		create_costs()
+	
+	if card_class != Collections.card_classes.CARD_IN_HAND:
+		set_card_image()
+	
 	set_card_name()
+	if card_type == Collections.card_types.UNIT:
+		_create_battle_stats()
+	else:
+		$VBox/BattleStatsContainer.hide()
+	
+	if card_class == Collections.card_classes.CARD_IN_HAND:
+		$VBox/BattleStatsContainer.hide()
+
+
+func _create_battle_stats() -> void:
+	battle_stats = BattleStats.new(
+		card_data["MaxAttack"],
+		card_data["MinAttack"],
+		card_data["Health"],
+		card_data["Movement"],
+		card_data["AttackRange"],
+		self
+	)
+	
+	battle_stats.battle_stats_container = $VBox/BattleStatsContainer
+	battle_stats.set_base_stats()
 
 
 func set_card_image() -> void:

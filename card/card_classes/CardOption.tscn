@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://cr7g0lyb7yo0h"]
+
+[ext_resource type="Script" path="res://card/card_classes/CardOption.gd" id="1_4dpuv"]
+
+[node name="CardOption" type="PanelContainer"]
+custom_minimum_size = Vector2(300, 300)
+offset_right = 400.0
+offset_bottom = 400.0
+script = ExtResource("1_4dpuv")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 2
