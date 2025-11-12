@@ -12,13 +12,18 @@ var is_awaiting_ai_decision := false
 
 var current_play_space: PlaySpace:
 	get = _get_play_space
-var lord: bool
 var abilities: Array = []
 var triggered_funcs: Array = []
 var purposes: Array = []
 var move_through_units := false
 var card_in_play_index: int:
 	get = _get_card_in_play_index
+
+var boss_abilities := {}
+var next_boss_ability := {
+	"Text": "",
+	"Func": null
+}
 
 
 func _ready():
@@ -92,6 +97,17 @@ func attack_card(target_card: CardInPlay) -> void:
 		battle_stats.min_attack, battle_stats.max_attack
 	)))
 	await BattleSynchronizer.call_triggered_funcs(Collections.triggers.ATTACK_FINISHED, self)
+
+
+func prepare_next_turn_boss_ability() -> void:
+	var abilities_to_pick_from := []
+	for ability in boss_abilities.values():
+		for f in range(ability["WeightFactor"]):
+			abilities_to_pick_from.append(ability)
+	
+	var picked_ability: Dictionary = abilities_to_pick_from.pick_random()
+	next_boss_ability["Text"] = picked_ability["Text"]
+	next_boss_ability["Func"] = picked_ability["Func"]
 
 
 func deal_damage_to_card(card: CardInPlay, value: int) -> void:
@@ -588,6 +604,7 @@ func _on_gui_input(event):
 		and GameManager.turn_manager.turn_actions_enabled
 		and card_owner_id != GameManager.player_id
 	):
+		var ps_to_attack_from = card_sel_for_movement.spaces_in_range_to_melee_attack_card(self)
 		if (
 			len(ps_to_attack_from) > 0
 			and card_sel_for_movement.card_owner_id != card_owner_id

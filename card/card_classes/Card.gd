@@ -8,6 +8,7 @@ var battle_stats: BattleStats
 var card_class: int
 var card_data: Dictionary
 var card_index: int = 1
+var is_boss := false
 var card_owner_id: int
 var fabrication := false
 var has_border := false
@@ -53,7 +54,7 @@ func set_card_name() -> void:
 
 
 func load_card_properties() -> void:
-	if !fabrication:
+	if !is_boss and !fabrication:
 		card_data = CardDatabase.cards_info[card_index]
 		img_path = card_data["IMGPath"]
 		ingame_name = card_data["InGameName"]
@@ -63,11 +64,18 @@ func load_card_properties() -> void:
 	
 		create_costs()
 	
+	if is_boss:
+		card_data = BossCardDatabase.boss_cards_info[card_index]
+		img_path = card_data["IMGPath"]
+		ingame_name = card_data["InGameName"]
+		card_type = Collections.card_types.BOSS
+		fibers = card_data["fibers"]
+	
 	if card_class != Collections.card_classes.CARD_IN_HAND:
 		set_card_image()
 	
 	set_card_name()
-	if card_type == Collections.card_types.UNIT:
+	if card_type == Collections.card_types.UNIT or card_type == Collections.card_types.BOSS:
 		_create_battle_stats()
 	else:
 		$VBox/BattleStatsContainer.hide()

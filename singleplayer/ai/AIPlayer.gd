@@ -9,9 +9,12 @@ var player_id: int
 var moving_cards := false
 var turn_finished := false
 var game_over := false
+var boss: CardInPlay
 
 
 func play_turn() -> void:
+	use_boss_ability()
+	boss.prepare_next_turn_boss_ability()
 	await play_playable_cards()
 	await GameManager.battle_map.get_tree().create_timer(0.25).timeout
 	await use_cards_in_play()
@@ -22,7 +25,14 @@ func play_turn() -> void:
 		ai_turn_manager.end_turn()
 
 
+func use_boss_ability() -> void:
+	boss.call(boss.next_boss_ability["Func"])
+	GameManager.battle_map.show_text(boss.next_boss_ability["Text"])
+	
 func draw_start_of_turn_card() -> void:
+	if !NPCDatabase.npc_data[GameManager.players[GameManager.ai_player_id]["NPCID"]]["PlayCards"]:
+		return
+	
 	if !GameManager.players[player_id]["Deck"].has("AIDrawOrder"):
 		BattleSynchronizer.draw_card(player_id)
 		return

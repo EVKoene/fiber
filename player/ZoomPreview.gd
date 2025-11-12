@@ -98,7 +98,10 @@ func preview_card_in_play(card: CardInPlay, lock_card: bool) -> void:
 	_set_costs_labels()
 	_set_border_to_faction()
 	$CardImage.texture = load(img_path)
-	set_card_text(card.card_text)
+	if card.is_boss:
+		set_card_text(card.next_boss_ability["Text"])
+	else:
+		set_card_text(card.card_text)
 
 
 func preview_card_index(card_index, lock_card: bool) -> void:

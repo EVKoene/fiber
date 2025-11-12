@@ -75,6 +75,21 @@ func reduce_health(card: CardInPlay, value: int) -> void:
 
 
 @rpc("any_peer", "call_local")
+func play_boss(boss_index: int, card_owner_id: int, column: int, row: int) -> void:
+	var card: CardInPlay = card_in_play_scene.instantiate()
+	card.set_script(BossCardDatabase.boss_cards_info[boss_index]["Class"])
+	card.card_owner_id = card_owner_id
+	card.card_index = boss_index
+	card.column = column
+	card.row = row
+	card.is_boss = true
+	GameManager.cards_in_play[card_owner_id].append(card)
+	GameManager.battle_map.add_child(card)
+	GameManager.zoom_preview.reset_zoom_preview()
+	GameManager.ai_player.boss = card
+
+
+@rpc("any_peer", "call_local")
 func play_unit(card_index: int, card_owner_id: int, column: int, row: int) -> void:
 	var card: CardInPlay = card_in_play_scene.instantiate()
 	card.set_script(CardDatabase.get_card_class(card_index))

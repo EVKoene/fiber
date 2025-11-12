@@ -86,6 +86,8 @@ var npc_data: Dictionary = {
 		"Name": "Alphonso",
 		"Dialogue": ["Let's go nerd."],
 		"Battle": true,
+		"BossCard": BossCardDatabase.boss_cards.FANATIC_LEADER,
+		"PlayCards": false,
 		"DeckID": DeckCollection.deck_ids.CONQUER_AND_HOLD,
 		"CharacterModel": character_types.GENERIC_GUY_1,
 	},
