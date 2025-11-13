@@ -11,10 +11,10 @@ var boss_cards_info := {
 		"InGameName": "Fanatic Leader",
 		"fibers": [Collections.fibers.PASSION],
 		"AttackRange": 1,
-		"MaxAttack": 6,
+		"MaxAttack": 4,
 		"Class": FanaticLeader,
 		"MinAttack": 1,
-		"Health": 20,
+		"Health": 15,
 		"Movement": 1,
 		"IMGPath": "res://assets/card_images/passion/FanaticLeader.png"
 	},

@@ -100,6 +100,12 @@ func attack_card(target_card: CardInPlay) -> void:
 
 
 func prepare_next_turn_boss_ability() -> void:
+	# Always pick ability[0] as the first ability
+	if !next_boss_ability["Func"]:
+		next_boss_ability["Func"] = boss_abilities[0]["Func"]
+		next_boss_ability["Text"] = boss_abilities[0]["Text"]
+		return
+	
 	var abilities_to_pick_from := []
 	for ability in boss_abilities.values():
 		for f in range(ability["WeightFactor"]):
@@ -341,7 +347,7 @@ func spaces_in_range_to_melee_attack_space(ps: PlaySpace) -> Array:
 		if space.card_in_this_play_space:
 			if space.card_in_this_play_space != self:
 				continue
-		if space in spaces_in_range(battle_stats.movement, false):
+		if space in spaces_in_range(battle_stats.movement, move_through_units):
 			spaces_to_attack_from.append(space)
 
 	return spaces_to_attack_from
@@ -604,7 +610,9 @@ func _on_gui_input(event):
 		and GameManager.turn_manager.turn_actions_enabled
 		and card_owner_id != GameManager.player_id
 	):
-		var ps_to_attack_from = card_sel_for_movement.spaces_in_range_to_melee_attack_card(self)
+		var ps_to_attack_from = card_sel_for_movement.spaces_in_range_to_melee_attack_space(
+			current_play_space
+		)
 		if (
 			len(ps_to_attack_from) > 0
 			and card_sel_for_movement.card_owner_id != card_owner_id

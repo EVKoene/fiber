@@ -3,7 +3,6 @@ extends Card
 class_name CardInHand
 
 var attack_range: int
-var card_range: int
 var max_attack: int
 var min_attack: int
 var movement: int

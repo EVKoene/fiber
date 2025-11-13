@@ -19,6 +19,7 @@ var fibers: Array = []
 var border_style: StyleBox
 var card_text: String
 var img_path: String
+var card_range: int
 
 
 func highlight_card(_show_highlight: bool = false) -> void:
@@ -71,17 +72,27 @@ func load_card_properties() -> void:
 		card_type = Collections.card_types.BOSS
 		fibers = card_data["fibers"]
 	
-	if card_class != Collections.card_classes.CARD_IN_HAND:
-		set_card_image()
+	match card_class:
+		Collections.card_classes.CARD_IN_HAND:
+			if card_type == Collections.card_types.UNIT:
+				$VBox/BattleStatsContainer.hide()
+			else:
+				set_card_range()
+	
+		Collections.card_classes.CARD_OPTION:
+			set_card_image()
+			if card_type == Collections.card_types.SPELL:
+				set_card_range()
+			else:
+				_create_battle_stats()
+		_:
+			set_card_image()
+			if card_type in [Collections.card_types.UNIT, Collections.card_types.BOSS]:
+				_create_battle_stats()
 	
 	set_card_name()
-	if card_type == Collections.card_types.UNIT or card_type == Collections.card_types.BOSS:
-		_create_battle_stats()
-	else:
-		$VBox/BattleStatsContainer.hide()
-	
-	if card_class == Collections.card_classes.CARD_IN_HAND:
-		$VBox/BattleStatsContainer.hide()
+	if !is_boss:
+		set_cost_container()
 
 
 func _create_battle_stats() -> void:
@@ -96,6 +107,17 @@ func _create_battle_stats() -> void:
 	
 	battle_stats.battle_stats_container = $VBox/BattleStatsContainer
 	battle_stats.set_base_stats()
+
+
+func set_card_range() -> void:
+	for child in $VBox/BattleStatsContainer/HBoxContainer.get_children():
+		child.hide()
+	
+	$VBox/BattleStatsContainer/HBoxContainer/AttackRangeContainer.show()
+	card_range = card_data["CardRange"]
+	$VBox/BattleStatsContainer/HBoxContainer/AttackRangeContainer/AttackRangeLabel.text = str(
+		card_range
+	)
 
 
 func set_card_image() -> void:
