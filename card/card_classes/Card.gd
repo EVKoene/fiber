@@ -26,20 +26,33 @@ func highlight_card(_show_highlight: bool = false) -> void:
 	if has_border:
 		return
 	
-	border.border_color = Styling.gold_color
-	var border_width := size.x * 0.1
-	border.set_border_width_all(border_width)
-	border.set_content_margin_all(1)
-	border.set_expand_margin_all(border_width)
-	add_theme_stylebox_override("panel", border)
 	has_border = true
+	
+	if card_class == Collections.card_classes.CARD_IN_HAND:
+		modulate = Color(1, 1, 1, 1.5)
+		return
+	
+	else:
+		border.border_color = Styling.gold_color
+		var border_width := size.x * 0.1
+		border.set_border_width_all(border_width)
+		border.set_content_margin_all(1)
+		border.set_expand_margin_all(border_width)
+		add_theme_stylebox_override("panel", border)
 
 
 func hide_border():
 	if !has_border:
 		return
+	
 	has_border = false
-	remove_theme_stylebox_override("panel")
+	
+	if card_class == Collections.card_classes.CARD_IN_HAND:
+		modulate = Color(1, 1, 1, 1)
+		return
+	
+	else:
+		remove_theme_stylebox_override("panel")
 
 
 func set_card_name() -> void:

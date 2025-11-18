@@ -116,7 +116,7 @@ func change_battle_stat(battle_stat: int, value: int, turn_duration: int) -> voi
 			else:
 				attack_range_modifiers.append([value, turn_duration])
 	
-	battle_stats_container.update_stat(battle_stat, value)
+	update_all_stats()
 
 
 func get_max_attack() -> int:

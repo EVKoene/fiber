@@ -67,6 +67,7 @@ func pick_card_option(card_indices: Array) -> void:
 	var card_pick_screen := card_pick_scene.instantiate()
 	card_pick_screen.card_indices = card_indices
 	card_pick_screen.size = MapSettings.total_screen
+	card_pick_screen.z_index += 50
 	call_deferred("add_child", card_pick_screen)
 
 

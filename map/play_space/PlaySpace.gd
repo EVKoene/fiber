@@ -165,6 +165,13 @@ func play_space_direction_in_same_line(play_space: PlaySpace) -> int:
 func path_to_closest_movable_space(
 	goal_space: PlaySpace, max_moves: int, ignore_obstacles: bool
 ) -> PlaySpacePath:
+	var tries := 0
+	while GameManager.is_resolving_movement and tries < 10:
+		await get_tree().create_timer(0.1).timeout
+		tries += 1
+	assert(!GameManager.is_resolving_movement, "Game took to long in trying to find a path")
+	GameManager.is_resolving_movement = true
+	
 	var queue: Array = [goal_space]
 	var tried_spaces: Array = []
 

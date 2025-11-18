@@ -271,6 +271,7 @@ func move_to_play_space(
 	card_owner_id: int, card_in_play_index: int, new_column: int, new_row: int
 ) -> void:
 	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][card_in_play_index]
+	
 	assert(
 		!GameManager.ps_column_row[new_column][new_row].card_in_this_play_space,
 		"tried to move to occupied space"

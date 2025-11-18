@@ -108,6 +108,11 @@ func prepare_next_turn_boss_ability() -> void:
 	
 	var abilities_to_pick_from := []
 	for ability in boss_abilities.values():
+		if ability["MinTurn"] > GameManager.ai_player.ai_turns + 1:
+			continue
+		if ability["MaxTurn"] < GameManager.ai_player.ai_turns + 1 and ability["MaxTurn"] != -1:
+			continue
+		
 		for f in range(ability["WeightFactor"]):
 			abilities_to_pick_from.append(ability)
 	
@@ -158,6 +163,7 @@ func move_to_play_space(new_column: int, new_row: int) -> void:
 				p_id, card_owner_id, card_in_play_index, new_column, new_row
 			)
 
+	GameManager.is_resolving_movement = false
 	await BattleSynchronizer.call_triggered_funcs(Collections.triggers.CARD_MOVED, self)
 	return
 
@@ -629,8 +635,8 @@ func _on_gui_input(event):
 		):
 			GameManager.turn_manager.set_turn_actions_enabled(false)
 			
-			TargetSelection.end_selecting()
 			card_sel_for_movement.move_and_attack(self)
+			TargetSelection.end_selecting()
 			Input.set_custom_mouse_cursor(null)
 			card_sel_for_movement.exhaust()
 		
