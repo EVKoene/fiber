@@ -64,7 +64,7 @@ func move_to_conquer_space(card: CardInPlay) -> bool:
 		await AIHelper.attack_adjacent_enemies(card)
 		return true
 
-	var path_to_take: PlaySpacePath = card.current_play_space.path_to_closest_movable_space(
+	var path_to_take: PlaySpacePath = await card.current_play_space.path_to_closest_movable_space(
 		space_to_move_to, card.battle_stats.movement, card.move_through_units
 	)
 	await card.move_over_path(path_to_take)

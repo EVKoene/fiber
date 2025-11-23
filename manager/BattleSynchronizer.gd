@@ -75,6 +75,21 @@ func reduce_health(card: CardInPlay, value: int) -> void:
 
 
 @rpc("any_peer", "call_local")
+func play_boss(boss_index: int, card_owner_id: int, column: int, row: int) -> void:
+	var card: CardInPlay = card_in_play_scene.instantiate()
+	card.set_script(BossCardDatabase.boss_cards_info[boss_index]["Class"])
+	card.card_owner_id = card_owner_id
+	card.card_index = boss_index
+	card.column = column
+	card.row = row
+	card.is_boss = true
+	GameManager.cards_in_play[card_owner_id].append(card)
+	GameManager.battle_map.add_child(card)
+	GameManager.zoom_preview.reset_zoom_preview()
+	GameManager.ai_player.boss = card
+
+
+@rpc("any_peer", "call_local")
 func play_unit(card_index: int, card_owner_id: int, column: int, row: int) -> void:
 	var card: CardInPlay = card_in_play_scene.instantiate()
 	card.set_script(CardDatabase.get_card_class(card_index))
@@ -203,37 +218,13 @@ func set_progress_bars() -> void:
 			conquered_victory_spaces >= MapSettings.n_progress_bars
 			and GameManager.player_id == p_id
 		):
-			GameManager.ai_player.game_over = true
-			GameManager.battle_map.show_text("You win!")
-			var reward_text := []
-			var battle_rewards := PlayerManager.get_battle_reward()
-			if len(battle_rewards) == 0:
-				reward_text.append("No battle rewards this time...")
-			else:
-				for c in battle_rewards:
-					PlayerManager.add_card_to_collection(c)
-					reward_text.append(
-						str(
-							"Congratulations! You receive ",
-							CardDatabase.cards_info[c]["InGameName"]
-						)
-					)
-			OverworldManager.defeat_npc(GameManager.players[GameManager.ai_player_id]["NPCID"])
-			TransitionScene.transition_to_overworld_scene(
-				OverworldManager.saved_area_id, OverworldManager.saved_player_position, reward_text
-			)
+			finish_with_victory()
 			return
 		elif (
 			conquered_victory_spaces >= MapSettings.n_progress_bars
 			and GameManager.player_id != p_id
 		):
-			if GameManager.is_single_player:
-				GameManager.ai_player.game_over = true
-
-			GameManager.battle_map.show_text("You lose!")
-			TransitionScene.transition_to_overworld_scene(
-				OverworldManager.saved_area_ids, OverworldManager.saved_player_position
-			)
+			finish_with_defeat()
 			return
 
 		for b in range(len(GameManager.progress_bars[p_id])):
@@ -256,6 +247,7 @@ func move_to_play_space(
 	card_owner_id: int, card_in_play_index: int, new_column: int, new_row: int
 ) -> void:
 	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][card_in_play_index]
+	
 	assert(
 		!GameManager.ps_column_row[new_column][new_row].card_in_this_play_space,
 		"tried to move to occupied space"
@@ -388,3 +380,35 @@ func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 func refresh_all_units(card_owner_id: int) -> void:
 	for c in GameManager.cards_in_play[card_owner_id]:
 		c.refresh()
+
+
+func finish_with_victory() -> void:
+	GameManager.ai_player.game_over = true
+	GameManager.battle_map.show_text("You win!")
+	var reward_text := []
+	var battle_rewards := PlayerManager.get_battle_reward()
+	if len(battle_rewards) == 0:
+		reward_text.append("No battle rewards this time...")
+	else:
+		for c in battle_rewards:
+			PlayerManager.add_card_to_collection(c)
+			reward_text.append(
+				str(
+					"Congratulations! You receive ",
+					CardDatabase.cards_info[c]["InGameName"]
+				)
+			)
+	OverworldManager.defeat_npc(GameManager.players[GameManager.ai_player_id]["NPCID"])
+	TransitionScene.transition_to_overworld_scene(
+		OverworldManager.saved_area_id, OverworldManager.saved_player_position, reward_text
+	)
+
+
+func finish_with_defeat() -> void:
+	if GameManager.is_single_player:
+		GameManager.ai_player.game_over = true
+
+	GameManager.battle_map.show_text("You lose!")
+	TransitionScene.transition_to_overworld_scene(
+		OverworldManager.saved_area_ids, OverworldManager.saved_player_position
+	)

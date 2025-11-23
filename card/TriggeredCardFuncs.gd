@@ -23,7 +23,7 @@ func frenzy(
 				card.attack_card(target_unit)
 				card.exhaust()
 			else:
-				var path_to_take: PlaySpacePath = (
+				var path_to_take: PlaySpacePath = await (
 					card
 					. current_play_space
 					. path_to_closest_movable_space(

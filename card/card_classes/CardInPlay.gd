@@ -12,13 +12,18 @@ var is_awaiting_ai_decision := false
 
 var current_play_space: PlaySpace:
 	get = _get_play_space
-var lord: bool
 var abilities: Array = []
 var triggered_funcs: Array = []
 var purposes: Array = []
 var move_through_units := false
 var card_in_play_index: int:
 	get = _get_card_in_play_index
+
+var boss_abilities := {}
+var next_boss_ability := {
+	"Text": "",
+	"Func": null
+}
 
 
 func _ready():
@@ -94,6 +99,28 @@ func attack_card(target_card: CardInPlay) -> void:
 	await BattleSynchronizer.call_triggered_funcs(Collections.triggers.ATTACK_FINISHED, self)
 
 
+func prepare_next_turn_boss_ability() -> void:
+	# Always pick ability[0] as the first ability
+	if !next_boss_ability["Func"]:
+		next_boss_ability["Func"] = boss_abilities[0]["Func"]
+		next_boss_ability["Text"] = boss_abilities[0]["Text"]
+		return
+	
+	var abilities_to_pick_from := []
+	for ability in boss_abilities.values():
+		if ability["MinTurn"] > GameManager.ai_player.ai_turns + 1:
+			continue
+		if ability["MaxTurn"] < GameManager.ai_player.ai_turns + 1 and ability["MaxTurn"] != -1:
+			continue
+		
+		for f in range(ability["WeightFactor"]):
+			abilities_to_pick_from.append(ability)
+	
+	var picked_ability: Dictionary = abilities_to_pick_from.pick_random()
+	next_boss_ability["Text"] = picked_ability["Text"]
+	next_boss_ability["Func"] = picked_ability["Func"]
+
+
 func deal_damage_to_card(card: CardInPlay, value: int) -> void:
 	await card.resolve_damage(value)
 
@@ -136,6 +163,7 @@ func move_to_play_space(new_column: int, new_row: int) -> void:
 				p_id, card_owner_id, card_in_play_index, new_column, new_row
 			)
 
+	GameManager.is_resolving_movement = false
 	await BattleSynchronizer.call_triggered_funcs(Collections.triggers.CARD_MOVED, self)
 	return
 
@@ -325,7 +353,7 @@ func spaces_in_range_to_melee_attack_space(ps: PlaySpace) -> Array:
 		if space.card_in_this_play_space:
 			if space.card_in_this_play_space != self:
 				continue
-		if space in spaces_in_range(battle_stats.movement, false):
+		if space in spaces_in_range(battle_stats.movement, move_through_units):
 			spaces_to_attack_from.append(space)
 
 	return spaces_to_attack_from
@@ -581,40 +609,37 @@ func _on_gui_input(event):
 	):
 		TargetSelection.end_selecting()
 		create_card_action_menu()
-
+	
+	elif (
+		card_sel_for_movement
+		and card_sel_for_movement.card_owner_id != card_owner_id
+		and (
+			TargetSelection.play_space_selected_for_movement 
+			in current_play_space.adjacent_play_spaces()
+		)
+	):
+			GameManager.turn_manager.set_turn_actions_enabled(false)
+			
+			card_sel_for_movement.move_and_attack(self)
+			TargetSelection.end_selecting()
+			Input.set_custom_mouse_cursor(null)
+			card_sel_for_movement.exhaust()
+	
 	elif (
 		right_mouse_button_pressed
 		and card_sel_for_movement
 		and GameManager.turn_manager.turn_actions_enabled
 		and card_owner_id != GameManager.player_id
 	):
+		var ps_to_attack_from = card_sel_for_movement.spaces_in_range_to_melee_attack_space(
+			current_play_space
+		)
+		
 		if (
-			len(ps_to_attack_from) > 0
-			and card_sel_for_movement.card_owner_id != card_owner_id
-			and !TargetSelection.card_to_be_attacked
-		):
-			TargetSelection.card_to_be_attacked = self
-
-		elif (
-			card_sel_for_movement.card_owner_id != card_owner_id
-			and (
-				TargetSelection.play_space_selected_for_movement 
-				in current_play_space.adjacent_play_spaces()
-			)
-		):
-			GameManager.turn_manager.set_turn_actions_enabled(false)
-			
-			TargetSelection.end_selecting()
-			card_sel_for_movement.move_and_attack(self)
-			Input.set_custom_mouse_cursor(null)
-			card_sel_for_movement.exhaust()
-		
-			GameManager.turn_manager.set_turn_actions_enabled(true)
-		
-		
-		elif (
 			card_sel_for_movement.card_owner_id != card_owner_id
 			and card_sel_for_movement.is_space_in_range_of_attack(current_play_space, false)
+			and TargetSelection.card_to_be_attacked
+			and TargetSelection.card_to_be_attacked == self
 		):
 			GameManager.turn_manager.set_turn_actions_enabled(false)
 			card_sel_for_movement.attack_card(self)
@@ -622,19 +647,35 @@ func _on_gui_input(event):
 			card_sel_for_movement.exhaust()
 			TargetSelection.end_selecting()
 			GameManager.turn_manager.set_turn_actions_enabled(true)
+	
+		elif (
+			len(ps_to_attack_from) > 0
+			and card_sel_for_movement.card_owner_id != card_owner_id
+			and !TargetSelection.card_to_be_attacked
+		):
+			TargetSelection.card_to_be_attacked = self
 		
 		elif (
-			card_sel_for_movement.card_owner_id != card_owner_id
+			len(ps_to_attack_from) > 0
+			and card_sel_for_movement.card_owner_id != card_owner_id
+			and TargetSelection.card_to_be_attacked != self
+		):
+			TargetSelection.card_to_be_attacked == self
+		
+		elif (
+			len(ps_to_attack_from) > 0
+			and card_sel_for_movement.card_owner_id != card_owner_id
+			and TargetSelection.card_to_be_attacked == self
 		):
 			GameManager.turn_manager.set_turn_actions_enabled(false)
-
+			
 			card_sel_for_movement.move_and_attack(self)
+			TargetSelection.end_selecting()
 			Input.set_custom_mouse_cursor(null)
 			card_sel_for_movement.exhaust()
-			TargetSelection.end_selecting()
-
+			
 			GameManager.turn_manager.set_turn_actions_enabled(true)
-
+		
 	elif (
 		right_mouse_button_pressed
 		and GameManager.turn_manager.turn_actions_enabled

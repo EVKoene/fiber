@@ -2,7 +2,7 @@ extends Panel
 
 class_name CardPickScreen
 
-@onready var card_option_scene := preload("res://card/card_classes/CardOption.tscn")
+@onready var card_option_container_scene := preload("res://card/card_classes/CardOptionContainer.tscn")
 var card_indices: Array
 
 
@@ -12,7 +12,7 @@ func _ready():
 
 func _add_card_options() -> void:
 	for c in range(len(card_indices)):
-		var card_option := card_option_scene.instantiate()
+		var card_option := card_option_container_scene.instantiate()
 		card_option.card_index = card_indices[c]
 		card_option.option_index = c
 		card_option.card_pick_screen = self

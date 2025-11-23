@@ -27,7 +27,10 @@ enum cards {
 	### MULTIFIBER ###
 	PLUTO_MUSICAL_GUIDE, MIDAVES_RESEARCHER_OF_LIFE, 
 	VOLDOMA_MASTER_OF_ARMS, KILLER_WHALE_BOT, NHOROG_POTION_MASTER, GHENGI_WHO_SHAPES_THE_EARTH, 
-	SPOTOS_RECYCLER
+	SPOTOS_RECYCLER,
+
+	### BOSS_CARDS ###
+	FANATIC_LEADER
 }
 
 """
@@ -171,7 +174,7 @@ var cards_info = {
 		"Movement": 2,
 		"AttackRange": 1,
 		"Lord": false,
-		"Text": "Frenzy (move towards the closest enemy unit and attack if possible. Then exhaust)",
+		"Text": "Frenzy (move towards the <<<>>closest enemy unit and attack if possible. Then exhaust)",
 		"Purposes": [Collections.purposes.BATTLE],
 		"IMGPath": "res://assets/card_images/passion/WarthogBerserker.png",
 	},
@@ -1630,7 +1633,6 @@ cards.FLOW_ACCELERATOR: {
 		"IMGName": "SpotosRecycler",
 	},
 }
-
 
 func get_card_class(card_index: int) -> Variant:
 	var card: Variant

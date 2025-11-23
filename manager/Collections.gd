@@ -16,7 +16,7 @@ var faction_names: Dictionary = {
 }
 enum card_classes { CARD_IN_HAND, CARD_IN_PLAY, CARD_OPTION, CARD_RESOLVE }
 enum card_in_play_states { ATTACKING, GETTING_DAMAGE, MOVING, NEUTRAL, USING_ABILITY, }
-enum card_types { SPELL, UNIT }
+enum card_types { BOSS, SPELL, UNIT }
 enum stat_params { LOWEST, HIGHEST, OVER_VALUE, UNDER_VALUE }
 enum stats { MAX_ATTACK, MIN_ATTACK, HEALTH, MOVEMENT, SHIELD, ATTACK_RANGE, TOTAL_COST }
 enum triggers {
@@ -62,10 +62,12 @@ enum players { P1, P2 }
 enum animation_types { IDLE, WALKING }
 
 var stat_names := {
+	stats.ATTACK_RANGE: "Attack Range",
+	stats.HEALTH: "Health",
 	stats.MAX_ATTACK: "Max Attack",
 	stats.MIN_ATTACK: "Min Attack",
-	stats.HEALTH: "Health",
 	stats.MOVEMENT: "Movement",
+	stats.SHIELD: "Shield",
 	stats.TOTAL_COST: "Total cost",
 }
 ### BATTLE ###

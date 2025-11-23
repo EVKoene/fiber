@@ -1,8 +1,8 @@
 extends Card
 
-class_name CardOption
+class_name CardOptionContainer
 
-@onready var card_scene := load("res://card/card_classes/Card.tscn")
+@onready var card_option_scene := load("res://card/card_classes/CardOption.tscn")
 @onready var card_text_container_scene := load("res://card/card_assets/CardTextContainer.tscn")
 
 var card: Card
@@ -21,7 +21,7 @@ func _ready():
 
 
 func _setup_card() -> void:
-	card = card_scene.instantiate()
+	card = card_option_scene.instantiate()
 	card.card_class = Collections.card_classes.CARD_OPTION
 	card_text_container = card_text_container_scene.instantiate()
 	vbox.add_child(card)
@@ -37,8 +37,8 @@ func _setup_card() -> void:
 	card_text_container.size.y = card.size.y / 2
 	card_text_container.set_card_text(card.card_data["Text"])
 	
-	card.connect("mouse_entered", highlight_card)
-	card.connect("mouse_exited", hide_border)
+	card.connect("mouse_entered", card.highlight_card)
+	card.connect("mouse_exited", card.hide_border)
 	card.connect("gui_input", pick)
 
 
@@ -87,7 +87,3 @@ func _get_card_range() -> int:
 		return card.card_data["Range"]
 	else:
 		return -1
-
-
-func unhighlight_card():
-	card.hide_border()

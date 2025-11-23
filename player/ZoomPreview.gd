@@ -45,8 +45,9 @@ func preview_hand_card(card: CardInHand, lock_card: bool) -> void:
 	fibers = card.fibers
 	img_path = card.img_path
 
-	if card_type == Collections.card_types.UNIT:
-		$VBox/BattleStatsContainer.show()
+	if card_type in [Collections.card_types.UNIT, Collections.card_types.BOSS]:
+		for child in $VBox/BattleStatsContainer/HBoxContainer.get_children():
+			child.show()
 		$VBox/BattleStatsContainer.update_stat(Collections.stats.ATTACK_RANGE, card.attack_range)
 		$VBox/BattleStatsContainer.update_stat(Collections.stats.HEALTH, card.health)
 		$VBox/BattleStatsContainer.update_stat(Collections.stats.MAX_ATTACK, card.max_attack)
@@ -55,7 +56,12 @@ func preview_hand_card(card: CardInHand, lock_card: bool) -> void:
 		$VBox/BattleStatsContainer.update_stat(Collections.stats.SHIELD, card.shield)
 		
 	else:
-		$VBox/BattleStatsContainer.hide()
+		for child in $VBox/BattleStatsContainer/HBoxContainer.get_children():
+			child.hide()
+		$VBox/BattleStatsContainer/HBoxContainer/AttackRangeContainer.show()
+		$VBox/BattleStatsContainer/HBoxContainer/AttackRangeContainer/AttackRangeLabel.text = str(
+			card.card_range
+		)
 	
 	$CardImage.show()
 	$VBox.show()
@@ -71,34 +77,36 @@ func preview_card_in_play(card: CardInPlay, lock_card: bool) -> void:
 		return
 
 	locked = lock_card
-
-	passion_cost = card.costs.passion
-	imagination_cost = card.costs.imagination
-	growth_cost = card.costs.growth
-	logic_cost = card.costs.logic
+	
+	if !card.is_boss:
+		passion_cost = card.costs.passion
+		imagination_cost = card.costs.imagination
+		growth_cost = card.costs.growth
+		logic_cost = card.costs.logic
+	
 	ingame_name = card.ingame_name
 	card_type = card.card_type
 	fibers = card.fibers
 	img_path = card.img_path
 
-	if card_type == Collections.card_types.UNIT:
-		$VBox/BattleStatsContainer.show()
-		$VBox/BattleStatsContainer.update_stat(Collections.stats.ATTACK_RANGE, card.battle_stats.attack_range)
-		$VBox/BattleStatsContainer.update_stat(Collections.stats.HEALTH, card.battle_stats.health)
-		$VBox/BattleStatsContainer.update_stat(Collections.stats.MAX_ATTACK, card.battle_stats.max_attack)
-		$VBox/BattleStatsContainer.update_stat(Collections.stats.MIN_ATTACK, card.battle_stats.min_attack)
-		$VBox/BattleStatsContainer.update_stat(Collections.stats.MOVEMENT, card.battle_stats.movement)
-		$VBox/BattleStatsContainer.update_stat(Collections.stats.SHIELD, card.battle_stats.shield)
+	for child in $VBox/BattleStatsContainer/HBoxContainer.get_children():
+		child.show()
+	$VBox/BattleStatsContainer.update_stat(Collections.stats.ATTACK_RANGE, card.battle_stats.attack_range)
+	$VBox/BattleStatsContainer.update_stat(Collections.stats.HEALTH, card.battle_stats.health)
+	$VBox/BattleStatsContainer.update_stat(Collections.stats.MAX_ATTACK, card.battle_stats.max_attack)
+	$VBox/BattleStatsContainer.update_stat(Collections.stats.MIN_ATTACK, card.battle_stats.min_attack)
+	$VBox/BattleStatsContainer.update_stat(Collections.stats.MOVEMENT, card.battle_stats.movement)
+	$VBox/BattleStatsContainer.update_stat(Collections.stats.SHIELD, card.battle_stats.shield)
 		
-	else:
-		$VBox/BattleStatsContainer.hide()
-
 	$CardImage.show()
 	$VBox.show()
 	_set_costs_labels()
 	_set_border_to_faction()
 	$CardImage.texture = load(img_path)
-	set_card_text(card.card_text)
+	if card.is_boss:
+		set_card_text(card.next_boss_ability["Text"])
+	else:
+		set_card_text(card.card_text)
 
 
 func preview_card_index(card_index, lock_card: bool) -> void:

@@ -7,6 +7,7 @@ signal space_selection_finished
 enum target_restrictions { ANY_SPACE, OWN_UNITS, OPPONENT_UNITS, ANY_UNITS }
 
 var making_selection := false
+var card_to_be_attacked: CardInPlay
 var selected_card: CardInPlay
 var selected_targets := []
 var number_of_targets_to_select := 0
@@ -124,6 +125,7 @@ func end_selecting() -> void:
 
 func clear_selections() -> void:
 	card_selected_for_movement = null
+	card_to_be_attacked = null
 	selected_card = null
 	selected_targets = []
 	selected_columns = []

@@ -38,6 +38,7 @@ var zoom_preview: ZoomPreview
 var resource_bars := {}
 var progress_bars := {}
 var resources := {}
+var is_resolving_movement := false
 # Decks should only be visible to the server
 var decks := {}
 # cards_in_hand and cards_in_play contain the two player ids as keys with an array containing all
@@ -205,7 +206,12 @@ func _start_first_turn() -> void:
 		set_ready_to_play(true)
 		var npc_id: int = players[ai_player_id]["NPCID"]
 		assert(npc_id >= 0, str("Invalid NPC ID: ", npc_id))
-		if "SpecialRules" in NPCDatabase.npc_data[npc_id].keys():
+		print("Bosscard: ", str(NPCDatabase.npc_data[npc_id]["BossCard"]))
+		if NPCDatabase.npc_data[npc_id]["BossCard"] != -1:
+			BattleSynchronizer.play_boss(NPCDatabase.npc_data[npc_id]["BossCard"], 2, 4, 0)
+			GameManager.ai_player.boss.prepare_next_turn_boss_ability()
+		
+		if "SpecialRules" in NPCDatabase.npc_data[npc_id].keys(): #TODO: Special rules can be removed
 			for rule in NPCDatabase.npc_data[npc_id]["SpecialRules"]:
 				await NPCDatabase.setup_special_rules(rule)
 		if first_player_id == p1_id:

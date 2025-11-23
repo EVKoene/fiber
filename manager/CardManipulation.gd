@@ -7,6 +7,11 @@ func destroy(card_owner_id: int, cip_index: int) -> void:
 	BattleSynchronizer.call_triggered_funcs(Collections.triggers.CARD_DESTROYED, card)
 	card.call_deferred("remove_from_cards_in_play")
 	card.call_deferred("queue_free")
+	if card.is_boss:
+		if card.card_owner_id == GameManager.player_id:
+			BattleSynchronizer.finish_with_victory()
+		else:
+			BattleSynchronizer.finish_with_defeat()
 
 
 @rpc("any_peer", "call_local")
