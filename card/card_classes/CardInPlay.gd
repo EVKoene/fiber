@@ -609,7 +609,22 @@ func _on_gui_input(event):
 	):
 		TargetSelection.end_selecting()
 		create_card_action_menu()
-
+	
+	elif (
+		card_sel_for_movement
+		and card_sel_for_movement.card_owner_id != card_owner_id
+		and (
+			TargetSelection.play_space_selected_for_movement 
+			in current_play_space.adjacent_play_spaces()
+		)
+	):
+			GameManager.turn_manager.set_turn_actions_enabled(false)
+			
+			card_sel_for_movement.move_and_attack(self)
+			TargetSelection.end_selecting()
+			Input.set_custom_mouse_cursor(null)
+			card_sel_for_movement.exhaust()
+	
 	elif (
 		right_mouse_button_pressed
 		and card_sel_for_movement
@@ -619,33 +634,12 @@ func _on_gui_input(event):
 		var ps_to_attack_from = card_sel_for_movement.spaces_in_range_to_melee_attack_space(
 			current_play_space
 		)
+		
 		if (
-			len(ps_to_attack_from) > 0
-			and card_sel_for_movement.card_owner_id != card_owner_id
-			and !TargetSelection.card_to_be_attacked
-		):
-			TargetSelection.card_to_be_attacked = self
-
-		elif (
-			card_sel_for_movement.card_owner_id != card_owner_id
-			and (
-				TargetSelection.play_space_selected_for_movement 
-				in current_play_space.adjacent_play_spaces()
-			)
-		):
-			GameManager.turn_manager.set_turn_actions_enabled(false)
-			
-			card_sel_for_movement.move_and_attack(self)
-			TargetSelection.end_selecting()
-			Input.set_custom_mouse_cursor(null)
-			card_sel_for_movement.exhaust()
-		
-			GameManager.turn_manager.set_turn_actions_enabled(true)
-		
-		
-		elif (
 			card_sel_for_movement.card_owner_id != card_owner_id
 			and card_sel_for_movement.is_space_in_range_of_attack(current_play_space, false)
+			and TargetSelection.card_to_be_attacked
+			and TargetSelection.card_to_be_attacked == self
 		):
 			GameManager.turn_manager.set_turn_actions_enabled(false)
 			card_sel_for_movement.attack_card(self)
@@ -653,19 +647,35 @@ func _on_gui_input(event):
 			card_sel_for_movement.exhaust()
 			TargetSelection.end_selecting()
 			GameManager.turn_manager.set_turn_actions_enabled(true)
+	
+		elif (
+			len(ps_to_attack_from) > 0
+			and card_sel_for_movement.card_owner_id != card_owner_id
+			and !TargetSelection.card_to_be_attacked
+		):
+			TargetSelection.card_to_be_attacked = self
 		
 		elif (
-			card_sel_for_movement.card_owner_id != card_owner_id
+			len(ps_to_attack_from) > 0
+			and card_sel_for_movement.card_owner_id != card_owner_id
+			and TargetSelection.card_to_be_attacked != self
+		):
+			TargetSelection.card_to_be_attacked == self
+		
+		elif (
+			len(ps_to_attack_from) > 0
+			and card_sel_for_movement.card_owner_id != card_owner_id
+			and TargetSelection.card_to_be_attacked == self
 		):
 			GameManager.turn_manager.set_turn_actions_enabled(false)
-
+			
 			card_sel_for_movement.move_and_attack(self)
+			TargetSelection.end_selecting()
 			Input.set_custom_mouse_cursor(null)
 			card_sel_for_movement.exhaust()
-			TargetSelection.end_selecting()
-
+			
 			GameManager.turn_manager.set_turn_actions_enabled(true)
-
+		
 	elif (
 		right_mouse_button_pressed
 		and GameManager.turn_manager.turn_actions_enabled

@@ -14,7 +14,7 @@ func _init() -> void:
 		},
 		1: {
 			"WeightFactor": 3,
-			"Func": "create_inspiring_artist",
+			"Func": "create_1_inspiring_artist",
 			"Text": "Create an Inspiring Artist in an adjacent playspace",
 			"MinTurn": 1,
 			"MaxTurn": -1,
@@ -51,7 +51,7 @@ func _init() -> void:
 	}
 
 
-func add_1_to_random_stat() -> void:
+func add_1_to_random_stat() -> String:
 	var stat_to_increase: int = (
 		[
 			Collections.stats.MAX_ATTACK, Collections.stats.MIN_ATTACK, Collections.stats.HEALTH, 
@@ -64,16 +64,40 @@ func add_1_to_random_stat() -> void:
 		stat_to_increase, card_owner_id, card_in_play_index, 1, -1
 	)
 	
-	return
+	return str("Add 1 to ", Collections.stat_names[stat_to_increase])
 
 
-func deal_1_in_rows_and_columns() -> void:
+func create_1_inspiring_artist() -> String:
+	var ps_options := []
+	for ps in current_play_space.adjacent_play_spaces():
+		if !ps.card_in_this_play_space:
+			ps_options.append(ps)
+	
+	var ps_to_play: PlaySpace = ps_options.pick_random()
+	
+	if GameManager.is_single_player:
+		BattleSynchronizer.play_unit(
+			CardDatabase.cards.INSPIRING_ARTIST, card_owner_id, ps_to_play.column, ps_to_play.row
+				)
+	else:
+		for p_id in GameManager.players:
+			BattleSynchronizer.play_unit.rpc_id(
+				p_id, CardDatabase.cards_info.INSPIRING_ARTIST, card_owner_id, ps_to_play.column, 
+				ps_to_play.row
+			)
+	
+	exhaust()
+	
+	return "Create an Inspiring Artist in an adjacent playspace"
+
+
+func deal_1_in_rows_and_columns() -> String:
 	for ps in GameManager.play_spaces:
-		if ps.column != column or ps.row != row:
+		if ps.column != column and ps.row != row:
 			continue
 	
 		if GameManager.is_single_player:
-			BattleAnimation.play_burn_animation(ps.columns, ps.row)
+			BattleAnimation.play_burn_animation(ps.column, ps.row)
 		if !GameManager.is_single_player:
 			for p_id in GameManager.players:
 				BattleAnimation.play_burn_animation.rpc_id(p_id, ps.column, ps.row)
@@ -82,17 +106,11 @@ func deal_1_in_rows_and_columns() -> void:
 		if play_space.card_in_this_play_space:
 			if play_space.card_in_this_play_space.card_owner_id != card_owner_id:
 				play_space.card_in_this_play_space.resolve_damage(1)
+				
+	return "Deal 1 damage in rows and columns"
 
 
-func deal_3_damage_to_closest() -> void:
-	if len(GameManager.cards_in_play[GameManager.opposing_player_id(card_owner_id)]) == 0:
-		return
-	
-	await deal_damage_to_card(
-		CardHelper.closest_enemy_units(self).pick_random(), 2
-	)
-
-func create_1_homunculus() -> void:
+func create_1_homunculus() -> String:
 	var ps_options := []
 	for ps in current_play_space.adjacent_play_spaces():
 		if !ps.card_in_this_play_space:
@@ -112,18 +130,22 @@ func create_1_homunculus() -> void:
 			)
 	
 	exhaust()
+	
+	return "Create 1 homonculus"
 
 
-func add_1_movement_to_all_units() -> void:
+func add_1_movement_to_all_units() -> String:
 	for c in GameManager.cards_in_play[card_owner_id]:
 		CardManipulation.change_battle_stat(
 			Collections.battle_stats.MOVEMENT, card_owner_id, card_in_play_index, 1, -1
 		)
+	
+	return "Add 1 movement to all units"
 
 
-func steal_closest_unit() -> void:
+func steal_closest_unit() -> String:
 	if len(GameManager.cards_in_play[GameManager.opposing_player_id(card_owner_id)]) == 0:
-		return
+		return "Steal the closest unit"
 	
 	var target: CardInPlay = CardHelper.closest_enemy_units(self).pick_random()
 	target.highlight_card(true)
@@ -137,3 +159,5 @@ func steal_closest_unit() -> void:
 		target.flip_card()
 	else:
 		target.unflip_card()
+	
+	return "Steal the closest unit"

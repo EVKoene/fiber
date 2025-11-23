@@ -5,7 +5,7 @@ class_name Card
 @onready var border := StyleBoxFlat.new()
 
 var battle_stats: BattleStats
-var card_class: int
+var card_class := -1
 var card_data: Dictionary
 var card_index: int = 1
 var is_boss := false

@@ -97,6 +97,8 @@ var npc_data: Dictionary = {
 		"Dialogue": ["Round 2, here we go!"],
 		"Battle": true,
 		"DeckID": DeckCollection.deck_ids.IMAGINARY_FRIENDS,
+		"BossCard": BossCardDatabase.boss_cards.REALITY_BENDER,
+		"PlayCards": false,
 		"CharacterModel": character_types.GENERIC_GIRL_2,
 	},
 	npcs.GAMZA:

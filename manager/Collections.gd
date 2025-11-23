@@ -62,10 +62,12 @@ enum players { P1, P2 }
 enum animation_types { IDLE, WALKING }
 
 var stat_names := {
+	stats.ATTACK_RANGE: "Attack Range",
+	stats.HEALTH: "Health",
 	stats.MAX_ATTACK: "Max Attack",
 	stats.MIN_ATTACK: "Min Attack",
-	stats.HEALTH: "Health",
 	stats.MOVEMENT: "Movement",
+	stats.SHIELD: "Shield",
 	stats.TOTAL_COST: "Total cost",
 }
 ### BATTLE ###

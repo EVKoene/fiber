@@ -26,8 +26,8 @@ func play_turn() -> void:
 
 
 func use_boss_ability() -> void:
-	boss.call(boss.next_boss_ability["Func"])
-	GameManager.battle_map.show_text(boss.next_boss_ability["Text"])
+	var boss_ability: String = boss.call(boss.next_boss_ability["Func"])
+	GameManager.battle_map.show_text(boss_ability)
 	
 func draw_start_of_turn_card() -> void:
 	if !NPCDatabase.npc_data[GameManager.players[GameManager.ai_player_id]["NPCID"]]["PlayCards"]:

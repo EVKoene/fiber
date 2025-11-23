@@ -125,6 +125,7 @@ func end_selecting() -> void:
 
 func clear_selections() -> void:
 	card_selected_for_movement = null
+	card_to_be_attacked = null
 	selected_card = null
 	selected_targets = []
 	selected_columns = []

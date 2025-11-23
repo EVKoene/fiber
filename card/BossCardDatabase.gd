@@ -29,6 +29,6 @@ var boss_cards_info := {
 		"MinAttack": 2,
 		"Health": 15,
 		"Movement": 2,
-		"IMGPath": "res://assets/card_images/imagination/FanaticLeader.png"
+		"IMGPath": "res://assets/card_images/imagination/RealityBender.png"
 	},
 }

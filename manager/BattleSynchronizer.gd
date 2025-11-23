@@ -218,37 +218,13 @@ func set_progress_bars() -> void:
 			conquered_victory_spaces >= MapSettings.n_progress_bars
 			and GameManager.player_id == p_id
 		):
-			GameManager.ai_player.game_over = true
-			GameManager.battle_map.show_text("You win!")
-			var reward_text := []
-			var battle_rewards := PlayerManager.get_battle_reward()
-			if len(battle_rewards) == 0:
-				reward_text.append("No battle rewards this time...")
-			else:
-				for c in battle_rewards:
-					PlayerManager.add_card_to_collection(c)
-					reward_text.append(
-						str(
-							"Congratulations! You receive ",
-							CardDatabase.cards_info[c]["InGameName"]
-						)
-					)
-			OverworldManager.defeat_npc(GameManager.players[GameManager.ai_player_id]["NPCID"])
-			TransitionScene.transition_to_overworld_scene(
-				OverworldManager.saved_area_id, OverworldManager.saved_player_position, reward_text
-			)
+			finish_with_victory()
 			return
 		elif (
 			conquered_victory_spaces >= MapSettings.n_progress_bars
 			and GameManager.player_id != p_id
 		):
-			if GameManager.is_single_player:
-				GameManager.ai_player.game_over = true
-
-			GameManager.battle_map.show_text("You lose!")
-			TransitionScene.transition_to_overworld_scene(
-				OverworldManager.saved_area_ids, OverworldManager.saved_player_position
-			)
+			finish_with_defeat()
 			return
 
 		for b in range(len(GameManager.progress_bars[p_id])):
@@ -404,3 +380,35 @@ func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 func refresh_all_units(card_owner_id: int) -> void:
 	for c in GameManager.cards_in_play[card_owner_id]:
 		c.refresh()
+
+
+func finish_with_victory() -> void:
+	GameManager.ai_player.game_over = true
+	GameManager.battle_map.show_text("You win!")
+	var reward_text := []
+	var battle_rewards := PlayerManager.get_battle_reward()
+	if len(battle_rewards) == 0:
+		reward_text.append("No battle rewards this time...")
+	else:
+		for c in battle_rewards:
+			PlayerManager.add_card_to_collection(c)
+			reward_text.append(
+				str(
+					"Congratulations! You receive ",
+					CardDatabase.cards_info[c]["InGameName"]
+				)
+			)
+	OverworldManager.defeat_npc(GameManager.players[GameManager.ai_player_id]["NPCID"])
+	TransitionScene.transition_to_overworld_scene(
+		OverworldManager.saved_area_id, OverworldManager.saved_player_position, reward_text
+	)
+
+
+func finish_with_defeat() -> void:
+	if GameManager.is_single_player:
+		GameManager.ai_player.game_over = true
+
+	GameManager.battle_map.show_text("You lose!")
+	TransitionScene.transition_to_overworld_scene(
+		OverworldManager.saved_area_ids, OverworldManager.saved_player_position
+	)
