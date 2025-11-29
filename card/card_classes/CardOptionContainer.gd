@@ -31,6 +31,8 @@ func _setup_card() -> void:
 	card.create_costs()
 	card.set_cost_container()
 	card.custom_minimum_size = MapSettings.card_in_play_size * 3
+	print(card.custom_minimum_size)
+	card.update_minimum_size()
 	card_text_container.custom_minimum_size.x = card.size.x
 	card_text_container.size.x = card.size.x
 	card_text_container.custom_minimum_size.y = card.size.y / 2
@@ -54,32 +56,6 @@ func pick(event) -> void:
 		)
 	GameManager.turn_manager.set_turn_actions_enabled(true)
 	card_pick_screen.queue_free()
-
-
-func _set_costs() -> void:
-	for f in [
-		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Passion,
-			"Cost": card.card_data["Costs"][Collections.fibers.PASSION],
-		},
-		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Imagination,
-			"Cost": card.card_data["Costs"][Collections.fibers.IMAGINATION],
-		},
-		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Growth,
-			"Cost": card.card_data["Costs"][Collections.fibers.GROWTH],
-		},
-		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Logic,
-			"Cost": card.card_data["Costs"][Collections.fibers.LOGIC],
-		},
-	]:
-		f["Label"].text = str(f["Cost"])
-		if f["Cost"] == 0:
-			f["Label"].hide()
-		else:
-			f["Label"].show()
 
 
 func _get_card_range() -> int:

@@ -3,7 +3,13 @@ extends Node
 class_name BattleStats
 
 var card: Card
-var battle_stats_container: BattleStatsContainer
+
+var attack_range_container: AttackRangeContainer
+var health_container: HealthContainer
+var max_attack_container: MaxAttackContainer
+var min_attack_container: MinAttackContainer
+var movement_container: MovementContainer
+var shield_container: ShieldContainer
 
 var attack_range: int:
 	get = get_attack_range
@@ -53,21 +59,21 @@ func _init(
 
 
 func set_base_stats() -> void:
-	battle_stats_container.update_stat(Collections.stats.ATTACK_RANGE, base_attack_range)
-	battle_stats_container.update_stat(Collections.stats.HEALTH, base_health)
-	battle_stats_container.update_stat(Collections.stats.MAX_ATTACK, base_max_attack)
-	battle_stats_container.update_stat(Collections.stats.MIN_ATTACK, base_min_attack)
-	battle_stats_container.update_stat(Collections.stats.MOVEMENT, base_movement)
-	battle_stats_container.update_stat(Collections.stats.SHIELD, base_shield)
+	attack_range_container.update_stat(base_attack_range)
+	health_container.update_stat(base_health)
+	max_attack_container.update_stat(base_max_attack)
+	min_attack_container.update_stat(base_min_attack)
+	movement_container.update_stat(base_movement)
+	shield_container.update_stat(base_shield)
 
 
 func update_all_stats() -> void:
-	battle_stats_container.update_stat(Collections.stats.ATTACK_RANGE, attack_range)
-	battle_stats_container.update_stat(Collections.stats.HEALTH, health)
-	battle_stats_container.update_stat(Collections.stats.MAX_ATTACK, max_attack)
-	battle_stats_container.update_stat(Collections.stats.MIN_ATTACK, min_attack)
-	battle_stats_container.update_stat(Collections.stats.MOVEMENT, movement)
-	battle_stats_container.update_stat(Collections.stats.SHIELD, shield)
+	attack_range_container.update_stat(attack_range)
+	health_container.update_stat(health)
+	max_attack_container.update_stat(max_attack)
+	min_attack_container.update_stat(min_attack)
+	movement_container.update_stat(movement)
+	shield_container.update_stat(shield)
 
 
 func change_battle_stat(battle_stat: int, value: int, turn_duration: int) -> void:

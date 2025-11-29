@@ -1,4 +1,4 @@
-extends PanelContainer
+extends Control
 
 class_name Card
 
@@ -55,16 +55,31 @@ func hide_border():
 		remove_theme_stylebox_override("panel")
 
 
+
+func flip_card() -> void:
+	$TopInfo.size_flags_vertical = SIZE_EXPAND | SIZE_SHRINK_END
+	$CardImage.flip_v = true
+	for c in $BattleStats.get_children():
+		c.position.y -= 10
+
+
+func unflip_card() -> void:
+	$TopInfo.size_flags_vertical = SIZE_SHRINK_BEGIN
+	$CardImage.flip_v = false
+	for c in $BattleStats.get_children():
+		c.position.y += 10
+
+
 func set_card_name() -> void:
-	if !$VBox/TopInfo/CardNameBG/CardName.label_settings:
-		$VBox/TopInfo/CardNameBG/CardName.label_settings = LabelSettings.new()
+	if !$TopInfo/CardNameBG/CardName.label_settings:
+		$TopInfo/CardNameBG/CardName.label_settings = LabelSettings.new()
 	var font_size: float
 	font_size = round(size.x) / (
-		len($VBox/TopInfo/CardNameBG/CardName.text) * 0.1
+		len($TopInfo/CardNameBG/CardName.text) * 0.1
 	) * 0.04
 
-	$VBox/TopInfo/CardNameBG/CardName.label_settings.font_size = font_size
-	$VBox/TopInfo/CardNameBG/CardName.text = ingame_name
+	$TopInfo/CardNameBG/CardName.label_settings.font_size = font_size
+	$TopInfo/CardNameBG/CardName.text = ingame_name
 
 
 func load_card_properties() -> void:
@@ -85,27 +100,17 @@ func load_card_properties() -> void:
 		card_type = Collections.card_types.BOSS
 		fibers = card_data["fibers"]
 	
-	match card_class:
-		Collections.card_classes.CARD_IN_HAND:
-			if card_type == Collections.card_types.UNIT:
-				$VBox/BattleStatsContainer.hide()
-			else:
-				set_card_range()
-	
-		Collections.card_classes.CARD_OPTION:
-			set_card_image()
-			if card_type == Collections.card_types.SPELL:
-				set_card_range()
-			else:
-				_create_battle_stats()
-		_:
-			set_card_image()
-			if card_type in [Collections.card_types.UNIT, Collections.card_types.BOSS]:
-				_create_battle_stats()
+	if card_type == Collections.card_types.SPELL:
+		set_card_range()
+	else:
+		_create_battle_stats()
 	
 	set_card_name()
 	if !is_boss:
 		set_cost_container()
+	
+	if card_class != Collections.card_classes.CARD_IN_HAND:
+		set_card_image()
 
 
 func _create_battle_stats() -> void:
@@ -118,19 +123,22 @@ func _create_battle_stats() -> void:
 		self
 	)
 	
-	battle_stats.battle_stats_container = $VBox/BattleStatsContainer
+	battle_stats.attack_range_container = $BattleStats/AttackRange
+	battle_stats.health_container = $BattleStats/Health
+	battle_stats.max_attack_container = $BattleStats/MaxAttack
+	battle_stats.min_attack_container = $BattleStats/MinAttack
+	battle_stats.shield_container = $BattleStats/Shield
+	battle_stats.movement_container = $BattleStats/Movement
 	battle_stats.set_base_stats()
 
 
 func set_card_range() -> void:
-	for child in $VBox/BattleStatsContainer/HBoxContainer.get_children():
-		child.hide()
+	if card_class != Collections.card_classes.CARD_IN_HAND:
+		$BattleStats.hide()
 	
-	$VBox/BattleStatsContainer/HBoxContainer/AttackRangeContainer.show()
+	$CardRange.show()
 	card_range = card_data["CardRange"]
-	$VBox/BattleStatsContainer/HBoxContainer/AttackRangeContainer/AttackRangeLabel.text = str(
-		card_range
-	)
+	$CardRange.update_stat(card_range)
 
 
 func set_card_image() -> void:
@@ -150,19 +158,19 @@ func create_costs() -> void:
 func set_cost_container() -> void:
 	for f in [
 		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Passion,
+			"Label": $TopInfo/Costs/CostLabels/Passion,
 			"Cost": costs.passion,
 		},
 		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Imagination,
+			"Label": $TopInfo/Costs/CostLabels/Imagination,
 			"Cost": costs.imagination,
 		},
 		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Growth,
+			"Label": $TopInfo/Costs/CostLabels/Growth,
 			"Cost": costs.growth,
 		},
 		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Logic,
+			"Label": $TopInfo/Costs/CostLabels/Logic,
 			"Cost": costs.logic,
 		},
 	]:

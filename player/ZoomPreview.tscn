@@ -1,19 +1,21 @@
-[gd_scene load_steps=7 format=3 uid="uid://c6a7g6p6nipw5"]
+[gd_scene load_steps=13 format=3 uid="uid://c6a7g6p6nipw5"]
 
 [ext_resource type="Script" path="res://player/ZoomPreview.gd" id="1_r7o1p"]
 [ext_resource type="LabelSettings" uid="uid://dq5kctg5dkitl" path="res://styling/labels/PassionLabel.tres" id="2_74eys"]
-[ext_resource type="PackedScene" uid="uid://c32bmd2ws8smt" path="res://card/card_assets/BattleStatsContainer.tscn" id="2_i0p7x"]
 [ext_resource type="LabelSettings" uid="uid://nx6f46ywtswa" path="res://styling/labels/ImaginationLabel.tres" id="3_3pj2f"]
 [ext_resource type="LabelSettings" uid="uid://ihox33scd0t8" path="res://styling/labels/GrowthLabel.tres" id="4_2frst"]
 [ext_resource type="LabelSettings" uid="uid://bpbd72h7s4e60" path="res://styling/labels/LogicLabel.tres" id="5_7mw88"]
+[ext_resource type="PackedScene" uid="uid://bpmp8b8lq0cae" path="res://card/card_assets/battle_stats/MaxAttackContainer.tscn" id="7_5p8jk"]
+[ext_resource type="PackedScene" uid="uid://b5o3q1elbfw2s" path="res://card/card_assets/battle_stats/AttackRangeContainer.tscn" id="8_md7nh"]
+[ext_resource type="PackedScene" uid="uid://dsgro6ydybm3n" path="res://card/card_assets/battle_stats/MinAttackContainer.tscn" id="9_e3ydx"]
+[ext_resource type="PackedScene" uid="uid://rcibotjh5ka3" path="res://card/card_assets/battle_stats/MovementContainer.tscn" id="10_tqfsx"]
+[ext_resource type="PackedScene" uid="uid://bwurc7k2kal33" path="res://card/card_assets/battle_stats/HealthContainer.tscn" id="11_lrh4g"]
+[ext_resource type="PackedScene" uid="uid://dpa1xkh6x0csa" path="res://card/card_assets/battle_stats/ShieldContainer.tscn" id="12_5bw1i"]
+[ext_resource type="PackedScene" uid="uid://0j1v3isipc57" path="res://card/card_assets/battle_stats/CardRangeContainer.tscn" id="13_7prnt"]
 
 [node name="ZoomPreview" type="PanelContainer"]
-custom_minimum_size = Vector2(200, 200)
-anchors_preset = -1
-anchor_right = 0.174
-anchor_bottom = 0.309
-offset_right = -0.447998
-offset_bottom = -0.231995
+offset_right = 205.0
+offset_bottom = 204.0
 script = ExtResource("1_r7o1p")
 
 [node name="CardImage" type="TextureRect" parent="."]
@@ -21,18 +23,16 @@ texture_filter = 1
 layout_mode = 2
 expand_mode = 3
 
-[node name="VBox" type="VBoxContainer" parent="."]
-layout_mode = 2
-
-[node name="TopInfo" type="HBoxContainer" parent="VBox"]
+[node name="TopInfo" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(150, 30)
 layout_mode = 2
+size_flags_vertical = 0
 
-[node name="CardNameBG" type="Panel" parent="VBox/TopInfo"]
+[node name="CardNameBG" type="Panel" parent="TopInfo"]
 custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
 
-[node name="CardName" type="Label" parent="VBox/TopInfo/CardNameBG"]
+[node name="CardName" type="Label" parent="TopInfo/CardNameBG"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -41,12 +41,12 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Animal"
 
-[node name="Costs" type="Panel" parent="VBox/TopInfo"]
+[node name="Costs" type="Panel" parent="TopInfo"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 size_flags_horizontal = 10
 
-[node name="CostLabels" type="HBoxContainer" parent="VBox/TopInfo/Costs"]
+[node name="CostLabels" type="HBoxContainer" parent="TopInfo/Costs"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -54,26 +54,78 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Passion" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
+[node name="Passion" type="Label" parent="TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
 label_settings = ExtResource("2_74eys")
 
-[node name="Imagination" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
+[node name="Imagination" type="Label" parent="TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
 label_settings = ExtResource("3_3pj2f")
 
-[node name="Growth" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
+[node name="Growth" type="Label" parent="TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
 label_settings = ExtResource("4_2frst")
 
-[node name="Logic" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
+[node name="Logic" type="Label" parent="TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
 label_settings = ExtResource("5_7mw88")
 
-[node name="BattleStatsContainer" parent="VBox" instance=ExtResource("2_i0p7x")]
+[node name="BattleStats" type="Control" parent="."]
 layout_mode = 2
-size_flags_vertical = 10
+mouse_filter = 2
+
+[node name="MaxAttack" parent="BattleStats" instance=ExtResource("7_5p8jk")]
+layout_mode = 2
+offset_left = 2.0
+offset_top = 55.0
+offset_right = 52.0
+offset_bottom = 89.0
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="AttackRange" parent="BattleStats" instance=ExtResource("8_md7nh")]
+custom_minimum_size = Vector2(5, 5)
+layout_mode = 0
+offset_left = 23.0
+offset_top = 163.0
+offset_right = 67.0
+offset_bottom = 191.0
+
+[node name="MinAttack" parent="BattleStats" instance=ExtResource("9_e3ydx")]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 100.0
+offset_right = 56.0
+offset_bottom = 134.0
+
+[node name="Movement" parent="BattleStats" instance=ExtResource("10_tqfsx")]
+layout_mode = 0
+offset_left = 89.0
+offset_top = 157.0
+offset_right = 148.0
+offset_bottom = 196.0
+
+[node name="Health" parent="BattleStats" instance=ExtResource("11_lrh4g")]
+layout_mode = 0
+offset_left = 148.0
+offset_top = 66.0
+offset_right = 197.0
+offset_bottom = 98.0
+
+[node name="Shield" parent="BattleStats" instance=ExtResource("12_5bw1i")]
+layout_mode = 0
+offset_left = 152.0
+offset_top = 112.0
+offset_right = 196.0
+offset_bottom = 140.0
+
+[node name="CardRange" parent="." instance=ExtResource("13_7prnt")]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+mouse_filter = 2

@@ -29,6 +29,7 @@ var next_boss_ability := {
 func _ready():
 	card_class = Collections.card_classes.CARD_IN_PLAY
 	scale *= MapSettings.card_in_play_size / size
+	$BattleStats.scale *= MapSettings.card_in_play_size / size
 	load_card_properties()
 	set_position_to_play_space()
 	
@@ -377,21 +378,6 @@ func update_stats() -> void:
 	battle_stats.update_all_stats()
 
 
-func flip_card() -> void:
-	$VBox.move_child($VBox/BattleStatsContainer, 0)
-	$VBox/BattleStatsContainer.size_flags_vertical = SIZE_SHRINK_BEGIN
-	$VBox/TopInfo.size_flags_vertical = SIZE_EXPAND | SIZE_SHRINK_END
-	$CardImage.flip_v = true
-
-
-func unflip_card() -> void:
-	$VBox.move_child($VBox/BotInfo, 1)
-	$VBox/TopInfo.size_flags_vertical = SIZE_SHRINK_BEGIN
-	$VBox/BattleStatsContainer.size_flags_vertical = SIZE_EXPAND | SIZE_SHRINK_END
-	$VBox/BattleStatsContainer.size_flags_vertical = SIZE_EXPAND | SIZE_SHRINK_END
-	$CardImage.flip_v = false
-
-
 func _is_resolve_spell_agreed() -> bool:
 	Events.show_instructions.emit("Awaiting opponent agreement to spell resolve...")
 
@@ -416,15 +402,15 @@ func create_card_action_menu() -> void:
 
 
 func set_card_name() -> void:
-	if !$VBox/TopInfo/CardNameBG/CardName.label_settings:
-		$VBox/TopInfo/CardNameBG/CardName.label_settings = LabelSettings.new()
+	if !$TopInfo/CardNameBG/CardName.label_settings:
+		$TopInfo/CardNameBG/CardName.label_settings = LabelSettings.new()
 	var font_size: float
 	font_size = round(MapSettings.play_space_size.x) / (
-		len($VBox/TopInfo/CardNameBG/CardName.text) * 0.05
+		len($TopInfo/CardNameBG/CardName.text) * 0.05
 	) * 0.04
 
-	$VBox/TopInfo/CardNameBG/CardName.label_settings.font_size = font_size
-	$VBox/TopInfo/CardNameBG/CardName.text = ingame_name
+	$TopInfo/CardNameBG/CardName.label_settings.font_size = font_size
+	$TopInfo/CardNameBG/CardName.text = ingame_name
 	
 
 func set_position_to_play_space() -> void:
