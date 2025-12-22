@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bbj875rtq661k"
-path="res://.godot/imported/MovementIcon.png-16836ec36ee7a749e39362925677eba0.ctex"
+uid="uid://ceup780a4vcoc"
+path="res://.godot/imported/Dinosaur.png-7df03074bee184ec3d210ef2238707be.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/MovementIcon.png"
-dest_files=["res://.godot/imported/MovementIcon.png-16836ec36ee7a749e39362925677eba0.ctex"]
+source_file="res://assets/card_images/growth/Dinosaur.png"
+dest_files=["res://.godot/imported/Dinosaur.png-7df03074bee184ec3d210ef2238707be.ctex"]
 
 [params]
 

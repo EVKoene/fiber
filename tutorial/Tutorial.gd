@@ -199,8 +199,8 @@ func _card_health() -> void:
 func _card_shield() -> void:
 	is_awaiting_tutorial_input = false
 	battle_map.show_tutorial_text(
-		"The final number is the cards shield. Attack that hit a unit will deplete its shield 
-		first before subtracting from health.\n\n(Click to continue)"
+		"The final number is the cards shield. Every time damage is dealt to the unit, first subtract
+		the shield amount.\n\n(Click to continue)"
 	)
 	var arrow_position := Vector2(
 		GameManager.zoom_preview.position.x + GameManager.zoom_preview.size.x * 1.7,

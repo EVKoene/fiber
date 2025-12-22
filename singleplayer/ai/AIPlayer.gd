@@ -15,6 +15,7 @@ var boss: CardInPlay
 func play_turn() -> void:
 	use_boss_ability()
 	boss.prepare_next_turn_boss_ability()
+	
 	await play_playable_cards()
 	await GameManager.battle_map.get_tree().create_timer(0.25).timeout
 	await use_cards_in_play()
@@ -26,8 +27,10 @@ func play_turn() -> void:
 
 
 func use_boss_ability() -> void:
-	var boss_ability: String = boss.call(boss.next_boss_ability["Func"])
-	GameManager.battle_map.show_text(boss_ability)
+	boss.call(boss.next_boss_ability["Func"])
+	boss.call(boss.next_boss_ability["CleanUp"])
+	GameManager.battle_map.show_text(boss.next_boss_ability["Text"])
+	
 	
 func draw_start_of_turn_card() -> void:
 	if !NPCDatabase.npc_data[GameManager.players[GameManager.ai_player_id]["NPCID"]]["PlayCards"]:
@@ -109,10 +112,16 @@ func play_card(card: CardInHand) -> bool:
 
 
 func use_cards_in_play() -> void:
+	for c in GameManager.cards_in_play[player_id]:
+		c.is_awaiting_ai_decision = true
+	
 	var using_actions := true
 	while using_actions:
 		using_actions = false
 		for c in GameManager.cards_in_play[player_id]:
+			if !c.is_awaiting_ai_decision:
+				continue
+			
 			if !c.exhausted and !game_over:
 				using_actions = await CardActionDecider.use_card_action(c)
 				if using_actions and !game_over:

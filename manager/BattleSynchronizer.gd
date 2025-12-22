@@ -26,8 +26,9 @@ func exhaust_unit(card_owner_id: int, cip_index: int):
 
 @rpc("any_peer", "call_local")
 func resolve_damage(card_owner_id, cip_index, value):
-	var min_value: int = max(0, value)
 	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
+	var damage = value - card.battle_stats.shield
+	var min_value: int = max(0, damage)
 	var damage_number = Label.new()
 	card.add_child(damage_number)
 	damage_number.scale *= MapSettings.card_in_play_size * 0.9 / damage_number.size
@@ -46,18 +47,7 @@ func resolve_damage(card_owner_id, cip_index, value):
 	if min_value > 0:
 		card.shake()
 
-	shield_damage(card, min_value)
 	reduce_health(card, min_value)
-
-
-func shield_damage(card: CardInPlay, value: int) -> int:
-	var damage_after_shield: int = max(0, card.battle_stats.shield - value)
-
-	CardManipulation.change_battle_stat(
-		Collections.stats.SHIELD, card.card_owner_id, card.card_in_play_index, -value, -1
-	)
-
-	return damage_after_shield
 
 
 func reduce_health(card: CardInPlay, value: int) -> void:

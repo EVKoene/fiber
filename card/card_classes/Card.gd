@@ -1,4 +1,4 @@
-extends PanelContainer
+extends Control
 
 class_name Card
 
@@ -55,16 +55,49 @@ func hide_border():
 		remove_theme_stylebox_override("panel")
 
 
+
+func highlight_stat(stat: int) -> void:
+	match stat:
+		Collections.stats.ATTACK_RANGE:
+			$Vbox/BattleStatsContainer/AttackRange.highlight_stat()
+		Collections.stats.HEALTH:
+			$Vbox/BattleStatsContainer/DefenseBox/Health.highlight_stat()
+		Collections.stats.MAX_ATTACK:
+			$Vbox/BattleStatsContainer/AttackBox/MaxAttack.highlight_stat()
+		Collections.stats.MIN_ATTACK:
+			$Vbox/BattleStatsContainer/AttackBox/MinAttack.highlight_stat()
+		Collections.stats.MOVEMENT:
+			$Vbox/BattleStatsContainer/Movement.highlight_stat()
+		Collections.stats.SHIELD:
+			$Vbox/BattleStatsContainer/DefenseBox/Shield.highlight_stat()
+
+
+func hide_stat_border(stat: int) -> void:
+	match stat:
+		Collections.stats.ATTACK_RANGE:
+			$Vbox/BattleStatsContainer/AttackRange.hide_border()
+		Collections.stats.HEALTH:
+			$Vbox/BattleStatsContainer/DefenseBox/Health.hide_border()
+		Collections.stats.MAX_ATTACK:
+			$Vbox/BattleStatsContainer/AttackBox/MaxAttack.hide_border()
+		Collections.stats.MIN_ATTACK:
+			$Vbox/BattleStatsContainer/AttackBox/MinAttack.hide_border()
+		Collections.stats.MOVEMENT:
+			$Vbox/BattleStatsContainer/Movement.hide_border()
+		Collections.stats.SHIELD:
+			$Vbox/BattleStatsContainer/DefenseBox/Shield.hide_border()
+
+
 func set_card_name() -> void:
-	if !$VBox/TopInfo/CardNameBG/CardName.label_settings:
-		$VBox/TopInfo/CardNameBG/CardName.label_settings = LabelSettings.new()
+	if !$Vbox/TopInfo/CardNameBG/CardName.label_settings:
+		$Vbox/TopInfo/CardNameBG/CardName.label_settings = LabelSettings.new()
 	var font_size: float
 	font_size = round(size.x) / (
-		len($VBox/TopInfo/CardNameBG/CardName.text) * 0.1
+		len($Vbox/TopInfo/CardNameBG/CardName.text) * 0.1
 	) * 0.04
 
-	$VBox/TopInfo/CardNameBG/CardName.label_settings.font_size = font_size
-	$VBox/TopInfo/CardNameBG/CardName.text = ingame_name
+	$Vbox/TopInfo/CardNameBG/CardName.label_settings.font_size = font_size
+	$Vbox/TopInfo/CardNameBG/CardName.text = ingame_name
 
 
 func load_card_properties() -> void:
@@ -85,27 +118,17 @@ func load_card_properties() -> void:
 		card_type = Collections.card_types.BOSS
 		fibers = card_data["fibers"]
 	
-	match card_class:
-		Collections.card_classes.CARD_IN_HAND:
-			if card_type == Collections.card_types.UNIT:
-				$VBox/BattleStatsContainer.hide()
-			else:
-				set_card_range()
-	
-		Collections.card_classes.CARD_OPTION:
-			set_card_image()
-			if card_type == Collections.card_types.SPELL:
-				set_card_range()
-			else:
-				_create_battle_stats()
-		_:
-			set_card_image()
-			if card_type in [Collections.card_types.UNIT, Collections.card_types.BOSS]:
-				_create_battle_stats()
+	if card_type == Collections.card_types.SPELL:
+		set_card_range()
+	else:
+		_create_battle_stats()
 	
 	set_card_name()
 	if !is_boss:
 		set_cost_container()
+	
+	if card_class != Collections.card_classes.CARD_IN_HAND:
+		set_card_image()
 
 
 func _create_battle_stats() -> void:
@@ -118,19 +141,26 @@ func _create_battle_stats() -> void:
 		self
 	)
 	
-	battle_stats.battle_stats_container = $VBox/BattleStatsContainer
+	set_battle_stats_containers()
+
+
+func set_battle_stats_containers() -> void:
+	battle_stats.attack_range_container = $Vbox/BattleStatsContainer/AttackRange
+	battle_stats.health_container = $Vbox/BattleStatsContainer/DefenseBox/Health
+	battle_stats.max_attack_container = $Vbox/BattleStatsContainer/AttackBox/MaxAttack
+	battle_stats.min_attack_container = $Vbox/BattleStatsContainer/AttackBox/MinAttack
+	battle_stats.shield_container = $Vbox/BattleStatsContainer/DefenseBox/Shield
+	battle_stats.movement_container = $Vbox/BattleStatsContainer/Movement
 	battle_stats.set_base_stats()
 
 
 func set_card_range() -> void:
-	for child in $VBox/BattleStatsContainer/HBoxContainer.get_children():
-		child.hide()
+	if card_class != Collections.card_classes.CARD_IN_HAND:
+		$Vbox/BattleStatsContainer.hide()
 	
-	$VBox/BattleStatsContainer/HBoxContainer/AttackRangeContainer.show()
+	$Vbox/CardRange.show()
 	card_range = card_data["CardRange"]
-	$VBox/BattleStatsContainer/HBoxContainer/AttackRangeContainer/AttackRangeLabel.text = str(
-		card_range
-	)
+	$Vbox/CardRange.update_stat(card_range)
 
 
 func set_card_image() -> void:
@@ -150,19 +180,19 @@ func create_costs() -> void:
 func set_cost_container() -> void:
 	for f in [
 		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Passion,
+			"Label": $Vbox/TopInfo/Costs/CostLabels/Passion,
 			"Cost": costs.passion,
 		},
 		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Imagination,
+			"Label": $Vbox/TopInfo/Costs/CostLabels/Imagination,
 			"Cost": costs.imagination,
 		},
 		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Growth,
+			"Label": $Vbox/TopInfo/Costs/CostLabels/Growth,
 			"Cost": costs.growth,
 		},
 		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Logic,
+			"Label": $Vbox/TopInfo/Costs/CostLabels/Logic,
 			"Cost": costs.logic,
 		},
 	]:

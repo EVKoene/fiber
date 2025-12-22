@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://b5o3q1elbfw2s"]
+
+[ext_resource type="Script" path="res://card/card_assets/battle_stats/AttackRangeContainer.gd" id="1_ntgd5"]
+[ext_resource type="Texture2D" uid="uid://byv3n4y2vkvu3" path="res://assets/icons/AttackRangeIcon.png" id="2_68l0x"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4t2iy"]
+bg_color = Color(0, 0, 0, 0.196078)
+
+[node name="AttackRange" type="PanelContainer"]
+offset_right = 30.0
+offset_bottom = 30.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_4t2iy")
+script = ExtResource("1_ntgd5")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
+custom_minimum_size = Vector2(5, 5)
+layout_mode = 2
+texture = ExtResource("2_68l0x")
+expand_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_font_sizes/font_size = 20
+text = "1"

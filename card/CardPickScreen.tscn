@@ -6,7 +6,6 @@
 bg_color = Color(0.303233, 0.303233, 0.303233, 0.431373)
 
 [node name="CardPickScreen" type="Panel"]
-anchors_preset = -1
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3

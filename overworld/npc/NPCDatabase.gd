@@ -106,7 +106,21 @@ var npc_data: Dictionary = {
 		"Name": "Gamza",
 		"Dialogue": ["Your adventure stops with me."],
 		"Battle": true,
+		"StartingUnits": {
+			0: {
+				"CardIndex": CardDatabase.cards.WIND_GOLEM,
+				"Column": 0,
+				"Row": 3
+			},
+			1: {
+				"CardIndex": CardDatabase.cards.WIND_GOLEM,
+				"Column": 8,
+				"Row": 3
+			}
+		},
 		"DeckID": DeckCollection.deck_ids.LOGIC_FACTORY,
+		"BossCard": BossCardDatabase.boss_cards.ZAIA,
+		"PlayCards": false,
 		"CharacterModel": character_types.GENERIC_GIRL_1,
 	},
 	### PASION_LEVEL_1 ###

@@ -46,25 +46,20 @@ func preview_hand_card(card: CardInHand, lock_card: bool) -> void:
 	img_path = card.img_path
 
 	if card_type in [Collections.card_types.UNIT, Collections.card_types.BOSS]:
-		for child in $VBox/BattleStatsContainer/HBoxContainer.get_children():
-			child.show()
-		$VBox/BattleStatsContainer.update_stat(Collections.stats.ATTACK_RANGE, card.attack_range)
-		$VBox/BattleStatsContainer.update_stat(Collections.stats.HEALTH, card.health)
-		$VBox/BattleStatsContainer.update_stat(Collections.stats.MAX_ATTACK, card.max_attack)
-		$VBox/BattleStatsContainer.update_stat(Collections.stats.MIN_ATTACK, card.min_attack)
-		$VBox/BattleStatsContainer.update_stat(Collections.stats.MOVEMENT, card.movement)
-		$VBox/BattleStatsContainer.update_stat(Collections.stats.SHIELD, card.shield)
+		$Vbox/BattleStatsContainer.show()
+		$Vbox/CardRange.hide()
+		$Vbox/BattleStatsContainer/AttackRange.update_stat(card.attack_range)
+		$Vbox/BattleStatsContainer/DefenseBox/Health.update_stat(card.health)
+		$Vbox/BattleStatsContainer/AttackBox/MaxAttack.update_stat(card.max_attack)
+		$Vbox/BattleStatsContainer/AttackBox/MinAttack.update_stat(card.min_attack)
+		$Vbox/BattleStatsContainer/Movement.update_stat(card.movement)
+		$Vbox/BattleStatsContainer/DefenseBox/Shield.update_stat(card.shield)
 		
 	else:
-		for child in $VBox/BattleStatsContainer/HBoxContainer.get_children():
-			child.hide()
-		$VBox/BattleStatsContainer/HBoxContainer/AttackRangeContainer.show()
-		$VBox/BattleStatsContainer/HBoxContainer/AttackRangeContainer/AttackRangeLabel.text = str(
-			card.card_range
-		)
+		$Vbox/CardRange.show()
+		$Vbox/CardRange.update_stat(card_range)
 	
 	$CardImage.show()
-	$VBox.show()
 	_set_costs_labels()
 	_set_border_to_faction()
 	$CardImage.texture = load(img_path)
@@ -89,17 +84,15 @@ func preview_card_in_play(card: CardInPlay, lock_card: bool) -> void:
 	fibers = card.fibers
 	img_path = card.img_path
 
-	for child in $VBox/BattleStatsContainer/HBoxContainer.get_children():
-		child.show()
-	$VBox/BattleStatsContainer.update_stat(Collections.stats.ATTACK_RANGE, card.battle_stats.attack_range)
-	$VBox/BattleStatsContainer.update_stat(Collections.stats.HEALTH, card.battle_stats.health)
-	$VBox/BattleStatsContainer.update_stat(Collections.stats.MAX_ATTACK, card.battle_stats.max_attack)
-	$VBox/BattleStatsContainer.update_stat(Collections.stats.MIN_ATTACK, card.battle_stats.min_attack)
-	$VBox/BattleStatsContainer.update_stat(Collections.stats.MOVEMENT, card.battle_stats.movement)
-	$VBox/BattleStatsContainer.update_stat(Collections.stats.SHIELD, card.battle_stats.shield)
-		
+	$Vbox/BattleStatsContainer.show()
+	$Vbox/BattleStatsContainer/AttackRange.update_stat(card.battle_stats.attack_range)
+	$Vbox/BattleStatsContainer/DefenseBox/Health.update_stat(card.battle_stats.health)
+	$Vbox/BattleStatsContainer/AttackBox/MaxAttack.update_stat(card.battle_stats.max_attack)
+	$Vbox/BattleStatsContainer/AttackBox/MinAttack.update_stat(card.battle_stats.min_attack)
+	$Vbox/BattleStatsContainer/Movement.update_stat(card.battle_stats.movement)
+	$Vbox/BattleStatsContainer/DefenseBox/Shield.update_stat(card.battle_stats.shield)
+	
 	$CardImage.show()
-	$VBox.show()
 	_set_costs_labels()
 	_set_border_to_faction()
 	$CardImage.texture = load(img_path)
@@ -127,18 +120,20 @@ func preview_card_index(card_index, lock_card: bool) -> void:
 	img_path = card_data["IMGPath"]
 
 	if card_type == Collections.card_types.UNIT:
-		$VBox/BattleStatsContainer.show()
-		$VBox/BattleStatsContainer.update_stat(Collections.stats.ATTACK_RANGE, card_data["AttackRange"])
-		$VBox/BattleStatsContainer.update_stat(Collections.stats.MAX_ATTACK, card_data["MaxAttack"])
-		$VBox/BattleStatsContainer.update_stat(Collections.stats.MIN_ATTACK, card_data["MinAttack"])
-		$VBox/BattleStatsContainer.update_stat(Collections.stats.MOVEMENT, card_data["Movement"])
-		$VBox/BattleStatsContainer.update_stat(Collections.stats.HEALTH, card_data["Health"])
-		$VBox/BattleStatsContainer.update_stat(Collections.stats.SHIELD, 0)
+		$Vbox/BattleStatsContainer.show()
+		$Vbox/BattleStatsContainer/AttackRange.update_stat(card_data["AttackRange"])
+		$Vbox/BattleStatsContainer/DefenseBox/Health.update_stat(card_data["Health"])
+		$Vbox/BattleStatsContainer/AttackBox/MaxAttack.update_stat(card_data["MaxAttack"])
+		$Vbox/BattleStatsContainer/AttackBox/MinAttack.update_stat(card_data["MinAttack"])
+		$Vbox/BattleStatsContainer/Movement.update_stat(card_data["Movement"])
+		$Vbox/BattleStatsContainer/DefenseBox/Shield.update_stat(0)
+		$Vbox/CardRange.hide()
+		
 	else:
-		$VBox/BattleStatsContainer.hide()
+		$Vbox/BattleStatsContainer.hide()
+		$Vbox/CardRange.show()
 	
 	$CardImage.show()
-	$VBox.show()
 	_set_costs_labels()
 	_set_border_to_faction()
 	$CardImage.texture = load(img_path)
@@ -155,7 +150,9 @@ func reset_zoom_preview() -> void:
 	fibers = []
 	img_path = ""
 	$CardImage.hide()
-	$VBox.hide()
+	$Vbox/TopInfo.hide()
+	$Vbox/BattleStatsContainer.hide()
+	$Vbox/CardRange.hide()
 	_set_costs_labels()
 	get_theme_stylebox("panel").set_border_width_all(0)
 
@@ -165,7 +162,7 @@ func reset_zoom_preview() -> void:
 
 
 func set_card_text(card_text: String) -> void:
-	$VBox/TopInfo/CardNameBG/CardName.text = ingame_name
+	$Vbox/TopInfo/CardNameBG/CardName.text = ingame_name
 	if len(card_text) == 0:
 		card_text_container.hide()
 	else:
@@ -174,27 +171,27 @@ func set_card_text(card_text: String) -> void:
 
 
 func _set_container_sizes() -> void:
-	$VBox/TopInfo/CardNameBG.custom_minimum_size.x = size.x * 0.6
-	$VBox/TopInfo/CardNameBG.custom_minimum_size.y = size.y * 0.15
-	$VBox/TopInfo/Costs.custom_minimum_size.x = size.x * 0.3
+	$Vbox/TopInfo/CardNameBG.custom_minimum_size.x = size.x * 0.6
+	$Vbox/TopInfo/CardNameBG.custom_minimum_size.y = size.y * 0.15
+	$Vbox/TopInfo/Costs.custom_minimum_size.x = size.x * 0.3
 
 
 func _set_costs_labels() -> void:
 	for f in [
 		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Passion,
+			"Label": $Vbox/TopInfo/Costs/CostLabels/Passion,
 			"Cost": passion_cost,
 		},
 		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Imagination,
+			"Label": $Vbox/TopInfo/Costs/CostLabels/Imagination,
 			"Cost": imagination_cost,
 		},
 		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Growth,
+			"Label": $Vbox/TopInfo/Costs/CostLabels/Growth,
 			"Cost": growth_cost,
 		},
 		{
-			"Label": $VBox/TopInfo/Costs/CostLabels/Logic,
+			"Label": $Vbox/TopInfo/Costs/CostLabels/Logic,
 			"Cost": logic_cost,
 		},
 	]:
@@ -218,5 +215,5 @@ func _add_border() -> void:
 
 func _add_cost_background() -> void:
 	var background := StyleBoxFlat.new()
-	$VBox/TopInfo/Costs.add_theme_stylebox_override("panel", background)
+	$Vbox/TopInfo/Costs.add_theme_stylebox_override("panel", background)
 	background.set("bg_color", Color("bdbdbd"))

@@ -1,5 +1,9 @@
 extends Node
 
+
+@onready var card_scene: PackedScene = preload("res://card/card_classes/Card.tscn")
+
+
 @rpc("any_peer", "call_local")
 func destroy(card_owner_id: int, cip_index: int) -> void:
 	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
@@ -45,3 +49,20 @@ func hide_all_borders() -> void:
 func hide_border(card_owner_id: int, cip_index: int):
 	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
 	card.hide_border()
+
+
+func show_card_dummy(card_index: int, ps: PlaySpace) -> Card:
+	var card: Card = card_scene.instantiate()
+	card.card_class = Collections.card_classes.CARD_IN_PLAY
+	card.card_index = card_index
+	card.load_card_properties()
+	GameManager.battle_map.add_child(card)
+	
+	card.position.x = MapSettings.get_column_start_x(ps.column) + MapSettings.play_space_size.x * 0.05
+	card.position.y = MapSettings.get_row_start_y(ps.row) + MapSettings.play_space_size.y * 0.05
+	card.z_index = 100
+	
+	card.scale *= MapSettings.card_in_play_size / card.size
+	card.modulate = Color(1, 1, 1, 0.25)
+	
+	return card

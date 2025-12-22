@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bvdxpxcn1a682"]
+[gd_scene load_steps=16 format=3 uid="uid://bvdxpxcn1a682"]
 
 [ext_resource type="Script" path="res://card/card_classes/Card.gd" id="1_imagf"]
 [ext_resource type="Texture2D" uid="uid://dfqpr30rdgsec" path="res://assets/card_images/passion/Gorilla.png" id="2_ff6d5"]
@@ -6,10 +6,19 @@
 [ext_resource type="LabelSettings" uid="uid://nx6f46ywtswa" path="res://styling/labels/ImaginationLabel.tres" id="4_xwoqa"]
 [ext_resource type="LabelSettings" uid="uid://ihox33scd0t8" path="res://styling/labels/GrowthLabel.tres" id="5_3flbj"]
 [ext_resource type="LabelSettings" uid="uid://bpbd72h7s4e60" path="res://styling/labels/LogicLabel.tres" id="6_76nxn"]
-[ext_resource type="PackedScene" uid="uid://c32bmd2ws8smt" path="res://card/card_assets/BattleStatsContainer.tscn" id="7_1fac0"]
+[ext_resource type="PackedScene" uid="uid://bpmp8b8lq0cae" path="res://card/card_assets/battle_stats/MaxAttackContainer.tscn" id="7_ovqyp"]
+[ext_resource type="PackedScene" uid="uid://b5o3q1elbfw2s" path="res://card/card_assets/battle_stats/AttackRangeContainer.tscn" id="8_vk15k"]
+[ext_resource type="PackedScene" uid="uid://dsgro6ydybm3n" path="res://card/card_assets/battle_stats/MinAttackContainer.tscn" id="9_yx8vx"]
+[ext_resource type="PackedScene" uid="uid://rcibotjh5ka3" path="res://card/card_assets/battle_stats/MovementContainer.tscn" id="10_1fydv"]
+[ext_resource type="PackedScene" uid="uid://bwurc7k2kal33" path="res://card/card_assets/battle_stats/HealthContainer.tscn" id="11_huv37"]
+[ext_resource type="PackedScene" uid="uid://dpa1xkh6x0csa" path="res://card/card_assets/battle_stats/ShieldContainer.tscn" id="12_8kb7d"]
+[ext_resource type="PackedScene" uid="uid://0j1v3isipc57" path="res://card/card_assets/battle_stats/CardRangeContainer.tscn" id="13_7mx8s"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ys6ov"]
 bg_color = Color(0.741385, 0.741385, 0.741384, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hwd81"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [node name="Card" type="PanelContainer"]
 custom_minimum_size = Vector2(200, 200)
@@ -22,23 +31,23 @@ mouse_filter = 2
 texture = ExtResource("2_ff6d5")
 expand_mode = 3
 
-[node name="VBox" type="VBoxContainer" parent="."]
+[node name="Vbox" type="VBoxContainer" parent="."]
 layout_mode = 2
-mouse_filter = 2
 
-[node name="TopInfo" type="HBoxContainer" parent="VBox"]
+[node name="TopInfo" type="HBoxContainer" parent="Vbox"]
 custom_minimum_size = Vector2(150, 30)
 layout_mode = 2
+size_flags_vertical = 0
 mouse_filter = 2
 
-[node name="CardNameBG" type="Panel" parent="VBox/TopInfo"]
+[node name="CardNameBG" type="Panel" parent="Vbox/TopInfo"]
 custom_minimum_size = Vector2(120, 30)
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
 mouse_filter = 2
 
-[node name="CardName" type="Label" parent="VBox/TopInfo/CardNameBG"]
+[node name="CardName" type="Label" parent="Vbox/TopInfo/CardNameBG"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -48,42 +57,87 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Animal"
 
-[node name="Costs" type="Panel" parent="VBox/TopInfo"]
+[node name="Costs" type="Panel" parent="Vbox/TopInfo"]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 size_flags_horizontal = 10
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ys6ov")
 
-[node name="CostLabels" type="HBoxContainer" parent="VBox/TopInfo/Costs"]
+[node name="CostLabels" type="HBoxContainer" parent="Vbox/TopInfo/Costs"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 mouse_filter = 2
 
-[node name="Passion" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
+[node name="Passion" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
 label_settings = ExtResource("3_l4na0")
 
-[node name="Imagination" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
+[node name="Imagination" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
 label_settings = ExtResource("4_xwoqa")
 
-[node name="Growth" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
+[node name="Growth" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
 label_settings = ExtResource("5_3flbj")
 
-[node name="Logic" type="Label" parent="VBox/TopInfo/Costs/CostLabels"]
+[node name="Logic" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
 label_settings = ExtResource("6_76nxn")
 
-[node name="BattleStatsContainer" parent="VBox" instance=ExtResource("7_1fac0")]
+[node name="BattleStatsContainer" type="PanelContainer" parent="Vbox"]
 layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hwd81")
+
+[node name="AttackRange" parent="Vbox/BattleStatsContainer" instance=ExtResource("8_vk15k")]
+custom_minimum_size = Vector2(5, 5)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+
+[node name="Movement" parent="Vbox/BattleStatsContainer" instance=ExtResource("10_1fydv")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="AttackBox" type="VBoxContainer" parent="Vbox/BattleStatsContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="MaxAttack" parent="Vbox/BattleStatsContainer/AttackBox" instance=ExtResource("7_ovqyp")]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="MinAttack" parent="Vbox/BattleStatsContainer/AttackBox" instance=ExtResource("9_yx8vx")]
+layout_mode = 2
+
+[node name="DefenseBox" type="VBoxContainer" parent="Vbox/BattleStatsContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+
+[node name="Health" parent="Vbox/BattleStatsContainer/DefenseBox" instance=ExtResource("11_huv37")]
+layout_mode = 2
+
+[node name="Shield" parent="Vbox/BattleStatsContainer/DefenseBox" instance=ExtResource("12_8kb7d")]
+layout_mode = 2
+
+[node name="CardRange" parent="Vbox" instance=ExtResource("13_7mx8s")]
+visible = false
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 0
 size_flags_vertical = 10
+mouse_filter = 2
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

@@ -17,7 +17,7 @@ enum cards {
 	GNOME_PROTECTOR, PATIENT_DUDE, GOBLIN_ARCHER, 
 	BOTANO_GARDENER, MORNING_LIGHT, WIND_GOLEM, ICE_GOLEM, FIRE_GOLEM, STUDENT_OF_KHONG, HAIL_STORM, 
 	EARTH_GOLEM, BRINGER_OF_ENLIGHTENMENT, PROTECTOR_OF_THE_FOREST, PRANCING_VERDEN, 
-	HEART_OF_THE_FOREST, MARCELLA_WHO_NURTURES_GROWTH, VOLCANIC_ERUPTION, 
+	HEART_OF_THE_FOREST, MARCELLA_WHO_NURTURES_GROWTH, VOLCANIC_ERUPTION, DINOSAUR, DINOSAUR_EGG,
 	
 	### LOGIC ### (16)
 	FACTORY_WORKER, OBSTRUCTION_CONSTRUCTION, SHOCK_CHARGE, ASSEMBLY_BOT, FUEL_DISTRIBUTER, 
@@ -174,7 +174,7 @@ var cards_info = {
 		"Movement": 2,
 		"AttackRange": 1,
 		"Lord": false,
-		"Text": "Frenzy (move towards the <<<>>closest enemy unit and attack if possible. Then exhaust)",
+		"Text": "Frenzy (move towards the closest enemy unit and attack if possible. Then exhaust)",
 		"Purposes": [Collections.purposes.BATTLE],
 		"IMGPath": "res://assets/card_images/passion/WarthogBerserker.png",
 	},
@@ -198,7 +198,7 @@ var cards_info = {
 		"Text": "When an opponent unit enters an adjacent space, deal 1 damage to it",
 		"Purposes": [Collections.purposes.DEFEND_RESOURCE],
 	
-		"IMGPath": "res://assets/card_images/passion/Snek.jpg",
+		"IMGPath": "res://assets/card_images/passion/Snek.png",
 		},
 		
 	cards.FOLLOW_PHEROMONES: {
@@ -865,6 +865,27 @@ cards.FLOW_ACCELERATOR: {
 		"IMGPath": "res://assets/card_images/growth/WindGolem.png",
 	},
 	
+	cards.DINOSAUR_EGG: {
+		"InGameName": "Dinosaur Egg",
+		"CardType": Collections.card_types.UNIT,
+		"fibers": [Collections.fibers.GROWTH],
+		"Costs": {
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 2,
+			Collections.fibers.LOGIC: 0,
+		},
+		"MaxAttack": 0,
+		"MinAttack": 0,
+		"Health": 3,
+		"Movement": 0,
+		"AttackRange": 1,
+		"Lord": false,
+		"Text": "In 2 turns, destroy this unit and create a Dinosaur in this units playspace",
+		"Purposes": [Collections.purposes.BATTLE],
+		"IMGPath": "res://assets/card_images/growth/DinosaurEgg.png",
+	},
+	
 	cards.STUDENT_OF_KHONG: {
 		"InGameName": "Student of Khong",
 		"CardType": Collections.card_types.UNIT,
@@ -1048,6 +1069,27 @@ cards.FLOW_ACCELERATOR: {
 		"IMGPath": "res://assets/card_images/growth/PrancingVerden.jpg",
 	},
 	
+	cards.DINOSAUR: {
+		"InGameName": "Dinosaur",
+		"CardType": Collections.card_types.UNIT,
+		"fibers": [Collections.fibers.GROWTH],
+		"Costs": {
+			Collections.fibers.PASSION: 0,
+			Collections.fibers.IMAGINATION: 0,
+			Collections.fibers.GROWTH: 6,
+			Collections.fibers.LOGIC: 0,
+		},
+		"MaxAttack": 10,
+		"MinAttack": 10,
+		"Health": 10,
+		"Movement": 1,
+		"AttackRange": 1,
+		"Lord": false,
+		"Text": "Rawr",
+		"Purposes": [Collections.purposes.BATTLE],
+		"IMGPath": "res://assets/card_images/growth/Dinosaur.png",
+	},
+	
 	cards.MARCELLA_WHO_NURTURES_GROWTH: {
 		"InGameName": "Marcella, Who Nurtures Growth",
 		"CardType": Collections.card_types.UNIT,		
@@ -1066,7 +1108,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": true,
 		"Text": "Pay 2<N>: Draw a card, add 1 min attack and 1 health to up to one adjacent unit",
 		"Purposes": [Collections.purposes.REAR,],
-		"IMGPath": "res://assets/card_images/growth/MarcellaWhoNurturesGrowth.png",
+		"IMGPath": "res://assets/card_images/growth/MarcellaWho>NurturesGrowth.png",
 	},
 	
 	### LOGIC ###
@@ -1728,6 +1770,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = IceGolem
 		cards.WIND_GOLEM:
 			card = WindGolem
+		cards.DINOSAUR_EGG:
+			card = DinosaurEgg
 		cards.FIRE_GOLEM:
 			card = FireGolem
 		cards.STUDENT_OF_KHONG:
@@ -1748,6 +1792,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = MarcellaWhoNurturesGrowth
 		cards.VOLCANIC_ERUPTION:
 			card = VolcanicEruption
+		cards.DINOSAUR:
+			card = Dinosaur
 		#
 		#### Logic ###
 #

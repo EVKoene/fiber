@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bbj875rtq661k"
-path="res://.godot/imported/MovementIcon.png-16836ec36ee7a749e39362925677eba0.ctex"
+uid="uid://sqpddxahilex"
+path="res://.godot/imported/CardRangeIcon.png-0d030b6dc323775885892cf2583ba799.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/MovementIcon.png"
-dest_files=["res://.godot/imported/MovementIcon.png-16836ec36ee7a749e39362925677eba0.ctex"]
+source_file="res://assets/icons/CardRangeIcon.png"
+dest_files=["res://.godot/imported/CardRangeIcon.png-0d030b6dc323775885892cf2583ba799.ctex"]
 
 [params]
 
