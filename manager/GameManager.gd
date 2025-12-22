@@ -210,7 +210,14 @@ func _start_first_turn() -> void:
 		if NPCDatabase.npc_data[npc_id]["BossCard"] != -1:
 			BattleSynchronizer.play_boss(NPCDatabase.npc_data[npc_id]["BossCard"], 2, 4, 0)
 			GameManager.ai_player.boss.prepare_next_turn_boss_ability()
-		
+		for c in NPCDatabase.npc_data[npc_id]["StartingUnits"]:
+			var starting_card: Dictionary = NPCDatabase.npc_data[npc_id]["StartingUnits"][c]
+			BattleSynchronizer.play_unit(
+				starting_card["CardIndex"], 
+				ai_player_id, 
+				starting_card["Column"], 
+				starting_card["Row"]
+			)
 		if "SpecialRules" in NPCDatabase.npc_data[npc_id].keys(): #TODO: Special rules can be removed
 			for rule in NPCDatabase.npc_data[npc_id]["SpecialRules"]:
 				await NPCDatabase.setup_special_rules(rule)

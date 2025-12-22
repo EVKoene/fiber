@@ -14,34 +14,38 @@
 [ext_resource type="PackedScene" uid="uid://dpa1xkh6x0csa" path="res://card/card_assets/battle_stats/ShieldContainer.tscn" id="12_fspbl"]
 [ext_resource type="PackedScene" uid="uid://0j1v3isipc57" path="res://card/card_assets/battle_stats/CardRangeContainer.tscn" id="13_7qaf7"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ys6ov"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v31gb"]
 bg_color = Color(0.741385, 0.741385, 0.741384, 1)
 
-[node name="Card" type="Control"]
-layout_mode = 3
-anchors_preset = 0
+[node name="Card" type="PanelContainer"]
+offset_right = 200.0
+offset_bottom = 200.0
 script = ExtResource("1_g1pwu")
 
-[node name="TopInfo" type="HBoxContainer" parent="."]
+[node name="CardImage" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_ghlii")
+expand_mode = 3
+
+[node name="Vbox" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="TopInfo" type="HBoxContainer" parent="Vbox"]
 custom_minimum_size = Vector2(150, 30)
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -100.0
-offset_right = 100.0
-offset_bottom = 30.0
-grow_horizontal = 2
+layout_mode = 2
+size_flags_vertical = 0
 mouse_filter = 2
 
-[node name="CardNameBG" type="Panel" parent="TopInfo"]
+[node name="CardNameBG" type="Panel" parent="Vbox/TopInfo"]
 custom_minimum_size = Vector2(120, 30)
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
 mouse_filter = 2
 
-[node name="CardName" type="Label" parent="TopInfo/CardNameBG"]
+[node name="CardName" type="Label" parent="Vbox/TopInfo/CardNameBG"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -51,102 +55,83 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Animal"
 
-[node name="Costs" type="Panel" parent="TopInfo"]
+[node name="Costs" type="Panel" parent="Vbox/TopInfo"]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 size_flags_horizontal = 10
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_ys6ov")
+theme_override_styles/panel = SubResource("StyleBoxFlat_v31gb")
 
-[node name="CostLabels" type="HBoxContainer" parent="TopInfo/Costs"]
+[node name="CostLabels" type="HBoxContainer" parent="Vbox/TopInfo/Costs"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 mouse_filter = 2
 
-[node name="Passion" type="Label" parent="TopInfo/Costs/CostLabels"]
+[node name="Passion" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
 label_settings = ExtResource("3_f00tt")
 
-[node name="Imagination" type="Label" parent="TopInfo/Costs/CostLabels"]
+[node name="Imagination" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
 label_settings = ExtResource("4_tgrbq")
 
-[node name="Growth" type="Label" parent="TopInfo/Costs/CostLabels"]
+[node name="Growth" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
 label_settings = ExtResource("5_0it5u")
 
-[node name="Logic" type="Label" parent="TopInfo/Costs/CostLabels"]
+[node name="Logic" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
 label_settings = ExtResource("6_hpr73")
 
-[node name="CardImage" type="TextureRect" parent="."]
-texture_filter = 1
-layout_mode = 0
-offset_right = 200.0
-offset_bottom = 200.0
-mouse_filter = 2
-texture = ExtResource("2_ghlii")
-expand_mode = 3
-
-[node name="BattleStats" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="MaxAttack" parent="BattleStats" instance=ExtResource("8_4kv7x")]
+[node name="BattleStatsContainer" type="PanelContainer" parent="Vbox"]
 layout_mode = 2
-offset_top = 69.0
-offset_right = 50.0
-offset_bottom = 103.0
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="AttackRange" parent="Vbox/BattleStatsContainer" instance=ExtResource("8_glrxo")]
+custom_minimum_size = Vector2(5, 5)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+
+[node name="Movement" parent="Vbox/BattleStatsContainer" instance=ExtResource("10_4quaq")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="AttackBox" type="VBoxContainer" parent="Vbox/BattleStatsContainer"]
+layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
 
-[node name="AttackRange" parent="BattleStats" instance=ExtResource("8_glrxo")]
-custom_minimum_size = Vector2(5, 5)
-layout_mode = 0
-offset_left = 1.0
-offset_top = 165.0
-offset_right = 45.0
-offset_bottom = 193.0
+[node name="MaxAttack" parent="Vbox/BattleStatsContainer/AttackBox" instance=ExtResource("8_4kv7x")]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
 
-[node name="MinAttack" parent="BattleStats" instance=ExtResource("9_f3d4a")]
-layout_mode = 0
-offset_top = 106.0
-offset_right = 50.0
-offset_bottom = 140.0
+[node name="MinAttack" parent="Vbox/BattleStatsContainer/AttackBox" instance=ExtResource("9_f3d4a")]
+layout_mode = 2
 
-[node name="Movement" parent="BattleStats" instance=ExtResource("10_4quaq")]
-layout_mode = 0
-offset_left = 67.0
-offset_top = 159.0
-offset_right = 126.0
-offset_bottom = 198.0
+[node name="DefenseBox" type="VBoxContainer" parent="Vbox/BattleStatsContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
 
-[node name="Health" parent="BattleStats" instance=ExtResource("11_fmlov")]
-layout_mode = 0
-offset_left = 147.0
-offset_top = 75.0
-offset_right = 196.0
-offset_bottom = 107.0
+[node name="Health" parent="Vbox/BattleStatsContainer/DefenseBox" instance=ExtResource("11_fmlov")]
+layout_mode = 2
 
-[node name="Shield" parent="BattleStats" instance=ExtResource("12_fspbl")]
-layout_mode = 0
-offset_left = 151.0
-offset_top = 113.0
-offset_right = 195.0
-offset_bottom = 141.0
+[node name="Shield" parent="Vbox/BattleStatsContainer/DefenseBox" instance=ExtResource("12_fspbl")]
+layout_mode = 2
 
-[node name="CardRange" parent="." instance=ExtResource("13_7qaf7")]
+[node name="CardRange" parent="Vbox" instance=ExtResource("13_7qaf7")]
 visible = false
-layout_mode = 0
-offset_top = 163.0
-offset_right = 46.0
-offset_bottom = 193.0
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 10
+mouse_filter = 2

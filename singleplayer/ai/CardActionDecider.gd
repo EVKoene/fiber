@@ -41,6 +41,10 @@ func use_card_action(card: CardInPlay) -> bool:
 			card.exhaust()
 			await card.move_and_attack(c)
 			return true
+		
+	if len(card.spaces_in_range(card.battle_stats.movement, card.move_through_units)) <= 1:
+		card.is_awaiting_ai_decision = false
+		return true
 
 	return await move_to_conquer_space(card)
 

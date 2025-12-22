@@ -20,16 +20,13 @@ var card_in_play_index: int:
 	get = _get_card_in_play_index
 
 var boss_abilities := {}
-var next_boss_ability := {
-	"Text": "",
-	"Func": null
-}
+var next_boss_ability := {}
 
 
 func _ready():
 	card_class = Collections.card_classes.CARD_IN_PLAY
 	scale *= MapSettings.card_in_play_size / size
-	$BattleStats.scale *= MapSettings.card_in_play_size / size
+	$Vbox/BattleStatsContainer.scale *= MapSettings.card_in_play_size / size
 	load_card_properties()
 	set_position_to_play_space()
 	
@@ -102,24 +99,22 @@ func attack_card(target_card: CardInPlay) -> void:
 
 func prepare_next_turn_boss_ability() -> void:
 	# Always pick ability[0] as the first ability
-	if !next_boss_ability["Func"]:
-		next_boss_ability["Func"] = boss_abilities[0]["Func"]
-		next_boss_ability["Text"] = boss_abilities[0]["Text"]
-		return
+	if len(next_boss_ability) == 0:
+		next_boss_ability = boss_abilities[0]
 	
-	var abilities_to_pick_from := []
-	for ability in boss_abilities.values():
-		if ability["MinTurn"] > GameManager.ai_player.ai_turns + 1:
-			continue
-		if ability["MaxTurn"] < GameManager.ai_player.ai_turns + 1 and ability["MaxTurn"] != -1:
-			continue
-		
-		for f in range(ability["WeightFactor"]):
-			abilities_to_pick_from.append(ability)
+	else:
+		var abilities_to_pick_from := []
+		for ability in boss_abilities.values():
+			if ability["MinTurn"] > GameManager.ai_player.ai_turns + 1:
+				continue
+			if ability["MaxTurn"] < GameManager.ai_player.ai_turns + 1 and ability["MaxTurn"] != -1:
+				continue
+			
+			for f in range(ability["WeightFactor"]):
+				abilities_to_pick_from.append(ability)
+		next_boss_ability = abilities_to_pick_from.pick_random()
 	
-	var picked_ability: Dictionary = abilities_to_pick_from.pick_random()
-	next_boss_ability["Text"] = picked_ability["Text"]
-	next_boss_ability["Func"] = picked_ability["Func"]
+	call(next_boss_ability["Prepare"])
 
 
 func deal_damage_to_card(card: CardInPlay, value: int) -> void:
@@ -282,6 +277,16 @@ func destroy() -> void:
 			CardManipulation.destroy.rpc_id(p_id, cid, cip_index)
 
 
+func flip_card() -> void:
+	$Vbox.move_child($Vbox/BattleStatsContainer, 0)
+	$CardImage.flip_v = true
+
+
+func unflip_card() -> void:
+	$Vbox.move_child($Vbox/BotInfo, 1)
+	$CardImage.flip_v = false
+
+
 func shake() -> void:
 	# Using the animation player for this might be better, but because we use texturerects
 	# to make the image fit nicely it's a bit of a bother, and because we don't really use
@@ -402,19 +407,18 @@ func create_card_action_menu() -> void:
 
 
 func set_card_name() -> void:
-	if !$TopInfo/CardNameBG/CardName.label_settings:
-		$TopInfo/CardNameBG/CardName.label_settings = LabelSettings.new()
+	if !$Vbox/TopInfo/CardNameBG/CardName.label_settings:
+		$Vbox/TopInfo/CardNameBG/CardName.label_settings = LabelSettings.new()
 	var font_size: float
 	font_size = round(MapSettings.play_space_size.x) / (
-		len($TopInfo/CardNameBG/CardName.text) * 0.05
+		len($Vbox/TopInfo/CardNameBG/CardName.text) * 0.05
 	) * 0.04
 
-	$TopInfo/CardNameBG/CardName.label_settings.font_size = font_size
-	$TopInfo/CardNameBG/CardName.text = ingame_name
+	$Vbox/TopInfo/CardNameBG/CardName.label_settings.font_size = font_size
+	$Vbox/TopInfo/CardNameBG/CardName.text = ingame_name
 	
 
 func set_position_to_play_space() -> void:
-	# TODO: Calculate an exact position while adjusting for the border
 	position.x = MapSettings.get_column_start_x(column) + MapSettings.play_space_size.x * 0.05
 	position.y = MapSettings.get_row_start_y(row) + MapSettings.play_space_size.y * 0.05
 	z_index = current_play_space.z_index + 1
@@ -646,7 +650,7 @@ func _on_gui_input(event):
 			and card_sel_for_movement.card_owner_id != card_owner_id
 			and TargetSelection.card_to_be_attacked != self
 		):
-			TargetSelection.card_to_be_attacked == self
+			TargetSelection.card_to_be_attacked = self
 		
 		elif (
 			len(ps_to_attack_from) > 0

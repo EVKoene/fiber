@@ -17,10 +17,11 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ky8fg"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
-[sub_resource type="LabelSettings" id="LabelSettings_kk6x1"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ycx8i"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ukjeh"]
 bg_color = Color(0.741385, 0.741385, 0.741384, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_on6sj"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [node name="CardInPlay" type="PanelContainer"]
 z_as_relative = false
@@ -33,9 +34,6 @@ offset_bottom = -0.231995
 theme_override_styles/panel = SubResource("StyleBoxFlat_ky8fg")
 script = ExtResource("1_nshbd")
 
-[node name="CardInPlay" type="PanelContainer" parent="."]
-layout_mode = 2
-
 [node name="CardImage" type="TextureRect" parent="."]
 texture_filter = 1
 layout_mode = 2
@@ -43,20 +41,23 @@ mouse_filter = 2
 texture = ExtResource("2_otdqy")
 expand_mode = 3
 
-[node name="TopInfo" type="HBoxContainer" parent="."]
+[node name="Vbox" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="TopInfo" type="HBoxContainer" parent="Vbox"]
 custom_minimum_size = Vector2(150, 30)
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 2
 
-[node name="CardNameBG" type="Panel" parent="TopInfo"]
+[node name="CardNameBG" type="Panel" parent="Vbox/TopInfo"]
 custom_minimum_size = Vector2(120, 30)
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
 mouse_filter = 2
 
-[node name="CardName" type="Label" parent="TopInfo/CardNameBG"]
+[node name="CardName" type="Label" parent="Vbox/TopInfo/CardNameBG"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -65,92 +66,87 @@ offset_right = 31.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Animal"
-label_settings = SubResource("LabelSettings_kk6x1")
 
-[node name="Costs" type="Panel" parent="TopInfo"]
+[node name="Costs" type="Panel" parent="Vbox/TopInfo"]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 size_flags_horizontal = 10
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_ycx8i")
+theme_override_styles/panel = SubResource("StyleBoxFlat_ukjeh")
 
-[node name="CostLabels" type="HBoxContainer" parent="TopInfo/Costs"]
+[node name="CostLabels" type="HBoxContainer" parent="Vbox/TopInfo/Costs"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 mouse_filter = 2
 
-[node name="Passion" type="Label" parent="TopInfo/Costs/CostLabels"]
+[node name="Passion" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
 label_settings = ExtResource("4_734v1")
 
-[node name="Imagination" type="Label" parent="TopInfo/Costs/CostLabels"]
+[node name="Imagination" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
 label_settings = ExtResource("5_k068k")
 
-[node name="Growth" type="Label" parent="TopInfo/Costs/CostLabels"]
+[node name="Growth" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
 label_settings = ExtResource("6_2vrch")
 
-[node name="Logic" type="Label" parent="TopInfo/Costs/CostLabels"]
+[node name="Logic" type="Label" parent="Vbox/TopInfo/Costs/CostLabels"]
 layout_mode = 2
 text = "1"
 label_settings = ExtResource("7_88nyc")
 
-[node name="BattleStats" type="Control" parent="."]
+[node name="BattleStatsContainer" type="PanelContainer" parent="Vbox"]
 layout_mode = 2
+size_flags_vertical = 3
 mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_on6sj")
 
-[node name="MaxAttack" parent="BattleStats" instance=ExtResource("7_j112g")]
-layout_mode = 2
-offset_top = 69.0
-offset_right = 50.0
-offset_bottom = 103.0
-size_flags_horizontal = 0
-size_flags_vertical = 4
-
-[node name="AttackRange" parent="BattleStats" instance=ExtResource("8_v58wa")]
+[node name="AttackRange" parent="Vbox/BattleStatsContainer" instance=ExtResource("8_v58wa")]
 custom_minimum_size = Vector2(5, 5)
-layout_mode = 0
-offset_top = 149.0
-offset_right = 44.0
-offset_bottom = 177.0
-
-[node name="MinAttack" parent="BattleStats" instance=ExtResource("9_7u3pb")]
-layout_mode = 0
-offset_top = 106.0
-offset_right = 50.0
-offset_bottom = 140.0
-
-[node name="Movement" parent="BattleStats" instance=ExtResource("10_nrd37")]
-layout_mode = 0
-offset_left = 66.0
-offset_top = 149.0
-offset_right = 125.0
-offset_bottom = 188.0
-
-[node name="Health" parent="BattleStats" instance=ExtResource("11_xn0wc")]
-layout_mode = 0
-offset_left = 147.0
-offset_top = 75.0
-offset_right = 196.0
-offset_bottom = 107.0
-
-[node name="Shield" parent="BattleStats" instance=ExtResource("12_5o0i7")]
-layout_mode = 0
-offset_left = 151.0
-offset_top = 113.0
-offset_right = 195.0
-offset_bottom = 141.0
-
-[node name="CardRange" parent="." instance=ExtResource("13_sfe3t")]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
+
+[node name="Movement" parent="Vbox/BattleStatsContainer" instance=ExtResource("10_nrd37")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="AttackBox" type="VBoxContainer" parent="Vbox/BattleStatsContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="MaxAttack" parent="Vbox/BattleStatsContainer/AttackBox" instance=ExtResource("7_j112g")]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="MinAttack" parent="Vbox/BattleStatsContainer/AttackBox" instance=ExtResource("9_7u3pb")]
+layout_mode = 2
+
+[node name="DefenseBox" type="VBoxContainer" parent="Vbox/BattleStatsContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+
+[node name="Health" parent="Vbox/BattleStatsContainer/DefenseBox" instance=ExtResource("11_xn0wc")]
+layout_mode = 2
+
+[node name="Shield" parent="Vbox/BattleStatsContainer/DefenseBox" instance=ExtResource("12_5o0i7")]
+layout_mode = 2
+
+[node name="CardRange" parent="Vbox" instance=ExtResource("13_sfe3t")]
+visible = false
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 10
 mouse_filter = 2
 
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]

@@ -4,6 +4,7 @@ extends Node
 enum boss_cards {
 	FANATIC_LEADER,
 	REALITY_BENDER,
+	ZAIA,
 }
 
 var boss_cards_info := {
@@ -30,5 +31,17 @@ var boss_cards_info := {
 		"Health": 15,
 		"Movement": 2,
 		"IMGPath": "res://assets/card_images/imagination/RealityBender.png"
+	},
+	
+	boss_cards.ZAIA: {
+		"Class": Zaia,
+		"InGameName": "Zaia",
+		"fibers": [Collections.fibers.GROWTH],
+		"AttackRange": 2,
+		"MaxAttack": 4,
+		"MinAttack": 4,
+		"Health": 20,
+		"Movement": 0,
+		"IMGPath": "res://assets/card_images/growth/Zaia.png"
 	},
 }
