@@ -29,8 +29,6 @@ enum cards {
 	VOLDOMA_MASTER_OF_ARMS, KILLER_WHALE_BOT, NHOROG_POTION_MASTER, GHENGI_WHO_SHAPES_THE_EARTH, 
 	SPOTOS_RECYCLER,
 
-	### BOSS_CARDS ###
-	FANATIC_LEADER
 }
 
 """
@@ -798,7 +796,7 @@ cards.FLOW_ACCELERATOR: {
 		"CardRange": 0,
 		"TargetRestrictions": TargetSelection.target_restrictions.ANY_UNITS,
 		"Text": "Target unit gets 2 health and +1 movement.",
-		"IMGPath": "res://assets/card_images/growth/MorningLight.jpg",
+		"IMGPath": "res://assets/card_images/growth/MorningLight.png",
 	},
 	
 	cards.BOTANO_GARDENER: {
@@ -841,7 +839,7 @@ cards.FLOW_ACCELERATOR: {
 		"Text": "Exhaust: This unit deals damage equal to it's min attack to each enemy unit in a range 
 		of 2",
 		"Purposes": [Collections.purposes.DEFEND_RESOURCE, Collections.purposes.BATTLE,],
-		"IMGPath": "res://assets/card_images/growth/FireGolem.jpg",
+		"IMGPath": "res://assets/card_images/growth/FireGolem.png",
 	},
 	
 	cards.WIND_GOLEM: {
@@ -920,7 +918,7 @@ cards.FLOW_ACCELERATOR: {
 		"CardRange": -1,
 		"TargetRestrictions": TargetSelection.target_restrictions.ANY_SPACE,
 		"Text": "Select a 3 x 3 square at range 1. All units in that square get -1/-0 and -1 movement.",
-		"IMGPath": "res://assets/card_images/growth/HailStorm.jpg",
+		"IMGPath": "res://assets/card_images/growth/HailStorm.png",
 	},
 	
 	cards.ICE_GOLEM: {
@@ -942,7 +940,7 @@ cards.FLOW_ACCELERATOR: {
 		"Text": "When Ice Golem deals damage to a unit, that unit gets -1/-0 and -1 movement until
 		your next turn",
 		"Purposes": [Collections.purposes.DEFEND_RESOURCE, Collections.purposes.BATTLE,],
-		"IMGPath": "res://assets/card_images/growth/IceGolem.jpg",
+		"IMGPath": "res://assets/card_images/growth/IceGolem.png",
 	},
 	
 	cards.EARTH_GOLEM: {
@@ -984,7 +982,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": false,
 		"Text": "At the start of your turn: If Protector didn't move since your last turn, it gets +2 health",
 		"Purposes": [Collections.purposes.DEFEND_RESOURCE, Collections.purposes.BATTLE,],
-		"IMGPath": "res://assets/card_images/growth/ProtectorOfTheForest.jpg",
+		"IMGPath": "res://assets/card_images/growth/ProtectorOfTheForest.png",
 	},
 
 	cards.HEART_OF_THE_FOREST: {
@@ -1005,7 +1003,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": false,
 		"Text": "Allied units in range 1 get +0/+4. Units in range 2 get +0/+2",
 		"Purposes": [Collections.purposes.BUFF_ADJACENT],
-		"IMGPath": "res://assets/card_images/growth/HeartOfTheForest.jpg",
+		"IMGPath": "res://assets/card_images/growth/HeartOfTheForest.png",
 	},
 	
 	cards.BRINGER_OF_ENLIGHTENMENT: {
@@ -1044,7 +1042,7 @@ cards.FLOW_ACCELERATOR: {
 		"TargetRestrictions": TargetSelection.target_restrictions.ANY_SPACE,
 		"Text": "Select a 4 x 4 square at range 1. Deal 2 damage to each enemy unit in the selected 
 		square.",
-		"IMGPath": "res://assets/card_images/growth/VolcanicEruption.jpg",
+		"IMGPath": "res://assets/card_images/growth/VolcanicEruption.png",
 	},
 	
 	cards.PRANCING_VERDEN: {
@@ -1066,7 +1064,7 @@ cards.FLOW_ACCELERATOR: {
 		"Text": "This unit can move through units. If it moves through a friendly unit, that unit
 		gets +2 movement and +1 min attack this turn.",
 		"Purposes": [Collections.purposes.BUFF_ADJACENT],
-		"IMGPath": "res://assets/card_images/growth/PrancingVerden.jpg",
+		"IMGPath": "res://assets/card_images/growth/PrancingVerden.png",
 	},
 	
 	cards.DINOSAUR: {
@@ -1146,7 +1144,7 @@ cards.FLOW_ACCELERATOR: {
 			Collections.fibers.LOGIC: 1,
 		},
 		"MaxAttack": 0,
-		"MinAt<><<tack": 0,
+		"MinAttack": 0,
 		"Health": 4,
 		"Movement": 1,
 		"AttackRange": 1,
@@ -1169,7 +1167,7 @@ cards.FLOW_ACCELERATOR: {
 		"Text": "Refresh up to two units.",
 		"CardRange": -1,
 		"TargetRestrictions": TargetSelection.target_restrictions.ANY_SPACE,
-		"IMGPath": "res://assets/card_images/logic/ShockCharge.jpg",
+		"IMGPath": "res://assets/card_images/logic/ShockCharge.png",
 	},
 	
 	cards.FACTORY_WORKER: {
@@ -1254,7 +1252,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": false,
 		"Text": "This unit gets 2 max attack and 2 health for each adjacent allied unit",
 		"Purposes": [Collections.purposes.BATTLE],
-		"IMGPath": "res://assets/card_images/logic/NetworkFeeder.jpg",
+		"IMGPath": "res://assets/card_images/logic/NetworkFeeder.png",
 	},
 	
 	cards.RESOURCE_EXTRACTOR: {
@@ -1291,7 +1289,7 @@ cards.FLOW_ACCELERATOR: {
 		"Text": "Consume one of your own units: Destroy a unit within range 1 of the consumed unit",
 		"CardRange": -1,
 		"TargetRestrictions": TargetSelection.target_restrictions.OWN_UNITS,
-		"IMGPath": "res://assets/card_images/logic/Exterminate.jpg",
+		"IMGPath": "res://assets/card_images/logic/Exterminate.png",
 	
 	},
 	
@@ -1313,7 +1311,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": false,
 		"Text": "Consume a unit in range 1: This unit gets +1 max attack, min attack and health",
 		"Purposes": [Collections.purposes.BATTLE],
-		"IMGPath": "res://assets/card_images/logic/FurnaceBot.jpg",
+		"IMGPath": "res://assets/card_images/logic/FurnaceBot.png",
 	},
 	
 	cards.ZOLOI_CHARGER: {
@@ -1355,7 +1353,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": false,
 		"Text": "Exhaust, 2<R>: Refresh all your other units in range 1",
 		"Purposes": [Collections.purposes.BUFF_ADJACENT],
-		"IMGPath": "res://assets/card_images/logic/PlugBuddy.jpg",
+		"IMGPath": "res://assets/card_images/logic/PlugBuddy.png",
 	},
 	
 	cards.COMPUTING_BOT: {
@@ -1376,7 +1374,7 @@ cards.FLOW_ACCELERATOR: {
 		"AttackRange": 1,
 		"Text": "Exhaust, 1<R>: Consume a unit in range 1: Discard 1 card and draw 3 cards",
 		"Purposes": [Collections.purposes.REAR],
-		"IMGPath": "res://assets/card_images/logic/ComputingBot.jpg",
+		"IMGPath": "res://assets/card_images/logic/ComputingBot.png",
 	},
 	
 	cards.COPY_MACHINE: {

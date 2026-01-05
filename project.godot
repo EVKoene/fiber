@@ -45,6 +45,8 @@ CardHelper="*res://card/CardHelper.gd"
 TriggeredCardFuncs="*res://card/TriggeredCardFuncs.gd"
 CardActionDecider="*res://singleplayer/ai/CardActionDecider.gd"
 BossCardDatabase="*res://card/BossCardDatabase.gd"
+DeckSetup="*res://deckbuilder/DeckSetup.gd"
+CardCollections="*res://card/CardCollections.gd"
 
 [display]
 

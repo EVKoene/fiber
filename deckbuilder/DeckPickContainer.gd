@@ -14,7 +14,7 @@ var is_multiplayer_dp_container := false
 func _ready():
 	$DeckNameContainer/DeckNameButton.text = deck_info["DeckName"]
 	_add_deckname_border()
-	if GameManager.deck["ID"] == deck_id:
+	if DeckSetup.deck["ID"] == deck_id:
 		_highlight_deckname()
 
 

@@ -13,15 +13,15 @@ client and server will create objects and execute functionality seperately.
 @rpc("any_peer", "call_local")
 func refresh_unit(card_owner_id: int, cip_index: int):
 	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
-	card.modulate = Color(1, 1, 1, 1)
 	card.exhausted = false
+	card.modulate = card.get_card_color()
 
 
 @rpc("any_peer", "call_local")
 func exhaust_unit(card_owner_id: int, cip_index: int):
 	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][cip_index]
-	card.modulate = Color(0.5, 0.5, 0.5, 1)
 	card.exhausted = true
+	card.modulate = card.get_card_color()
 
 
 @rpc("any_peer", "call_local")
@@ -36,7 +36,7 @@ func resolve_damage(card_owner_id, cip_index, value):
 	damage_number.label_settings = LabelSettings.new()
 	damage_number.label_settings.font_size = 100
 	damage_number.label_settings.font_color = Color("f41700")
-	await get_tree().create_timer(0.1).timeout
+	await get_tree().create_timer(0.5).timeout
 	# Return if the instance is no longer valid is mostly for the tutorial, because we destroy
 	# cards to setup several scenarios
 	if !is_instance_valid(card):
@@ -45,7 +45,7 @@ func resolve_damage(card_owner_id, cip_index, value):
 	damage_number.queue_free()
 
 	if min_value > 0:
-		card.shake()
+		card.shake(clamp(damage * 20, 0, 200), 0.3, 6)
 
 	reduce_health(card, min_value)
 

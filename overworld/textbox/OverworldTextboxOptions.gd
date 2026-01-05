@@ -51,7 +51,7 @@ func indicate_higher_option() -> void:
 	options[current_option_index].show_option_indicator()
 
 
-func _cleanup_options() -> void:
+func cleanup_options() -> void:
 	for c in $TextboxContainer/MarginContainer/OptionsContainer.get_children():
 		c.queue_free()
 	options = []
@@ -67,7 +67,7 @@ func _input(_event):
 	if Input.is_action_just_pressed("ui_accept"):
 		OverworldManager.overworld_textbox.cleanup_textbox()
 		option_picked.emit(current_option_index)
-		_cleanup_options()
+		cleanup_options()
 
 	elif Input.is_action_just_pressed("ui_down"):
 		indicate_lower_option()

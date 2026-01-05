@@ -2,6 +2,9 @@ extends Node
 
 
 func check_version() -> void:
+	if !FileAccess.file_exists(GameManager.collections_path):
+		OverworldManager.set_player_position_to_start_journey()
+		set_version()
 	var config := ConfigFile.new()
 	config.load(GameManager.collections_path)
 	var save_version: String = config.get_value("version", "local_version", "")

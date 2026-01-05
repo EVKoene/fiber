@@ -77,7 +77,33 @@ var npc_data: Dictionary = {
 	npcs.WISE_MAN:
 	{
 		"Name": "Wise Man",
-		"Dialogue": ["Good luck."],
+		"Dialogue": ["Would you like to try another starter deck? Or unlock all cards?"],
+		"QuestionOptions": {
+			"Passion": {
+				"Text": "Change deck to Passion",
+				"Func": func() : DeckSetup.change_deck_to_passion()
+			}, 
+			"Imagination": {
+				"Text": "Change deck to Imagination",
+				"Func": func() : DeckSetup.change_deck_to_imagination()
+			},
+			"Growth": {
+				"Text": "Change deck to Growth",
+				"Func": func() : DeckSetup.change_deck_to_growth()
+			},
+			"Logic": {
+				"Text": "Change deck to Logic",
+				"Func": func() : DeckSetup.change_deck_to_logic()
+			},
+			"AllCards": {
+				"Text": "Unlock all cards",
+				"Func": func() : DeckSetup.unlock_all_cards()
+			},
+			"Exit": {
+				"Text": "Exit",
+				"Func": func() : OverworldManager.set_can_move_to_true()
+			}
+		},
 		"Battle": false,
 		"CharacterModel": character_types.WISE_MAN,
 	},
@@ -85,7 +111,9 @@ var npc_data: Dictionary = {
 	{
 		"Name": "Alphonso",
 		"Dialogue": ["Let's go nerd."],
+		"QuestionOptions": [],
 		"Battle": true,
+		"StartingUnits": {},
 		"BossCard": BossCardDatabase.boss_cards.FANATIC_LEADER,
 		"PlayCards": false,
 		"DeckID": DeckCollection.deck_ids.CONQUER_AND_HOLD,
@@ -95,7 +123,9 @@ var npc_data: Dictionary = {
 	{
 		"Name": "Betty",
 		"Dialogue": ["Round 2, here we go!"],
+		"QuestionOptions": [],
 		"Battle": true,
+		"StartingUnits": {},
 		"DeckID": DeckCollection.deck_ids.IMAGINARY_FRIENDS,
 		"BossCard": BossCardDatabase.boss_cards.REALITY_BENDER,
 		"PlayCards": false,
@@ -105,6 +135,7 @@ var npc_data: Dictionary = {
 	{
 		"Name": "Gamza",
 		"Dialogue": ["Your adventure stops with me."],
+		"QuestionOptions": [],
 		"Battle": true,
 		"StartingUnits": {
 			0: {
@@ -128,6 +159,7 @@ var npc_data: Dictionary = {
 	{
 		"Name": "Trudy",
 		"Dialogue": ["You think you can handle me?", "My gorillas will fucking tear you to shreds"],
+		"QuestionOptions": [],
 		"Battle": true,
 		"CharacterModel": character_types.GENERIC_GIRL_1,
 		"DeckID": DeckCollection.deck_ids.CONQUER_AND_HOLD
@@ -136,6 +168,7 @@ var npc_data: Dictionary = {
 	{
 		"Name": "Rambo",
 		"Dialogue": ["Can you shut up? I'm watching TV."],
+		"QuestionOptions": [],
 		"Battle": false,
 		"CharacterModel": character_types.GENERIC_GUY_1,
 	},
@@ -143,6 +176,7 @@ var npc_data: Dictionary = {
 	{
 		"Name": "Ingrid",
 		"Dialogue": ["I don't care"],
+		"QuestionOptions": [],
 		"Battle": true,
 		"CharacterModel": character_types.GENERIC_GIRL_2,
 		"DeckID": DeckCollection.deck_ids.BIG_ATTACK,
@@ -151,6 +185,7 @@ var npc_data: Dictionary = {
 	{
 		"Name": "Ingrid",
 		"Dialogue": ["It's all the same."],
+		"QuestionOptions": [],
 		"Battle": true,
 		"CharacterModel": character_types.GENERIC_GIRL_3,
 		"DeckID": DeckCollection.deck_ids.STAY_AWAY,
@@ -160,6 +195,7 @@ var npc_data: Dictionary = {
 	{
 		"Name": "Hans",
 		"Dialogue": ["You think you can handle me?", "My gorillas will fucking tear you to shreds"],
+		"QuestionOptions": [],
 		"Battle": true,
 		"CharacterModel": character_types.BEEBOY,
 		"DeckID": DeckCollection.deck_ids.GOTTA_GO_FAST,
@@ -168,6 +204,7 @@ var npc_data: Dictionary = {
 	{
 		"Name": "Masha",
 		"Dialogue": ["WOOF! WOOF!"],
+		"QuestionOptions": [],
 		"Battle": true,
 		"CharacterModel": character_types.BUMBLEBEE_LADY,
 		"DeckID": DeckCollection.deck_ids.FRENZY_START
@@ -176,6 +213,7 @@ var npc_data: Dictionary = {
 	{
 		"Name": "Jacques",
 		"Dialogue": ["Ew, what's that smell?", "Oh, it's me."],
+		"QuestionOptions": [],
 		"Battle": true,
 		"CharacterModel": character_types.DINO_BUSINESS_MAN,
 		"DeckID": DeckCollection.deck_ids.SMELLY_JACQUES,
@@ -184,6 +222,7 @@ var npc_data: Dictionary = {
 	{
 		"Name": "Gary",
 		"Dialogue": ["Bring it on bitch"],
+		"QuestionOptions": [],
 		"SpecialRules": [special_rules.ADD_1_MAX_ATTACK],
 		"Battle": true,
 		"CharacterModel": character_types.GARY,
@@ -194,6 +233,7 @@ var npc_data: Dictionary = {
 	{
 		"Name": "Student Dal",
 		"Dialogue": ["Boom, baby!"],
+		"QuestionOptions": [],
 		"Battle": true,
 		"CharacterModel": character_types.BEEBOY,
 		"DeckID": DeckCollection.deck_ids.IMAGINATION_MISSILES
@@ -202,6 +242,7 @@ var npc_data: Dictionary = {
 	{
 		"Name": "Student Mac",
 		"Dialogue": ["When I grow up I want to be a dinosaur."],
+		"QuestionOptions": [],
 		"Battle": true,
 		"CharacterModel": character_types.DINO_BUSINESS_MAN,
 		"DeckID": DeckCollection.deck_ids.MOVEMENT_SHENANIGANS
@@ -210,6 +251,7 @@ var npc_data: Dictionary = {
 	{
 		"Name": "Student Kala",
 		"Dialogue": ["I wonder if aliens can see sounds?"],
+		"QuestionOptions": [],
 		"Battle": true,
 		"CharacterModel": character_types.BUMBLEBEE_LADY,
 		"DeckID": DeckCollection.deck_ids.SPELL_SLINGERS
@@ -218,6 +260,7 @@ var npc_data: Dictionary = {
 	{
 		"Name": "Shallan",
 		"Dialogue": ["If you open your mind, anything is possible."],
+		"QuestionOptions": [],
 		"SpecialRules": [special_rules.IMAGINATION_SPELLS_1_CHEAPER],
 		"Battle": true,
 		"CharacterModel": character_types.SHALLAN,
@@ -228,6 +271,7 @@ var npc_data: Dictionary = {
 	{
 		"Name": "Adolin",
 		"Dialogue": ["Welcome to the party!"],
+		"QuestionOptions": [],
 		"Battle": true,
 		"CharacterModel": character_types.GENERIC_GUY_2,
 		"DeckID": DeckCollection.deck_ids.FLOW_AND_INSPIRE
@@ -237,6 +281,7 @@ var npc_data: Dictionary = {
 	{
 		"Name": "Kaladin",
 		"Dialogue": ["I will protect those who cannot protect themselves."],
+		"QuestionOptions": [],
 		"Battle": true,
 		"CharacterModel": character_types.GENERIC_GUY_1,
 		"DeckID": DeckCollection.deck_ids.SPELLS_WHAT_ELSE,
@@ -246,6 +291,7 @@ var npc_data: Dictionary = {
 	{
 		"Name": "Kaladin",
 		"Dialogue": ["Journey before destination. It cannot be a journey if it doesn't have a beginning."],
+		"QuestionOptions": [],
 		"Battle": true,
 		"CharacterModel": character_types.GENERIC_GUY_3,
 		"DeckID": DeckCollection.deck_ids.TAKE_OVER,
@@ -256,6 +302,7 @@ var npc_data: Dictionary = {
 	{
 		"Name": "Kwik",
 		"Dialogue": ["Relax, take it easy."],
+		"QuestionOptions": [],
 		"Battle": true,
 		"CharacterModel": character_types.GENERIC_GIRL_3,
 		"DeckID": DeckCollection.deck_ids.PATIENCE,
@@ -264,6 +311,7 @@ var npc_data: Dictionary = {
 	{
 		"Name": "KWEK",
 		"Dialogue": ["This stuff is fire!"],
+		"QuestionOptions": [],
 		"Battle": true,
 		"CharacterModel": character_types.GENERIC_GUY_1,
 		"DeckID": DeckCollection.deck_ids.FIRE,
@@ -272,6 +320,7 @@ var npc_data: Dictionary = {
 	{
 		"Name": "Kwak",
 		"Dialogue": ["If you think nature is slow, wait until you see my wind elementals!"],
+		"QuestionOptions": [],
 		"Battle": true,
 		"CharacterModel": character_types.GENERIC_GIRL_1,
 		"DeckID": DeckCollection.deck_ids.FAST_GNOMES,
@@ -281,6 +330,7 @@ var npc_data: Dictionary = {
 	{
 		"Name": "Guru Flappie",
 		"Dialogue": ["I'm just really into my guitar right now."],
+		"QuestionOptions": [],
 		"Battle": true,
 		"CharacterModel": character_types.GURU_1,
 		"DeckID": DeckCollection.deck_ids.BEEFY_BOYS,
@@ -289,6 +339,7 @@ var npc_data: Dictionary = {
 	{
 		"Name": "Guru Kal",
 		"Dialogue": ["I'm studying to become a guru."],
+		"QuestionOptions": [],
 		"Battle": true,
 		"CharacterModel": character_types.GURU_2,
 		"DeckID": DeckCollection.deck_ids.GOLEMS,
@@ -297,6 +348,7 @@ var npc_data: Dictionary = {
 	{
 		"Name": "Guru Trong",
 		"Dialogue": ["Right now right now!"],
+		"QuestionOptions": [],
 		"Battle": true,
 		"CharacterModel": character_types.GURU_3,
 		"DeckID": DeckCollection.deck_ids.ELEMENTS,
@@ -305,6 +357,7 @@ var npc_data: Dictionary = {
 	{
 		"Name": "Guru Laghima",
 		"Dialogue": ["Let go your earthly tether.", "Enter the void.", "Empty and become wind."],
+		"QuestionOptions": [],
 		"SpecialRules": [special_rules.ADD_1_HEALTH],
 		"Battle": true,
 		"CharacterModel": character_types.GURU_LAGHIMA,
@@ -315,6 +368,7 @@ var npc_data: Dictionary = {
 	{
 		"Name": "Businessperson Leonardo",
 		"Dialogue": ["It's all about the grind."],
+		"QuestionOptions": [],
 		"Battle": true,
 		"CharacterModel": character_types.BUSINESS_PERSON_1,
 		"DeckID": DeckCollection.deck_ids.LOGIC_FACTORY,
@@ -323,6 +377,7 @@ var npc_data: Dictionary = {
 	{
 		"Name": "Businessperson Ana",
 		"Dialogue": ["I'm too old for this shit."],
+		"QuestionOptions": [],
 		"Battle": true,
 		"CharacterModel": character_types.BUSINESS_PERSON_2,
 		"DeckID": DeckCollection.deck_ids.RESOURCE_EXTRAVAGANZA,
@@ -331,6 +386,7 @@ var npc_data: Dictionary = {
 	{
 		"Name": "Businessperson Jeroen",
 		"Dialogue": ["Life is one big party."],
+		"QuestionOptions": [],
 		"Battle": true,
 		"CharacterModel": character_types.BUSINESS_PERSON_3,
 		"DeckID": DeckCollection.deck_ids.STRENGTH_IN_NUMBERS,
@@ -339,6 +395,7 @@ var npc_data: Dictionary = {
 	{
 		"Name": "Bill Gates",
 		"Dialogue": ["Success is a lousy teacher."],
+		"QuestionOptions": [],
 		"Battle": true,
 		"SpecialRules": [special_rules.CREATE_ROBOT_FABRICATION],
 		"CharacterModel": character_types.BILL_GATES,

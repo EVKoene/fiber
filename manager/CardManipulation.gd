@@ -54,6 +54,9 @@ func hide_border(card_owner_id: int, cip_index: int):
 func show_card_dummy(card_index: int, ps: PlaySpace) -> Card:
 	var card: Card = card_scene.instantiate()
 	card.card_class = Collections.card_classes.CARD_IN_PLAY
+	card.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	card.column = ps.column
+	card.row = ps.row
 	card.card_index = card_index
 	card.load_card_properties()
 	GameManager.battle_map.add_child(card)
