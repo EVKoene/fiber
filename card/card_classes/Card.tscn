@@ -20,6 +20,7 @@ bg_color = Color(0.741385, 0.741385, 0.741384, 1)
 [node name="Card" type="PanelContainer"]
 offset_right = 200.0
 offset_bottom = 200.0
+mouse_filter = 2
 script = ExtResource("1_g1pwu")
 
 [node name="CardImage" type="TextureRect" parent="."]

@@ -5,10 +5,13 @@ class_name CardInPlay
 @onready var card_action_menu_scene := preload("res://card/card_assets/CardActionMenu.tscn")
 
 var exhausted := false
-var column := -1
-var row := -1
-var state := Collections.card_in_play_states.NEUTRAL
+var targeted_for_damage := false
+var targeted_for_special := false
+
 var is_awaiting_ai_decision := false
+
+var attack_tween: Tween
+var shake_tween: Tween
 
 var current_play_space: PlaySpace:
 	get = _get_play_space
@@ -114,7 +117,7 @@ func prepare_next_turn_boss_ability() -> void:
 				abilities_to_pick_from.append(ability)
 		next_boss_ability = abilities_to_pick_from.pick_random()
 	
-	call(next_boss_ability["Prepare"])
+	next_boss_ability["Prepare"].call()
 
 
 func deal_damage_to_card(card: CardInPlay, value: int) -> void:
@@ -287,22 +290,28 @@ func unflip_card() -> void:
 	$CardImage.flip_v = false
 
 
-func shake() -> void:
-	# Using the animation player for this might be better, but because we use texturerects
-	# to make the image fit nicely it's a bit of a bother, and because we don't really use
-	# collision moving the card instead of only animating range seems fine for now.
-	position.x += 50
-	await get_tree().create_timer(0.05).timeout
-	position.x -= 50
-	await get_tree().create_timer(0.05).timeout
-	position.x += 30
-	await get_tree().create_timer(0.05).timeout
-	position.x -= 30
-	await get_tree().create_timer(0.05).timeout
-
-	position.x += 10
-	await get_tree().create_timer(0.05).timeout
-	position.x -= 10
+func shake(
+	intensity := 50.0,
+	duration := 0.3,
+	n_shakes := 6
+) -> void:
+	var original_position_x := position.x
+	shake_tween = create_tween()
+	shake_tween.set_trans(Tween.TRANS_SINE)
+	shake_tween.set_ease(Tween.EASE_OUT)
+	
+	for i in range(n_shakes):
+		var progress := float(i) / n_shakes
+		var strength: int = lerp(intensity, 0.0, progress)
+		# Offset is positive with even steps and negative with uneven steps
+		var offset := strength * (1 if i % 2 == 0 else -1)
+		
+		shake_tween.tween_property(
+			self,
+			"position:x",
+			original_position_x + offset,
+			duration / n_shakes
+		)
 
 
 func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
@@ -501,9 +510,6 @@ func _on_mouse_exited():
 
 
 func _on_gui_input(event):
-	if state != Collections.card_in_play_states.NEUTRAL:
-		return
-	
 	var left_mouse_button_pressed = (
 		event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed
 	)
@@ -693,6 +699,18 @@ func _on_gui_input(event):
 			var card: CardInPlay = TargetSelection.card_selected_for_movement
 			if card.move_through_units:
 				TargetSelection.current_path.extend_path(current_play_space)
+
+
+func get_card_color() -> Color:
+	var color := CardCollections.BASE_COLOR
+	
+	if targeted_for_damage:
+		color *= CardCollections.TARGETED_DAMAGE_TINT
+	
+	if exhausted:
+		color *= CardCollections.EXHAUSTED_COLOR_MULTIPLIER
+		
+	return color
 
 
 func _get_card_in_play_index() -> int:

@@ -14,7 +14,6 @@ var boss: CardInPlay
 
 func play_turn() -> void:
 	use_boss_ability()
-	boss.prepare_next_turn_boss_ability()
 	
 	await play_playable_cards()
 	await GameManager.battle_map.get_tree().create_timer(0.25).timeout
@@ -22,13 +21,14 @@ func play_turn() -> void:
 	await GameManager.battle_map.get_tree().create_timer(0.5).timeout
 	# If the AI wins by conquering victory spaces, the battle map will be removed and they won't
 	# be able to end the turn anymore
+	boss.prepare_next_turn_boss_ability()
 	if is_instance_valid(GameManager.battle_map) and !game_over:
 		ai_turn_manager.end_turn()
 
 
 func use_boss_ability() -> void:
-	boss.call(boss.next_boss_ability["Func"])
-	boss.call(boss.next_boss_ability["CleanUp"])
+	boss.next_boss_ability["Func"].call()
+	boss.next_boss_ability["Cleanup"].call()
 	GameManager.battle_map.show_text(boss.next_boss_ability["Text"])
 	
 	

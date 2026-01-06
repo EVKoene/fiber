@@ -20,7 +20,7 @@ func _init() -> void:
 			"Text": "Add 3 health",
 			"MinTurn": 0,
 			"MaxTurn": 4,
-			"CleanUp": "cleanup_add_3_health",
+			"Cleanup": "cleanup_add_3_health",
 		},
 		
 		1: {
@@ -30,7 +30,7 @@ func _init() -> void:
 			"Text": "Create 1 Botano Gardener in an adjacent playspace, then exhaust",
 			"MinTurn": 0,
 			"MaxTurn": 3,
-			"CleanUp": "cleanup_create_1_botano_gardener",
+			"Cleanup": "cleanup_create_1_botano_gardener",
 		},
 		
 		2: {
@@ -40,7 +40,7 @@ func _init() -> void:
 			"Text": "Create a dinosaur egg in an adjacent playspace, then exhaust",
 			"MinTurn": 2,
 			"MaxTurn": 4,
-			"CleanUp": "cleanup_dinosaur_eggs",
+			"Cleanup": "cleanup_dinosaur_eggs",
 		},
 		
 		3: {
@@ -50,7 +50,7 @@ func _init() -> void:
 			"Text": "Add 5 health and 1 movement",
 			"MinTurn": 5,
 			"MaxTurn": -1,
-			"CleanUp": "cleanup_add_5_health_1_movement",
+			"Cleanup": "cleanup_add_5_health_1_movement",
 		},
 		
 		4: {
@@ -60,7 +60,7 @@ func _init() -> void:
 			"Text": "Create 1 protector of the forest in an adjacent playspace, then exhaust",
 			"MinTurn": 5,
 			"MaxTurn": -1,
-			"CleanUp": "cleanup_1_protector",
+			"Cleanup": "cleanup_1_protector",
 		},
 		
 		5: {
@@ -70,7 +70,7 @@ func _init() -> void:
 			"Text": "Create 2 dinosaur eggs in adjacent playspaces, then exhaust",
 			"MinTurn": 5,
 			"MaxTurn": -1,
-			"CleanUp": "cleanup_dinosaur_eggs",
+			"Cleanup": "cleanup_dinosaur_eggs",
 		},
 	}
 

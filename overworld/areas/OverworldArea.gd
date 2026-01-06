@@ -37,8 +37,14 @@ func improve_area(_npc_id: int) -> void:
 func start_npc_interaction(npc_id: int) -> void:
 	OverworldManager.can_move = false
 	var npc_properties: Dictionary = NPCDatabase.npc_data[npc_id]
-	read_text(npc_properties["Dialogue"])
+	var has_question_options: bool = len(npc_properties["QuestionOptions"]) >= 1
+	if has_question_options:
+		read_text(npc_properties["Dialogue"], has_question_options, npc_properties["QuestionOptions"])
+	else:
+		read_text(npc_properties["Dialogue"])
 	await Events.dialogue_finished
+	
+	GameManager.raycast.interaction_in_progress = false
 	if !npc_properties["Battle"]:
 		OverworldManager.can_move = true
 		return
@@ -47,5 +53,12 @@ func start_npc_interaction(npc_id: int) -> void:
 	TransitionScene.transition_to_npc_battle(npc_id)
 
 
-func read_text(text_to_read: Array, is_question := false, question_options := []) -> void:
-	OverworldManager.overworld_textbox.read_text(text_to_read, is_question, question_options)
+func read_text(text_to_read: Array, is_question := false, question_options := {}) -> void:
+	var option_texts = []
+	for t in question_options:
+		option_texts.append(question_options[t]["Text"])
+	OverworldManager.overworld_textbox.read_text(text_to_read, is_question, option_texts)
+	if is_question:
+		var picked_option = await OverworldManager.mc_question_textbox.option_picked
+		var option_func = question_options[question_options.keys()[picked_option]]["Func"]
+		option_func.call()

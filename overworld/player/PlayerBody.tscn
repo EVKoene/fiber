@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://overworld/player/PlayerBody.gd" id="1_njdv6"]
 [ext_resource type="Texture2D" uid="uid://c5m45g6bmpl85" path="res://assets/character_sheets/main_player.png" id="2_okbjd"]
-[ext_resource type="Script" path="res://overworld/player/RayCast2D.gd" id="3_topn0"]
+[ext_resource type="Script" path="res://overworld/player/PlayerRaycast.gd" id="3_topn0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_73kcg"]
 atlas = ExtResource("2_okbjd")

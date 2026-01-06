@@ -21,6 +21,9 @@ var card_text: String
 var img_path: String
 var card_range: int
 
+var column := -1
+var row := -1
+
 
 func highlight_card(_show_highlight: bool = false) -> void:
 	if has_border:

@@ -21,8 +21,17 @@ var finishing_dialogue := [
 	collect new cards.", "You can create and edit decks by pressing e or escape outside of a battle.
 	", "Would you like to play a tutorial?"
 ]
-var fiber_options := ["Passion", "Imagination", "Growth", "Logic",]
-var tutorial_options := ["Yes", "No"]
+var tutorial_options := {
+		"Yes": {
+			"Text": "Yes",
+			"Func": func(): TransitionScene.transition_to_tutorial()
+		},
+		"No": {
+			"Text": "No",
+			"Func": func(): skip_tutorial()
+		}
+	}
+	
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -96,23 +105,35 @@ func _walk_to_player_and_start_conversation() -> void:
 
 
 func _start_of_journey_conversation() -> void:
-	read_text(start_dialogue, true, fiber_options)
+	var deckstart_options = {
+		"Passion": {
+			"Text": "Change deck to Passion",
+			"Func": func() : DeckSetup.change_deck_to_passion()
+		}, 
+		"Imagination": {
+			"Text": "Change deck to Imagination",
+			"Func": func() : DeckSetup.change_deck_to_imagination()
+		},
+		"Growth": {
+			"Text": "Change deck to Growth",
+			"Func": func() : DeckSetup.change_deck_to_growth()
+		},
+		"Logic": {
+			"Text": "Change deck to Logic",
+			"Func": func() : DeckSetup.change_deck_to_logic()
+		},
+	}
+	
+	read_text(start_dialogue, true, deckstart_options)
 	var fiber: int = await OverworldManager.mc_question_textbox.option_picked
 	_create_savefile()
-	_pick_deck(fiber)
 	read_text(finishing_dialogue, true, tutorial_options)
-	var play_tutorial = await OverworldManager.mc_question_textbox.option_picked
 	_set_intro_talk_completed()
-	if play_tutorial == 0:
-		TransitionScene.transition_to_tutorial()
-	else:
-		OverworldManager.can_move = true
-		setup_npcs()
-		return
 
 
-func _pick_deck(fiber: int) -> void:
-	GameManager.setup_starter_deck(fiber)
+func skip_tutorial() -> void:
+	OverworldManager.can_move = true
+	setup_npcs()
 
 
 func _create_savefile() -> void:

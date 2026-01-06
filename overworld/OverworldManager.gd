@@ -97,3 +97,7 @@ func _get_defeated_npc_ids() -> Array:
 		config.load(overworld_file)
 
 	return config.get_value("progress", "defeated_npcs", [])
+
+
+func set_can_move_to_true() -> void:
+	can_move = true

@@ -6,23 +6,33 @@ var hailstorm_scene := preload("res://styling/assets/hailstorm/HailAnimation.tsc
 @rpc("any_peer", "call_local")
 func animate_attack(card_owner_id: int, card_in_play_index: int, direction: int) -> void:
 	var card: CardInPlay = GameManager.cards_in_play[card_owner_id][card_in_play_index]
+
+	if not card:
+		return
+
+	if card.attack_tween and card.attack_tween.is_running():
+		card.attack_tween.kill()
+
+	var original_pos: Vector2 = card.position
+	var offset := Vector2.ZERO
+
 	match direction:
 		Collections.directions.UP:
-			card.position.y -= MapSettings.play_space_size.y / 2
-			await get_tree().create_timer(0.25).timeout
-			card.position.y += MapSettings.play_space_size.y / 2
+			offset = Vector2(0, -MapSettings.play_space_size.y / 2)
 		Collections.directions.DOWN:
-			card.position.y += MapSettings.play_space_size.y / 2
-			await get_tree().create_timer(0.25).timeout
-			card.position.y -= MapSettings.play_space_size.y / 2
+			offset = Vector2(0, MapSettings.play_space_size.y / 2)
 		Collections.directions.RIGHT:
-			card.position.x += MapSettings.play_space_size.x / 2
-			await get_tree().create_timer(0.25).timeout
-			card.position.x -= MapSettings.play_space_size.x / 2
+			offset = Vector2(MapSettings.play_space_size.x / 2, 0)
 		Collections.directions.LEFT:
-			card.position.x -= MapSettings.play_space_size.x / 2
-			await get_tree().create_timer(0.25).timeout
-			card.position.x += MapSettings.play_space_size.x / 2
+			offset = Vector2(-MapSettings.play_space_size.x / 2, 0)
+
+	card.attack_tween = create_tween()
+	
+	card.attack_tween.set_trans(Tween.TRANS_BACK)
+	card.attack_tween.set_ease(Tween.EASE_OUT)
+
+	card.attack_tween.tween_property(card, "position", original_pos + offset, 0.125)
+	card.attack_tween.tween_property(card, "position", original_pos, 0.125)
 
 
 @rpc("any_peer", "call_local")

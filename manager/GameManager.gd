@@ -23,8 +23,6 @@ var p2_id: int
 var players := {}
 var is_single_player := true
 var player_id: int  # The player's own id
-@onready var deck: Dictionary:
-	get = _get_current_deck
 var multiplayer_deck := {}
 
 #### BATTLE ###
@@ -51,14 +49,13 @@ var territories := []
 ### SINGLEPLAYER ###
 var ai_player: AIPlayer
 var ai_player_id: int
+var deck_builder: DeckBuilder
+@onready var save_path := "user://savedata/"
+@onready var collections_path := str(save_path, "collections.ini")
 
 ### OVERWORLD ###
 var current_scene: Variant
-
-### DECKBUILDER ###
-@onready var save_path := "user://savedata/"
-@onready var collections_path := str(save_path, "collections.ini")
-var deck_builder: DeckBuilder
+var raycast: PlayerRaycast
 
 @rpc("any_peer", "call_local")
 func add_player(
@@ -102,33 +99,6 @@ func add_player(
 		main_menu.show_start_game_button.rpc()
 
 
-func setup_starter_deck(fiber: int) -> void:
-	var config := ConfigFile.new()
-	config.load(collections_path)
-	var cards := {}
-	var starter_deck_id: int
-	match fiber:
-		Collections.fibers.PASSION:
-			starter_deck_id = DeckCollection.deck_ids.PASSION_STARTER
-		Collections.fibers.IMAGINATION:
-			starter_deck_id = DeckCollection.deck_ids.IMAGINATION_STARTER
-		Collections.fibers.GROWTH:
-			starter_deck_id = DeckCollection.deck_ids.GROWTH_STARTER
-		Collections.fibers.LOGIC:
-			starter_deck_id = DeckCollection.deck_ids.LOGIC_STARTER
-
-	for c in DeckCollection.decks[starter_deck_id]["Cards"].keys():
-		cards[c] = DeckCollection.decks[starter_deck_id]["Cards"][c]
-
-	config.set_value("card_collection", "cards", cards)
-	config.set_value("deck_data", "decks", {starter_deck_id: DeckCollection.decks[starter_deck_id]})
-	config.set_value("deck_data", "current_deck_id", starter_deck_id)
-	config.set_value("start_journey", "starting_fiber", fiber)
-	var save_error := config.save(collections_path)
-	if save_error:
-		print("Error creating card collection: ", error_string(save_error))
-
-
 @rpc("any_peer", "call_local")
 func start_game(_npc_id: int = -1) -> void:
 	main_menu.hide_main_menu()
@@ -142,7 +112,7 @@ func start_single_player_battle(npc_id: int) -> void:
 	ai_player_id = -1
 	var npc_data: Dictionary = NPCDatabase.npc_data[npc_id]
 	if !players.has(1):
-		add_player(1, 1, "Player1", deck)
+		add_player(1, 1, "Player1", DeckSetup.deck)
 	player_id = 1
 
 	add_player(2, 2, npc_data["Name"], DeckCollection.decks[npc_data["DeckID"]], npc_id)
@@ -154,22 +124,6 @@ func opposing_player_id(p_id: int) -> int:
 		return p2_id
 	else:
 		return p1_id
-
-
-func set_current_multiplayer_deck(deck_id: int) -> void:
-	var config := ConfigFile.new()
-	config.load(collections_path)
-	var deck_collection: Dictionary = config.get_value("deck_data", "decks")
-	multiplayer_deck = deck_collection[deck_id]
-
-
-func set_current_deck(deck_id: int) -> void:
-	var config := ConfigFile.new()
-	config.load(collections_path)
-	config.set_value("deck_data", "current_deck_id", deck_id)
-	var save_error := config.save(collections_path)
-	if save_error:
-		print("Error setting deck: ", error_string(save_error))
 
 
 @rpc("any_peer")
@@ -275,19 +229,3 @@ func cleanup_game() -> void:
 	### SINGLEPLAYER ###
 	ai_player = null
 	ai_player_id = -1
-
-
-func _get_current_deck() -> Dictionary:
-	if testing:
-		return DeckCollection.decks[DeckCollection.deck_ids.PLAYER_TESTING]
-	if multiplayer_deck != {}:
-		return multiplayer_deck
-	if !FileAccess.file_exists(collections_path):
-		return DeckCollection.decks[DeckCollection.pick_random_starter_deck()]
-	
-	var config := ConfigFile.new()
-	config.load(collections_path)
-	var deck_collection: Dictionary = config.get_value("deck_data", "decks")
-	var current_deck_id: int = config.get_value("deck_data", "current_deck_id")
-	var current_deck: Dictionary = deck_collection[current_deck_id]
-	return current_deck

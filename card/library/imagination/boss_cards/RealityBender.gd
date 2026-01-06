@@ -15,58 +15,64 @@ var card_to_steal: CardInPlay
 func _init() -> void:
 	boss_abilities = {
 		0: {
+			"ID": "ADD_1_TO_RANDOM_STAT",
 			"WeightFactor": 3,
 			"Func": "add_1_to_random_stat",
 			"Prepare": "prepare_add_1_to_random_stat",
 			"Text": null,
 			"MinTurn": 0,
 			"MaxTurn": -1,
-			"CleanUp": "cleanup_add_1_to_random_stat",
+			"Cleanup": "cleanup_add_1_to_random_stat",
 		},
 		1: {
+			"ID": "CREATE_INSPIRING_ARTIS",
 			"WeightFactor": 3,
 			"Func": "create_1_inspiring_artist",
 			"Prepare": "prepare_create_1_inspiring_artist",
 			"Text": "Create an Inspiring Artist in an adjacent playspace",
 			"MinTurn": 1,
 			"MaxTurn": -1,
-			"CleanUp": "cleanup_create_1_inspiring_artist",
+			"Cleanup": "cleanup_create_1_inspiring_artist",
 		},
 		2: {
+			"ID": "DEAL_1_IN_ROWS_AND_COLUMNS",
 			"WeightFactor": 3,
 			"Func": "deal_1_in_rows_and_columns",
 			"Prepare": "prepare_deal_1_in_rows_and_columns",
 			"Text": "Deal 1 damage to all enemy units in the same row and column",
 			"MinTurn": 2,
 			"MaxTurn": -1,
-			"CleanUp": "cleanup_deal_1_in_rows_and_columns"
+			"Cleanup": "cleanup_deal_1_in_rows_and_columns"
 		},
 		3: {
+			"ID": "CREATE_HOMONCULUS",
 			"WeightFactor": 2,
 			"Func": "create_1_homunculus",
 			"Prepare": "prepare_create_1_homonculus",
 			"Text": "Create 1 Homonculus",
 			"MinTurn": 3,
 			"MaxTurn": 5,
-			"CleanUp": "cleanup_create_1_homonculus",
+			"Cleanup": "cleanup_create_1_homonculus",
 		},
 		4: {
+			"ID": "ADD_1_MOVEMENT_TO_ALL",
 			"WeightFactor": 1,
 			"Func": "add_1_movement_to_all_units",
 			"Prepare": "prepare_add_1_movement_to_all_units",
 			"Text": "Add 1 movement to all units",
 			"MinTurn": 4,
 			"MaxTurn": -1,
-			"CleanUp": "cleanup_add_1_movement_to_all_units",
+			"Cleanup": "cleanup_add_1_movement_to_all_units",
 		},
 		5: {
+			"ID": "STEAL_CLOSEST_UNIT",
 			"WeightFactor": 2,
 			"Func": "steal_closest_unit",
 			"Prepare": "prepare_steal_closest_unit",
 			"Text": "Steal the closest enemy unit",
 			"MinTurn": 2,
 			"MaxTurn": -1,
-			"CleanUp": "cleanup_steal_closest_unit",
+			"Cleanup": "cleanup_steal_closest_unit",
 		},
 	}
 #
@@ -274,7 +280,7 @@ func cleanup_steal_closest_unit() -> void:
 
 
 func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
-	if next_boss_ability["Func"] == "create_1_inspiring_artist":
+	if next_boss_ability["ID"] == "CREATE_INSPIRING_ARTIS":
 		if (
 			trigger == Collections.triggers.CARD_MOVED and triggering_card == self
 		):
@@ -286,7 +292,7 @@ func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 		):
 			show_1_inspiring_artist_dummy()
 	
-	if next_boss_ability["Func"] == "deal_1_in_rows_and_columns":
+	if next_boss_ability["ID"] == "DEAL_1_IN_ROWS_AND_COLUMNS":
 		if (
 			trigger == Collections.triggers.CARD_MOVED and triggering_card == self
 		):
@@ -295,13 +301,13 @@ func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 	
 	
 	if (
-		next_boss_ability["Func"] == "add_1_movement_to_all_units" 
+		next_boss_ability["ID"] == "ADD_1_MOVEMENT_TO_ALL" 
 		and trigger == Collections.triggers.CARD_MOVED
 		and triggering_card.card_owner_id == card_owner_id
 	):
 		prepare_add_1_movement_to_all_units()
 	
-	if next_boss_ability["Func"] == "steal_closest_unit" and trigger in [
+	if next_boss_ability["ID"] == "STEAL_CLOSEST_UNIT" and trigger in [
 		Collections.triggers.CARD_CREATED, Collections.triggers.CARD_DESTROYED, 
 		Collections.triggers.CARD_MOVED
 	]:
