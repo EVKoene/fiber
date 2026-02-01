@@ -9,7 +9,7 @@ var inspiring_artist_ps: PlaySpace
 var homonculus_dummy: Card
 var homonculus_ps: PlaySpace
 
-var burn_sprites := []
+var targeted_ps := []
 var card_to_steal: CardInPlay
 
 func _init() -> void:
@@ -17,62 +17,62 @@ func _init() -> void:
 		0: {
 			"ID": "ADD_1_TO_RANDOM_STAT",
 			"WeightFactor": 3,
-			"Func": "add_1_to_random_stat",
-			"Prepare": "prepare_add_1_to_random_stat",
+			"Func": func(): add_1_to_random_stat(),
+			"Prepare": func(): prepare_add_1_to_random_stat(),
 			"Text": null,
 			"MinTurn": 0,
 			"MaxTurn": -1,
-			"Cleanup": "cleanup_add_1_to_random_stat",
+			"Cleanup": func(): cleanup_add_1_to_random_stat(),
 		},
 		1: {
 			"ID": "CREATE_INSPIRING_ARTIS",
 			"WeightFactor": 3,
-			"Func": "create_1_inspiring_artist",
-			"Prepare": "prepare_create_1_inspiring_artist",
+			"Func": func(): create_1_inspiring_artist(),
+			"Prepare": func(): prepare_create_1_inspiring_artist(),
 			"Text": "Create an Inspiring Artist in an adjacent playspace",
 			"MinTurn": 1,
 			"MaxTurn": -1,
-			"Cleanup": "cleanup_create_1_inspiring_artist",
+			"Cleanup": func(): cleanup_create_1_inspiring_artist(),
 		},
 		2: {
 			"ID": "DEAL_1_IN_ROWS_AND_COLUMNS",
 			"WeightFactor": 3,
-			"Func": "deal_1_in_rows_and_columns",
-			"Prepare": "prepare_deal_1_in_rows_and_columns",
+			"Func": func(): deal_1_in_rows_and_columns(),
+			"Prepare": func(): prepare_deal_1_in_rows_and_columns(),
 			"Text": "Deal 1 damage to all enemy units in the same row and column",
 			"MinTurn": 2,
 			"MaxTurn": -1,
-			"Cleanup": "cleanup_deal_1_in_rows_and_columns"
+			"Cleanup": func(): cleanup_deal_1_in_rows_and_columns()
 		},
 		3: {
 			"ID": "CREATE_HOMONCULUS",
 			"WeightFactor": 2,
-			"Func": "create_1_homunculus",
-			"Prepare": "prepare_create_1_homonculus",
+			"Func": func(): create_1_homunculus(),
+			"Prepare": func(): prepare_create_1_homonculus(),
 			"Text": "Create 1 Homonculus",
 			"MinTurn": 3,
 			"MaxTurn": 5,
-			"Cleanup": "cleanup_create_1_homonculus",
+			"Cleanup": func(): cleanup_create_1_homonculus(),
 		},
 		4: {
 			"ID": "ADD_1_MOVEMENT_TO_ALL",
 			"WeightFactor": 1,
-			"Func": "add_1_movement_to_all_units",
-			"Prepare": "prepare_add_1_movement_to_all_units",
+			"Func": func(): add_1_movement_to_all_units(),
+			"Prepare": func(): prepare_add_1_movement_to_all_units(),
 			"Text": "Add 1 movement to all units",
 			"MinTurn": 4,
 			"MaxTurn": -1,
-			"Cleanup": "cleanup_add_1_movement_to_all_units",
+			"Cleanup": func(): cleanup_add_1_movement_to_all_units(),
 		},
 		5: {
 			"ID": "STEAL_CLOSEST_UNIT",
 			"WeightFactor": 2,
-			"Func": "steal_closest_unit",
-			"Prepare": "prepare_steal_closest_unit",
+			"Func": func(): steal_closest_unit(),
+			"Prepare": func(): prepare_steal_closest_unit(),
 			"Text": "Steal the closest enemy unit",
 			"MinTurn": 2,
 			"MaxTurn": -1,
-			"Cleanup": "cleanup_steal_closest_unit",
+			"Cleanup": func(): cleanup_steal_closest_unit(),
 		},
 	}
 #
@@ -146,14 +146,10 @@ func prepare_deal_1_in_rows_and_columns() -> void:
 	for ps in GameManager.play_spaces:
 		if ps.column != column and ps.row != row:
 			continue
-	
-		var burn := Sprite2D.new()
-		burn.texture = load("res://styling/assets/fire/Flame_diagonal_up.png")
-		burn.position.x = MapSettings.get_column_start_x(ps.column) + (MapSettings.play_space_size.x / 4)
-		burn.position.y = MapSettings.get_row_start_y(ps.row) + (MapSettings.play_space_size.y / 4)
-		GameManager.battle_map.add_child(burn)
-		burn.modulate = Color(1, 1, 1, 0.5)
-		burn_sprites.append(burn)
+		
+		targeted_ps.append(ps)
+		ps.targeted_for_damage = true
+		ps.modulate = ps.get_playspace_color()
 	
 
 func deal_1_in_rows_and_columns() -> void:
@@ -174,9 +170,11 @@ func deal_1_in_rows_and_columns() -> void:
 
 
 func cleanup_deal_1_in_rows_and_columns() -> void:
-	for burn in burn_sprites:
-		burn_sprites.erase(burn)
-		burn.queue_free()
+	for ps in targeted_ps:
+		ps.targeted_for_damage = true
+		ps.modulate = ps.get_color()
+	
+	targeted_ps = []
 
 
 func prepare_create_1_homonculus() -> void:

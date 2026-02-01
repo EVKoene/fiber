@@ -23,7 +23,7 @@ func _ready():
 		GameManager.is_server, str("Decks should only be created by server. Was instead created
 		by player with player_id ", GameManager.player_id)
 	)
-	if GameManager.is_single_player and deck_owner_id == GameManager.ai_player_id:
+	if GameManager.is_single_player and deck_owner_id == GameManager.ai_player_id and !GameManager.battle_map.is_tutorial:
 		if !NPCDatabase.npc_data[GameManager.players[GameManager.ai_player_id]["NPCID"]]["PlayCards"]:
 			return
 	

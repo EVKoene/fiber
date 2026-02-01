@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://daoo7buju8iat"
-path="res://.godot/imported/Exterminate.jpg-73534b25bb0ca5fd2a461afa0819afd4.ctex"
+uid="uid://c0egr46nkd87"
+path="res://.godot/imported/PlugBuddy.png-fad09f7d4c1da2f55b658b337ecc31f3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_images/logic/Exterminate.jpg"
-dest_files=["res://.godot/imported/Exterminate.jpg-73534b25bb0ca5fd2a461afa0819afd4.ctex"]
+source_file="res://assets/card_images/logic/PlugBuddy.png"
+dest_files=["res://.godot/imported/PlugBuddy.png-fad09f7d4c1da2f55b658b337ecc31f3.ctex"]
 
 [params]
 

@@ -65,7 +65,7 @@ func reduce_health(card: CardInPlay, value: int) -> void:
 
 
 @rpc("any_peer", "call_local")
-func play_boss(boss_index: int, card_owner_id: int, column: int, row: int) -> void:
+func play_boss(boss_index: int, card_owner_id: int, column: int, row: int) -> CardInPlay:
 	var card: CardInPlay = card_in_play_scene.instantiate()
 	card.set_script(BossCardDatabase.boss_cards_info[boss_index]["Class"])
 	card.card_owner_id = card_owner_id
@@ -76,7 +76,8 @@ func play_boss(boss_index: int, card_owner_id: int, column: int, row: int) -> vo
 	GameManager.cards_in_play[card_owner_id].append(card)
 	GameManager.battle_map.add_child(card)
 	GameManager.zoom_preview.reset_zoom_preview()
-	GameManager.ai_player.boss = card
+	
+	return card
 
 
 @rpc("any_peer", "call_local")
@@ -127,6 +128,13 @@ func create_fabrication(
 		costs[Collections.fibers.LOGIC],
 		fabrication
 	)
+	fabrication.card_data = {
+		"MaxAttack": max_attack,
+		"MinAttack": min_attack,
+		"Health": health,
+		"Movement": movement,
+		"AttackRange": attack_range,
+	}
 	GameManager.cards_in_play[card_owner_id].append(fabrication)
 	GameManager.battle_map.add_child(fabrication)
 

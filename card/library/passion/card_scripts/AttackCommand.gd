@@ -6,7 +6,7 @@ class_name AttackCommand
 func resolve_spell() -> bool:
 	Events.show_instructions.emit("Pick one of your units")
 	TargetSelection.select_targets(
-		1, TargetSelection.target_restrictions.ANY_UNITS, null, false, -1, true
+		1, TargetSelection.target_restrictions.OWN_UNITS, null, false, -1, true
 	)
 	await TargetSelection.target_selection_finished
 	var selected_card: CardInPlay
@@ -30,7 +30,7 @@ func resolve_spell() -> bool:
 		# finish_resolve will emit target_selection_finished, and because that has already been
 		# emitted in this same function we need to wait a frame to avoid errors
 		BattleSynchronizer.finish_resolve()
-		if Tutorial.next_phase == Tutorial.tutorial_phases.END_TURN:
+		if Tutorial.next_phase == Tutorial.tutorial_phases.HOVER_BOSS:
 			Tutorial.continue_tutorial()
 		return true
 

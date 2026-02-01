@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cnfpicvknbe6v"
-path="res://.godot/imported/FurnaceBot.jpg-0db63760b7e56a399ab4c6885519dded.ctex"
+uid="uid://dig0j8u686e8s"
+path="res://.godot/imported/NetworkFeeder.png-6994bb06269bf5a6f68cf9e9e5e4822a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_images/logic/FurnaceBot.jpg"
-dest_files=["res://.godot/imported/FurnaceBot.jpg-0db63760b7e56a399ab4c6885519dded.ctex"]
+source_file="res://assets/card_images/logic/NetworkFeeder.png"
+dest_files=["res://.godot/imported/NetworkFeeder.png-6994bb06269bf5a6f68cf9e9e5e4822a.ctex"]
 
 [params]
 

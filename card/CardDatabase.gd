@@ -20,7 +20,7 @@ enum cards {
 	HEART_OF_THE_FOREST, MARCELLA_WHO_NURTURES_GROWTH, VOLCANIC_ERUPTION, DINOSAUR, DINOSAUR_EGG,
 	
 	### LOGIC ### (16)
-	FACTORY_WORKER, OBSTRUCTION_CONSTRUCTION, SHOCK_CHARGE, ASSEMBLY_BOT, FUEL_DISTRIBUTER, 
+	FACTORY_WORKER, OBSTRUCTION_CONSTRUCTION, SHOCK_CHARGE, ASSEMBLY_BOT, FUEL_DISTRIBUTOR, 
 	NETWORK_FEEDER, RESOURCE_EXTRACTOR, FURNACE_BOT, EXTERMINATE, PLUG_BUDDY, COMPUTING_BOT, 
 	ZOLOI_CHARGER, COPY_MACHINE, ZALOGI_MIND_OF_MACHINES, SUPPLY_DELIVERY, SENTRY_DEFENDER,
 	
@@ -94,7 +94,7 @@ var cards_info = {
 			Collections.fibers.LOGIC: 0,
 		},
 		"TargetRestrictions": TargetSelection.target_restrictions.OWN_UNITS,
-		"Text": "Pick one of your units. Deal damage equal to it's max attack to a unit in range 2.",
+		"Text": "Pick one of your units. Attack a unit in range 2, regardless of range.",
 		"CardRange": 2,
 		"IMGPath": "res://assets/card_images/passion/AttackCommand.png",
 	},
@@ -1191,8 +1191,8 @@ cards.FLOW_ACCELERATOR: {
 		"IMGPath": "res://assets/card_images/logic/FactoryWorker.png",
 	},
 	
-	cards.FUEL_DISTRIBUTER: {
-		"InGameName": "Fuel Distributer",
+	cards.FUEL_DISTRIBUTOR: {
+		"InGameName": "Fuel Distributor",
 		"CardType": Collections.card_types.UNIT,
 		"fibers": [Collections.fibers.LOGIC],
 		"Costs": {
@@ -1210,7 +1210,7 @@ cards.FLOW_ACCELERATOR: {
 		"Lord": false,
 		"Text": "<R>, Exhaust: Add 1 movement, 1 min attack, 1 max attack and 1 health to each 
 		adjacent unit until your next turn",
-		"IMGPath": "res://assets/card_images/logic/FuelDistributer.png",
+		"IMGPath": "res://assets/card_images/logic/FuelDistributor.png",
 	},
 	
 	cards.SENTRY_DEFENDER: {
@@ -1250,7 +1250,7 @@ cards.FLOW_ACCELERATOR: {
 		"Movement": 1,
 		"AttackRange": 1,
 		"Lord": false,
-		"Text": "This unit gets 2 max attack and 2 health for each adjacent allied unit",
+		"Text": "This unit gets 2 max attack and 1 shield for each adjacent allied unit",
 		"Purposes": [Collections.purposes.BATTLE],
 		"IMGPath": "res://assets/card_images/logic/NetworkFeeder.png",
 	},
@@ -1803,8 +1803,8 @@ func get_card_class(card_index: int) -> Variant:
 			card = ShockCharge
 		cards.FACTORY_WORKER:
 			card = FactoryWorker
-		cards.FUEL_DISTRIBUTER:
-			card = FuelDistributer
+		cards.FUEL_DISTRIBUTOR:
+			card = FuelDistributor
 		cards.NETWORK_FEEDER:
 			card = NetworkFeeder
 		cards.RESOURCE_EXTRACTOR:

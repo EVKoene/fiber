@@ -28,7 +28,7 @@ func call_triggered_funcs(trigger: int, _triggering_card: Card) -> void:
 			Collections.stats.MAX_ATTACK, card_owner_id, card_in_play_index, stat_increase * 2, -1
 		)
 		CardManipulation.change_battle_stat(
-			Collections.stats.HEALTH, card_owner_id, card_in_play_index, stat_increase * 2, -1
+			Collections.stats.SHIELD, card_owner_id, card_in_play_index, stat_increase, -1
 		)
 
 		n_allies_in_adjacent_spaces = new_n_allies

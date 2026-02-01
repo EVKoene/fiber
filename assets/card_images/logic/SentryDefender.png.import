@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b2yritv1hscdr"
-path="res://.godot/imported/ComputingBot.jpg-403ed8ae5300a470a239e5208f98b45a.ctex"
+uid="uid://ckrpj5jjwvnai"
+path="res://.godot/imported/SentryDefender.png-54d3f5953beaa98a73f18d14dc9e6714.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_images/logic/ComputingBot.jpg"
-dest_files=["res://.godot/imported/ComputingBot.jpg-403ed8ae5300a470a239e5208f98b45a.ctex"]
+source_file="res://assets/card_images/logic/SentryDefender.png"
+dest_files=["res://.godot/imported/SentryDefender.png-54d3f5953beaa98a73f18d14dc9e6714.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dhywvj48es7xg"
-path="res://.godot/imported/FactoryBot.png-01299c7602aeb9052edb31f1fd7e813c.ctex"
+uid="uid://c67jilngd5g3g"
+path="res://.godot/imported/ComputingBot.png-f301f82d70c76bd8404ccaca16ced681.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_images/logic/FactoryBot.png"
-dest_files=["res://.godot/imported/FactoryBot.png-01299c7602aeb9052edb31f1fd7e813c.ctex"]
+source_file="res://assets/card_images/logic/ComputingBot.png"
+dest_files=["res://.godot/imported/ComputingBot.png-f301f82d70c76bd8404ccaca16ced681.ctex"]
 
 [params]
 

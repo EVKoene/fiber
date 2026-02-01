@@ -14,63 +14,64 @@ var protector_ps: PlaySpace
 func _init() -> void:
 	boss_abilities = {
 		0: {
+			"ID": "ADD_3_HEALTH",
 			"WeightFactor": 3,
-			"Func": "add_3_health",
-			"Prepare": "prepare_add_3_health",
+			"Func": func(): add_3_health(),
+			"Prepare": func(): prepare_add_3_health(),
 			"Text": "Add 3 health",
 			"MinTurn": 0,
 			"MaxTurn": 4,
-			"Cleanup": "cleanup_add_3_health",
+			"Cleanup": func(): cleanup_add_3_health(),
 		},
 		
 		1: {
 			"WeightFactor": 2,
-			"Func": "create_1_botano_gardener",
-			"Prepare": "prepare_1_botano_gardener",
+			"Func": func(): create_1_botano_gardener(),
+			"Prepare": func(): prepare_1_botano_gardener(),
 			"Text": "Create 1 Botano Gardener in an adjacent playspace, then exhaust",
 			"MinTurn": 0,
 			"MaxTurn": 3,
-			"Cleanup": "cleanup_create_1_botano_gardener",
+			"Cleanup": func(): cleanup_create_1_botano_gardener(),
 		},
 		
 		2: {
 			"WeightFactor": 2,
-			"Func": "create_1_dinosaur_egg",
-			"Prepare": "prepare_1_dinosaur_egg",
+			"Func": func(): create_1_dinosaur_egg(),
+			"Prepare": func(): prepare_1_dinosaur_egg(),
 			"Text": "Create a dinosaur egg in an adjacent playspace, then exhaust",
 			"MinTurn": 2,
 			"MaxTurn": 4,
-			"Cleanup": "cleanup_dinosaur_eggs",
+			"Cleanup": func(): cleanup_dinosaur_eggs(),
 		},
 		
 		3: {
 			"WeightFactor": 2,
-			"Func": "add_5_health_1_movement",
-			"Prepare": "prepare_add_5_health_1_movement",
+			"Func": func(): add_5_health_1_movement(),
+			"Prepare": func(): prepare_add_5_health_1_movement(),
 			"Text": "Add 5 health and 1 movement",
 			"MinTurn": 5,
 			"MaxTurn": -1,
-			"Cleanup": "cleanup_add_5_health_1_movement",
+			"Cleanup": func(): cleanup_add_5_health_1_movement(),
 		},
 		
 		4: {
 			"WeightFactor": 2,
-			"Func": "create_1_protector",
-			"Prepare": "prepare_1_protector",
+			"Func": func(): create_1_protector(),
+			"Prepare": func(): prepare_1_protector(),
 			"Text": "Create 1 protector of the forest in an adjacent playspace, then exhaust",
 			"MinTurn": 5,
 			"MaxTurn": -1,
-			"Cleanup": "cleanup_1_protector",
+			"Cleanup": func(): cleanup_1_protector(),
 		},
 		
 		5: {
 			"WeightFactor": 2,
-			"Func": "create_2_dinosaur_eggs",
-			"Prepare": "prepare_2_dinosaur_eggs",
+			"Func": func(): create_2_dinosaur_eggs(),
+			"Prepare": func(): prepare_2_dinosaur_eggs(),
 			"Text": "Create 2 dinosaur eggs in adjacent playspaces, then exhaust",
 			"MinTurn": 5,
 			"MaxTurn": -1,
-			"Cleanup": "cleanup_dinosaur_eggs",
+			"Cleanup": func(): cleanup_dinosaur_eggs(),
 		},
 	}
 
@@ -194,7 +195,7 @@ func prepare_1_protector() -> void:
 	var ps_options := []
 	
 	for ps in current_play_space.adjacent_play_spaces():
-		if !ps.card_in_this_play_spaces:
+		if !ps.card_in_this_play_space:
 			ps_options.append(ps)
 	
 	if len(ps_options) >= 1:

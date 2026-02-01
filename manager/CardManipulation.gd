@@ -11,7 +11,7 @@ func destroy(card_owner_id: int, cip_index: int) -> void:
 	BattleSynchronizer.call_triggered_funcs(Collections.triggers.CARD_DESTROYED, card)
 	card.call_deferred("remove_from_cards_in_play")
 	card.call_deferred("queue_free")
-	if card.is_boss:
+	if card.is_boss and !GameManager.battle_map.is_tutorial:
 		if card.card_owner_id == GameManager.player_id:
 			BattleSynchronizer.finish_with_victory()
 		else:
@@ -68,4 +68,16 @@ func show_card_dummy(card_index: int, ps: PlaySpace) -> Card:
 	card.scale *= MapSettings.card_in_play_size / card.size
 	card.modulate = Color(1, 1, 1, 0.25)
 	
+	disable_input(card)
+	
 	return card
+
+
+func disable_input(node: Node) -> void:
+	if node is Control:
+		node.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	elif node is CollisionObject2D:
+		node.input_pickable = false
+	
+	for child in node.get_children():
+		disable_input(child)

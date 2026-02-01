@@ -584,7 +584,7 @@ var decks := {
 		"Cards":
 		{
 			cards.ASSEMBLY_BOT: 15,
-			cards.FUEL_DISTRIBUTER: 15,
+			cards.FUEL_DISTRIBUTOR: 15,
 			cards.NETWORK_FEEDER: 10,
 			cards.EXTERMINATE: 10,
 			cards.FURNACE_BOT: 10,
@@ -603,7 +603,7 @@ var decks := {
 		{
 			cards.ASSEMBLY_BOT: 15,
 			cards.SHOCK_CHARGE: 15,
-			cards.FUEL_DISTRIBUTER: 10,
+			cards.FUEL_DISTRIBUTOR: 10,
 			cards.RESOURCE_EXTRACTOR: 10,
 			cards.EXTERMINATE: 10,
 			cards.FURNACE_BOT: 10,

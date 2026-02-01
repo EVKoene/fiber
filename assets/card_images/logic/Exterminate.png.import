@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://n5encxw77nhw"
-path="res://.godot/imported/ZalogiMindOfMachines.png-796a104023488749ca4c618a727e872c.ctex"
+uid="uid://lmabhmh3lxv5"
+path="res://.godot/imported/Exterminate.png-342a4d42d0654f3177a11390d5b1010c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_images/logic/ZalogiMindOfMachines.png"
-dest_files=["res://.godot/imported/ZalogiMindOfMachines.png-796a104023488749ca4c618a727e872c.ctex"]
+source_file="res://assets/card_images/logic/Exterminate.png"
+dest_files=["res://.godot/imported/Exterminate.png-342a4d42d0654f3177a11390d5b1010c.ctex"]
 
 [params]
 

@@ -30,6 +30,7 @@ var contest_space: bool
 var card_in_this_play_space: CardInPlay
 var conquered_by: int  # player_id
 var selected_for_movement := false
+var targeted_for_damage := false
 var territory: Territory
 
 
@@ -379,3 +380,12 @@ func _on_gui_input(event):
 		TargetSelection.card_selected_for_movement.exhaust()
 		TargetSelection.end_selecting()
 		GameManager.turn_manager.set_turn_actions_enabled(true)
+
+
+func get_playspace_color() -> Color:
+	var color := CardCollections.BASE_COLOR
+	
+	if targeted_for_damage:
+		color *= CardCollections.TARGETED_DAMAGE_TINT
+	
+	return color

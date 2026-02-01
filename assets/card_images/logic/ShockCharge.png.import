@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cfarl2swgi6kp"
-path="res://.godot/imported/ZoloiCharger.png-e6f1e7e131eb7cdf50c779c13e3fa088.ctex"
+uid="uid://c5dqxmf0xk4ty"
+path="res://.godot/imported/ShockCharge.png-bf649fe149c5ef228d60bd7288b98085.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_images/logic/ZoloiCharger.png"
-dest_files=["res://.godot/imported/ZoloiCharger.png-e6f1e7e131eb7cdf50c779c13e3fa088.ctex"]
+source_file="res://assets/card_images/logic/ShockCharge.png"
+dest_files=["res://.godot/imported/ShockCharge.png-bf649fe149c5ef228d60bd7288b98085.ctex"]
 
 [params]
 
