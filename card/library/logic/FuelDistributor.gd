@@ -1,6 +1,6 @@
 extends CardInPlay
 
-class_name FuelDistributer
+class_name FuelDistributor
 
 
 func _init():

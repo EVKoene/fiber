@@ -105,6 +105,7 @@ var npc_data: Dictionary = {
 			}
 		},
 		"Battle": false,
+		"PlayCards": false,
 		"CharacterModel": character_types.WISE_MAN,
 	},
 	npcs.ALPHONSO:

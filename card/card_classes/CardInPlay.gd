@@ -592,7 +592,6 @@ func _on_gui_input(event):
 		right_mouse_button_pressed
 		and card_owner_id == GameManager.player_id
 		and !exhausted
-		and !card_sel_for_movement
 		and (
 			len(abilities) > 0
 			or (

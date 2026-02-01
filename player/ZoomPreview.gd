@@ -48,12 +48,12 @@ func preview_hand_card(card: CardInHand, lock_card: bool) -> void:
 	if card_type in [Collections.card_types.UNIT, Collections.card_types.BOSS]:
 		$Vbox/BattleStatsContainer.show()
 		$Vbox/CardRange.hide()
-		$Vbox/BattleStatsContainer/AttackRange.update_stat(card.attack_range)
-		$Vbox/BattleStatsContainer/DefenseBox/Health.update_stat(card.health)
-		$Vbox/BattleStatsContainer/AttackBox/MaxAttack.update_stat(card.max_attack)
-		$Vbox/BattleStatsContainer/AttackBox/MinAttack.update_stat(card.min_attack)
-		$Vbox/BattleStatsContainer/Movement.update_stat(card.movement)
-		$Vbox/BattleStatsContainer/DefenseBox/Shield.update_stat(card.shield)
+		$Vbox/BattleStatsContainer/AttackRange.update_stat(card.battle_stats.attack_range)
+		$Vbox/BattleStatsContainer/DefenseBox/Health.update_stat(card.battle_stats.health)
+		$Vbox/BattleStatsContainer/AttackBox/MaxAttack.update_stat(card.battle_stats.max_attack)
+		$Vbox/BattleStatsContainer/AttackBox/MinAttack.update_stat(card.battle_stats.min_attack)
+		$Vbox/BattleStatsContainer/Movement.update_stat(card.battle_stats.movement)
+		$Vbox/BattleStatsContainer/DefenseBox/Shield.update_stat(card.battle_stats.shield)
 		
 	else:
 		$Vbox/CardRange.show()
@@ -98,6 +98,8 @@ func preview_card_in_play(card: CardInPlay, lock_card: bool) -> void:
 	$CardImage.texture = load(img_path)
 	if card.is_boss:
 		set_card_text(card.next_boss_ability["Text"])
+		if Tutorial.next_phase == Tutorial.tutorial_phases.BOSS_PREVIEW:
+			Tutorial.continue_tutorial()
 	else:
 		set_card_text(card.card_text)
 

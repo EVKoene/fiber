@@ -6,7 +6,7 @@ enum tutorial_phases {
 	CARD_MOVEMENT, CARD_ATTACK_RANGE, CARD_MAX_ATTACK, CARD_HEALTH, CARD_SHIELD, 
 	RESOURCES, RESOURCE_REFRESH, PLAY_CARD, FACTION_RESOURCES, MOVE_CARD, ATTACK_CARD, EXHAUST, 
 	ATTACK_FURTHER, CONQUER_VICTORY_SPACES, PROGRESS_BAR, USE_ABILITIES, SPELLS, 
-	USE_ATTACK_COMMAND, END_TURN, FINISH_TUTORIAL
+	USE_ATTACK_COMMAND, END_TURN, HOVER_BOSS, BOSS_PREVIEW, BOSS_TARGET, FINISH_TUTORIAL
 }
 
 @onready var play_space_arrow_scene: PackedScene = preload("res://map/play_space/PlaySpaceArrow.tscn")
@@ -17,6 +17,8 @@ var battle_map: BattleMap
 
 var arrow_size := Vector2(100, 100)
 var current_arrows := []
+
+var boss: CardInPlay
 
 
 func setup_tutorial() -> void:
@@ -134,12 +136,12 @@ func _card_cost() -> void:
 func _card_movement() -> void:
 	is_awaiting_tutorial_input = false
 	battle_map.show_tutorial_text(
-		"In the lower left corner of a card you'll find its movement. This Gorilla will be able 
+		"In the bottem center of a card you'll find its movement. This Gorilla will be able 
 		to move 1 space each turn.\n\n(Click to continue)"
 	)
 	var arrow_position := Vector2(
-		GameManager.zoom_preview.position.x + GameManager.zoom_preview.size.x * 0.7,
-		GameManager.zoom_preview.position.y + GameManager.zoom_preview.size.y * 1.9
+		GameManager.zoom_preview.position.x + GameManager.zoom_preview.size.x * 1.4,
+		GameManager.zoom_preview.position.y + GameManager.zoom_preview.size.y * 1.85
 	)
 	_create_arrow(arrow_position, 180)
 	pause_battlemap()
@@ -150,7 +152,7 @@ func _card_movement() -> void:
 func _card_attack_range() -> void:
 	is_awaiting_tutorial_input = false
 	battle_map.show_tutorial_text(
-		"After the movement value you will find the attack range. This Gorilla will be able 
+		"In the bottem left corner you will find the attack range. This Gorilla will be able 
 		to attack units within a range of 1 space.\n\n(Click to continue)"
 	)
 	var arrow_position := Vector2(
@@ -166,13 +168,13 @@ func _card_attack_range() -> void:
 func _card_max_and_min_attack() -> void:
 	is_awaiting_tutorial_input = false
 	battle_map.show_tutorial_text(
-		"After the attack range you will find its max attack (the sword) and its min attack (the 
+		"Above attack range you will find its max attack (the sword) and its min attack (the 
 		dagger). \nWhenever this unit attacks, its damage will be a random number in between those two.
 		\n\n(Click to continue)"
 	)
 	var arrow_position := Vector2(
-		GameManager.zoom_preview.position.x + GameManager.zoom_preview.size.x * 1.3,
-		GameManager.zoom_preview.position.y + GameManager.zoom_preview.size.y * 1.9
+		GameManager.zoom_preview.position.x + GameManager.zoom_preview.size.x * 0.9,
+		GameManager.zoom_preview.position.y + GameManager.zoom_preview.size.y * 1.3
 	)
 	_create_arrow(arrow_position, 180)
 	pause_battlemap()
@@ -183,14 +185,14 @@ func _card_max_and_min_attack() -> void:
 func _card_health() -> void:
 	is_awaiting_tutorial_input = false
 	battle_map.show_tutorial_text(
-		"After the max and min attack you'll find the cards health. When this reaches 0 the unit 
+		"On the right side you'll find the cards health. When this reaches 0 the unit 
 		will die.\n\n(Click to continue)"
 	)
 	var arrow_position := Vector2(
-		GameManager.zoom_preview.position.x + GameManager.zoom_preview.size.x * 1.5,
-		GameManager.zoom_preview.position.y + GameManager.zoom_preview.size.y * 1.9
+		GameManager.zoom_preview.position.x + GameManager.zoom_preview.size.x * 0.75,
+		GameManager.zoom_preview.position.y + GameManager.zoom_preview.size.y * 0.73
 	)
-	_create_arrow(arrow_position, 180)
+	_create_arrow(arrow_position, 0)
 	pause_battlemap()
 	next_phase = tutorial_phases.CARD_SHIELD
 	is_awaiting_tutorial_input = true
@@ -203,10 +205,10 @@ func _card_shield() -> void:
 		the shield amount.\n\n(Click to continue)"
 	)
 	var arrow_position := Vector2(
-		GameManager.zoom_preview.position.x + GameManager.zoom_preview.size.x * 1.7,
-		GameManager.zoom_preview.position.y + GameManager.zoom_preview.size.y * 1.9
+		GameManager.zoom_preview.position.x + GameManager.zoom_preview.size.x * 0.75,
+		GameManager.zoom_preview.position.y + GameManager.zoom_preview.size.y * 1
 	)
-	_create_arrow(arrow_position, 180)
+	_create_arrow(arrow_position, 0)
 	pause_battlemap()
 	next_phase = tutorial_phases.RESOURCES
 	is_awaiting_tutorial_input = true
@@ -457,7 +459,73 @@ func _use_attack_command() -> void:
 	)
 	
 	unpause_battlemap()
+	next_phase = tutorial_phases.HOVER_BOSS
+
+
+func _hover_boss() -> void:
+	for p in GameManager.players:
+		for c in GameManager.cards_in_play[p]:
+			c.call_deferred("destroy")
+	
+	boss = BattleSynchronizer.play_boss(
+		BossCardDatabase.boss_cards.FANATIC_LEADER, GameManager.p2_id, 4, 0
+	)
+	boss.next_boss_ability = boss.boss_abilities[0]
+	
+	battle_map.show_tutorial_text(
+		"In the campaign you will battle against boss units. They have more health and will use a
+		special ability every turn. Hover the boss to show the ability it will use next turn.
+		"
+	)
+	
+	next_phase = tutorial_phases.BOSS_PREVIEW
+
+
+func _boss_preview() -> void:
+	CardManipulation.show_card_dummy(
+		CardDatabase.cards.FANATIC_FOLLOWER, GameManager.ps_column_row[3][0]
+	)
+	CardManipulation.show_card_dummy(
+		CardDatabase.cards.FANATIC_FOLLOWER, GameManager.ps_column_row[4][1]
+	)
+	
+	battle_map.show_tutorial_text(
+		"The boss abilities will also be previewed during your turn. For example, the boss currently
+		indicates it will play two units in the columns next to it by showing two translucent
+		dummies.
+		
+		(Click to continue)
+		"
+	)
+	
+	pause_battlemap()
+	next_phase = tutorial_phases.BOSS_TARGET
+	is_awaiting_tutorial_input = true
+
+
+func _target_boss() -> void:
+	BattleSynchronizer.play_unit(CardDatabase.cards.GORILLA, GameManager.p1_id, 2, 3)
+	BattleSynchronizer.play_unit(CardDatabase.cards.GORILLA, GameManager.p1_id, 3, 4)
+	
+	var next_ability := {}
+	print(boss.boss_abilities)
+	for ability in boss.boss_abilities:
+		if boss.boss_abilities[ability]["ID"] == "DEAL_3_TO_CLOSEST":
+			next_ability = boss.boss_abilities[ability]
+	
+	boss.next_boss_ability = next_ability
+	boss.next_boss_ability["Prepare"].call()
+	
+	battle_map.show_tutorial_text(
+		"When one ore more of your units will be targeted by the boss, their color will change.
+		For example, the red gorilla will be dealt 3 damage next turn.
+		"
+	)
+	
+	pause_battlemap()
 	next_phase = tutorial_phases.END_TURN
+	is_awaiting_tutorial_input = true
+
 
 
 func _end_turn() -> void:
@@ -474,7 +542,7 @@ func _end_turn() -> void:
 	_create_arrow(arrow_position, 0)
 	
 	pause_battlemap()
-	next_phase = tutorial_phases.FINISH_TUTORIAL
+	next_phase = tutorial_phases.HOVER_BOSS
 	is_awaiting_tutorial_input = true
 
 
@@ -496,7 +564,7 @@ func unpause_battlemap() -> void:
 	GameManager.is_ready_to_play = true
 
 
-func _create_arrow(arrow_position: Vector2, arrow_rotation_degrees: int) -> void:
+func _create_arrow(arrow_position: Vector2, arrow_rotation_degrees := 0) -> void:
 	var arrow = play_space_arrow_scene.instantiate()
 	arrow.position.x = arrow_position.x
 	arrow.position.y = arrow_position.y
@@ -566,6 +634,12 @@ func continue_tutorial() -> void:
 			_use_attack_command()
 		tutorial_phases.END_TURN:
 			_end_turn()
+		tutorial_phases.HOVER_BOSS:
+			_hover_boss()
+		tutorial_phases.BOSS_PREVIEW:
+			_boss_preview()
+		tutorial_phases.BOSS_TARGET:
+			_target_boss()
 		tutorial_phases.FINISH_TUTORIAL:
 			_finish_tutorial()
-	
+		

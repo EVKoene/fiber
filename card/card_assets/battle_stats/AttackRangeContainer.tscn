@@ -9,6 +9,7 @@ bg_color = Color(0, 0, 0, 0.196078)
 [node name="AttackRange" type="PanelContainer"]
 offset_right = 30.0
 offset_bottom = 30.0
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_4t2iy")
 script = ExtResource("1_ntgd5")
 

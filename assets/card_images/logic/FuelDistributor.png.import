@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dt12dq4cw636o"
-path="res://.godot/imported/FuelDistributer.png-83a24f5c6f18324ef419eb8e6c7eaf21.ctex"
+uid="uid://bymq3mqy0i3x2"
+path="res://.godot/imported/FuelDistributor.png-4184e44c3e9ba7fda2269cc66c8fa6e2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_images/logic/FuelDistributer.png"
-dest_files=["res://.godot/imported/FuelDistributer.png-83a24f5c6f18324ef419eb8e6c7eaf21.ctex"]
+source_file="res://assets/card_images/logic/FuelDistributor.png"
+dest_files=["res://.godot/imported/FuelDistributor.png-4184e44c3e9ba7fda2269cc66c8fa6e2.ctex"]
 
 [params]
 

@@ -43,6 +43,7 @@ expand_mode = 3
 
 [node name="Vbox" type="VBoxContainer" parent="."]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="TopInfo" type="HBoxContainer" parent="Vbox"]
 custom_minimum_size = Vector2(150, 30)
@@ -121,6 +122,7 @@ size_flags_vertical = 8
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
+mouse_filter = 2
 
 [node name="MaxAttack" parent="Vbox/BattleStatsContainer/AttackBox" instance=ExtResource("7_j112g")]
 layout_mode = 2
@@ -134,6 +136,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
+mouse_filter = 2
 
 [node name="Health" parent="Vbox/BattleStatsContainer/DefenseBox" instance=ExtResource("11_xn0wc")]
 layout_mode = 2

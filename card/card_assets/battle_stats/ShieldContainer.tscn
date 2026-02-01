@@ -10,6 +10,7 @@ bg_color = Color(0, 0, 0, 0.196078)
 custom_minimum_size = Vector2(5, 5)
 offset_right = 60.0
 offset_bottom = 44.0
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_4t2iy")
 script = ExtResource("1_ejiu5")
 
