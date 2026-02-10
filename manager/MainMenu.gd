@@ -3,25 +3,42 @@ extends Control
 class_name MainMenu
 
 @onready var prompt_container := $PromptContainer
+@onready var save_path := "user://savedata/"
+@onready var collections_path := str(save_path, "collections.ini")
+@onready var config := ConfigFile.new()
 
 var prompt_scene := load("res://manager/YesNoPrompt.tscn")
-
 
 func _ready():
 	$MultiplayerSpawner.add_spawnable_scene("res://manager/TurnManager.tscn")
 	GameManager.main_menu = self
+	config.load(collections_path)
+	if !config.has_section("deck_data"):
+		_create_savefile()
 
 
-func show_pick_deck() -> void:
-	$DeckPicker.find_decks()
-	$DeckPicker.show()
-	$DeckPicker.set_current_decks()
-	hide_main_menu()
+func _create_savefile() -> void:
+	if !FileAccess.file_exists(collections_path):
+		var create_dir_error := DirAccess.make_dir_recursive_absolute(save_path)
+		if create_dir_error:
+			print("Error creating directory: ", error_string(create_dir_error))
+	else:
+		config.load(collections_path)
+	
+	
+	config.set_value("deck_data", "decks", {})
+	config.set_value("card_collection", "cards", {})
+	var save_error := config.save(collections_path)
+	if save_error:
+		print("Error creating collections file: ", error_string(save_error))
+	
+	for fiber in Collections.all_fibers:
+		DeckSetup.setup_starter_deck(fiber)
 
 
-func hide_deck_picker() -> void:
-	$DeckPicker.hide()
-	show_main_menu()
+func load_game() -> void:
+	var new_game := false
+	
 
 
 func show_prompt(prompt_text: String) -> void:
@@ -35,12 +52,22 @@ func show_prompt(prompt_text: String) -> void:
 
 func hide_main_menu() -> void:
 	$MainMenuContainer.hide()
-	$TestingButton.hide()
 
 
 func show_main_menu() -> void:
 	$MainMenuContainer.show()
-	$TestingButton.show()
+
+
+func show_pick_deck() -> void:
+	$MainMenuContainer/DeckPicker.find_decks()
+	$MainMenuContainer/VBoxContainer.hide()
+	$MainMenuContainer/DeckPicker.show()
+	$MainMenuContainer/DeckPicker.set_current_decks()
+
+
+func hide_pick_deck() -> void:
+	$MainMenuContainer/DeckPicker.hide()
+	$MainMenuContainer/VBoxContainer.show()
 
 
 @rpc("any_peer")
@@ -48,63 +75,8 @@ func show_start_game_button() -> void:
 	$MainMenuContainer/VBoxContainer/Start.show()
 
 
-func _on_start_pressed():
-	GameManager.start_game.rpc()
-
-
-func _on_join_random_pressed():
-	MultiplayerManager.join_random_game()
-
-
-func _on_host_lan_pressed():
-	MultiplayerManager.become_lan_host()
-
-
-func _on_join_lan_pressed():
-	MultiplayerManager.join_lan_game()
-
-
-func _on_testing_button_pressed():
-	if GameManager.testing:
-		GameManager.set_current_deck(DeckCollection.random_starter_deck_id())
-		$TestingButton.text = "Turn on testing"
-		GameManager.testing = false
-		$MainMenuContainer/VBoxContainer/IPAddress.show()
-		$MainMenuContainer/VBoxContainer/ShowIPAdress.show()
-	else:
-		GameManager.set_current_deck(DeckCollection.deck_ids.PLAYER_TESTING)
-		$TestingButton.text = "Turn off testing"
-		GameManager.testing = true
-		$MainMenuContainer/VBoxContainer/IPAddress.hide()
-		$MainMenuContainer/VBoxContainer/ShowIPAdress.hide()
-
-
 func _on_exit_pressed() -> void:
 	get_tree().quit()
-
-
-func _on_single_player_pressed() -> void:
-	GameManager.is_server = true
-	GameManager.is_player_1 = true
-	GameManager.testing = false
-	OverworldManager.can_move = false
-	PatchManager.check_version()
-
-	if !FileAccess.file_exists(GameManager.collections_path):
-		OverworldManager.create_overworld_file()
-		TransitionScene.transition_to_overworld_scene(AreaDatabase.area_ids.START_OF_JOURNEY)
-		return
-
-	var config := ConfigFile.new()
-	config.load(GameManager.collections_path)
-	if config.get_value("start_journey", "starting_fiber", -1) == -1:
-		OverworldManager.create_overworld_file()
-		TransitionScene.transition_to_overworld_scene(AreaDatabase.area_ids.START_OF_JOURNEY)
-		return
-
-	TransitionScene.transition_to_overworld_scene(
-		OverworldManager.saved_area_id, OverworldManager.saved_player_position
-	)
 
 
 func _on_tutorial_pressed():
@@ -112,20 +84,22 @@ func _on_tutorial_pressed():
 	Tutorial.setup_tutorial()
 
 
-func _on_dedicated_server_pressed():
-	MultiplayerManager.become_dedicated_server_host()
+func _on_deck_editor_pressed() -> void:
+	hide_main_menu()
+	TransitionScene.transition_to_deck_builder(DeckSetup.deck["ID"])
 
 
-func _on_show_ip_adress_pressed():
-	$YourIPLabel.text = str("Your IP: ", IP.get_local_addresses()[3])
-	$YourIPLabel.show()
-
-
-func _on_test_game_pressed():
-	GameManager.testing = true
-	GameManager.is_server = true
-	TransitionScene.transition_to_test_battle()
-
-
-func _on_pick_mp_deck_pressed() -> void:
+func _on_deck_picker_pressed() -> void:
 	show_pick_deck()
+
+
+func _on_boss_1_pressed() -> void:
+	TransitionScene.transition_to_npc_battle(NPCDatabase.npcs.ALPHONSO)
+
+
+func _on_boss_2_pressed() -> void:
+	TransitionScene.transition_to_npc_battle(NPCDatabase.npcs.BETTY)
+
+
+func _on_boss_3_pressed() -> void:
+	TransitionScene.transition_to_npc_battle(NPCDatabase.npcs.GAMZA)

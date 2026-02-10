@@ -171,8 +171,8 @@ func deal_1_in_rows_and_columns() -> void:
 
 func cleanup_deal_1_in_rows_and_columns() -> void:
 	for ps in targeted_ps:
-		ps.targeted_for_damage = true
-		ps.modulate = ps.get_color()
+		ps.targeted_for_damage = false
+		ps.modulate = ps.get_playspace_color()
 	
 	targeted_ps = []
 

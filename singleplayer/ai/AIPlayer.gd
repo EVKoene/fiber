@@ -2,6 +2,8 @@ extends Node
 
 class_name AIPlayer
 
+signal boss_ability_used
+
 @onready var card_resolve_scene := load("res://card/card_classes/CardResolve.tscn")
 var ai_turn_manager: AITurnManager
 var ai_turns := 0
@@ -10,11 +12,10 @@ var moving_cards := false
 var turn_finished := false
 var game_over := false
 var boss: CardInPlay
+var showing_boss_text := false
 
 
 func play_turn() -> void:
-	use_boss_ability()
-	
 	await play_playable_cards()
 	await GameManager.battle_map.get_tree().create_timer(0.25).timeout
 	await use_cards_in_play()
@@ -26,12 +27,17 @@ func play_turn() -> void:
 		ai_turn_manager.end_turn()
 
 
+func show_boss_ability_text() -> void:
+	GameManager.battle_map.show_text(boss.next_boss_ability["Text"])
+	showing_boss_text = true
+
+
 func use_boss_ability() -> void:
 	boss.next_boss_ability["Func"].call()
 	boss.next_boss_ability["Cleanup"].call()
-	GameManager.battle_map.show_text(boss.next_boss_ability["Text"])
-	
-	
+	play_turn()
+
+
 func draw_start_of_turn_card() -> void:
 	if !NPCDatabase.npc_data[GameManager.players[GameManager.ai_player_id]["NPCID"]]["PlayCards"]:
 		return

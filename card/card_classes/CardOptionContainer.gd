@@ -31,7 +31,6 @@ func _setup_card() -> void:
 	card.create_costs()
 	card.set_cost_container()
 	card.custom_minimum_size = MapSettings.card_in_play_size * 3
-	print(card.custom_minimum_size)
 	card.update_minimum_size()
 	card_text_container.custom_minimum_size.x = card.size.x
 	card_text_container.size.x = card.size.x

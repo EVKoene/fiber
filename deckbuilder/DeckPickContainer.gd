@@ -36,7 +36,7 @@ func _on_deck_name_button_pressed():
 	if is_multiplayer_dp_container:
 		GameManager.set_current_multiplayer_deck(deck_id)
 	else:
-		GameManager.set_current_deck(deck_id)
+		DeckSetup.set_current_deck(deck_id)
 	
 	for d in deck_picker.deck_nodes:
 		d._unhighlight_deckname()

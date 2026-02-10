@@ -89,7 +89,7 @@ func start_turn(player_id: int) -> void:
 	if turn_owner_id == GameManager.p1_id and GameManager.is_single_player:
 		show_end_turn_button()
 	elif turn_owner_id == GameManager.ai_player_id:
-		GameManager.ai_player.play_turn()
+		GameManager.ai_player.show_boss_ability_text()
 	elif !GameManager.is_single_player:
 		show_end_turn_button.rpc_id(player_id)
 	set_turn_actions_enabled(true)

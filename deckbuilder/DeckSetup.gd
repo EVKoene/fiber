@@ -9,6 +9,10 @@ func setup_starter_deck(fiber: int) -> void:
 	var config := ConfigFile.new()
 	config.load(GameManager.collections_path)
 	var cards := {}
+	
+	if config.get_value("card_collection", "cards"):
+		cards = config.get_value("card_collection", "cards")
+	
 	var starter_deck_id: int
 	match fiber:
 		Collections.fibers.PASSION:
@@ -22,9 +26,14 @@ func setup_starter_deck(fiber: int) -> void:
 
 	for c in DeckCollection.decks[starter_deck_id]["Cards"].keys():
 		cards[c] = DeckCollection.decks[starter_deck_id]["Cards"][c]
-
+	
+	var existing_decks := {}
+	if config.get_value("deck_data", "decks"):
+		existing_decks = config.get_value("deck_data", "decks")
+	existing_decks[starter_deck_id] = DeckCollection.decks[starter_deck_id]
+		
 	config.set_value("card_collection", "cards", cards)
-	config.set_value("deck_data", "decks", {starter_deck_id: DeckCollection.decks[starter_deck_id]})
+	config.set_value("deck_data", "decks", existing_decks)
 	config.set_value("deck_data", "current_deck_id", starter_deck_id)
 	config.set_value("start_journey", "starting_fiber", fiber)
 	var save_error := config.save(GameManager.collections_path)

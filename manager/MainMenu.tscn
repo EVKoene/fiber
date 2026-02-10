@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b2yg0ei03er3j"]
 
 [ext_resource type="Script" path="res://manager/MainMenu.gd" id="1_7xchd"]
-[ext_resource type="PackedScene" uid="uid://bwvclmkccbdtc" path="res://deckbuilder/DeckPicker.tscn" id="2_38ppn"]
+[ext_resource type="PackedScene" uid="uid://bwvclmkccbdtc" path="res://deckbuilder/DeckPicker.tscn" id="2_7nufb"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -37,93 +37,38 @@ grow_vertical = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="MainMenuContainer"]
 layout_mode = 2
 
-[node name="SinglePlayer" type="Button" parent="MainMenuContainer/VBoxContainer"]
-layout_mode = 2
-text = "Singleplayer"
-
-[node name="Start" type="Button" parent="MainMenuContainer/VBoxContainer"]
-visible = false
-layout_mode = 2
-text = "Start game"
-
-[node name="JoinRandom" type="Button" parent="MainMenuContainer/VBoxContainer"]
-visible = false
-layout_mode = 2
-text = "Join Random"
-
-[node name="HostLan" type="Button" parent="MainMenuContainer/VBoxContainer"]
-visible = false
-layout_mode = 2
-text = "Host LAN game"
-
-[node name="JoinLan" type="Button" parent="MainMenuContainer/VBoxContainer"]
-visible = false
-layout_mode = 2
-text = "Join LAN game"
-
 [node name="Tutorial" type="Button" parent="MainMenuContainer/VBoxContainer"]
 layout_mode = 2
 text = "Tutorial"
 
-[node name="TestGame" type="Button" parent="MainMenuContainer/VBoxContainer"]
-visible = false
+[node name="PickDeck" type="Button" parent="MainMenuContainer/VBoxContainer"]
 layout_mode = 2
-text = "Testing game"
+text = "Pick deck"
 
-[node name="PickMPDeck" type="Button" parent="MainMenuContainer/VBoxContainer"]
-visible = false
+[node name="Boss1" type="Button" parent="MainMenuContainer/VBoxContainer"]
 layout_mode = 2
-text = "Pick Multiplayer deck"
+text = "Boss 1"
+
+[node name="Boss2" type="Button" parent="MainMenuContainer/VBoxContainer"]
+layout_mode = 2
+text = "Boss 2"
+
+[node name="Boss3" type="Button" parent="MainMenuContainer/VBoxContainer"]
+layout_mode = 2
+text = "Boss 3"
 
 [node name="Exit" type="Button" parent="MainMenuContainer/VBoxContainer"]
 layout_mode = 2
 text = "Exit"
 
-[node name="DeckPicker" parent="." instance=ExtResource("2_38ppn")]
+[node name="DeckPicker" parent="MainMenuContainer" instance=ExtResource("2_7nufb")]
 visible = false
-custom_minimum_size = Vector2(400, 400)
+custom_minimum_size = Vector2(500, 300)
 layout_mode = 2
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 376.0
-offset_top = 124.0
-offset_right = 776.0
-offset_bottom = 524.0
-is_multiplayer_deck_picker = true
 
-[node name="TestingButton" type="Button" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -31.0
-offset_right = 128.0
-grow_vertical = 0
-text = "Turn off testing"
-
-[node name="YourIPLabel" type="Label" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -0.5
-offset_top = -23.0
-offset_right = 0.5
-grow_horizontal = 2
-grow_vertical = 0
-
-[connection signal="pressed" from="MainMenuContainer/VBoxContainer/SinglePlayer" to="." method="_on_single_player_pressed"]
-[connection signal="pressed" from="MainMenuContainer/VBoxContainer/Start" to="." method="_on_start_pressed"]
-[connection signal="pressed" from="MainMenuContainer/VBoxContainer/JoinRandom" to="." method="_on_join_random_pressed"]
-[connection signal="pressed" from="MainMenuContainer/VBoxContainer/HostLan" to="." method="_on_host_lan_pressed"]
-[connection signal="pressed" from="MainMenuContainer/VBoxContainer/JoinLan" to="." method="_on_join_lan_pressed"]
 [connection signal="pressed" from="MainMenuContainer/VBoxContainer/Tutorial" to="." method="_on_tutorial_pressed"]
-[connection signal="pressed" from="MainMenuContainer/VBoxContainer/TestGame" to="." method="_on_test_game_pressed"]
-[connection signal="pressed" from="MainMenuContainer/VBoxContainer/PickMPDeck" to="." method="_on_pick_mp_deck_pressed"]
+[connection signal="pressed" from="MainMenuContainer/VBoxContainer/PickDeck" to="." method="_on_deck_picker_pressed"]
+[connection signal="pressed" from="MainMenuContainer/VBoxContainer/Boss1" to="." method="_on_boss_1_pressed"]
+[connection signal="pressed" from="MainMenuContainer/VBoxContainer/Boss2" to="." method="_on_boss_2_pressed"]
+[connection signal="pressed" from="MainMenuContainer/VBoxContainer/Boss3" to="." method="_on_boss_3_pressed"]
 [connection signal="pressed" from="MainMenuContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
-[connection signal="pressed" from="TestingButton" to="." method="_on_testing_button_pressed"]

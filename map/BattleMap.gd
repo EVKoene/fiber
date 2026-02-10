@@ -25,6 +25,7 @@ var highlight_instruction_container_tween: Tween
 var highlight_finish_button_tween: Tween
 var showing_instruction := false
 var showing_finish_button := false
+var is_showing_text := false
 
 
 func _ready():
@@ -87,12 +88,16 @@ func create_card_resolve(card_owner_id: int, cih_index: int, column: int, row: i
 
 
 func show_text(text_to_show: String) -> void:
+	get_tree().paused = true
 	$TextBox/Panel/Label.text = text_to_show
 	$TextBox.show()
 
 
 func hide_text() -> void:
 	$TextBox.hide()
+	if GameManager.ai_player.showing_boss_text:
+		GameManager.ai_player.showing_boss_text = false
+		GameManager.ai_player.use_boss_ability()
 
 
 func _create_battle_map() -> void:
@@ -483,8 +488,6 @@ func _input(_event):
 		if Tutorial.is_awaiting_tutorial_input:
 			Tutorial.continue_tutorial()
 			return
-		else:
-			$TextBox.hide()
 
 		if awaiting_input:
 			Events.instruction_input_received.emit()

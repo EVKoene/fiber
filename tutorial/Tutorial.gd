@@ -508,7 +508,6 @@ func _target_boss() -> void:
 	BattleSynchronizer.play_unit(CardDatabase.cards.GORILLA, GameManager.p1_id, 3, 4)
 	
 	var next_ability := {}
-	print(boss.boss_abilities)
 	for ability in boss.boss_abilities:
 		if boss.boss_abilities[ability]["ID"] == "DEAL_3_TO_CLOSEST":
 			next_ability = boss.boss_abilities[ability]
@@ -541,15 +540,11 @@ func _end_turn() -> void:
 	)
 	_create_arrow(arrow_position, 0)
 	
-	pause_battlemap()
-	next_phase = tutorial_phases.HOVER_BOSS
-	is_awaiting_tutorial_input = true
+	next_phase = tutorial_phases.FINISH_TUTORIAL
 
 
 func _finish_tutorial() -> void:
-	TransitionScene.transition_to_overworld_scene(
-		OverworldManager.saved_area_id, OverworldManager.saved_player_position
-	)
+	TransitionScene.transition_to_main_menu()
 
 
 func pause_battlemap() -> void:

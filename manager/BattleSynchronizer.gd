@@ -386,20 +386,18 @@ func finish_with_victory() -> void:
 	var reward_text := []
 	var battle_rewards := PlayerManager.get_battle_reward()
 	if len(battle_rewards) == 0:
-		reward_text.append("No battle rewards this time...")
+		GameManager.battle_map.show_text("No battle rewards this time...")
 	else:
+		var battle_rewards_string: String
 		for c in battle_rewards:
 			PlayerManager.add_card_to_collection(c)
-			reward_text.append(
-				str(
-					"Congratulations! You receive ",
-					CardDatabase.cards_info[c]["InGameName"]
-				)
-			)
+			if len(battle_rewards_string) == 0:
+				battle_rewards_string = CardDatabase.cards_info[c]["InGameName"]
+			else:
+				battle_rewards_string += str(", ", CardDatabase.cards_info[c]["InGameName"])
+		GameManager.battle_map.show_text(str("Congratulations! You receive ", battle_rewards_string))
 	OverworldManager.defeat_npc(GameManager.players[GameManager.ai_player_id]["NPCID"])
-	TransitionScene.transition_to_overworld_scene(
-		OverworldManager.saved_area_id, OverworldManager.saved_player_position, reward_text
-	)
+	TransitionScene.transition_to_main_menu()
 
 
 func finish_with_defeat() -> void:
@@ -407,6 +405,3 @@ func finish_with_defeat() -> void:
 		GameManager.ai_player.game_over = true
 
 	GameManager.battle_map.show_text("You lose!")
-	TransitionScene.transition_to_overworld_scene(
-		OverworldManager.saved_area_ids, OverworldManager.saved_player_position
-	)
