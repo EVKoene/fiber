@@ -12,11 +12,14 @@ func _ready():
 
 
 func transition_to_npc_battle(npc_id: int) -> void:
+	GameManager.is_server = true
 	animation_player.play("fade_scene")
 
 	await animation_player.animation_finished
-	GameManager.current_scene.queue_free()
-	GameManager.current_scene = null
+	if GameManager.current_scene:
+		GameManager.current_scene.queue_free()
+		GameManager.current_scene = null
+	
 	GameManager.start_single_player_battle(npc_id)
 	animation_player.play_backwards("fade_scene")
 
@@ -56,10 +59,9 @@ func transition_to_overworld_scene(
 
 
 func transition_to_deck_builder(deck_id: int) -> void:
-	OverworldManager.save_player_position(
-		OverworldManager.current_player_position, OverworldManager.current_area_id
-	)
-	GameManager.current_scene.queue_free()
+	if GameManager.current_scene:
+		GameManager.current_scene.queue_free()
+	GameManager.main_menu.hide_main_menu()
 	GameManager.current_scene = null
 	var deck_builder = deck_builder_scene.instantiate()
 	deck_builder.deck_id = deck_id
@@ -92,3 +94,12 @@ func transition_to_test_battle() -> void:
 		2, 2, "TestHarry", DeckCollection.decks[DeckCollection.deck_ids.OPPONENT_TESTING], 2
 	)
 	GameManager.start_game()
+
+
+func transition_to_main_menu() -> void:
+	GameManager.cleanup_game()
+	if GameManager.current_scene:
+		GameManager.current_scene.queue_free()
+		GameManager.current_scene = null
+	GameManager.main_menu.get_tree().paused = false
+	GameManager.main_menu.show_main_menu()

@@ -3,6 +3,7 @@ extends Node
 var cards = load("res://card/CardDatabase.gd").cards
 enum deck_ids {
 	### PASSION ###
+	NEW_DECK,
 	PASSION_STARTER,
 	CONQUER_AND_HOLD,
 	FRENZY_START,
@@ -110,7 +111,7 @@ var decks := {
 			cards.FACTORY_WORKER: 4,
 			cards.NETWORK_FEEDER: 8,
 			cards.FURNACE_BOT: 4,
-			cards.EXTERMINATE: 4,
+			cards.SUPPLY_DELIVERY: 4,
 			cards.COMPUTING_BOT: 2,
 		},
 		"StartingCards":

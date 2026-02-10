@@ -7,7 +7,7 @@ var battle_map_scene: PackedScene = load("res://map/BattleMap.tscn")
 @onready var turn_manager_scene: PackedScene = preload("res://manager/TurnManager.tscn")
 
 ### GENERAL ###
-var version := "0.0.4"
+var version := "0.0.5"
 var testing := false
 var main_menu: MainMenu
 var is_server := false
@@ -160,7 +160,6 @@ func _start_first_turn() -> void:
 		set_ready_to_play(true)
 		var npc_id: int = players[ai_player_id]["NPCID"]
 		assert(npc_id >= 0, str("Invalid NPC ID: ", npc_id))
-		print("Bosscard: ", str(NPCDatabase.npc_data[npc_id]["BossCard"]))
 		if NPCDatabase.npc_data[npc_id]["BossCard"] != -1:
 			GameManager.ai_player.boss = BattleSynchronizer.play_boss(
 				NPCDatabase.npc_data[npc_id]["BossCard"], 2, 4, 0

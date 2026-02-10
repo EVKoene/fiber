@@ -171,9 +171,7 @@ func _on_finish_button_pressed():
 		if !prompt_answer_positive:
 			return
 
-	TransitionScene.transition_to_overworld_scene(
-		OverworldManager.saved_area_id, OverworldManager.saved_player_position
-	)
+	TransitionScene.transition_to_main_menu()
 
 
 func _on_save_button_pressed():

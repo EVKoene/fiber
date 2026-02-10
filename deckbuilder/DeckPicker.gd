@@ -18,6 +18,7 @@ func _ready():
 func set_current_decks() -> void:
 	for c in deck_nodes:
 		c.queue_free()
+	
 	for d in decks:
 		var dp_container = deck_pick_container_scene.instantiate()
 		decks[d]["DPContainer"] = dp_container
@@ -43,7 +44,4 @@ func _on_new_deck_pressed():
 
 
 func _on_return_button_pressed():
-	if is_multiplayer_deck_picker:
-		GameManager.main_menu.hide_deck_picker()
-	else:
-		GameManager.current_scene.pause_menu.show_pause_menu()
+	GameManager.main_menu.hide_pick_deck()

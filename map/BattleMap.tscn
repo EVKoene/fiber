@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dwqensucdc5ig"]
+[gd_scene load_steps=14 format=3 uid="uid://dwqensucdc5ig"]
 
 [ext_resource type="Script" path="res://map/BattleMap.gd" id="1_tqi70"]
 [ext_resource type="PackedScene" uid="uid://b1p3drjd83db6" path="res://player/BattlePauseMenu.tscn" id="2_03bps"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://player/ResourceBar.gd" id="3_ox48p"]
 [ext_resource type="AudioStream" uid="uid://beispojfb18jv" path="res://assets/music/BattleSong.mp3" id="5_b0dsh"]
 [ext_resource type="PackedScene" uid="uid://63xn5b7fycva" path="res://card/card_assets/CardTextContainer.tscn" id="6_ayigf"]
+[ext_resource type="Script" path="res://map/PauseNode.gd" id="7_bpgxd"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lndr4"]
 bg_color = Color(0.694118, 0.694118, 0.694118, 0.470588)
@@ -26,6 +27,7 @@ bg_color = Color(0.395769, 0.282376, 0.189525, 1)
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [node name="BattleMap" type="Node2D"]
+process_mode = 1
 script = ExtResource("1_tqi70")
 
 [node name="GUI" type="CanvasLayer" parent="."]
@@ -153,6 +155,10 @@ custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 
 [node name="CardTextContainer" parent="." instance=ExtResource("6_ayigf")]
+
+[node name="PauseNode" type="Node" parent="."]
+process_mode = 2
+script = ExtResource("7_bpgxd")
 
 [connection signal="pressed" from="ResolveSpellButton" to="." method="_on_resolve_spell_button_pressed"]
 [connection signal="pressed" from="FinishButtonContainer/FinishButton" to="." method="_on_finish_button_pressed"]
