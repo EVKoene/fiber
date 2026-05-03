@@ -11,7 +11,8 @@ var player_id: int
 var moving_cards := false
 var turn_finished := false
 var game_over := false
-var boss: CardInPlay
+var boss: BossCard
+var normal_opponent: NormalOpponent
 var showing_boss_text := false
 
 
@@ -22,7 +23,10 @@ func play_turn() -> void:
 	await GameManager.battle_map.get_tree().create_timer(0.5).timeout
 	# If the AI wins by conquering victory spaces, the battle map will be removed and they won't
 	# be able to end the turn anymore
-	boss.prepare_next_turn_boss_ability()
+	if boss:
+		boss.prepare_next_turn_boss_ability()
+	elif normal_opponent:
+		normal_opponent.prepare_next_turn_ability()
 	if is_instance_valid(GameManager.battle_map) and !game_over:
 		ai_turn_manager.end_turn()
 
@@ -35,6 +39,12 @@ func show_boss_ability_text() -> void:
 func use_boss_ability() -> void:
 	boss.next_boss_ability["Func"].call()
 	boss.next_boss_ability["Cleanup"].call()
+	play_turn()
+
+
+func use_normal_opponent_ability() -> void:
+	normal_opponent.next_ability["Func"].call()
+	normal_opponent.next_ability["Cleanup"].call()
 	play_turn()
 
 
@@ -130,6 +140,8 @@ func use_cards_in_play() -> void:
 			
 			if !c.exhausted and !game_over:
 				using_actions = await CardActionDecider.use_card_action(c)
+				if !using_actions:
+					c.is_awaiting_ai_decision = false
 				if using_actions and !game_over:
 					await GameManager.battle_map.get_tree().process_frame
 
@@ -183,3 +195,8 @@ func play_to_closest_available_space(card_index: int, column: int, row: int) -> 
 		return true
 	
 	return false
+
+
+func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
+	if normal_opponent:
+		normal_opponent.call_triggered_funcs(trigger, triggering_card)

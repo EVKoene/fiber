@@ -4,53 +4,55 @@ extends CardInPlay
 class_name BossCard
 
 
-var dummies := []
-var dummy_columns := []
-var dummy_rows := []
+var dummies: Array[Card]
+var dummies_ps: Array[PlaySpace]
+var dummy_columns: get = _get_dummy_columns
+var dummy_rows: get = _get_dummy_rows
+var boss_abilities := {}
+var next_boss_ability := {}
 
 
-func prepare_adjacent_dummies(n_dummies: int, card_index: int) -> void:
-	cleanup_dummies()
-	
-	var ps_options := []
-	var dummies_shown := 0
-	
+func prepare_adjacent_dummies(n_dummies: int, card_index: int, cleanup_dummies: bool = true) -> void:
+	if cleanup_dummies:
+		AIHelper.cleanup_dummies(dummies, dummies_ps)
 	for ps in current_play_space.adjacent_play_spaces():
 		if !ps.card_in_this_play_space:
-			ps_options.append(ps)
+			dummies_ps.append(ps)
 	
-	for ps in ps_options:
-		if dummies_shown >= n_dummies:
-			break
-		dummies.append(
-			CardManipulation.show_card_dummy(card_index, ps)
-		)
-		dummy_columns.append(ps.column)
-		dummy_rows.append(ps.row)
-		dummies_shown += 1
+	AIHelper.prepare_dummies(card_index, dummies, dummies_ps, n_dummies, card_owner_id)
 
 
-func cleanup_dummies() -> void:
-	if len(dummies) > 0:
-		for d in dummies:
-			d.queue_free()
-		dummies = []
-	
-	dummy_columns = []
-	dummy_rows = []
-
-
-func create_units() -> void:
+func _get_dummy_columns() -> Array[int]:
+	var columns := []
 	for dummy in dummies:
-		if GameManager.is_single_player:
-			BattleSynchronizer.play_unit(
-				dummy.card_index, card_owner_id, dummy.column, dummy.row
-			)
-		else:
-			for p_id in GameManager.players:
-				BattleSynchronizer.play_unit.rpc_id(
-					p_id, dummy.card_index, card_owner_id, dummy.column, 
-					dummy.row
-				)
+		columns.append(dummy.current_play_space.column)
 	
-	exhaust()
+	return columns
+
+
+func _get_dummy_rows() -> Array[int]:
+	var rows := []
+	for dummy in dummies:
+		rows.append(dummy.current_play_space.row)
+	
+	return rows
+
+
+func prepare_next_turn_boss_ability() -> void:
+	# Always pick ability[0] as the first ability
+	if len(next_boss_ability) == 0:
+		next_boss_ability = boss_abilities[0]
+	
+	else:
+		var abilities_to_pick_from := []
+		for ability in boss_abilities.values():
+			if ability["MinTurn"] > GameManager.ai_player.ai_turns + 1:
+				continue
+			if ability["MaxTurn"] < GameManager.ai_player.ai_turns + 1 and ability["MaxTurn"] != -1:
+				continue
+			
+			for f in range(ability["WeightFactor"]):
+				abilities_to_pick_from.append(ability)
+		next_boss_ability = abilities_to_pick_from.pick_random()
+	
+	next_boss_ability["Prepare"].call()

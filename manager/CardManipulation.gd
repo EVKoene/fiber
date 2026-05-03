@@ -13,9 +13,9 @@ func destroy(card_owner_id: int, cip_index: int) -> void:
 	card.call_deferred("queue_free")
 	if card.is_boss and !GameManager.battle_map.is_tutorial:
 		if card.card_owner_id == GameManager.player_id:
-			BattleSynchronizer.finish_with_victory()
+			GameManager.finish_with_victory()
 		else:
-			BattleSynchronizer.finish_with_defeat()
+			GameManager.finish_with_defeat()
 
 
 @rpc("any_peer", "call_local")
@@ -51,8 +51,9 @@ func hide_border(card_owner_id: int, cip_index: int):
 	card.hide_border()
 
 
-func show_card_dummy(card_index: int, ps: PlaySpace) -> Card:
+func show_card_dummy(card_index: int, ps: PlaySpace, card_owner_id: int) -> Card:
 	var card: Card = card_scene.instantiate()
+	card.card_owner_id = card_owner_id
 	card.card_class = Collections.card_classes.CARD_IN_PLAY
 	card.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	card.column = ps.column
@@ -60,6 +61,7 @@ func show_card_dummy(card_index: int, ps: PlaySpace) -> Card:
 	card.card_index = card_index
 	card.load_card_properties()
 	GameManager.battle_map.add_child(card)
+	card.add_border(Styling.dummy_color)
 	
 	card.position.x = MapSettings.get_column_start_x(ps.column) + MapSettings.play_space_size.x * 0.05
 	card.position.y = MapSettings.get_row_start_y(ps.row) + MapSettings.play_space_size.y * 0.05

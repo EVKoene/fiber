@@ -32,6 +32,7 @@ var conquered_by: int  # player_id
 var selected_for_movement := false
 var targeted_for_damage := false
 var territory: Territory
+var hovered := false
 
 
 func _ready():
@@ -218,6 +219,16 @@ func set_border() -> void:
 		get_theme_stylebox("panel").border_color = Styling.victory_space_color
 	else:
 		get_theme_stylebox("panel").border_color = Styling.base_space_color
+
+
+func hover() -> void:
+	hovered = true
+	highlight_space()
+
+
+func unhover() -> void:
+	hovered = false
+	get_theme_stylebox("panel").border_color = Styling.base_space_color
 
 
 func highlight_space():

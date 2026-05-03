@@ -1,18 +1,18 @@
 extends Node
 
 @onready var save_path := "user://savedata/"
-@onready var collections_file := str(save_path, "collections.ini")
+@onready var collections_path := str(save_path, "collections.ini")
 
 
 func add_card_to_collection(card_index: int) -> void:
 	var config := ConfigFile.new()
-	config.load(collections_file)
+	config.load(collections_path)
 	var current_cards_collection = config.get_value("card_collection", "cards")
 	if card_index in current_cards_collection.keys():
 		current_cards_collection[card_index] += 1
 	else:
 		current_cards_collection[card_index] = 1
-	config.save(collections_file)
+	config.save(collections_path)
 
 
 func get_battle_reward() -> Array:

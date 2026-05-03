@@ -6,32 +6,36 @@ class_name FanaticLeader
 var cards_to_deal_1_damage := []
 
 var card_to_deal_3_damage: CardInPlay
+enum ability_ids { 
+	CREATE_2_FOLLOWERS, CREATE_3_FOLLOWERS, DEAL_1_IN_RANGE_3, DEAL_3_TO_CLOSEST,
+	CREATE_WARTHOG_BERSERKER, CREATE_2_WARTHOG_BERSERKERS, CREATE_CHEETAH, CREATE_2_CHEETAHS 
+} 
 
 
 func _init() -> void:
 	boss_abilities = {
 		0: {
-			"ID": "CREATE_2_FOLLOWERS",
+			"ID": ability_ids.CREATE_2_FOLLOWERS,
 			"WeightFactor": 2,
-			"Func": func(): create_units(),
+			"Func": func(): AIHelper.create_units_from_dummies(dummies),
 			"Prepare": func(): prepare_adjacent_dummies(2, CardDatabase.cards.FANATIC_FOLLOWER),
 			"Text": "Create up to 2 Fanatic Followers in adjacent playspaces and exhaust",
 			"MinTurn": 0,
 			"MaxTurn": -1,
-			"Cleanup": func(): cleanup_dummies()
+			"Cleanup": func(): AIHelper.cleanup_dummies(dummies, dummies_ps)
 		},
 		1: {
-			"ID": "CREATE_3_FOLLOWERS",
+			"ID": ability_ids.CREATE_3_FOLLOWERS,
 			"WeightFactor": 3,
-			"Func": func(): create_units(),
+			"Func": func(): AIHelper.create_units_from_dummies(dummies),
 			"Prepare": func(): prepare_adjacent_dummies(3, CardDatabase.cards.FANATIC_FOLLOWER),
 			"Text": "Create up to 3 Fanatic Followers in adjacent playspaces and exhaust",
 			"MinTurn": 2,
 			"MaxTurn": 8,
-			"Cleanup": func(): cleanup_dummies()
+			"Cleanup": func(): AIHelper.cleanup_dummies(dummies, dummies_ps)
 		},
 		2: {
-			"ID": "DEAL_1_IN_RANGE_3",
+			"ID": ability_ids.DEAL_1_IN_RANGE_3,
 			"WeightFactor": 3,
 			"Func": func(): deal_1_damage_to_all_in_range_3(),
 			"Prepare": func(): prepare_deal_1_damage_to_all_in_range_3(),
@@ -41,7 +45,7 @@ func _init() -> void:
 			"Cleanup": func(): cleanup_deal_1_damage_to_all_in_range_3()
 		},
 		3: {
-			"ID": "DEAL_3_TO_CLOSEST",
+			"ID": ability_ids.DEAL_3_TO_CLOSEST,
 			"WeightFactor": 3,
 			"Prepare": func(): prepare_deal_3_damage_to_closest(),
 			"Func": func(): deal_3_damage_to_closest(),
@@ -51,46 +55,45 @@ func _init() -> void:
 			"Cleanup": func(): cleanup_3_damage_to_closest()
 		},
 		4: {
-			"ID": "CREATE_WARTHOG_BERSERKER",
+			"ID": ability_ids.CREATE_WARTHOG_BERSERKER,
 			"WeightFactor": 2,
 			"Prepare": func(): prepare_adjacent_dummies(1, CardDatabase.cards.WARTHOG_BERSERKER),
-			"Func": func(): create_units(),
+			"Func": func(): AIHelper.create_units_from_dummies(dummies),
 			"Text": "Create 1 Warthog Berserker",
 			"MinTurn": 3,
 			"MaxTurn": 5,
-			"Cleanup": func(): cleanup_dummies(),
+			"Cleanup": func(): AIHelper.cleanup_dummies(dummies, dummies_ps),
 		},
 		5: {
-			"ID": "CREATE_2_WARTHOG_BERSERKERS",
+			"ID": ability_ids.CREATE_2_WARTHOG_BERSERKERS,
 			"WeightFactor": 1,
 			"Prepare": func(): prepare_adjacent_dummies(2, CardDatabase.cards.WARTHOG_BERSERKER),
-			"Func": func(): create_units(),
+			"Func": func(): AIHelper.create_units_from_dummies(dummies),
 			"Text": "Create 2 Warthog Berserkers",
 			"MinTurn": 6,
 			"MaxTurn": -1,
-			"Cleanup": func(): cleanup_dummies()
+			"Cleanup": func(): AIHelper.cleanup_dummies(dummies, dummies_ps)
 		},
 		6: {
-			"ID": "CREATE_CHEETAH",
+			"ID": ability_ids.CREATE_CHEETAH,
 			"WeightFactor": 1,
 			"Prepare": func(): prepare_adjacent_dummies(1, CardDatabase.cards.CHEETAH),
-			"Func": func(): create_units(),
+			"Func": func(): AIHelper.create_units_from_dummies(dummies),
 			"Text": "Create 2 Cheetahs",
 			"MinTurn": 8,
 			"MaxTurn": -1,
-			"Cleanup": func(): cleanup_dummies()
+			"Cleanup": func(): AIHelper.cleanup_dummies(dummies, dummies_ps)
 		},
 		7: {
-			"ID": "CREATE_2_CHEETAHS",
+			"ID": ability_ids.CREATE_2_CHEETAHS,
 			"WeightFactor": 1,
 			"Prepare": func(): prepare_adjacent_dummies(2, CardDatabase.cards.CHEETAH),
-			"Func": func(): create_units(),
+			"Func": func(): AIHelper.create_units_from_dummies(dummies),
 			"Text": "Create 2 Cheetahs",
 			"MinTurn": 6,
 			"MaxTurn": -1,
-			"Cleanup": func(): cleanup_dummies()
+			"Cleanup": func(): AIHelper.cleanup_dummies(dummies, dummies_ps)
 		}
-		
 	}
 
 
@@ -151,8 +154,9 @@ func cleanup_3_damage_to_closest() -> void:
 
 func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 	if next_boss_ability["ID"] in [
-		"CREATE_3_FOLLOWERS", "CREATE_3_FOLLOWERS", "CREATE_WARTHOG_BERSERKER", 
-		"CREATE_2_WARTHOG_BERSERKERS", "CREATE_CHEETAH", "CREATE_2_CHEETAHS"
+		ability_ids.CREATE_3_FOLLOWERS, ability_ids.CREATE_3_FOLLOWERS,
+		ability_ids.CREATE_WARTHOG_BERSERKER, ability_ids.CREATE_2_WARTHOG_BERSERKERS, 
+		ability_ids.CREATE_CHEETAH, ability_ids.CREATE_2_CHEETAHS
 	]:
 		if trigger in [Collections.triggers.CARD_MOVED] and triggering_card == self:
 			next_boss_ability["Prepare"].call()
@@ -160,15 +164,13 @@ func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 		if trigger in [
 				Collections.triggers.CARD_MOVED, Collections.triggers.CARD_CREATED, 
 				Collections.triggers.CARD_DESTROYED
-		] and (
-			triggering_card.column in dummy_columns
-			or triggering_card.row in dummy_rows
-		):
+		] and triggering_card.current_play_space in dummies_ps:
 			next_boss_ability["Prepare"].call()
 	
-	if next_boss_ability["ID"] in ["DEAL_1_IN_RANGE_3", "DEAL_3_DAMAGE_TO_CLOSEST"] and trigger in [
+	if next_boss_ability["ID"] in [
+		ability_ids.DEAL_1_IN_RANGE_3, ability_ids.DEAL_3_TO_CLOSEST
+	] and trigger in [
 		Collections.triggers.CARD_MOVED, Collections.triggers.CARD_CREATED, 
 		Collections.triggers.CARD_DESTROYED
 	]:
 		next_boss_ability["Prepare"].call()
-	

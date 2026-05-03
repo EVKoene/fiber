@@ -216,13 +216,13 @@ func set_progress_bars() -> void:
 			conquered_victory_spaces >= MapSettings.n_progress_bars
 			and GameManager.player_id == p_id
 		):
-			finish_with_victory()
+			GameManager.finish_with_victory()
 			return
 		elif (
 			conquered_victory_spaces >= MapSettings.n_progress_bars
 			and GameManager.player_id != p_id
 		):
-			finish_with_defeat()
+			GameManager.finish_with_defeat()
 			return
 
 		for b in range(len(GameManager.progress_bars[p_id])):
@@ -369,6 +369,8 @@ func finish_resolve() -> void:
 
 
 func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
+	if GameManager.ai_player:
+		GameManager.ai_player.call_triggered_funcs(trigger, triggering_card)
 	for p_id in GameManager.players:
 		for card in GameManager.cards_in_play[p_id]:
 			await card.call_triggered_funcs(trigger, triggering_card)
@@ -378,30 +380,3 @@ func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
 func refresh_all_units(card_owner_id: int) -> void:
 	for c in GameManager.cards_in_play[card_owner_id]:
 		c.refresh()
-
-
-func finish_with_victory() -> void:
-	GameManager.ai_player.game_over = true
-	GameManager.battle_map.show_text("You win!")
-	var reward_text := []
-	var battle_rewards := PlayerManager.get_battle_reward()
-	if len(battle_rewards) == 0:
-		GameManager.battle_map.show_text("No battle rewards this time...")
-	else:
-		var battle_rewards_string: String
-		for c in battle_rewards:
-			PlayerManager.add_card_to_collection(c)
-			if len(battle_rewards_string) == 0:
-				battle_rewards_string = CardDatabase.cards_info[c]["InGameName"]
-			else:
-				battle_rewards_string += str(", ", CardDatabase.cards_info[c]["InGameName"])
-		GameManager.battle_map.show_text(str("Congratulations! You receive ", battle_rewards_string))
-	OverworldManager.defeat_npc(GameManager.players[GameManager.ai_player_id]["NPCID"])
-	TransitionScene.transition_to_main_menu()
-
-
-func finish_with_defeat() -> void:
-	if GameManager.is_single_player:
-		GameManager.ai_player.game_over = true
-
-	GameManager.battle_map.show_text("You lose!")

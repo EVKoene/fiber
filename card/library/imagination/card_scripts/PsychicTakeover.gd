@@ -16,7 +16,7 @@ func resolve_spell() -> bool:
 		BattleSynchronizer.finish_resolve()
 		return false
 
-	selected_card.highlight_card(true)
+	selected_card.highlight_card()
 	selected_card.card_owner_id = card_owner_id
 	if (
 		(GameManager.is_player_1 and card_owner_id == GameManager.p2_id)
@@ -53,7 +53,7 @@ func resolve_spell_for_ai() -> void:
 		str("No targets to select, AI shouldn't have played this spell: ", ingame_name)
 	)
 	var target: CardInPlay = targets.pick_random()
-	target.highlight_card(true)
+	target.highlight_card()
 	target.card_owner_id = card_owner_id
 	GameManager.cards_in_play[GameManager.player_id].erase(target)
 	GameManager.cards_in_play[card_owner_id].append(target)

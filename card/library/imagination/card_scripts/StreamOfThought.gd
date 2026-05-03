@@ -16,7 +16,7 @@ func resolve_spell() -> bool:
 		BattleSynchronizer.finish_resolve()
 		return false
 
-	selected_card.highlight_card(true)
+	selected_card.highlight_card()
 	selected_card.resolve_damage(4)
 	BattleSynchronizer.draw_card(card_owner_id)
 	BattleSynchronizer.finish_resolve()
@@ -46,7 +46,7 @@ func resolve_spell_for_ai() -> void:
 		str("No targets to select, AI shouldn't have played this spell: ", ingame_name)
 	)
 	var target: CardInPlay = targets.pick_random()
-	target.highlight_card(true)
+	target.highlight_card()
 	await target.resolve_damage(4)
 	BattleSynchronizer.draw_card(card_owner_id)
 	Events.spell_resolved_for_ai.emit()

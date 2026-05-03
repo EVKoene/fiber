@@ -19,7 +19,7 @@ var turn_actions_enabled := false
 
 var can_start_turn := false
 var gold_gained := 0
-var resource_increases_turns := [1, 2, 4, 7]
+var resource_increases_turns := [1, 3, 5, 8]
 
 
 func _ready():
@@ -88,8 +88,10 @@ func start_turn(player_id: int) -> void:
 	
 	if turn_owner_id == GameManager.p1_id and GameManager.is_single_player:
 		show_end_turn_button()
-	elif turn_owner_id == GameManager.ai_player_id:
+	elif turn_owner_id == GameManager.ai_player_id and GameManager.ai_player.boss:
 		GameManager.ai_player.show_boss_ability_text()
+	elif turn_owner_id == GameManager.ai_player_id and GameManager.ai_player.normal_opponent:
+		GameManager.ai_player.use_normal_opponent_ability()
 	elif !GameManager.is_single_player:
 		show_end_turn_button.rpc_id(player_id)
 	set_turn_actions_enabled(true)

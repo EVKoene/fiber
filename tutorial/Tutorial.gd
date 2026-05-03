@@ -483,10 +483,10 @@ func _hover_boss() -> void:
 
 func _boss_preview() -> void:
 	CardManipulation.show_card_dummy(
-		CardDatabase.cards.FANATIC_FOLLOWER, GameManager.ps_column_row[3][0]
+		CardDatabase.cards.FANATIC_FOLLOWER, GameManager.ps_column_row[3][0], GameManager.ai_player.player_id
 	)
 	CardManipulation.show_card_dummy(
-		CardDatabase.cards.FANATIC_FOLLOWER, GameManager.ps_column_row[4][1]
+		CardDatabase.cards.FANATIC_FOLLOWER, GameManager.ps_column_row[4][1], GameManager.ai_player.player_id
 	)
 	
 	battle_map.show_tutorial_text(

@@ -642,7 +642,7 @@ cards.FLOW_ACCELERATOR: {
 		"fibers": [Collections.fibers.IMAGINATION],
 		"Costs": {
 			Collections.fibers.PASSION: 0,
-			Collections.fibers.IMAGINATION: 5,
+			Collections.fibers.IMAGINATION: 6,
 			Collections.fibers.GROWTH: 0,
 			Collections.fibers.LOGIC: 0,
 		},

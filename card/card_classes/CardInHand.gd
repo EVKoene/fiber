@@ -33,6 +33,10 @@ func discard() -> void:
 	Events.card_discarded.emit()
 
 
+func play_by_hitting_enter() -> void:
+	var ps_selecter := PlaySpaceSelector.new(true, card_owner_id)
+
+
 func play_spell(column: int, row: int) -> void:
 	if GameManager.is_single_player:
 		BattleSynchronizer.lock_zoom_preview_hand(card_owner_id, hand_index)
@@ -76,6 +80,7 @@ func _set_drag_node_properties() -> void:
 
 
 func _on_mouse_entered():
+	hover()
 	if Tutorial.next_phase == Tutorial.tutorial_phases.PREVIEW_CARD:
 		GameManager.zoom_preview.preview_hand_card(self, true)
 		Tutorial.continue_tutorial()
@@ -85,6 +90,7 @@ func _on_mouse_entered():
 
 
 func _on_mouse_exited():
+	unhover()
 	hide_border()
 
 

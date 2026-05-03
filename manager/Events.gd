@@ -33,16 +33,4 @@ signal spell_resolved_for_ai
 @warning_ignore("unused_signal")
 signal card_ability_resolved_for_ai
 
-### OVERWORLD ###
-@warning_ignore("unused_signal")
-signal pause_player_movement
-@warning_ignore("unused_signal")
-signal resume_player_movement
-@warning_ignore("unused_signal")
-signal direction_changed(direction: int)
-@warning_ignore("unused_signal")
-signal overworld_text_request(text: String)
-@warning_ignore("unused_signal")
-signal npc_interaction_started(npc_id: int)
-@warning_ignore("unused_signal")
-signal dialogue_finished
+

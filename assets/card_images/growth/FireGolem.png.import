@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://hj1xhcckl7y0"
-path="res://.godot/imported/FireGolemn.png-9d2497dcc1f043cd6582bf1f0a0e2b5b.ctex"
+uid="uid://bnt5l0brln8su"
+path="res://.godot/imported/FireGolem.png-e1c078920e2363ca30ae262f77c6efd3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/card_images/growth/FireGolemn.png"
-dest_files=["res://.godot/imported/FireGolemn.png-9d2497dcc1f043cd6582bf1f0a0e2b5b.ctex"]
+source_file="res://assets/card_images/growth/FireGolem.png"
+dest_files=["res://.godot/imported/FireGolem.png-e1c078920e2363ca30ae262f77c6efd3.ctex"]
 
 [params]
 

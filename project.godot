@@ -34,8 +34,7 @@ AIHelper="*res://singleplayer/ai/AIHelper.gd"
 MPCardManipulation="*res://manager/MPCardManipulation.gd"
 MultiplayerManager="*res://multiplayer/MultiplayerManager.gd"
 Tutorial="*res://tutorial/Tutorial.gd"
-PlayerManager="*res://overworld/player/PlayerManager.gd"
-AreaDatabase="*res://overworld/areas/AreaDatabase.gd"
+PlayerManager="*res://manager/PlayerManager.gd"
 SpecialRules="*res://overworld/npc/SpecialRules.gd"
 PatchManager="*res://manager/PatchManager.gd"
 TargetSelection="*res://card/TargetSelection.gd"
@@ -47,6 +46,7 @@ CardActionDecider="*res://singleplayer/ai/CardActionDecider.gd"
 BossCardDatabase="*res://card/BossCardDatabase.gd"
 DeckSetup="*res://deckbuilder/DeckSetup.gd"
 CardCollections="*res://card/CardCollections.gd"
+PlaySpaceEffect="*res://map/PlaySpaceEffect.gd"
 
 [display]
 

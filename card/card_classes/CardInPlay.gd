@@ -22,10 +22,6 @@ var move_through_units := false
 var card_in_play_index: int:
 	get = _get_card_in_play_index
 
-var boss_abilities := {}
-var next_boss_ability := {}
-
-
 func _ready():
 	card_class = Collections.card_classes.CARD_IN_PLAY
 	scale *= MapSettings.card_in_play_size / size
@@ -100,26 +96,6 @@ func attack_card(target_card: CardInPlay) -> void:
 	await BattleSynchronizer.call_triggered_funcs(Collections.triggers.ATTACK_FINISHED, self)
 
 
-func prepare_next_turn_boss_ability() -> void:
-	# Always pick ability[0] as the first ability
-	if len(next_boss_ability) == 0:
-		next_boss_ability = boss_abilities[0]
-	
-	else:
-		var abilities_to_pick_from := []
-		for ability in boss_abilities.values():
-			if ability["MinTurn"] > GameManager.ai_player.ai_turns + 1:
-				continue
-			if ability["MaxTurn"] < GameManager.ai_player.ai_turns + 1 and ability["MaxTurn"] != -1:
-				continue
-			
-			for f in range(ability["WeightFactor"]):
-				abilities_to_pick_from.append(ability)
-		next_boss_ability = abilities_to_pick_from.pick_random()
-	
-	next_boss_ability["Prepare"].call()
-
-
 func deal_damage_to_card(card: CardInPlay, value: int) -> void:
 	await card.resolve_damage(value)
 
@@ -127,7 +103,7 @@ func deal_damage_to_card(card: CardInPlay, value: int) -> void:
 func select_card(show_select: bool) -> void:
 	TargetSelection.selected_card = self
 	TargetSelection.making_selection = true
-	highlight_card(show_select)
+	highlight_card()
 
 
 func swap_with_card(swap_card_owner_id: int, swap_cip_index: int) -> void:
@@ -222,7 +198,7 @@ func move_and_attack(target_card: CardInPlay) -> void:
 func select_for_movement() -> void:
 	TargetSelection.card_selected_for_movement = self
 	TargetSelection.making_selection = true
-	highlight_card(false)
+	highlight_card()
 	GameManager.zoom_preview.preview_card_in_play(self, true)
 
 
@@ -538,7 +514,7 @@ func _on_gui_input(event):
 		and self not in TargetSelection.selected_targets
 		and (TargetSelection.self_allowed or TargetSelection.selecting_unit != self)
 	):
-		highlight_card(true)
+		highlight_card()
 		TargetSelection.selected_targets.append(self)
 		if len(TargetSelection.selected_targets) == TargetSelection.number_of_targets_to_select:
 			TargetSelection.target_selection_finished.emit()

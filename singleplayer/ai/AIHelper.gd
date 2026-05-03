@@ -236,3 +236,53 @@ func areas_in_range_with_most_enemy_units(
 				highest_n_enemies = n_enemies
 
 	return areas
+
+
+func prepare_dummies(
+	card_index: int, dummy_array: Array[Card], dummies_ps: Array[PlaySpace], n_dummies: int, 
+	card_owner_id: int
+) -> void:
+	var dummies_shown := 0
+	
+	var ps_options := dummies_ps.duplicate(true)
+	dummies_ps.clear()
+	for ps in ps_options:
+		if ps.card_in_this_play_space:
+			ps_options.erase(ps)
+	
+	ps_options.shuffle()
+	for ps in ps_options:
+		if dummies_shown >= n_dummies:
+			break
+		dummy_array.append(
+			CardManipulation.show_card_dummy(card_index, ps, card_owner_id)
+		)
+		dummies_ps.append(ps)
+		dummies_shown += 1
+
+
+
+func cleanup_dummies(dummies: Array[Card], dummies_ps: Array[PlaySpace]) -> void:
+	if len(dummies) >= 1:
+		for dummy in dummies:
+			dummy.queue_free()
+	
+	dummies.clear()
+	dummies_ps.clear()
+
+
+func create_units_from_dummies(dummies: Array[Card]) -> void:
+	for dummy in dummies:
+		if GameManager.is_single_player:
+			BattleSynchronizer.play_unit(
+				dummy.card_index, dummy.card_owner_id, dummy.column, dummy.row
+			)
+		else:
+			for p_id in GameManager.players:
+				BattleSynchronizer.play_unit.rpc_id(
+					p_id, dummy.card_index, dummy.card_owner_id, dummy.column, 
+					dummy.row
+				)
+		dummies.erase(dummy)
+		dummy.queue_free()
+	

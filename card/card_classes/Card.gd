@@ -20,28 +20,42 @@ var border_style: StyleBox
 var card_text: String
 var img_path: String
 var card_range: int
+var hovered := false
 
 var column := -1
 var row := -1
 
 
-func highlight_card(_show_highlight: bool = false) -> void:
+func add_border(border_color: Color) -> void:
 	if has_border:
 		return
 	
 	has_border = true
 	
+	border.border_color = border_color
+	var border_width := size.x * 0.1
+	border.set_border_width_all(border_width)
+	border.set_content_margin_all(1)
+	border.set_expand_margin_all(border_width)
+	add_theme_stylebox_override("panel", border)
+
+
+func hover() -> void:
+	highlight_card()
+	hovered = true
+
+
+func unhover() -> void:
+	hide_border()
+	hovered = false
+
+
+func highlight_card() -> void:
 	if card_class == Collections.card_classes.CARD_IN_HAND:
 		modulate = Color(1, 1, 1, 1.5)
 		return
-	
-	else:
-		border.border_color = Styling.gold_color
-		var border_width := size.x * 0.1
-		border.set_border_width_all(border_width)
-		border.set_content_margin_all(1)
-		border.set_expand_margin_all(border_width)
-		add_theme_stylebox_override("panel", border)
+	else:	
+		add_border(Styling.gold_color)
 
 
 func hide_border():

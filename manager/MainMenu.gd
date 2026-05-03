@@ -36,11 +36,6 @@ func _create_savefile() -> void:
 		DeckSetup.setup_starter_deck(fiber)
 
 
-func load_game() -> void:
-	var new_game := false
-	
-
-
 func show_prompt(prompt_text: String) -> void:
 	var prompt = prompt_scene.instantiate()
 	prompt.prompt_text = prompt_text
@@ -93,13 +88,30 @@ func _on_deck_picker_pressed() -> void:
 	show_pick_deck()
 
 
-func _on_boss_1_pressed() -> void:
-	TransitionScene.transition_to_npc_battle(NPCDatabase.npcs.ALPHONSO)
+func _on_start_pressed() -> void:
+	$MainMenuContainer/VBoxContainer.hide()
+	_populate_npc_list()
+	$MainMenuContainer/NPCPicker.show()
 
 
-func _on_boss_2_pressed() -> void:
-	TransitionScene.transition_to_npc_battle(NPCDatabase.npcs.BETTY)
+func _populate_npc_list() -> void:
+	var npc_list := $MainMenuContainer/NPCPicker/NPCList
+	for child in npc_list.get_children():
+		child.queue_free()
+	
+	for npc_id in NPCDatabase.npc_data:
+		var npc_info: Dictionary = NPCDatabase.npc_data[npc_id]
+		if npc_info.get("Battle", false) == true:
+			var button := Button.new()
+			button.text = npc_info["Name"]
+			button.pressed.connect(_on_npc_selected.bind(npc_id))
+			npc_list.add_child(button)
 
 
-func _on_boss_3_pressed() -> void:
-	TransitionScene.transition_to_npc_battle(NPCDatabase.npcs.GAMZA)
+func _on_npc_selected(npc_id: int) -> void:
+	TransitionScene.transition_to_npc_battle(npc_id)
+
+
+func _on_npc_picker_back_pressed() -> void:
+	$MainMenuContainer/NPCPicker.hide()
+	$MainMenuContainer/VBoxContainer.show()

@@ -30,7 +30,8 @@ var is_ready_to_play := false
 var battle_map
 var victory_spaces := []
 var turn_manager: TurnManager
-var play_spaces := []
+var play_spaces: Array[PlaySpace]
+var current_play_space_selector: PlaySpaceSelector
 var ps_column_row := {}
 var zoom_preview: ZoomPreview
 var resource_bars := {}
@@ -43,8 +44,9 @@ var decks := {}
 # the the current card nodes beloning to them. They use the card_in_play_index (cip_index) and
 # hand_index.
 var cards_in_hand := {}
-var cards_in_play := {}
+var cards_in_play := {} # Contains both players as keys and a Array of CardInPlay as value
 var territories := []
+var current_card_selector: CardSelector
 
 ### SINGLEPLAYER ###
 var ai_player: AIPlayer
@@ -55,11 +57,10 @@ var deck_builder: DeckBuilder
 
 ### OVERWORLD ###
 var current_scene: Variant
-var raycast: PlayerRaycast
 
 @rpc("any_peer", "call_local")
 func add_player(
-	player_number: int, p_id: int, player_name: String, p_deck: Dictionary, npc_id: int = -1
+	player_number: int, p_id: int, player_name: String, p_deck: Dictionary = {}, npc_id: int = -1
 ) -> void:
 	if !players.has(p_id):
 		players[p_id] = {
@@ -103,7 +104,7 @@ func add_player(
 func start_game(_npc_id: int = -1) -> void:
 	main_menu.hide_main_menu()
 	var b_map = battle_map_scene.instantiate()
-	GameManager.current_scene = b_map
+	current_scene = b_map
 	main_menu.add_child(b_map, true)
 
 
@@ -161,10 +162,14 @@ func _start_first_turn() -> void:
 		var npc_id: int = players[ai_player_id]["NPCID"]
 		assert(npc_id >= 0, str("Invalid NPC ID: ", npc_id))
 		if NPCDatabase.npc_data[npc_id]["BossCard"] != -1:
-			GameManager.ai_player.boss = BattleSynchronizer.play_boss(
+			ai_player.boss = BattleSynchronizer.play_boss(
 				NPCDatabase.npc_data[npc_id]["BossCard"], 2, 4, 0
 			)
-			GameManager.ai_player.boss.prepare_next_turn_boss_ability()
+			ai_player.boss.prepare_next_turn_boss_ability()
+		elif NPCDatabase.npc_data[npc_id]["NormalOpponent"] != null:
+			var opponent_script = NPCDatabase.npc_data[npc_id]["NormalOpponent"]
+			ai_player.normal_opponent = opponent_script.new()
+			ai_player.normal_opponent.prepare_next_turn_ability()
 		for c in NPCDatabase.npc_data[npc_id]["StartingUnits"]:
 			var starting_card: Dictionary = NPCDatabase.npc_data[npc_id]["StartingUnits"][c]
 			BattleSynchronizer.play_unit(
@@ -208,6 +213,38 @@ func _create_resources():
 @rpc("call_local")
 func set_ready_to_play(is_ready: bool) -> void:
 	is_ready_to_play = is_ready
+
+
+func finish_with_victory() -> void:
+	ai_player.game_over = true
+	battle_map.show_text("You win!")
+	await battle_map.text_dismissed
+
+	var battle_rewards := PlayerManager.get_battle_reward()
+	if len(battle_rewards) == 0:
+		battle_map.show_text("No battle rewards this time...")
+		await battle_map.text_dismissed
+	else:
+		var battle_rewards_string: String
+		for c in battle_rewards:
+			PlayerManager.add_card_to_collection(c)
+			if len(battle_rewards_string) == 0:
+				battle_rewards_string = CardDatabase.cards_info[c]["InGameName"]
+			else:
+				battle_rewards_string += str(", ", CardDatabase.cards_info[c]["InGameName"])
+		battle_map.show_text(str("Congratulations! You receive ", battle_rewards_string))
+		await battle_map.text_dismissed
+
+	OverworldManager.defeat_npc(players[ai_player_id]["NPCID"])
+	TransitionScene.transition_to_main_menu()
+
+
+func finish_with_defeat() -> void:
+	if is_single_player:
+		ai_player.game_over = true
+
+	battle_map.show_text("You lose!")
+	await battle_map.text_dismissed
 
 
 func cleanup_game() -> void:

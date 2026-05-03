@@ -93,7 +93,7 @@ func distance_to_closest_enemy_unit(card: CardInPlay) -> int:
 
 
 func closest_spaces_within_movement(card: CardInPlay, goal_space: PlaySpace) -> Array:
-	var closest_spaces := []
+	var closest_spaces: Array[PlaySpace]
 	var closest_distance := -1
 	var distance_to_goal_space := card.current_play_space.distance_to_play_space(
 		goal_space, card.ignore_obstacles
@@ -110,7 +110,7 @@ func closest_spaces_within_movement(card: CardInPlay, goal_space: PlaySpace) -> 
 			closest_spaces.append(ps)
 		elif distance_to_ps < closest_distance:
 			closest_distance = distance_to_ps
-			closest_spaces = ps
+			closest_spaces = [ps]
 
 	return closest_spaces
 

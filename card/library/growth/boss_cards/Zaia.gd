@@ -1,4 +1,4 @@
-extends CardInPlay
+extends BossCard
 
 class_name Zaia
 
@@ -100,7 +100,7 @@ func prepare_1_botano_gardener() -> void:
 	if len(ps_options) >= 1:
 		botano_gardener_ps = ps_options.pick_random()
 		botano_gardener_dummy = CardManipulation.show_card_dummy(
-			CardDatabase.cards.BOTANO_GARDENER, botano_gardener_ps
+			CardDatabase.cards.BOTANO_GARDENER, botano_gardener_ps, card_owner_id
 		)
 
 
@@ -140,7 +140,7 @@ func prepare_1_dinosaur_egg() -> void:
 		dinosaur_egg_ps.append(ps_options.pick_random())
 		dinosaur_egg_dummies.append(
 			CardManipulation.show_card_dummy(
-				CardDatabase.cards.DINOSAUR_EGG, dinosaur_egg_ps[0]
+				CardDatabase.cards.DINOSAUR_EGG, dinosaur_egg_ps[0], card_owner_id
 			)
 		)
 
@@ -201,7 +201,7 @@ func prepare_1_protector() -> void:
 	if len(ps_options) >= 1:
 		protector_ps = ps_options.pick_random()
 		protector_dummy = CardManipulation.show_card_dummy(
-			CardDatabase.cards.PROTECTOR_OF_THE_FOREST, protector_ps
+			CardDatabase.cards.PROTECTOR_OF_THE_FOREST, protector_ps, card_owner_id
 		)
 
 
@@ -242,15 +242,18 @@ func prepare_2_dinosaur_eggs() -> void:
 			pass
 		1:
 			dinosaur_egg_dummies.append(
-				CardManipulation.show_card_dummy(CardDatabase.cards.DINOSAUR_EGG, ps_options[0])
+				CardManipulation.show_card_dummy(CardDatabase.cards.DINOSAUR_EGG, ps_options[0], 
+				card_owner_id)
 			)
 		_:
 			ps_options.shuffle()
 			dinosaur_egg_dummies.append(
-				CardManipulation.show_card_dummy(CardDatabase.cards.DINOSAUR_EGG, ps_options[0])
+				CardManipulation.show_card_dummy(CardDatabase.cards.DINOSAUR_EGG, ps_options[0], 
+				card_owner_id)
 			)
 			dinosaur_egg_dummies.append(
-				CardManipulation.show_card_dummy(CardDatabase.cards.DINOSAUR_EGG, ps_options[1])
+				CardManipulation.show_card_dummy(CardDatabase.cards.DINOSAUR_EGG, ps_options[1], 
+				card_owner_id)
 			)
 
 
@@ -272,7 +275,14 @@ func create_2_dinosaur_eggs() -> void:
 
 
 func call_triggered_funcs(trigger: int, triggering_card: Card) -> void:
-	if trigger == Collections.triggers.CARD_MOVED and triggering_card == self:
+	if (
+		(
+			trigger == Collections.triggers.CARD_MOVED and triggering_card == self
+		) or (
+			trigger == Collections.triggers.CARD_MOVED 
+			and triggering_card.current_play_space in dummies_ps
+		)
+	):
 		match next_boss_ability["Func"]:
 			"create_1_dinosaur_egg":
 				prepare_1_dinosaur_egg()

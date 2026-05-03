@@ -14,6 +14,7 @@ var faction_colors := {
 	[Collections.fibers.LOGIC]: Color("5d5d68")
 }
 var gold_color := Color("6e6914")
+var dummy_color := Color("34dbeb")
 var multifaction_color := Color("e74c22")
 
 """Space Border colors"""
